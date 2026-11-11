@@ -94,11 +94,14 @@
       el.classList.toggle('is-now', !p && i === all[s].P.length && all[s].now) })
     const inH = o.firstElementChild.offsetHeight, Hb = d.offsetHeight, top = d.querySelector('.c9-top'), th = top ? top.offsetHeight : 0, GAP = 40, dock = H.classList.contains('wd2-dock') && H.classList.contains('wd2-done')
     let y, sc = 1
-    if (dock) { y = Hb - 64 - inH / 2; sc = .6 }
+    let x = 0
+    if (dock) { y = Hb - 64 - inH / 2; sc = .6
+      // v30 (дирижёр 11.11: «шанс по драфту надо центрировать»): по центру области графика — без колонки подписей справа (0.0k)
+      if (window.WD2_PLOTC) { const tag = d.parentElement.querySelector('[data-wd="gold"] .g2-tag'); if (tag) x = ((tag.getBoundingClientRect().left - d.getBoundingClientRect().left) - d.offsetWidth) / 2 } }
     else if (fin) y = (Hb - inH) / 2
     else { const y0 = Math.max(0, (Hb - th - GAP - inH) / 2), c9 = d.querySelector('.wdr--c9'); if (c9 && c9.style.paddingTop !== y0 + 'px') c9.style.paddingTop = y0 + 'px'; y = y0 + th + GAP }
     o.classList.toggle('is-fin', !!fin || dock); tg.classList.toggle('is-fin', !!fin || dock); o.classList.toggle('is-dock', dock); o.classList.toggle('is-go', H.classList.contains('wd2-go'))
-    const k = y.toFixed(1) + '|' + sc; if (o.__k !== k) { o.__k = k; o.style.setProperty('--y', y.toFixed(1) + 'px'); o.style.setProperty('--s', sc) } }
+    const k = y.toFixed(1) + '|' + sc + '|' + x.toFixed(1); if (o.__k !== k) { o.__k = k; o.style.setProperty('--y', y.toFixed(1) + 'px'); o.style.setProperty('--x', x.toFixed(1) + 'px'); o.style.setProperty('--s', sc) } }
   // герой «едет» из точки r (пик в полоске / слот по порядку пиков) в портрет слота игрока
   const fly = (el, r) => { const i = el && el.querySelector('.d3-i > i'); if (!i || !r) return; const b = i.getBoundingClientRect(); if (!b.width) return;
     i.animate([{ transform: `translate(${r.left + r.width / 2 - b.left - b.width / 2}px, ${r.top + r.height / 2 - b.top - b.height / 2}px) scale(${r.width / b.width})`, zIndex: 5 }, { transform: 'none', zIndex: 5 }], { duration: 700, easing: 'cubic-bezier(.3,.7,.2,1)' }); };

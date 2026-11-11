@@ -303,7 +303,7 @@ html.wd2-cl--tug [data-wd="draft"].wdr-out > .wdr { opacity: 1; } html.wd2-cl--t
 
 /* v29 (WD2_OV, дирижёр 11.11): полоса шанса с меткой и пики — отдельный слой, не перерисовывается; движется одним transform */
 .wd2-ov { position: absolute; left: 0; right: 0; z-index: 4; pointer-events: none; }
-.wd2-ov__in { position: absolute; left: 16px; right: 16px; top: 0; display: flex; flex-direction: column; gap: 40px; transform: translateY(var(--y, 0px)) scale(var(--s, 1)); transition: transform .9s cubic-bezier(.3,.7,.2,1), opacity 1.4s ease, filter 1.4s ease; will-change: transform; }
+.wd2-ov__in { position: absolute; left: 16px; right: 16px; top: 0; display: flex; flex-direction: column; gap: 40px; transform: translate(var(--x, 0px), var(--y, 0px)) scale(var(--s, 1)); transition: transform .9s cubic-bezier(.3,.7,.2,1), opacity 1.4s ease, filter 1.4s ease; will-change: transform; }
 .wd2-ov.is-dock .wd2-ov__in { transition-duration: 1.8s, 1.4s, 1.4s; transition-timing-function: cubic-bezier(.4,0,.2,1), ease, ease; }
 .wd2-ov.is-go .wd2-ov__in { opacity: 0; filter: blur(4px); }
 .wd2-ov .wd2-tug__b { display: block; position: relative; height: 6px; border-radius: 3px; background: #e5484d; }
