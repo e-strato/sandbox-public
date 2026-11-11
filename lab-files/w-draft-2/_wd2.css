@@ -282,3 +282,21 @@ html.wd2-cl--sides .wdr--c9:not(.is-fin) > .wd2-cp { display: contents; } html.w
 html.wd2-cl--sides .wdr--c9:not(.is-fin) > .wd2-cp > div { flex-direction: column; justify-content: space-between; gap: 8px; } html.wd2-cl--sides .wdr--c9 > .wd2-cp > .a { grid-area: a; } html.wd2-cl--sides .wdr--c9 > .wd2-cp > .b { grid-area: b; }
 html.wd2-cl--sides .wdr--c9:not(.is-fin) > .wd2-cp i { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 8px; }
 html.wd2-cl--sides .wdr--c9 > .c9-g { grid-area: g; margin: 0 56px 0 0; min-height: 0; }
+
+/* v28 (WD2_TUG2, дирижёр 11.11): полоса шанса и пики — одни узлы от первого хода до итога; итог — та же полоса крупнее */
+.wd2-tug2 { display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+.wd2-tug2 > small { align-self: center; font: 500 13px/16px var(--w-font, system-ui); color: var(--w-muted-fg, #a1a1aa); }
+.wd2-tug__r { display: flex; justify-content: space-between; }
+.wd2-tug__r span { display: flex; align-items: center; gap: 10px; opacity: .55; transition: opacity .6s; } .wd2-tug__r span.on { opacity: 1; }
+.wd2-tug__r img { width: 28px; height: 28px; object-fit: contain; transition: width .9s, height .9s; }
+.wd2-tug__r em { font: 600 15px/20px var(--w-font, system-ui); font-style: normal; color: var(--w-fg, #fafafa); }
+.wd2-tug2 .wd2-tug__r b { font: 600 32px/1 'JetBrains Mono', ui-monospace, monospace; letter-spacing: -.02em; color: var(--w-fg, #fafafa); transition: font-size .9s cubic-bezier(.3,.7,.2,1); }
+.wd2-tug2 .wd2-tug__b { height: 6px; } .wd2-tug2 .wd2-tug__b i { transition: width .8s cubic-bezier(.3,.7,.2,1); }
+.wd2-tug2.is-fin .wd2-tug__r b { font-size: 48px; } .wd2-tug2.is-fin .wd2-tug__r img { width: 32px; height: 32px; }
+html.wd2-cl--tug .wd2-cp { gap: 24px; padding: 0; } html.wd2-cl--tug .wd2-cp > div { flex: 1; gap: 8px; }
+html.wd2-cl--tug .wd2-cp i { flex: 1; width: auto; height: auto; aspect-ratio: 16 / 9; border-radius: 8px; }
+/* итог: тот же блок, без своей шапки и полосы; гаснут только баны и таймер */
+html.wd2-cl--tug .wdr--c9.is-fin { justify-content: center; align-items: stretch; }
+html.wd2-cl--tug .c9-fin:has(.wd2-tug2) { width: 100%; align-items: stretch; gap: 40px; animation: none; }
+html.wd2-cl--tug .c9-fin:has(.wd2-tug2) > :is(small, .c9-fr, .c9-fb) { display: none; }
+html.wd2-cl--tug [data-wd="draft"].wdr-out > .wdr { opacity: 1; } html.wd2-cl--tug [data-wd="draft"] .c9-top { transition: opacity .5s ease; } html.wd2-cl--tug [data-wd="draft"].wdr-out .c9-top { opacity: 0; }

@@ -54,7 +54,20 @@
     // center: пики команды крупно в центре, под банами; в итоге «Шанс по драфту» — тоже, под полосой
     if (MODE === 'center' && all.a && all.b) { const c9 = box.querySelector('.wd2-box .wdr--c9'); if (!c9) return; const fin = c9.querySelector('.c9-fin'), at = fin ? fin.querySelector('.c9-fb') : c9.querySelector('.c9-top'); if (!at) return;
       const five = s => `<div class="${s}">${[0, 1, 2, 3, 4].map(i => all[s].P[i] ? `<i style="background-image:url(${all[s].P[i].src})"></i>` : `<i class="${i === all[s].P.length && all[s].now ? 'is-now' : ''}"></i>`).join('')}</div>`;
-      const h = five('a') + `<small>${fin ? 'пики команд' : 'пики'}</small>` + five('b'); let cp = c9.querySelector('.wd2-cp');
+      const T2 = !!window.WD2_TUG2, h = five('a') + `<small>${fin && !T2 ? 'пики команд' : 'пики'}</small>` + five('b'); let cp = c9.querySelector('.wd2-cp');
+      // v28 (WD2_TUG2, дирижёр 11.11: «плавно — чтобы штука двигалась и потом становилась той, что в конце с большими шансами; важно единообразие»):
+      // полоса шанса и пики — одни и те же узлы от первого хода до итога: в конце драфта они не гаснут, а переезжают в итог (FLIP), цифры растут, гаснут только баны и таймер
+      if (T2 && WDRAFT.chance) { const N = Math.min(st, PB.length), c = WDRAFT.chance(m)[N], L = c >= 50 ? 'a' : 'b', nm = s => { const e = row.querySelector(`.d3-five.${s} .ws-tn b`), i = row.querySelector(`.d3-five.${s} .wb-lr img`); return [e ? e.textContent : '', i ? i.getAttribute('src') : ''] }
+        let tg = keep.tg; if (!tg) { const [na, ia] = nm('a'), [nb, ib] = nm('b'); tg = keep.tg = Object.assign(document.createElement('div'), { className: 'wd2-tug wd2-tug2' })
+          tg.innerHTML = `<small>Шанс по драфту</small><div class="wd2-tug__r"><span class="a"><img src="${ia}" alt=""><em>${na}</em><b class="num"></b></span><span class="b"><b class="num"></b><em>${nb}</em><img src="${ib}" alt=""></span></div><span class="wd2-tug__b"><i class="rad"></i><i class="dire"></i></span>` }
+        const [sa, sb] = tg.querySelectorAll('.wd2-tug__r > span'), [ra, rb] = tg.querySelectorAll('.wd2-tug__b i')
+        sa.classList.toggle('on', L === 'a'); sb.classList.toggle('on', L === 'b'); sa.querySelector('b').textContent = c + '%'; sb.querySelector('b').textContent = 100 - c + '%'; ra.style.width = c + '%'; rb.style.width = 100 - c + '%'
+        if (!cp) cp = keep.cp || (keep.cp = Object.assign(document.createElement('div'), { className: 'wd2-cp', title: TIP })); if (cp.__h !== h) { cp.__h = h; cp.innerHTML = h }
+        const R0 = keep.R, home = fin || c9, ref = fin ? fin.querySelector('.c9-fr') : c9.querySelector('.c9-top').nextSibling
+        if (tg.parentNode !== home) { home.insertBefore(tg, ref); tg.after(cp); tg.classList.toggle('is-fin', !!fin)
+          if (fin && R0) [[tg, R0.t], [cp, R0.c]].forEach(([el, r]) => { const b = el.getBoundingClientRect(); el.animate([{ transform: `translate(${r.left - b.left}px, ${r.top - b.top}px)` }, { transform: 'none' }], { duration: 900, easing: 'cubic-bezier(.3,.7,.2,1)' }) }) }
+        if (!fin) keep.R = { t: tg.getBoundingClientRect(), c: cp.getBoundingClientRect() }
+        return }
       if (!cp) { cp = keep.cp || (keep.cp = Object.assign(document.createElement('div'), { className: 'wd2-cp', title: TIP })); at.after(cp); }   /* один и тот же узел — переставляем после перерисовки центра, без мигания и с плавной полосой */ if (cp.__h !== h) { cp.__h = h; cp.innerHTML = h; }
       // tug (v26): шанс по драфту полосой — вместо графика
       if (window.WD2_CL === 'tug' && !fin && WDRAFT.chance) { const c = WDRAFT.chance(m)[Math.min(st, PB.length)], la = c9.querySelector('.c9-l.a'), lb = c9.querySelector('.c9-l.b')
