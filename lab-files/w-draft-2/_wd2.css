@@ -386,3 +386,43 @@ html.wd2-nogrow .wd2-ovm--compact .wd2-tug2.is-fin .wd2-tug__r b { font-size: 20
   .wd2-ovm--compact .m-bn { width: 62%; justify-self: end; gap: 2px; }
   .wd2-ovm--compact .wd2-tug2 { padding-left: 32px; } .wd2-ovm--compact .wd2-tug2 .wd2-tug__r b { font-size: 18px; }
 }
+
+/* v40–v42 (WD2_ALLV + WD2_MOBL = mirror | card | cm, дирижёр 11.11: «на мобилке пики и баны на всю ширину, на десктопе — аккуратно, как у всех; несколько версий») */
+.wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .wd2-ov__in { left: 0; right: 0; margin: 0 auto; width: min(960px, calc(100% - 24px)); container-type: inline-size; }
+.wd2-ovm .m-dt .m-hd { display: flex; align-items: center; gap: 8px; min-width: 0; } .wd2-ovm .m-dt .m-hd img { width: 22px; height: 22px; object-fit: contain; }
+.wd2-ovm .m-dt .m-hd b { font: 600 14px/18px var(--w-font, system-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wd2-ovm .m-dt .m-pk { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; } .wd2-ovm .m-dt .m-pk i { aspect-ratio: 16 / 9; border-radius: 5px; }
+.wd2-ovm .m-dt .m-bn { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; } .wd2-ovm .m-dt .m-bn i { aspect-ratio: 16 / 9; border-radius: 3px; }
+.wd2-ovm .m-dt .m-lb { display: none; font: 500 12px/16px var(--w-font, system-ui); color: var(--w-muted-fg, #a1a1aa); text-align: center; }
+.wd2-ovm .m-dt .wd2-tug2 .wd2-tug__r img, .wd2-ovm .m-dt .wd2-tug2 .wd2-tug__r em { display: none; }
+.wd2-ovm .m-dt .wd2-tug2 .wd2-tug__r b, html.wd2-nogrow .wd2-ovm .m-dt .wd2-tug2.is-fin .wd2-tug__r b { font-size: 22px; }
+/* v40 mirror — как в самой Доте: две половины зеркально, у каждой — название, пики, баны мельче под ними; полоса шанса под обеими */
+.wd2-ovm--mirror .m-dt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "a b" "mid mid"; gap: 16px 40px; }
+.wd2-ovm--mirror .m-t { display: flex; flex-direction: column; gap: 8px; } .wd2-ovm--mirror .m-t.a { grid-area: a; } .wd2-ovm--mirror .m-t.b { grid-area: b; align-items: flex-end; }
+.wd2-ovm--mirror .m-t.b .m-hd { flex-direction: row-reverse; } .wd2-ovm--mirror .m-t .m-pk { width: 100%; } .wd2-ovm--mirror .m-t.b .m-pk { direction: rtl; }
+.wd2-ovm--mirror .m-t .m-bn { width: 72%; } .wd2-ovm--mirror .m-t.b .m-bn { direction: rtl; }
+.wd2-ovm--mirror .m-mid { grid-area: mid; }
+/* v41 card — карточкой, как на HLTV / Liquipedia: шапка с командами, строка «пики» и строка «баны» — слева одна команда, справа другая; снизу полоса шанса */
+.wd2-ovm--card .wd2-ov__in { width: min(840px, calc(100% - 24px)); }
+.wd2-ovm--card .m-dt { display: grid; grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr); grid-template-areas: "ha . hb" "pa lp pb" "na ln nb" "mid mid mid"; align-items: center; gap: 12px 16px; padding: 16px; border-radius: 12px; background: var(--w-card, #0f0f11); box-shadow: inset 0 0 0 1px var(--w-border, #ffffff14); }
+.wd2-ovm--card .m-t { display: contents; } .wd2-ovm.wd2-ovm--card .m-dt .m-lb { display: block; } .wd2-ovm--card .m-lb.p { grid-area: lp; } .wd2-ovm--card .m-lb.n { grid-area: ln; }
+.wd2-ovm--card .m-hd.a { grid-area: ha; } .wd2-ovm--card .m-hd.b { grid-area: hb; flex-direction: row-reverse; }
+.wd2-ovm--card .m-pk.a { grid-area: pa; } .wd2-ovm--card .m-pk.b { grid-area: pb; direction: rtl; }
+.wd2-ovm--card .m-bn.a { grid-area: na; } .wd2-ovm--card .m-bn.b { grid-area: nb; direction: rtl; }
+.wd2-ovm--card .m-mid { grid-area: mid; padding-top: 8px; border-top: 1px solid var(--w-border, #ffffff14); }
+/* v42 cm — одной полосой: пики команд от центра к краям, шанс крупно посередине; баны строкой под пиками; без названий — лого у пиков */
+.wd2-ovm--cm .m-dt { display: grid; grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr); grid-template-areas: "pa mid pb" "na mid nb"; align-items: center; gap: 8px 16px; }
+.wd2-ovm--cm .m-t { display: contents; } .wd2-ovm.wd2-ovm--cm .m-dt .m-hd { display: none; }
+.wd2-ovm--cm .m-pk.a { grid-area: pa; } .wd2-ovm--cm .m-pk.b { grid-area: pb; direction: rtl; } .wd2-ovm--cm .m-bn.a { grid-area: na; width: 72%; justify-self: end; direction: rtl; } .wd2-ovm--cm .m-bn.b { grid-area: nb; width: 72%; }
+.wd2-ovm--cm .m-pk.a { direction: rtl; } .wd2-ovm--cm .m-pk.b { direction: ltr; } .wd2-ovm--cm .m-bn.a { direction: rtl; } .wd2-ovm--cm .m-bn.b { direction: ltr; }
+.wd2-ovm--cm .m-mid { grid-area: mid; } .wd2-ovm--cm .m-mid .wd2-tug2 { gap: 8px; } .wd2-ovm--cm .m-mid .wd2-tug__r { display: flex; justify-content: space-between; }
+.wd2-ovm--cm .m-mid .wd2-tug__l { display: none; } .wd2-ovm--cm .m-mid .wd2-tug2 .wd2-tug__r b { font-size: 20px; }
+/* телефон (узко) — во всех трёх: команда блоком сверху вниз, пики и баны на всю ширину; полоса шанса между командами */
+@container (max-width: 560px) {
+  .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-dt { display: flex; flex-direction: column; align-items: stretch; gap: 14px; padding: 0; background: none; box-shadow: none; }
+  .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-t { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+  .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-t.b { order: 3; } .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-mid { order: 2; padding: 0; border: 0; }
+  .wd2-ovm.wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-dt .m-hd { display: flex; flex-direction: row; } .wd2-ovm.wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-dt .m-lb { display: none; }
+  .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) :is(.m-pk, .m-bn) { width: 100%; direction: ltr; justify-self: stretch; }
+  .wd2-ovm:is(.wd2-ovm--mirror, .wd2-ovm--card, .wd2-ovm--cm) .m-mid .wd2-tug__l { display: block; }
+}

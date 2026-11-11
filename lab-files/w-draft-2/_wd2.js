@@ -100,6 +100,9 @@
         o.classList.add('wd2-ovm', 'wd2-ovm--' + MOB)
         o.firstElementChild.innerHTML = MOB === 'team'
           ? `<div class="m-tm a">${hd('a', na, ia)}<span class="m-bn">${bn('a', 0)}</span><div class="m-pk">${pk('a')}</div></div>${tug}<div class="m-tm b"><div class="m-pk">${pk('b')}</div>${hd('b', nb, ib)}<span class="m-bn">${bn('b', 1)}</span></div>`
+          : /^(mirror|card|cm)$/.test(MOB)   // v40–v42: команда — блоком (лого, название, пики, баны); раскладка блоков — CSS: на компьютере как у всех, на телефоне всё на всю ширину
+          ? (() => { const T = (s, n, im, t) => `<div class="m-t ${s}"><span class="m-hd ${s}"><img src="${im}" alt=""><b>${n}</b></span><div class="m-pk ${s}">${pk(s)}</div><span class="m-bn ${s}">${bn(s, t)}</span></div>`
+              return `<div class="m-dt">${T('a', na, ia, 0)}<small class="m-lb p">пики</small><small class="m-lb n">баны</small><div class="m-mid">${tug}</div>${T('b', nb, ib, 1)}</div>` })()
           : MOB === 'compact'
           ? `<div class="m-row a"><span class="m-lg" title="${na}"><img src="${ia}" alt=""></span><div class="m-pk">${pk('a')}</div><span class="m-bn">${bn('a', 0)}</span></div>${tug}<div class="m-row b"><span class="m-lg" title="${nb}"><img src="${ib}" alt=""></span><div class="m-pk">${pk('b')}</div><span class="m-bn">${bn('b', 1)}</span></div>`
           : MOB === 'cols'
