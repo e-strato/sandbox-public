@@ -300,3 +300,17 @@ html.wd2-cl--tug .wdr--c9.is-fin { justify-content: center; align-items: stretch
 html.wd2-cl--tug .c9-fin:has(.wd2-tug2) { width: 100%; align-items: stretch; gap: 40px; animation: none; }
 html.wd2-cl--tug .c9-fin:has(.wd2-tug2) > :is(small, .c9-fr, .c9-fb) { display: none; }
 html.wd2-cl--tug [data-wd="draft"].wdr-out > .wdr { opacity: 1; } html.wd2-cl--tug [data-wd="draft"] .c9-top { transition: opacity .5s ease; } html.wd2-cl--tug [data-wd="draft"].wdr-out .c9-top { opacity: 0; }
+
+/* v29 (WD2_OV, дирижёр 11.11): полоса шанса с меткой и пики — отдельный слой, не перерисовывается; движется одним transform */
+.wd2-ov { position: absolute; left: 0; right: 0; z-index: 4; pointer-events: none; }
+.wd2-ov__in { position: absolute; left: 16px; right: 16px; top: 0; display: flex; flex-direction: column; gap: 40px; transform: translateY(var(--y, 0px)) scale(var(--s, 1)); transition: transform .9s cubic-bezier(.3,.7,.2,1), opacity 1.4s ease, filter 1.4s ease; will-change: transform; }
+.wd2-ov.is-dock .wd2-ov__in { transition-duration: 1.8s, 1.4s, 1.4s; transition-timing-function: cubic-bezier(.4,0,.2,1), ease, ease; }
+.wd2-ov.is-go .wd2-ov__in { opacity: 0; filter: blur(4px); }
+.wd2-ov .wd2-tug__b { display: block; position: relative; height: 6px; border-radius: 3px; background: #e5484d; }
+.wd2-ov .wd2-tug__b i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px 0 0 3px; background: #30a46c; transition: width .8s cubic-bezier(.3,.7,.2,1); }
+.wd2-ov .wd2-tug__b em { position: absolute; top: -6px; bottom: -6px; width: 2px; margin-left: -1px; border-radius: 1px; background: #fafafa; box-shadow: 0 0 0 2px var(--w-bg, #0a0a0b); transition: left .8s cubic-bezier(.3,.7,.2,1); }
+.wd2-ov .wd2-cp { gap: 24px; padding: 0; } .wd2-ov .wd2-cp > div { flex: 1; gap: 8px; }
+.wd2-ov .wd2-cp i { flex: 1; width: auto; height: auto; aspect-ratio: 16 / 9; border-radius: 8px; background-size: cover; background-position: center; }
+/* центр драфта под слоем: только баны и таймер; свой итог не показываем — итог это тот же слой */
+html.wd2-ov-on .wdr--c9:not(.is-fin) { justify-content: flex-start; }
+html.wd2-ov-on .c9-fin { visibility: hidden; }

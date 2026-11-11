@@ -11,7 +11,8 @@
   if (window.WD2_SOFT) document.documentElement.classList.add('wd2-soft');
   if (window.WD2_NOPH) document.documentElement.classList.add('wd2-noph');
   // v24–v27 (WD2_CL, дирижёр 11.11: «по центру надо сделать — начальник на созвоне; график фигово выглядит, сдвинуть»): раскладка центра — big (пики крупно, график полосой снизу) · sides (пики колонками по краям, график между) · tug (без графика — шанс полосой) · low (график сверху, пики внизу у игроков)
-  if (window.WD2_CL) document.documentElement.classList.add('wd2-cl', 'wd2-cl--' + window.WD2_CL);   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
+  if (window.WD2_CL) document.documentElement.classList.add('wd2-cl', 'wd2-cl--' + window.WD2_CL);
+  if (window.WD2_OV) document.documentElement.classList.add('wd2-ov-on');   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
   // v9 (WD2_NODATA): в нижней панели всё на месте, но данных ещё нет — золото, перевес, K/D/A, счёт и время — «—»
   if (window.WD2_NODATA) { document.documentElement.classList.add('wd2-nodata'); setInterval(() => { if (!document.documentElement.classList.contains('wd2-nodata')) return; const r = document.querySelector('.wl-pre .d3-row'); if (!r) return; r.querySelectorAll('.wb2-at, .wb2-nt, .wb2-cd b, .d3-sc b, .d3-k').forEach(e => { if (e.textContent !== '—') { if (e.__orig == null) e.__orig = e.innerHTML; e.textContent = '—'; } }); }, 300); }
   // v10 (WD2_END, дирижёр 06.11: «финальное состояние — не начинать сначала, а показать график до 12′, когда матч ещё не начался»): драфт прошёл один раз —
@@ -54,6 +55,7 @@
     // center: пики команды крупно в центре, под банами; в итоге «Шанс по драфту» — тоже, под полосой
     if (MODE === 'center' && all.a && all.b) { const c9 = box.querySelector('.wd2-box .wdr--c9'); if (!c9) return; const fin = c9.querySelector('.c9-fin'), at = fin ? fin.querySelector('.c9-fb') : c9.querySelector('.c9-top'); if (!at) return;
       const five = s => `<div class="${s}">${[0, 1, 2, 3, 4].map(i => all[s].P[i] ? `<i style="background-image:url(${all[s].P[i].src})"></i>` : `<i class="${i === all[s].P.length && all[s].now ? 'is-now' : ''}"></i>`).join('')}</div>`;
+      if (window.WD2_OV) return ov(box, all, m, st, PB, fin, row)
       const T2 = !!window.WD2_TUG2, h = five('a') + `<small>${fin && !T2 ? 'пики команд' : 'пики'}</small>` + five('b'); let cp = c9.querySelector('.wd2-cp');
       // v28 (WD2_TUG2, дирижёр 11.11: «плавно — чтобы штука двигалась и потом становилась той, что в конце с большими шансами; важно единообразие»):
       // полоса шанса и пики — одни и те же узлы от первого хода до итога: в конце драфта они не гаснут, а переезжают в итог (FLIP), цифры растут, гаснут только баны и таймер
@@ -73,6 +75,30 @@
       if (window.WD2_CL === 'tug' && !fin && WDRAFT.chance) { const c = WDRAFT.chance(m)[Math.min(st, PB.length)], la = c9.querySelector('.c9-l.a'), lb = c9.querySelector('.c9-l.b')
         const h2 = `<span class="a">${la ? la.innerHTML : ''}<b class="num">${c}%</b></span><span class="wd2-tug__b"><i class="rad" style="width:${c}%"></i><i class="dire" style="width:${100 - c}%"></i><em style="left:${c}%"></em></span><span class="b"><b class="num">${100 - c}%</b>${lb ? lb.innerHTML : ''}</span>`
         let tg = c9.querySelector('.wd2-tug'); if (!tg) { tg = keep.tg || (keep.tg = Object.assign(document.createElement('div'), { className: 'wd2-tug' })); c9.querySelector('.c9-top').after(tg); } if (tg.__h !== h2) { tg.__h = h2; tg.innerHTML = h2; } } } };
+  // v29 (WD2_OV, дирижёр 11.11: «всё равно немного дёргается, линия тоже; зачем убрал полоску — лучше добавить её и в финальную»):
+  // полоса шанса (с меткой) и пики — отдельный слой поверх центра, драфт его не перерисовывает: ни один узел не пересоздаётся, полоса и метка едут без рывков.
+  // Положение слоя — один transform: в драфте — под банами, в конце — по центру, крупнее; потом — к низу графика (0,6), со стартом карты — растворяется
+  const ov = (box, all, m, st, PB, fin, row) => { const H = document.documentElement, d = box.querySelector('.wd2-box'); if (!d || !WDRAFT.chance) return
+    let o = keep.ov
+    if (!o) { const nm = s => { const e = row.querySelector(`.d3-five.${s} .ws-tn b`), i = row.querySelector(`.d3-five.${s} .wb-lr img`); return [e ? e.textContent : '', i ? i.getAttribute('src') : ''] }, [na, ia] = nm('a'), [nb, ib] = nm('b')
+      o = keep.ov = Object.assign(document.createElement('div'), { className: 'wd2-ov' })
+      o.innerHTML = `<div class="wd2-ov__in"><div class="wd2-tug wd2-tug2"><small>Шанс по драфту</small><div class="wd2-tug__r"><span class="a"><img src="${ia}" alt=""><em>${na}</em><b class="num"></b></span><span class="b"><b class="num"></b><em>${nb}</em><img src="${ib}" alt=""></span></div><span class="wd2-tug__b"><i></i><em></em></span></div>
+        <div class="wd2-cp"><div class="a">${'<i></i>'.repeat(5)}</div><small>пики</small><div class="b">${'<i></i>'.repeat(5)}</div></div></div>` }
+    if (o.previousElementSibling !== d) d.after(o)
+    if (o.style.top !== d.style.top || o.style.height !== d.style.height) { o.style.top = d.style.top; o.style.height = d.style.height }
+    const c = WDRAFT.chance(m)[Math.min(st, PB.length)], tg = o.querySelector('.wd2-tug'), [sa, sb] = tg.querySelectorAll('.wd2-tug__r > span')
+    sa.classList.toggle('on', c >= 50); sb.classList.toggle('on', c < 50); sa.querySelector('b').textContent = c + '%'; sb.querySelector('b').textContent = 100 - c + '%'
+    tg.querySelector('.wd2-tug__b i').style.width = c + '%'; tg.querySelector('.wd2-tug__b em').style.left = c + '%'
+    for (const s of ['a', 'b']) o.querySelectorAll(`.wd2-cp > .${s} > i`).forEach((el, i) => { const p = all[s].P[i], src = p ? p.src : ''
+      if (el.__src !== src) { el.__src = src; el.style.backgroundImage = src ? `url(${src})` : ''; if (src) el.animate([{ opacity: 0, transform: 'scale(.9)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' }) }
+      el.classList.toggle('is-now', !p && i === all[s].P.length && all[s].now) })
+    const inH = o.firstElementChild.offsetHeight, Hb = d.offsetHeight, top = d.querySelector('.c9-top'), th = top ? top.offsetHeight : 0, GAP = 40, dock = H.classList.contains('wd2-dock') && H.classList.contains('wd2-done')
+    let y, sc = 1
+    if (dock) { y = Hb - 64 - inH / 2; sc = .6 }
+    else if (fin) y = (Hb - inH) / 2
+    else { const y0 = Math.max(0, (Hb - th - GAP - inH) / 2), c9 = d.querySelector('.wdr--c9'); if (c9 && c9.style.paddingTop !== y0 + 'px') c9.style.paddingTop = y0 + 'px'; y = y0 + th + GAP }
+    o.classList.toggle('is-fin', !!fin || dock); tg.classList.toggle('is-fin', !!fin || dock); o.classList.toggle('is-dock', dock); o.classList.toggle('is-go', H.classList.contains('wd2-go'))
+    const k = y.toFixed(1) + '|' + sc; if (o.__k !== k) { o.__k = k; o.style.setProperty('--y', y.toFixed(1) + 'px'); o.style.setProperty('--s', sc) } }
   // герой «едет» из точки r (пик в полоске / слот по порядку пиков) в портрет слота игрока
   const fly = (el, r) => { const i = el && el.querySelector('.d3-i > i'); if (!i || !r) return; const b = i.getBoundingClientRect(); if (!b.width) return;
     i.animate([{ transform: `translate(${r.left + r.width / 2 - b.left - b.width / 2}px, ${r.top + r.height / 2 - b.top - b.height / 2}px) scale(${r.width / b.width})`, zIndex: 5 }, { transform: 'none', zIndex: 5 }], { duration: 700, easing: 'cubic-bezier(.3,.7,.2,1)' }); };
