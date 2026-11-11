@@ -14,7 +14,9 @@
   if (window.WD2_CL) document.documentElement.classList.add('wd2-cl', 'wd2-cl--' + window.WD2_CL);
   if (window.WD2_OV) document.documentElement.classList.add('wd2-ov-on');
   if (window.WD2_STILL) document.documentElement.classList.add('wd2-still');
-  if (window.WD2_NOGROW) document.documentElement.classList.add('wd2-nogrow');   // v32 (дирижёр 11.11: «прилетает сверху — не должна, просто есть на странице»): в драфте блок стоит на месте, двигается только в итог и к низу графика   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
+  if (window.WD2_NOGROW) document.documentElement.classList.add('wd2-nogrow');
+  if (window.WD2_MOB2) document.documentElement.classList.add('wd2-mob2');
+  if (window.WD2_MOBL) document.documentElement.classList.add('wd2-mobl', 'wd2-mobl--' + window.WD2_MOBL);   // v34 (дирижёр 11.11: «на мобилке баны не должны быть больше пиков»): телефон — баны мелко в две колонки, пики крупно двумя строками, в полосе — лого и проценты   // v32 (дирижёр 11.11: «прилетает сверху — не должна, просто есть на странице»): в драфте блок стоит на месте, двигается только в итог и к низу графика   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
   // v9 (WD2_NODATA): в нижней панели всё на месте, но данных ещё нет — золото, перевес, K/D/A, счёт и время — «—»
   if (window.WD2_NODATA) { document.documentElement.classList.add('wd2-nodata'); setInterval(() => { if (!document.documentElement.classList.contains('wd2-nodata')) return; const r = document.querySelector('.wl-pre .d3-row'); if (!r) return; r.querySelectorAll('.wb2-at, .wb2-nt, .wb2-cd b, .d3-sc b, .d3-k').forEach(e => { if (e.textContent !== '—') { if (e.__orig == null) e.__orig = e.innerHTML; e.textContent = '—'; } }); }, 300); }
   // v10 (WD2_END, дирижёр 06.11: «финальное состояние — не начинать сначала, а показать график до 12′, когда матч ещё не начался»): драфт прошёл один раз —
@@ -81,23 +83,42 @@
   // полоса шанса (с меткой) и пики — отдельный слой поверх центра, драфт его не перерисовывает: ни один узел не пересоздаётся, полоса и метка едут без рывков.
   // Положение слоя — один transform: в драфте — под банами, в конце — по центру, крупнее; потом — к низу графика (0,6), со стартом карты — растворяется
   const ov = (box, all, m, st, PB, fin, row) => { const H = document.documentElement, d = box.querySelector('.wd2-box'); if (!d || !WDRAFT.chance) return
-    let o = keep.ov
+    // v35–v37 (WD2_MOBL, дирижёр 11.11: «неадаптивно; несколько мобильных версий — чтобы было связано, может, другая раскладка»): на телефоне свой слой —
+    // team: команда блоком — лого, баны мелко, под ними её пики; полоса шанса между командами · cols: две колонки — у каждой пики списком по порядку и баны сеткой
+    // line: ход драфта лентой — 24 хода по порядку, сверху одна команда, снизу другая, баны мелко, пики крупно; лента сама едет к текущему ходу
+    const MOB = window.WD2_MOBL && !document.body.classList.contains('is-desk') ? window.WD2_MOBL : ''
+    let o = keep.ov; if (o && o.__mob !== MOB) { o.remove(); o = keep.ov = null }
     if (!o) { const nm = s => { const e = row.querySelector(`.d3-five.${s} .ws-tn b`), i = row.querySelector(`.d3-five.${s} .wb-lr img`); return [e ? e.textContent : '', i ? i.getAttribute('src') : ''] }, [na, ia] = nm('a'), [nb, ib] = nm('b')
       o = keep.ov = Object.assign(document.createElement('div'), { className: 'wd2-ov' })
       o.innerHTML = `<div class="wd2-ov__in"><div class="wd2-tug wd2-tug2${window.WD2_MIDL ? ' is-midl' : ''}">${window.WD2_MIDL ? '' : '<small>Шанс по драфту</small>'}<div class="wd2-tug__r"><span class="a"><img src="${ia}" alt=""><em>${na}</em><b class="num"></b></span>${window.WD2_MIDL ? '<small class="wd2-tug__l">Шанс по драфту</small>' : ''}<span class="b"><b class="num"></b><em>${nb}</em><img src="${ib}" alt=""></span></div><span class="wd2-tug__b"><i></i><em></em></span></div>
-        <div class="wd2-cp"><div class="a">${'<i></i>'.repeat(5)}</div><small>пики</small><div class="b">${'<i></i>'.repeat(5)}</div></div></div>` }
+        <div class="wd2-cp"><div class="a">${[0, 1, 2, 3, 4].map(k => `<i data-pk="a${k}"></i>`).join('')}</div><small>пики</small><div class="b">${[0, 1, 2, 3, 4].map(k => `<i data-pk="b${k}"></i>`).join('')}</div></div></div>`
+      o.__mob = MOB
+      if (MOB) { const tug = o.querySelector('.wd2-tug').outerHTML, nB = t => PB.filter(x => x.team === t && !x.is_pick).length, pk = (s, cls) => [0, 1, 2, 3, 4].map(k => `<i data-pk="${s}${k}"${cls ? ` class="${cls}"` : ''}></i>`).join('')
+        const bn = (s, t) => [...Array(nB(t)).keys()].map(k => `<i data-bn="${s}${k}"></i>`).join(''), hd = (s, n, im) => `<span class="m-h"><img src="${im}" alt=""><b>${n}</b></span>`
+        o.classList.add('wd2-ovm', 'wd2-ovm--' + MOB)
+        o.firstElementChild.innerHTML = MOB === 'team'
+          ? `<div class="m-tm a">${hd('a', na, ia)}<span class="m-bn">${bn('a', 0)}</span><div class="m-pk">${pk('a')}</div></div>${tug}<div class="m-tm b"><div class="m-pk">${pk('b')}</div>${hd('b', nb, ib)}<span class="m-bn">${bn('b', 1)}</span></div>`
+          : MOB === 'cols'
+          ? `${tug}<div class="m-cols">${['a', 'b'].map((s, t) => `<div class="m-c ${s}">${[0, 1, 2, 3, 4].map(k => `<p><small class="num">${k + 1}</small><i data-pk="${s}${k}"></i></p>`).join('')}<span class="m-bn">${bn(s, t)}</span></div>`).join('<i class="m-cl"></i>')}</div>`
+          : `${tug}<div class="m-ln"><span class="m-ln__lg a"><img src="${ia}" alt=""></span><span class="m-ln__lg b"><img src="${ib}" alt=""></span><div class="m-ln__s">${PB.map((x, i) => `<span class="m-mv ${x.team ? 'b' : 'a'} ${x.is_pick ? 'p' : 'n'}" style="grid-column:${i + 1}"><i data-mv="${i}"></i></span>`).join('')}<i class="m-ln__x"></i></div></div>` } }
     if (o.previousElementSibling !== d) d.after(o)
     if (o.style.top !== d.style.top || o.style.height !== d.style.height) { o.style.top = d.style.top; o.style.height = d.style.height }
     const c = WDRAFT.chance(m)[Math.min(st, PB.length)], tg = o.querySelector('.wd2-tug'), [sa, sb] = tg.querySelectorAll('.wd2-tug__r > span')
     sa.classList.toggle('on', c >= 50); sb.classList.toggle('on', c < 50); sa.querySelector('b').textContent = c + '%'; sb.querySelector('b').textContent = 100 - c + '%'
     tg.querySelector('.wd2-tug__b i').style.width = c + '%'; tg.querySelector('.wd2-tug__b em').style.left = c + '%'
-    for (const s of ['a', 'b']) o.querySelectorAll(`.wd2-cp > .${s} > i`).forEach((el, i) => { const p = all[s].P[i], src = p ? p.src : ''
-      if (el.__src !== src) { el.__src = src; el.style.backgroundImage = src ? `url(${src})` : ''; if (src) el.animate([{ opacity: 0, transform: 'scale(.9)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' }) }
-      el.classList.toggle('is-now', !p && i === all[s].P.length && all[s].now) })
-    const inH = o.firstElementChild.offsetHeight, Hb = d.offsetHeight, top = d.querySelector('.c9-top'), th = top ? top.offsetHeight : 0, GAP = 40, dock = H.classList.contains('wd2-dock') && H.classList.contains('wd2-done')
+    const put = (el, src) => { if (el.__src === src) return; el.__src = src; el.style.backgroundImage = src ? `url(${src})` : ''; if (src) el.animate([{ opacity: 0, transform: 'scale(.9)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'ease-out' }) }
+    if (MOB) { const kk = { a: 0, b: 0 }, kb = { a: 0, b: 0 }
+      PB.forEach((x, i) => { const s = x.team ? 'b' : 'a', done = i < st, now = i === st
+        if (x.is_pick) { const k = kk[s]++, src = done && all[s].P[k] ? all[s].P[k].src : ''; o.querySelectorAll(`[data-mv="${i}"]`).forEach(el => { put(el, src); el.classList.toggle('is-now', now) }) }
+        else { const k = kb[s]++, src = done ? WDRAFT.hero(x.hero_id).img : ''; o.querySelectorAll(`[data-bn="${s}${k}"], [data-mv="${i}"]`).forEach(el => { put(el, src); el.classList.toggle('is-now', now) }) } })
+      const ln = o.querySelector('.m-ln__s'), cur = o.querySelector(`[data-mv="${Math.min(st, PB.length - 1)}"]`); if (ln && cur && ln.__st !== st) { ln.__st = st; ln.scrollTo({ left: cur.parentElement.offsetLeft - ln.clientWidth / 2 + cur.parentElement.offsetWidth / 2, behavior: ln.__on ? 'smooth' : 'auto' }); ln.__on = true } }
+    for (const s of ['a', 'b']) o.querySelectorAll(`[data-pk^="${s}"]`).forEach((el) => { const i = +el.dataset.pk.slice(1), p = all[s].P[i], src = p ? p.src : ''
+      put(el, src); el.classList.toggle('is-now', !p && i === all[s].P.length && all[s].now) })
+    const inH = o.firstElementChild.offsetHeight, Hb = d.offsetHeight, top = d.querySelector('.c9-top'), th = top ? top.offsetHeight : 0, GAP = parseFloat(getComputedStyle(o.firstElementChild).rowGap) || 40, dock = H.classList.contains('wd2-dock') && H.classList.contains('wd2-done')
     let y, sc = 1
     let x = 0
     if (dock) { y = Hb - 64 - inH / 2; sc = .6
+      if (window.WD2_MOB2 && !document.body.classList.contains('is-desk')) { sc = .55; y = Hb - 6 - inH / 2 - inH * sc / 2 }   // v34: на телефоне итог мельче и прижат к низу — под линией нуля, не на графике
       // v30 (дирижёр 11.11: «шанс по драфту надо центрировать»): по центру области графика — без колонки подписей справа (0.0k)
       if (window.WD2_PLOTC) { const tag = d.parentElement.querySelector('[data-wd="gold"] .g2-tag'); if (tag) x = ((tag.getBoundingClientRect().left - d.getBoundingClientRect().left) - d.offsetWidth) / 2 } }
     else if (fin) y = window.WD2_NOGROW && keep.y0 != null ? keep.y0 : (Hb - inH) / 2   // v33 (дирижёр 11.11: «всё выбрано — не растёт, просто выбрано, потом уезжает вниз»): итог остаётся там, где был
