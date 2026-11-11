@@ -22,7 +22,8 @@ h1.text-\\[18px\\]{font-size:24px!important;font-weight:500!important}
 aside{display:none!important}
 main > .h-16{display:none!important}
 div:has(> h1.text-\\[18px\\]){display:none!important}
-.h-dvh.flex-col > .flex.min-h-0.flex-1{padding:4px!important}
+.h-dvh.flex-col > .flex.min-h-0.flex-1{padding:0!important}
+main.rounded-2xl{border:0!important;border-radius:0!important}
 main [class*="grid-cols-2"]{grid-template-columns:1fr!important}
 main > div:first-child{padding:0 16px!important}
 .flex.shrink-0.flex-col.gap-2[style*="width"]{width:100%!important}
