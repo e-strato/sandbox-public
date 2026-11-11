@@ -9,7 +9,9 @@
   document.documentElement.classList.add('wd2');
   if (window.WD2_SKIN) document.documentElement.classList.add('wd2-skin', 'wd2-skin--' + window.WD2_SKIN);
   if (window.WD2_SOFT) document.documentElement.classList.add('wd2-soft');
-  if (window.WD2_NOPH) document.documentElement.classList.add('wd2-noph');   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
+  if (window.WD2_NOPH) document.documentElement.classList.add('wd2-noph');
+  // v24–v27 (WD2_CL, дирижёр 11.11: «по центру надо сделать — начальник на созвоне; график фигово выглядит, сдвинуть»): раскладка центра — big (пики крупно, график полосой снизу) · sides (пики колонками по краям, график между) · tug (без графика — шанс полосой) · low (график сверху, пики внизу у игроков)
+  if (window.WD2_CL) document.documentElement.classList.add('wd2-cl', 'wd2-cl--' + window.WD2_CL);   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
   // v9 (WD2_NODATA): в нижней панели всё на месте, но данных ещё нет — золото, перевес, K/D/A, счёт и время — «—»
   if (window.WD2_NODATA) { document.documentElement.classList.add('wd2-nodata'); setInterval(() => { if (!document.documentElement.classList.contains('wd2-nodata')) return; const r = document.querySelector('.wl-pre .d3-row'); if (!r) return; r.querySelectorAll('.wb2-at, .wb2-nt, .wb2-cd b, .d3-sc b, .d3-k').forEach(e => { if (e.textContent !== '—') { if (e.__orig == null) e.__orig = e.innerHTML; e.textContent = '—'; } }); }, 300); }
   // v10 (WD2_END, дирижёр 06.11: «финальное состояние — не начинать сначала, а показать график до 12′, когда матч ещё не начался»): драфт прошёл один раз —
@@ -24,6 +26,7 @@
   // в драфте и до начала карты пики — общие для команды, не по игрокам; герои расходятся по игрокам, только когда карта началась (html.wd2-go, WD2_GO).
   // strip — пики отдельной полоской у названия команды · order — в слоты по порядку пиков, ники приглушены, на старте герои переезжают к своим игрокам
   // guess — сразу у игрока, но «вероятно»: полупрозрачно, пунктир, «?» · center — внизу пусто до старта, пики крупно в центре, под банами
+  const keep = {}   // узлы центра (пики, полоса шанса) — живут между перерисовками драфта
   const pool = (box, g) => { const H = document.documentElement, m = g._g2.o.m, st = WDRAFT.step(), PB = WDRAFT.order(m), row = box.querySelector('.d3-row'); if (!row) return;
     const go = H.classList.contains('wd2-go'), MODE = window.WD2_POOL, TIP = 'Кто на каком герое — станет известно, когда карта начнётся', all = {};
     const pic = (el, src) => { const i = el.querySelector('.d3-i > i'); if (!i || i.__src === src) return; i.__src = src; i.style.cssText = src ? `background:url(${src}) center/cover;` : ''; el.classList.toggle('wd2-in', !!src); };
@@ -52,13 +55,17 @@
     if (MODE === 'center' && all.a && all.b) { const c9 = box.querySelector('.wd2-box .wdr--c9'); if (!c9) return; const fin = c9.querySelector('.c9-fin'), at = fin ? fin.querySelector('.c9-fb') : c9.querySelector('.c9-top'); if (!at) return;
       const five = s => `<div class="${s}">${[0, 1, 2, 3, 4].map(i => all[s].P[i] ? `<i style="background-image:url(${all[s].P[i].src})"></i>` : `<i class="${i === all[s].P.length && all[s].now ? 'is-now' : ''}"></i>`).join('')}</div>`;
       const h = five('a') + `<small>${fin ? 'пики команд' : 'пики'}</small>` + five('b'); let cp = c9.querySelector('.wd2-cp');
-      if (!cp) { cp = document.createElement('div'); cp.className = 'wd2-cp'; cp.title = TIP; at.after(cp); } if (cp.__h !== h) { cp.__h = h; cp.innerHTML = h; } } };
+      if (!cp) { cp = keep.cp || (keep.cp = Object.assign(document.createElement('div'), { className: 'wd2-cp', title: TIP })); at.after(cp); }   /* один и тот же узел — переставляем после перерисовки центра, без мигания и с плавной полосой */ if (cp.__h !== h) { cp.__h = h; cp.innerHTML = h; }
+      // tug (v26): шанс по драфту полосой — вместо графика
+      if (window.WD2_CL === 'tug' && !fin && WDRAFT.chance) { const c = WDRAFT.chance(m)[Math.min(st, PB.length)], la = c9.querySelector('.c9-l.a'), lb = c9.querySelector('.c9-l.b')
+        const h2 = `<span class="a">${la ? la.innerHTML : ''}<b class="num">${c}%</b></span><span class="wd2-tug__b"><i class="rad" style="width:${c}%"></i><i class="dire" style="width:${100 - c}%"></i><em style="left:${c}%"></em></span><span class="b"><b class="num">${100 - c}%</b>${lb ? lb.innerHTML : ''}</span>`
+        let tg = c9.querySelector('.wd2-tug'); if (!tg) { tg = keep.tg || (keep.tg = Object.assign(document.createElement('div'), { className: 'wd2-tug' })); c9.querySelector('.c9-top').after(tg); } if (tg.__h !== h2) { tg.__h = h2; tg.innerHTML = h2; } } } };
   // герой «едет» из точки r (пик в полоске / слот по порядку пиков) в портрет слота игрока
   const fly = (el, r) => { const i = el && el.querySelector('.d3-i > i'); if (!i || !r) return; const b = i.getBoundingClientRect(); if (!b.width) return;
     i.animate([{ transform: `translate(${r.left + r.width / 2 - b.left - b.width / 2}px, ${r.top + r.height / 2 - b.top - b.height / 2}px) scale(${r.width / b.width})`, zIndex: 5 }, { transform: 'none', zIndex: 5 }], { duration: 700, easing: 'cubic-bezier(.3,.7,.2,1)' }); };
   const tick = () => { const box = document.querySelector('.wl-pre'), g = box && box.querySelector('[data-wd="gold"]'); if (!g || !g._g2 || !window.WDRAFT) return;
     const par = g.parentElement; let d = par.querySelector(':scope > .wd2-box');
-    if (!d) { d = document.createElement('div'); d.className = 'wd2-box'; d.setAttribute('data-wd', 'draft'); par.appendChild(d);
+    if (!d) { d = document.createElement('div'); d.className = 'wd2-box'; d.setAttribute('data-wd', 'draft'); par.appendChild(d); if (window.WD2_POOL) new MutationObserver(() => tick()).observe(d, { childList: true });   /* v26+: центр перерисовался — сразу возвращаем пики и полосу, а не через 250 мс (мигало) */
       WDRAFT.render(d, { m: g._g2.o.m, n: g._g2.o.n || 1, state: 'draft', look: window.WD2 }); }
     const st = `top:${g.offsetTop}px;height:${g.offsetHeight}px`; if (d.__st !== st) { d.__st = st; d.style.cssText = st; }
     // v5–v7 (WD2_FILL): сделанные пики встают в строку игроков под центром — портрет героя в слот игрока (по нику, иначе по порядку пиков стороны)

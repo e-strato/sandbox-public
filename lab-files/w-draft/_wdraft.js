@@ -230,7 +230,7 @@
   });
 
   window.WDRAFT = {
-    step: () => S.step, order, nick: (m, h) => nick(m, h), hero: id => H(id),
+    step: () => S.step, order, chance: m => chance(m), nick: (m, h) => nick(m, h), hero: id => H(id),
     render(el, o) {
       if (window.WDR_START && !S.st0) { S.st0 = true; S.step = window.WDR_START; }   // WDR_START (w-draft-2 v11): начать с этого хода — конец драфта и переход; флаг ставится после загрузки скрипта, поэтому читаем при первой отрисовке
       el._wdr = o; el.innerHTML = html(o);
