@@ -20,13 +20,50 @@
     H.classList.add('wd2-done'); H.classList.remove('wd2-nodata');
     // v18+ (WD2_GO, дирижёр 06.11: «увидеть, как пропадает, когда матч начинается — растворяться плавно»): через 6 с после того, как итог съехал вниз, — «матч начался»: итог растворяется
     if (window.WD2_GO) setTimeout(() => H.classList.add('wd2-go'), 6000); document.querySelectorAll('.wl-pre .d3-row *').forEach(e => { if (e.__orig != null) { e.innerHTML = e.__orig; e.__orig = null; } }); }, 250); }
+  // v20–v23 (WD2_POOL, дирижёр 11.11: «мы не знаем и никто не знает, кто на каком герое будет играть — вначале они выбирают, а после этого уже кто-то заходит»):
+  // в драфте и до начала карты пики — общие для команды, не по игрокам; герои расходятся по игрокам, только когда карта началась (html.wd2-go, WD2_GO).
+  // strip — пики отдельной полоской у названия команды · order — в слоты по порядку пиков, ники приглушены, на старте герои переезжают к своим игрокам
+  // guess — сразу у игрока, но «вероятно»: полупрозрачно, пунктир, «?» · center — внизу пусто до старта, пики крупно в центре, под банами
+  const pool = (box, g) => { const H = document.documentElement, m = g._g2.o.m, st = WDRAFT.step(), PB = WDRAFT.order(m), row = box.querySelector('.d3-row'); if (!row) return;
+    const go = H.classList.contains('wd2-go'), MODE = window.WD2_POOL, TIP = 'Кто на каком герое — станет известно, когда карта начнётся', all = {};
+    const pic = (el, src) => { const i = el.querySelector('.d3-i > i'); if (!i || i.__src === src) return; i.__src = src; i.style.cssText = src ? `background:url(${src}) center/cover;` : ''; el.classList.toggle('wd2-in', !!src); };
+    for (const [side, t] of [['a', 0], ['b', 1]]) { const five = row.querySelector(`.d3-five.${side}`), sl = five ? [...five.querySelectorAll('.wl-slot')] : []; if (!sl.length) continue;
+      const used = new Set(), place = (x) => { const nk = WDRAFT.nick(m, x.hero_id); let k = sl.findIndex((el, j) => !used.has(j) && (el.querySelector('.d3-n') || {}).textContent === nk); if (k < 0) k = sl.findIndex((el, j) => !used.has(j)); if (k >= 0) used.add(k); return k; };
+      const col = document.querySelectorAll('.ws28 > div')[t], rows = col ? [...col.querySelectorAll('.ws37-r')] : [];
+      const sost = j => { const r = rows[j], im = r && r.querySelector('.ws24-h'); return im ? im.getAttribute('src').replace('/icon/', '/') : ''; };
+      const P = PB.map((x, i) => [x, i]).filter(([x, i]) => x.team === t && x.is_pick && i < st).map(([x]) => { const k = place(x); return { k, src: (k >= 0 && sost(k)) || WDRAFT.hero(x.hero_id).img }; });
+      const cx = PB[st], now = !!(cx && cx.is_pick && cx.team === t), nk = now && MODE === 'guess' ? place(cx) : -1; all[side] = { P, now };
+      const key = P.map(p => p.src).join('|') + '|' + now + '|' + go; if (five.__pk === key) continue; const was = five.__pk || ''; five.__pk = key;
+      const start = go && !was.endsWith('|true');   // первый тик после начала карты — герои едут к игрокам
+      sl.forEach(el => el.title = go ? '' : TIP);
+      if (MODE === 'strip') { const tn = five.querySelector('.ws-tn'); let pl = five.querySelector('.wd2-pool');
+        if (!pl && tn) { pl = document.createElement('span'); pl.className = 'wd2-pool'; pl.title = TIP; tn.appendChild(pl); }
+        if (pl && !go) pl.innerHTML = [0, 1, 2, 3, 4].map(i => P[i] ? `<i data-k="${P[i].k}" style="background-image:url(${P[i].src})"></i>` : `<i class="${i === P.length && now ? 'is-now' : ''}"></i>`).join('');
+        const from = start && pl ? [...pl.children].map(e => [+e.dataset.k, e.getBoundingClientRect()]) : [];
+        sl.forEach((el, j) => { pic(el, go ? sost(j) : ''); el.classList.toggle('wd2-wait', !go); el.classList.toggle('wd2-now', false); });
+        if (start) { from.forEach(([k, r]) => fly(sl[k], r)); if (pl) pl.classList.add('is-out'); } }
+      else if (MODE === 'order') { const from = start ? sl.map(el => (el.querySelector('.d3-i > i') || el).getBoundingClientRect()) : [];
+        sl.forEach((el, j) => { pic(el, go ? sost(j) : (P[j] ? P[j].src : '')); el.classList.toggle('wd2-blind', !go); el.classList.toggle('wd2-now', !go && j === P.length && now); });
+        if (start) P.forEach((p, i) => p.k >= 0 && p.k !== i && fly(sl[p.k], from[i])); }
+      else if (MODE === 'guess') { const want = new Map(P.map(p => [p.k, p.src]));
+        sl.forEach((el, j) => { pic(el, go ? sost(j) : (want.get(j) || '')); el.classList.toggle('wd2-guess', !go && want.has(j)); el.classList.toggle('wd2-now', !go && j === nk); }); }
+      else if (MODE === 'center') sl.forEach((el, j) => { pic(el, go ? sost(j) : ''); el.classList.toggle('wd2-wait', !go); if (start) { const i = el.querySelector('.d3-i > i'); i && i.animate([{ transform: 'translateY(-24px) scale(1.2)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 600, delay: j * 70, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' }); } }); }
+    // center: пики команды крупно в центре, под банами; в итоге «Шанс по драфту» — тоже, под полосой
+    if (MODE === 'center' && all.a && all.b) { const c9 = box.querySelector('.wd2-box .wdr--c9'); if (!c9) return; const fin = c9.querySelector('.c9-fin'), at = fin ? fin.querySelector('.c9-fb') : c9.querySelector('.c9-top'); if (!at) return;
+      const five = s => `<div class="${s}">${[0, 1, 2, 3, 4].map(i => all[s].P[i] ? `<i style="background-image:url(${all[s].P[i].src})"></i>` : `<i class="${i === all[s].P.length && all[s].now ? 'is-now' : ''}"></i>`).join('')}</div>`;
+      const h = five('a') + `<small>${fin ? 'пики команд' : 'пики'}</small>` + five('b'); let cp = c9.querySelector('.wd2-cp');
+      if (!cp) { cp = document.createElement('div'); cp.className = 'wd2-cp'; cp.title = TIP; at.after(cp); } if (cp.__h !== h) { cp.__h = h; cp.innerHTML = h; } } };
+  // герой «едет» из точки r (пик в полоске / слот по порядку пиков) в портрет слота игрока
+  const fly = (el, r) => { const i = el && el.querySelector('.d3-i > i'); if (!i || !r) return; const b = i.getBoundingClientRect(); if (!b.width) return;
+    i.animate([{ transform: `translate(${r.left + r.width / 2 - b.left - b.width / 2}px, ${r.top + r.height / 2 - b.top - b.height / 2}px) scale(${r.width / b.width})`, zIndex: 5 }, { transform: 'none', zIndex: 5 }], { duration: 700, easing: 'cubic-bezier(.3,.7,.2,1)' }); };
   const tick = () => { const box = document.querySelector('.wl-pre'), g = box && box.querySelector('[data-wd="gold"]'); if (!g || !g._g2 || !window.WDRAFT) return;
     const par = g.parentElement; let d = par.querySelector(':scope > .wd2-box');
     if (!d) { d = document.createElement('div'); d.className = 'wd2-box'; d.setAttribute('data-wd', 'draft'); par.appendChild(d);
       WDRAFT.render(d, { m: g._g2.o.m, n: g._g2.o.n || 1, state: 'draft', look: window.WD2 }); }
     const st = `top:${g.offsetTop}px;height:${g.offsetHeight}px`; if (d.__st !== st) { d.__st = st; d.style.cssText = st; }
     // v5–v7 (WD2_FILL): сделанные пики встают в строку игроков под центром — портрет героя в слот игрока (по нику, иначе по порядку пиков стороны)
-    if (window.WD2_FILL) { const m = g._g2.o.m, st = WDRAFT.step(), PB = WDRAFT.order(m), row = box.querySelector('.d3-row'); if (!row) return;
+    if (window.WD2_POOL) pool(box, g);
+    else if (window.WD2_FILL) { const m = g._g2.o.m, st = WDRAFT.step(), PB = WDRAFT.order(m), row = box.querySelector('.d3-row'); if (!row) return;
       for (const [side, t] of [['a', 0], ['b', 1]]) { const sl = [...row.querySelectorAll(`.d3-five.${side} .wl-slot`)]; if (!sl.length) continue;
         const picks = PB.map((x, i) => [x, i]).filter(([x, i]) => x.team === t && x.is_pick && i < st).map(([x]) => x), used = new Set();
         const place = (x) => { const nk = WDRAFT.nick(m, x.hero_id); let k = sl.findIndex((el, j) => !used.has(j) && (el.querySelector('.d3-n') || {}).textContent === nk); if (k < 0) k = sl.findIndex((el, j) => !used.has(j)); if (k >= 0) used.add(k); return k; };

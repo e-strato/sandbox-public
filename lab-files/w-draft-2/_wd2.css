@@ -235,3 +235,21 @@ html.wd2-noph .c9-x, html.wd2-noph .c9-vl { display: none; }
 html.wd2-noph.wd2-skin .wd2-box > .wdr--c9 { padding-bottom: 32px; }
 /* WD2_PRE — «Пики готовы» открыто сразу: всё на местах без анимаций */
 html.wd2-instant .wd2-box, html.wd2-instant .c9-fin, html.wd2-instant .wl-pre [data-wd="gold"] > * { transition: none !important; animation: none !important; }
+
+/* v20–v23 (WD2_POOL, дирижёр 11.11): пики — общие для команды, по игрокам — только когда карта началась */
+.wd2-pool { display: flex; gap: 3px; margin-top: 6px; transition: opacity .6s; }
+.d3-five.b .wd2-pool { justify-content: flex-end; }
+.wd2-pool i { width: 30px; height: 17px; border-radius: 3px; background: #ffffff0a center/cover; box-shadow: inset 0 0 0 1px #ffffff14; }
+.wd2-pool i.is-now { box-shadow: none; outline: 1px dashed #ffffff80; outline-offset: -1px; }
+.wd2-pool.is-out { opacity: 0; }
+.wl-slot.wd2-wait .d3-i > i { background: #ffffff05; }
+.wl-slot.wd2-blind .d3-n { opacity: .35; }
+.wl-slot.wd2-guess .d3-i > i { opacity: .5; outline: 1px dashed #ffffff73; outline-offset: -1px; }
+.wl-slot .d3-i { position: relative; }
+.wl-slot.wd2-guess .d3-i::after { content: '?'; position: absolute; left: -4px; top: -4px; display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; background: #27272a; color: #fafafa; font: 600 9px/1 var(--w-font, system-ui); }
+.wd2-cp { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0 0; }
+.wd2-cp > div { display: flex; gap: 6px; } .wd2-cp > .b { flex-direction: row-reverse; }
+.wd2-cp > small { white-space: nowrap; font: 500 12px/16px var(--w-font, system-ui); color: var(--w-muted-fg, #a1a1aa); }
+.wd2-cp i { width: 72px; height: 40px; border-radius: 6px; background: #ffffff08 center/cover; box-shadow: inset 0 0 0 1px #ffffff14; }
+.wd2-cp i.is-now { box-shadow: none; outline: 1px dashed #ffffff80; outline-offset: -1px; animation: wd2-p 1.2s ease-in-out infinite; }
+.c9-fin .wd2-cp { justify-content: center; padding-top: 20px; } .c9-fin .wd2-cp i { width: 56px; height: 32px; }

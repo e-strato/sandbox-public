@@ -1,13 +1,14 @@
 // «Все турниры» v3–v5 (лаба gs-tours, дирижёр 11.11: «все турниры должны выглядеть как главная v12 — умно, мощно; три новые версии на основе главной»).
 // Как главная: две колонки (1fr + 360), плотно, чёрно-белое (фиолетовый — только точка «идёт»), футер; строка турнира раскрывается на месте — статистические мини-виджеты
 //   идёт: ход турнира (день N из M) · матчи сейчас и дальше · лидеры (TI — база: серии W–L) · скоро: до старта · участники · фонд и формат · прошёл: чемпион · фонд · участники.
+// v6 'poster' — главный турнир крупно + афиши · v7 'table' — сводная таблица с сортировкой · v8 'month' — календарь месяца, справа матчи дня (дирижёр 11.11: «кардинально разные версии, я выберу»)
 // lay: 'groups' (v3) — «Главные сейчас» карточками, ниже группы по месяцам · 'gantt' (v4) — календарь сезона полосами, ниже группы по играм ·
 //   'live' (v5) — цифры сезона плитками и «Сейчас на турнирах» (матчи идущих турниров), ниже группы по месяцам.
 // Справа: Фильтры (тир, команда) · Призовые 2026 по играм · Топ игроков TI 2026 · Чемпионы сезона. Данные — ../gs-home/_sch.js (Dota — база, остальное — ‼️ пример).
 window.TOURS3 = (() => {
   const S = window.SCH, { esc, logo, name, gameIc, tourLogo, hm, LIVE } = S
   const P = new URLSearchParams(location.search), FIT = P.has('fit'), fitView = () => (innerWidth < 800 ? 'phone' : 'desk')
-  const CFG = { view: FIT ? fitView() : 'desk', tab: 'now', game: 'all', tiers: new Set(), team: '', state: 'ok', open: undefined }
+  const CFG = { view: FIT ? fitView() : 'desk', tab: 'now', game: 'all', tiers: new Set(), team: '', state: 'ok', open: undefined, sort: 'date', dir: 1, mon: '', day: '' }
   let O = {}
   const pl = (n, a, b, c) => { const x = n % 10, y = n % 100; return x === 1 && y !== 11 ? a : x >= 2 && x <= 4 && (y < 12 || y > 14) ? b : c }
   const ARR = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 2.5 8 6l-3.5 3.5"/></svg>'
@@ -94,6 +95,56 @@ window.TOURS3 = (() => {
         <span class="t3-pg"><i style="width:${Math.min(100, Math.round(dayN(t) / len(t) * 100))}%"></i></span><small class="t3-sub">день <span class="mono">${dayN(t)}</span> из <span class="mono">${len(t)}</span> · <span class="mono">${esc(t.prize)}</span></small>
         ${M.length ? `<div class="t3-ml">${M.map(mRow).join('')}</div>` : '<span class="h11-mut">Сегодня матчей нет</span>'}</div>` }).join('')}</div></section>` }
 
+  // ── v6 «Афиша» (дирижёр 11.11: «кардинально разные версии»): главный идущий турнир крупно — ход, матчи, лидеры; ниже карточки-афиши по статусам
+  const heroT = (L) => L.find((t) => t.id === 'ti-2026' && t.state === 'live') || L.filter((t) => t.state === 'live').sort((a, b) => a.tier - b.tier || usd(b) - usd(a))[0]
+  const hero6 = (t) => { const p = Math.min(100, Math.round(dayN(t) / len(t) * 100)), C = [cMatches(t), cLead(t)].filter(Boolean)
+    return `<section class="h2-card t6-h"><div class="t6-h__top"><span class="t6-h__lg">${tourLogo(t, 72)}</span><span class="t6-h__n" data-go="${t.id}" role="link" tabindex="0"><span class="t6-h__k">${gameIc(t.game, 16)}${tierM(t.tier)}<span><i class="sc-dot"></i>идёт</span></span><b>${esc(t.name)}</b><small>${[t.stage, t.where, t.format].filter(Boolean).map(esc).join(' · ')}</small></span>
+      <span class="t6-h__f"><small>Фонд</small><b class="mono">${esc(t.prize)}</b></span><span class="t6-h__f"><small>День</small><b class="mono">${dayN(t)}<i>/${len(t)}</i></b></span></div>
+      <span class="t3-pg"><i style="width:${p}%"></i></span><div class="h12-cs">${C.map(([h, b, sp]) => `<div class="h11-c h12-s${sp === 1 ? 1 : 2}"><small>${h}</small>${b}</div>`).join('')}<div class="h11-c h12-s1"><small>Участники · <span class="mono">${teamsOf(t).length}</span></small><div class="t3-tm">${teamsOf(t).slice(0, 12).map((id) => `<span title="${name(id)}">${logo(id, 24)}</span>`).join('')}</div></div></div>
+      <div class="h11-act"><button class="h11-b is-main" data-go="${t.id}">Страница турнира</button><button class="h11-b" data-go="${t.id}">Сетка</button><button class="h11-b" data-go="${t.id}">Расписание</button></div></section>` }
+  const poster = (t) => { const lv = t.state === 'live', so = t.state === 'soon', k = Math.max(0, S.dayDiff(t.from))
+    const big = lv ? `<b class="mono">${dayN(t)}<i>/${len(t)}</i></b><span>${esc(t.stage || 'день турнира')}</span>` : so ? `<b class="mono">${k}</b><span>${pl(k, 'день', 'дня', 'дней')} до старта</span>`
+      : t.winner ? `<span class="t6-p__w">${logo(t.winner, 28)}<span><b>${name(t.winner, 'mid')}</b><small>${CUP} чемпион</small></span></span>` : '<span>итогов нет</span>'
+    return `<div class="t6-p${t.state === 'done' ? ' is-done' : ''}" data-go="${t.id}" role="link" tabindex="0"><span class="t6-p__top">${gameIc(t.game, 16)}${tierM(t.tier)}${lv ? '<i class="sc-dot"></i>' : ''}<small class="mono">${S.dm(t.from)} – ${S.dm(t.to)}</small></span>
+      <span class="t6-p__n">${tourLogo(t, 40)}<b>${esc(t.name)}</b></span><span class="t6-p__big">${big}</span>${lv ? `<span class="t3-pg is-thin"><i style="width:${Math.min(100, Math.round(dayN(t) / len(t) * 100))}%"></i></span>` : ''}
+      <span class="t6-p__f"><b class="mono">${esc(t.prize)}</b>${logos(t, 5)}</span></div>` }
+  const sec6 = (h, L) => L.length ? `<section class="t2-sec"><div class="h11-h"><h2>${h}</h2><small class="t3-gs"><span class="mono">${L.length}</span> ${pl(L.length, 'турнир', 'турнира', 'турниров')} · <span class="mono">${money(L.reduce((a, t) => a + usd(t), 0))}</span></small></div><div class="t6-ps">${L.map(poster).join('')}</div></section>` : ''
+
+  // ── v7 «Сводная таблица»: всё одной таблицей, сортировка по колонкам, строка раскрывается
+  const SORTS = { name: (t) => t.name.toLowerCase(), tier: (t) => t.tier, date: (t) => t.from, prize: (t) => -usd(t), game: (t) => t.game }
+  const sortL = (L) => { const f = SORTS[CFG.sort]; return L.slice().sort((a, b) => { const x = f(a), y = f(b); return (x < y ? -1 : x > y ? 1 : 0) * CFG.dir }) }
+  const th = (k, l) => `<button class="t7-th${CFG.sort === k ? ' is-on' : ''}" data-sort="${k}">${l}<i>${CFG.sort === k ? (CFG.dir > 0 ? '↑' : '↓') : '↕'}</i></button>`
+  const row7 = (t) => { const op = CFG.open === t.id, dn = t.state === 'done', p = Math.min(100, Math.round(dayN(t) / len(t) * 100))
+    const st = t.state === 'live' ? `<span class="t7-pg"><span class="t3-pg"><i style="width:${p}%"></i></span><small class="mono">${dayN(t)}/${len(t)}</small></span>` : `<small class="t7-mu">${status(t)}</small>`
+    return `<div class="h11-r${op ? ' is-open' : ''}"><div class="t7-r" data-x="${t.id}" role="button" tabindex="0" aria-expanded="${op}"><span>${gameIc(t.game, 16)}</span>
+      <span class="t7-n">${tourLogo(t, 20)}<span><b>${esc(t.name)}</b><small>${esc((t.state === 'live' ? t.stage : t.where) || t.format || '')}</small></span></span>${tierM(t.tier)}<span class="mono t7-d">${S.dm(t.from)} – ${S.dm(t.to)}</span>${st}
+      <span class="t7-k">${dn ? (t.winner ? `${CUP}${logo(t.winner, 18)}<b>${name(t.winner, 'mid')}</b>` : '<span class="t2-k">—</span>') : logos(t, 4)}</span><span class="mono t7-p">${esc(t.prize)}</span>${CHV}</div>${exOf(t)}</div>` }
+  const table7 = (G) => `<section class="h2-card t7"><div class="t7-r t7-hd">${th('game', 'Игра')}${th('name', 'Турнир')}${th('tier', 'Тир')}${th('date', 'Даты')}<span>Ход</span><span>Команды</span>${th('prize', 'Фонд')}<span></span></div>
+    ${G.filter(([, L]) => L.length).map(([h, L]) => `<div class="t7-gh">${h}<small class="t3-gs"><span class="mono">${L.length}</span> · <span class="mono">${money(L.reduce((a, t) => a + usd(t), 0))}</span></small></div>${sortL(L).map(row7).join('')}`).join('')}</section>`
+
+  // ── v8 «Месяц»: календарь месяца — турниры полосами по дням, в дне — сколько матчей; день выбрал — справа его матчи
+  const iso = (y, mo, d) => new Date(Date.UTC(y, mo - 1, d)).toISOString().slice(0, 10)
+  const mOf = (d) => S.M.filter((m) => S.ymd(m.start) === d)
+  const month8 = (L) => { const [y, mo] = CFG.mon.split('-').map(Number), dim = new Date(Date.UTC(y, mo, 0)).getUTCDate(), off = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7, MAX = 6
+    let W = ''
+    for (let s = 1 - off; s <= dim; s += 7) { const D = [0, 1, 2, 3, 4, 5, 6].map((i) => iso(y, mo, s + i)), lanes = [], bars = [], over = D.map(() => 0)
+      L.filter((t) => t.from <= D[6] && t.to >= D[0]).sort((a, b) => a.tier - b.tier || a.from.localeCompare(b.from)).forEach((t) => { const a = Math.max(0, D.indexOf(t.from < D[0] ? D[0] : t.from)), b = t.to > D[6] ? 6 : D.indexOf(t.to)
+        let ln = lanes.findIndex((e) => e < a); if (ln < 0) { ln = lanes.length; lanes.push(-1) } lanes[ln] = b
+        if (ln >= MAX) { for (let i = a; i <= b; i++) over[i]++; return }
+        bars.push(`<span class="t8-b${t.tier === 1 ? ' is-1' : ''}${t.state === 'done' ? ' is-done' : ''}" data-tx="${t.id}" style="grid-column:${a + 1} / ${b + 2};grid-row:${ln + 2}" title="${esc(t.name)} · ${S.dm(t.from)} – ${S.dm(t.to)} · ${esc(t.prize)}">${t.state === 'live' && D.includes(S.TODAY) ? '<i class="sc-dot"></i>' : ''}${gameIc(t.game, 12)}<span>${esc(t.short || t.name)}</span></span>`) })
+      const cells = D.map((d, i) => { const n = mOf(d).length, out = +d.slice(5, 7) !== mo
+        return `<button class="t8-d${out ? ' is-out' : ''}${d === S.TODAY ? ' is-today' : ''}${d === CFG.day ? ' is-sel' : ''}" data-day="${d}" style="grid-column:${i + 1}"><b class="mono">${+d.slice(8)}</b>${n ? `<small class="mono">${n} ${pl(n, 'матч', 'матча', 'матчей')}</small>` : ''}${over[i] ? `<em class="mono">+${over[i]}</em>` : ''}</button>` }).join('')
+      W += `<div class="t8-w" style="grid-template-rows:28px repeat(${Math.max(1, Math.min(MAX, lanes.length))}, 18px) 8px">${cells}${bars.join('')}</div>` }
+    const k = (d) => { const x = new Date(Date.UTC(y, mo - 1 + d, 1)); return x.toISOString().slice(0, 7) }, can = (m) => m >= '2026-06' && m <= '2026-12'
+    return `<section class="h2-card t8"><div class="h2-h"><h2>${S.MONN[mo - 1]} ${y}</h2><span class="t8-nav"><button data-mon="${k(-1)}"${can(k(-1)) ? '' : ' disabled'} aria-label="Раньше">‹</button><button data-mon="${S.TODAY.slice(0, 7)}">Сегодня</button><button data-mon="${k(1)}"${can(k(1)) ? '' : ' disabled'} aria-label="Позже">›</button></span><small class="t3-gs">Tier 1 — белым · нажми день</small></div>
+      <div class="t8-wd">${['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'].map((x) => `<span>${x}</span>`).join('')}</div>${W}</section>` }
+  const inMon = (L) => { const a = CFG.mon + '-01', b = CFG.mon + '-31'; return L.filter((t) => t.from <= b && t.to >= a) }
+  const dayPanel = (L) => { const d = CFG.day, M = mOf(d).sort((a, b) => a.start.localeCompare(b.start)), run = L.filter((t) => t.from <= d && t.to >= d), by = new Map()
+    M.forEach((m) => { if (!by.has(m.tour)) by.set(m.tour, []); by.get(m.tour).push(m) })
+    return `<section class="h2-card t8-dp"><div class="h2-h"><h2>${S.dayName(d)}</h2><span class="h4-sub"><span class="mono">${M.length}</span> ${pl(M.length, 'матч', 'матча', 'матчей')}</span></div>
+      ${M.length ? [...by.entries()].map(([tid, ms]) => { const t = S.T[tid]; return `<div class="t8-dt"><p class="t8-dt__h" data-go="${tid}">${gameIc(t.game, 14)}${tourLogo(t, 18)}<b>${esc(t.short || t.name)}</b>${t.real ? '' : EXS}</p><div class="t3-ml">${ms.map(mRow).join('')}</div></div>` }).join('') : '<span class="h11-mut">В этот день матчей нет</span>'}
+      ${run.length ? `<div class="t8-run"><small>Идут в этот день · <span class="mono">${run.length}</span></small>${run.map((t) => `<p data-go="${t.id}">${gameIc(t.game, 12)}${tourLogo(t, 16)}<span class="t8-rn">${esc(t.short || t.name)}</span>${tierM(t.tier)}</p>`).join('')}</div>` : ''}</section>` }
+
   // ── правая колонка
   const filters = () => { const tc = (n) => all().filter((t) => t.tier === n).length
     return `<section class="h2-card t2-fl"><div class="h2-h"><h2>Фильтры</h2>${CFG.game !== 'all' || CFG.tiers.size || CFG.team ? '<button class="h2-ln" data-reset style="margin-left:auto">Сбросить</button>' : ''}</div>
@@ -118,11 +169,17 @@ window.TOURS3 = (() => {
     const A = all(), L = A.filter(pass), live = L.filter((t) => t.state === 'live').sort((a, b) => a.tier - b.tier || liveN(b) - liveN(a))
     const soon = L.filter((t) => t.state === 'soon').sort((a, b) => a.from.localeCompare(b.from)), done = L.filter((t) => t.state === 'done').sort((a, b) => b.from.localeCompare(a.from))
     if (CFG.open === undefined) CFG.open = live[0] ? live[0].id : null
+    if (!CFG.mon) CFG.mon = S.TODAY.slice(0, 7); if (!CFG.day) CFG.day = S.TODAY
+    if (CFG.open === undefined && O.lay === 'poster') CFG.open = null
     const cnt = (g) => A.filter((t) => (g === 'all' || t.game === g) && (CFG.tab === 'done' ? t.state === 'done' : t.state !== 'done')).length
     const games = `<div class="h2-g">${[['all', 'Все']].concat(S.GAMES.map((g) => [g.id, gameIc(g.id, 16)])).map(([g, l]) => `<button class="${CFG.game === g ? 'is-on' : ''}" data-game="${g}">${l}<small class="mono">${cnt(g)}</small></button>`).join('')}</div>`
     let body
     if (CFG.state === 'skel') body = `<div class="t2-cs">${[0, 1].map(() => '<div class="t2-c"><span class="sk" style="height:120px"></span><span class="sk" style="width:60%;height:16px"></span></div>').join('')}</div>`
     else if (!L.length) body = `<div class="hm-empty"><b>${A.length ? 'Турниров не нашли' : 'Турниров пока нет'}</b>${A.length ? 'По этим фильтрам ничего нет<button data-reset>Сбросить фильтры</button>' : 'Календарь обновится, как только организаторы объявят даты'}</div>`
+    else if (O.lay === 'poster') { const h = CFG.tab === 'now' ? heroT(L) : null
+      body = CFG.tab === 'done' ? sec6('Прошли', done) : (h ? hero6(h) : '') + sec6('Идут сейчас', live.filter((t) => t !== h)) + sec6('Скоро', soon) }
+    else if (O.lay === 'table') body = kpi(A) + table7(CFG.tab === 'done' ? [['<b>Прошли</b>', done]] : [['<i class="sc-dot"></i><b>Идут сейчас</b>', live], ['<b>Скоро</b>', soon]])
+    else if (O.lay === 'month') { const ms = inMon(CFG.tab === 'done' ? done : [...live, ...soon]); body = month8(L) + (ms.length ? grp(`<b>Турниры · ${S.MONN[+CFG.mon.slice(5) - 1].toLowerCase()}</b>`, ms) : '<div class="hm-empty"><b>В этом месяце турниров нет</b>Переключи месяц стрелками</div>') }
     else if (CFG.tab === 'done') body = done.length ? (O.lay === 'gantt' ? gantt(L) + byGame(done) : byMonth(done)) : '<div class="hm-empty"><b>Прошедших турниров нет</b>По этим фильтрам ничего нет</div>'
     else { const top = live.filter((t) => t.tier === 1).slice(0, 4), lvG = live.length ? grp('<i class="sc-dot"></i><b>Идут сейчас</b>', live) : ''
       if (O.lay === 'gantt') body = gantt(L) + byGame([...live, ...soon])
@@ -130,7 +187,7 @@ window.TOURS3 = (() => {
       else body = (top.length ? `<section class="t2-sec"><div class="h11-h"><h2>Главные сейчас</h2></div><div class="t2-cs">${top.map(card).join('')}</div></section>` : '') + lvG + byMonth(soon) }
     const nNow = A.filter((t) => t.state !== 'done').length, nDone = A.filter((t) => t.state === 'done').length
     document.getElementById('main').innerHTML = `<div class="t2-h"><h1>Турниры</h1><div class="h2-seg"><button class="${CFG.tab === 'now' ? 'is-on' : ''}" data-tab="now">Идут и скоро <small class="mono">${nNow}</small></button><button class="${CFG.tab === 'done' ? 'is-on' : ''}" data-tab="done">Прошли <small class="mono">${nDone}</small></button></div>${games}</div>
-      <div class="h2-lay"><div class="h2-main">${body}</div><aside class="h2-side">${filters()}${prizes()}${topPl()}${champs()}</aside></div>${footer()}
+      <div class="h2-lay"><div class="h2-main">${body}</div><aside class="h2-side">${O.lay === 'month' && L.length ? dayPanel(L) : ''}${filters()}${prizes()}${topPl()}${champs()}</aside></div>${footer()}
       ${CFG.state === 'offline' ? `<div class="hm-off"><span><b>Нет сети</b> · данные на ${hm(new Date(S.NOW).toISOString())}</span><button data-retry>Обновить</button></div>` : ''}`
     if (CFG.focus) { const i = document.querySelector('[data-team]'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length) } }
   }
@@ -145,6 +202,10 @@ window.TOURS3 = (() => {
     O = o
     document.addEventListener('click', (e) => { const q = (s) => e.target.closest(s)
       const tb = q('[data-tab]'); if (tb) { CFG.tab = tb.dataset.tab; CFG.open = undefined; render(); return }
+      const so = q('[data-sort]'); if (so) { const k = so.dataset.sort; CFG.dir = CFG.sort === k ? -CFG.dir : 1; CFG.sort = k; render(); return }
+      const mo = q('[data-mon]'); if (mo) { CFG.mon = mo.dataset.mon; CFG.day = CFG.mon === S.TODAY.slice(0, 7) ? S.TODAY : CFG.mon + '-01'; render(); return }
+      const dy = q('[data-day]'); if (dy) { CFG.day = dy.dataset.day; if (CFG.day.slice(0, 7) !== CFG.mon) CFG.mon = CFG.day.slice(0, 7); render(); return }
+      const tx = q('[data-tx]'); if (tx) { const w = toggle(tx.dataset.tx); if (w) w.scrollIntoView({ behavior: 'smooth', block: 'center' }); return }
       const g = q('[data-game]'); if (g) { CFG.game = g.dataset.game; render(); return }
       if (q('[data-reset]')) { CFG.game = 'all'; CFG.tiers.clear(); CFG.team = ''; render(); return }
       if (q('[data-retry]')) { CFG.state = 'ok'; render(); return }
@@ -155,7 +216,7 @@ window.TOURS3 = (() => {
       const x = q('[data-x]'); if (x) { toggle(x.dataset.x); return } })
     document.addEventListener('change', (e) => { const t = e.target.closest('[data-tier]'); if (t) { const n = +t.dataset.tier; t.checked ? CFG.tiers.add(n) : CFG.tiers.delete(n); render() } })
     document.addEventListener('input', (e) => { if (e.target.matches('[data-team]')) { CFG.team = e.target.value; CFG.focus = true; render(); CFG.focus = false } })
-    document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches && e.target.matches('.t2-r, .t2-c')) e.target.click() })
+    document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches && e.target.matches('.t2-r, .t2-c, .t7-r, .t6-p')) e.target.click() })
     window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }),
       axes: () => [{ key: 'view', name: 'Вид', value: CFG.view, options: [{ v: 'desk', label: 'Компьютер 1440' }, { v: 'phone', label: 'Телефон 390' }] },
         { key: 'state', name: 'Состояние', value: CFG.state, options: [{ v: 'ok', label: 'Обычный' }, { v: 'empty', label: 'Турниров нет' }, { v: 'offline', label: 'Нет сети' }, { v: 'skel', label: 'Загрузка' }] }],
