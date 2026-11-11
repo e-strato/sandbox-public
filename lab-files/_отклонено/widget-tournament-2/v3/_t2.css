@@ -1,0 +1,106 @@
+/* Шаг 2 виджета турнира: форматы и открытый матч. Поверх ../widget-tournament/_w.css, отступы кратны 4. */
+.w-scroll{ position:relative; } /* для прокрутки к открытому матчу */
+.t2-st__m{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Команды открытого матча: своя точка-цвет у каждой — и в карточке, и в таблице/сетке */
+.t2-dot{ width:8px; height:8px; flex:none; border-radius:50%; margin-left:4px; }
+.t2-dot--a{ background:var(--w-a); } .t2-dot--b{ background:var(--w-b); }
+.w-tbl tr.t2-row td{ font-weight:600; background:var(--w-muted); }
+.w-tbl tr.t2-row td:first-child{ border-radius:6px 0 0 6px; } .w-tbl tr.t2-row td:last-child{ border-radius:0 6px 6px 0; }
+
+/* Карточка открытого матча под шапкой */
+.t2-mc{ flex:none; padding:8px 16px 12px; border-bottom:1px solid var(--w-border); }
+.t2-mc__cap{ display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:12px; line-height:16px; color:var(--w-muted-fg); }
+.t2-mc__r{ display:flex; align-items:center; gap:8px; height:28px; font-size:13px; }
+.t2-mc__r .t2-dot{ margin-left:0; }
+.t2-mc__r b{ font-weight:600; white-space:nowrap; }
+.t2-mc__r span:last-child{ margin-left:auto; color:var(--w-muted-fg); white-space:nowrap; }
+
+/* «Что на кону» (v4–v7) */
+.t2-sk{ margin:0 0 4px 16px; font-size:12px; line-height:16px; }
+.t2-sk--risk{ color:var(--w-down-fg); } .t2-sk--safe{ color:var(--w-up-fg); } .t2-sk--mid{ color:var(--w-muted-fg); }
+.t2-wl{ display:flex; flex-direction:column; margin:0 0 4px 16px; font-size:12px; line-height:16px; }
+.t2-wl__w{ color:var(--w-muted-fg); }
+.t2-wl__l--risk{ color:var(--w-down-fg); } .t2-wl__l--safe{ color:var(--w-up-fg); } .t2-wl__l--mid{ color:var(--w-muted-fg); }
+.t2-mc__r .t2-tag{ margin-left:auto; height:20px; padding:0 8px; border-radius:999px; font-size:12px; line-height:20px; font-weight:500; }
+.t2-mc__r .t2-tag--risk{ background:var(--w-down-bg); color:var(--w-down-fg); } .t2-mc__r .t2-tag--safe{ background:var(--w-up-bg); color:var(--w-up-fg); } .t2-mc__r .t2-tag--mid{ background:var(--w-muted); color:var(--w-fg); }
+.t2-head{ margin:4px 0 8px; font-size:14px; line-height:20px; font-weight:600; }
+.t2-head--risk{ color:var(--w-down-fg); } .t2-head--safe{ color:var(--w-up-fg); }
+
+/* Швейцарка таблицей: зелёные строки — уже в плей-офф, красные — вылет */
+.t2-sw td:last-child{ width:64px; font-size:12px; color:var(--w-muted-fg); }
+.t2-sw tr.t2-z--up td{ background:var(--w-up-bg); } .t2-sw tr.t2-z--up td:last-child{ color:var(--w-up-fg); }
+.t2-sw tr.t2-z--down td{ background:var(--w-down-bg); } .t2-sw tr.t2-z--down td:last-child{ color:var(--w-down-fg); }
+
+/* Сетка одним полотном: колонки раундов общие для верхней и нижней ветки, листаются вбок вместе */
+.t2-brw{ margin:0 -16px; padding:0 16px 8px; overflow-x:auto; scrollbar-width:thin; scrollbar-color:var(--w-ring) transparent; }
+.t2-brin{ display:grid; grid-template-columns:repeat(3, 168px); gap:4px 16px; width:max-content; }
+.t2-side{ grid-column:1 / -1; position:sticky; left:0; width:max-content; margin:12px 0 4px; font-size:13px; font-weight:600; }
+.t2-side:first-child{ margin-top:0; }
+.t2-col{ display:flex; flex-direction:column; gap:4px; }
+.t2-col__ms{ flex:1; display:flex; flex-direction:column; justify-content:space-around; gap:8px; }
+.w-br__l > span:not(.w-logo):not(.t2-dot){ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.w-br__l .t2-dot{ margin-left:0; }
+.t2-hl{ font-weight:600; background:var(--w-muted); }
+.t2-when{ padding:4px 8px; border-top:1px solid var(--w-border); font-size:12px; line-height:16px; color:var(--w-muted-fg); }
+
+/* Клик по команде — ближайший матч панелью внизу (v9–v12 — как виден выбор) */
+.t2-tap [data-team]{ cursor:pointer; }
+.t2-tap tr[data-team]:hover td, .t2-tap .w-br__l[data-team]:hover{ background:var(--w-mid-bg); }
+.t2-nx{ flex:none; padding:8px 16px 12px; border-top:1px solid var(--w-border); background:var(--w-mid-bg); }
+.t2-nx__top{ display:flex; align-items:center; gap:8px; height:28px; }
+.t2-nx__top b{ font-weight:600; }
+.t2-nx__top .t2-dot{ margin-left:0; }
+.w .t2-nx__x{ display:grid; place-items:center; width:24px; height:24px; margin-left:auto; border-radius:6px; color:var(--w-muted-fg); }
+.w .t2-nx__x:hover{ background:var(--w-muted); color:var(--w-fg); }
+.t2-nx__w{ display:flex; align-items:center; gap:8px; font-size:13px; line-height:20px; }
+.t2-nx__w b{ font-weight:600; }
+.t2-one{ margin-top:16px; zoom:2; }
+/* v9: выбранная строка и панель — одним синим цветом */
+.w.t2-tap--9 .w-tbl tr.sel td, .w.t2-tap--9 .w-br__l.sel{ background:var(--w-a-bg); color:var(--w-a-fg); }
+.t2-tap--9 .t2-nx{ background:var(--w-a-bg); border-top-color:var(--w-a); }
+/* v10: выбранная строка в синей рамке, у панели синяя полоса сверху */
+.t2-tap--10 tr.sel td{ box-shadow:inset 0 1px var(--w-a), inset 0 -1px var(--w-a); }
+.t2-tap--10 tr.sel td:first-child{ box-shadow:inset 1px 0 var(--w-a), inset 0 1px var(--w-a), inset 0 -1px var(--w-a); }
+.t2-tap--10 tr.sel td:last-child{ box-shadow:inset -1px 0 var(--w-a), inset 0 1px var(--w-a), inset 0 -1px var(--w-a); }
+.t2-tap--10 .w-br__l.sel{ box-shadow:inset 0 0 0 1px var(--w-a); border-radius:6px; }
+.t2-tap--10 .t2-nx{ border-top:2px solid var(--w-a); }
+/* v11: остальные команды гаснут */
+.t2-tap--11.has-pick tr[data-team]:not(.sel) td, .t2-tap--11.has-pick .w-br__l:not(.sel){ opacity:.3; }
+.t2-tap--11.has-pick tr.sel td{ background:var(--w-muted); }
+/* v12: у каждой строки «›» — видно, что можно нажать; выбранная — белая */
+.t2-tap--12 tr[data-team] td:last-child::after, .t2-tap--12 .w-br__l[data-team]::after{ content:'›'; margin-left:8px; color:var(--w-ring); }
+.w.t2-tap--12 .w-tbl tr.sel td, .w.t2-tap--12 .w-br__l.sel, .w.t2-tap--12 .w-tbl tr.sel td *{ background:var(--w-fg); color:var(--w-bg); }
+.t2-tap--12 tr.sel td:last-child::after, .t2-tap--12 .w-br__l.sel::after{ color:var(--w-bg); }
+.w.t2-tap--12 tr.sel .w-logo, .w.t2-tap--12 .w-br__l.sel .w-logo{ background:var(--w-bg); color:var(--w-fg); }
+
+/* v13–v16: метки «кто где» в таблице */
+.t2-mk{ display:inline-block; width:6px; height:6px; margin-right:6px; border-radius:50%; vertical-align:1px; background:var(--w-ring); }
+.t2-mk--up{ background:var(--w-up); } .t2-mk--down, .t2-mk--out{ background:var(--w-down); }
+.t2-ar{ display:inline-block; width:12px; font-weight:700; }
+.t2-ar--up{ color:var(--w-up); } .t2-ar--down, .t2-ar--out{ color:var(--w-down); }
+.t2-tg{ margin-left:auto; padding:0 6px; border-radius:999px; font-size:11px; line-height:16px; font-weight:500; white-space:nowrap; }
+.w-tbl .w-team{ min-width:0; }
+.t2-nm{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.t2-tg--up{ background:var(--w-up-bg); color:var(--w-up-fg); } .t2-tg--down, .t2-tg--out{ background:var(--w-down-bg); color:var(--w-down-fg); }
+.w-tbl tr.t2-zn--up td{ background:var(--w-up-bg); } .w-tbl tr.t2-zn--down td, .w-tbl tr.t2-zn--out td{ background:var(--w-down-bg); }
+.t2-hot{ font-size:12px; }
+.t2-lg{ display:flex; flex-wrap:wrap; gap:4px 12px; margin-top:8px; font-size:12px; line-height:16px; color:var(--w-muted-fg); }
+.t2-lg span{ display:inline-flex; align-items:center; gap:4px; }
+.t2-lg .t2-mk{ margin:0; }
+.t2-sq{ width:10px; height:10px; border-radius:2px; display:inline-block; }
+.t2-sq.t2-zn--up{ background:var(--w-up-bg); box-shadow:inset 0 0 0 1px var(--w-up); } .t2-sq.t2-zn--down{ background:var(--w-down-bg); box-shadow:inset 0 0 0 1px var(--w-down); }
+/* v13–v16: панель «как повлияет» */
+.t2-ch{ display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.t2-ch span{ padding:2px 8px; border-radius:999px; font-size:12px; line-height:16px; }
+.t2-ch__w{ background:var(--w-muted); color:var(--w-fg); }
+.t2-ch__l--risk{ background:var(--w-down-bg); color:var(--w-down-fg); } .t2-ch__l--safe{ background:var(--w-up-bg); color:var(--w-up-fg); } .t2-ch__l--mid{ background:var(--w-muted); color:var(--w-muted-fg); }
+.t2-head--mid{ color:var(--w-fg); }
+.t2-rk{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:8px; }
+.t2-rk div{ display:flex; flex-direction:column; }
+.t2-rk b{ font-size:14px; line-height:20px; font-weight:600; }
+.t2-rk--up{ color:var(--w-up-fg); } .t2-rk--risk{ color:var(--w-down-fg); } .t2-rk--safe{ color:var(--w-up-fg); }
+
+/* Доска: два виджета рядом в 2× */
+.t2-pair{ display:flex; gap:16px; margin-top:16px; zoom:2; }
+.t2-cap{ margin-bottom:8px; font-size:12px; line-height:16px; color:var(--w-muted-fg); }

@@ -1,0 +1,47 @@
+/* Набор 4 · Вики — как Liquipedia: светлая тема, строгая сетка, таблицы с границами и полосками, инфобокс с тёмной шапкой,
+   синие ссылки, почти без скруглений. Шрифт — IBM Plex Sans, цифры — IBM Plex Mono */
+body.t-wiki {
+  --s-page: #e9edf2; --s-bg: #f3f5f8; --s-panel: #ffffff; --s-panel-2: #eef1f5; --s-line: #d5dbe4; --s-line-2: #e4e8ee;
+  --s-text: #18202d; --s-muted: #5d6779; --s-accent: #1f5fd6; --s-accent-soft: #1f5fd614; --s-on-accent: #ffffff;
+  --s-live: #d6283b; --s-coin: #b7860b; --s-win: #1a8f52; --s-lose: #c23b3b; --s-track: #e1e6ee; --s-shadow: #8a96a8;
+  --s-team-a: #1f5fd6; --s-team-b: #e07b22; --s-hd-bg: #1c2b45; --s-hd-h: 52px;
+  --s-medal: linear-gradient(145deg, #f6c79c, #b06d3a 55%, #5b2f14); --s-medal-ink: #2a1408;
+  --s-gold: #e8b93b; --s-silver: #c3ccd8; --s-bronze: #d08a55;
+  --s-font: 'IBM Plex Sans', system-ui, sans-serif; --s-font-h: 'IBM Plex Sans', system-ui, sans-serif; --s-font-num: 'IBM Plex Mono', monospace; --s-fs: 14px;
+  --s-r: 3px; --s-r-s: 3px; --s-r-btn: 3px; --s-r-pill: 3px; --s-pad: 16px; --s-gap: 14px; --s-row-pad: 9px;
+  --s-h3: 15px; --s-h3-w: 700; --s-h1: 34px; --s-h1-w: 700; --s-track-h1: -.01em; --s-nick-w: 700; --s-num-w: 600; --s-score-w: 700; --s-team-w: 600;
+  --s-panel-edge: inset 0 0 0 1px #d5dbe4; --s-info-h: #1c2b45;
+}
+/* Шапка — тёмная полоса, как навигация вики */
+.t-wiki .a-hd { color: #e9eef7; border: 0; }
+.t-wiki .a-hd .a-nav a { color: #b8c4d8; } .t-wiki .a-hd .a-nav a[aria-current] { background: #ffffff1a; color: #fff; }
+.t-wiki .a-hd .a-coins, .t-wiki .a-hd .a-seg { background: #ffffff14; color: #fff; } .t-wiki .a-hd .a-seg button { color: #b8c4d8; }
+.t-wiki .a-hd .a-seg button[aria-pressed='true'] { background: #ffffff26; color: #fff; box-shadow: none; }
+.t-wiki .a-hd .a-brand b { color: #8db4ff; } .t-wiki .a-hd .a-hd__note { color: #b8c4d8; border-color: #ffffff22; } .t-wiki .a-hd .a-link { color: #8db4ff; }
+/* Шапка панели — серая полоса во всю ширину, как у таблиц вики */
+.t-wiki .a-panel > .a-ph { margin: calc(var(--s-pad) * -1) calc(var(--s-pad) * -1) 12px; padding: 9px var(--s-pad); background: var(--s-panel-2); border-bottom: 1px solid var(--s-line); }
+.t-wiki .a-link { text-decoration: underline; text-underline-offset: 2px; font-weight: 400; }
+.t-wiki .a-mr:nth-of-type(even), .t-wiki .a-tbl__r:nth-child(even), .t-wiki .a-info__r:nth-child(odd) { background: #f7f9fb; }
+.t-wiki .a-mr, .t-wiki .a-tbl__r { padding-left: 8px; padding-right: 8px; }
+.t-wiki .a-tour { background: #eef1f5; padding: 7px 8px; margin: 0; }
+.t-wiki .a-info__h { color: #fff; justify-content: center; }
+.t-wiki .a-info__r small { font-weight: 600; color: var(--s-text); }
+.t-wiki .a-chips button[aria-pressed='true'] { background: var(--s-accent); color: #fff; }
+.t-wiki .a-dot { box-shadow: none; }
+.t-wiki .a-ob__main { background: var(--s-panel); box-shadow: var(--s-panel-edge); }
+.t-wiki .a-plh { background: #ffffff; }
+.t-wiki .a-plh__card { padding: 14px; border-radius: 3px; background: #1c2b45; }
+.t-wiki .a-road::before { background: var(--s-line); }
+.t-wiki .a-fact b { color: var(--s-accent); }
+.t-wiki .a-quote { border-left: 0; background: #f3f6fa; box-shadow: inset 0 0 0 1px var(--s-line); }
+.t-wiki .a-chest { background: #1c2b45; color: #e9eef7; } .t-wiki .a-chest__c small { color: #b8c4d8; }
+.t-wiki .a-chest .a-tag--q { background: #ffffff1a; color: #d9e2f0; }
+/* Поп-ап сундука — тёмная вставка, как сундук в онбординге */
+.t-wiki .a-modal { --s-modal-bg: #1c2b45; color: #e9eef7; } .t-wiki .a-modal .a-muted, .t-wiki .a-open__c small { color: #b8c4d8; }
+.t-wiki .a-modal .a-btn:not(.a-btn--pri) { background: #ffffff14; color: #fff; box-shadow: inset 0 0 0 1px #ffffff26; }
+.t-wiki .a-modal__foot { border-color: #ffffff22; }
+/* Белые логотипы команд (Spirit, Tundra, Gaimin, Liquid) на светлом не видны — подложка тёмной плашкой */
+.t-wiki .a-panel .a-logo:not(.a-logo--mono), .t-wiki .a-teamt .a-logo { padding: 3px; border-radius: 3px; background: #1c2b45; }
+.t-wiki .a-road__dot { background: #1c2b45; }
+.t-wiki .a-chest .a-tag:not(.a-tag--q) { background: #8db4ff26; color: #8db4ff; }
+.t-wiki .l4-tm .a-logo:not(.a-logo--mono) { padding: 3px; border-radius: 3px; background: #1c2b45; }

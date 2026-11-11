@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v7 · Клик по таблице</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@500;600&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="../widget-tournament-5/_t5.css" /><link rel="stylesheet" href="../widgets-unified/_type.css" /><link rel="stylesheet" href="../widgets-unified/_cons.css" /><link rel="stylesheet" href="../widget-tournament-6/_t6.css" /><link rel="stylesheet" href="../widgets-23/_uni.css" /><link rel="stylesheet" href="_wx.css" />
+</head>
+<!-- v7-row — как «Раскрытая строка матча»: клик по любой строке раскрывает и сворачивает, стрелка в шапке поворачивается (дирижёр 29.10). Пример — турнир матча Vision — Spirit со страницы матча (gs-match-2 v29), под ним — места соседних виджетов. Код — _wx.js -->
+<body class="uni"><div class="wx-page">
+  <div class="wx-col"><div class="wx-lbl">Правая колонка · компьютер</div><div id="t"></div><div class="wx-ph" style="height:340px">MVP матча</div><div class="wx-ph" style="height:52px">Взять в фэнтези</div></div>
+</div>
+<script>window.WX = 'row'</script>
+<script src="../gs-match/data/_matches.js"></script><script src="../gs-match/data/_tournament.js"></script>
+<script src="../widget-tournament-4/_data.js"></script><script src="../widget-tournament-5/_logos.js"></script><script src="../widget-tournament-5/_demo.js"></script>
+<script src="../gs-match/_wfit.js"></script><script src="../widgets-unified/_cons.js"></script><script src="../widget-tournament-6/_t6.js"></script><script src="_wx.js"></script>
+<script>Object.values(T4.data.teams).forEach(t => { if (t.logo && t.logo.startsWith('img/')) t.logo = '../gs-match/' + t.logo }) // лого из данных страницы матча — от её папки
+WXMount(document.getElementById('t'), { match: { a: 'Team Vision', b: 'Team Spirit' }, opt: { v3: true, tier: 'fill', tierEn: true, final: 'merge', dt: 'mono' } })</script>
+</body></html>

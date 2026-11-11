@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v5 · Следует за страницей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../кадр.css" /><link rel="stylesheet" href="../../widget-tournament/_w.css" /></head>
+<body><div class="lab-board">
+  <h1>Виджет турнира · v5 · Следует за страницей</h1>
+  <p class="lab-board__lead">Состояние виджета задаёт страница, а не клики внутри него. Ничего не выбрано — турниры по игре. Выбран турнир в фильтре — этот турнир: стадия, день, таблица / швейцарка / сетка. Клик по матчу — обе команды, где стоят и что на кону, под ними та же стадия с подсветкой этих двух. Внутри виджета — только шаг назад стрелкой; ниже — все состояния. Размер 320×400, лишнее скроллится внутри. Данные — примеры по турнирам Dota 2 2026.</p>
+  <div class="lab-live"><div id="live"></div></div>
+  <div class="lab-h2">Все состояния</div>
+  <div class="lab-grid" id="grid"></div>
+</div>
+<script src="../../widget-tournament/_full.js"></script><script src="_tw.js"></script>
+<script>
+  // Живой виджет: строки турниров открывают турнир, стрелка — назад
+  const st = { tour: null, match: null }
+  const draw = () => TW.render(document.getElementById('live'), { tour: st.tour, match: st.match, onpick: (t, m) => { st.tour = t; st.match = m; draw() } })
+  draw()
+  const cells = [
+    ['1 · Ничего не выбрано — турниры по игре', {}],
+    ['2 · Турнир, группы', { tour: 'epl' }], ['2 · Турнир, швейцарка', { tour: 'pgl' }], ['2 · Турнир, сетка', { tour: 'ti' }],
+    ['2 · Турнир ещё не начался', { tour: 'pari' }], ['2 · Турнир прошёл', { tour: 'blast8' }],
+    ['3 · Матч, группы — команда на грани', { match: 'lnx-pr' }], ['3 · Матч, группы — лидер группы', { match: 'hul-sal' }],
+    ['3 · Матч, швейцарка — победа = плей-офф, поражение = вылет', { match: 'spr-ngx' }], ['3 · Матч, швейцарка — обе уже прошли', { match: 'ydx-pv' }],
+    ['3 · Матч, сетка — по верху без поражений', { match: 'pv-ydx' }], ['3 · Матч, сетка — нижняя, проигрыш = вылет', { match: 'bb-spr' }],
+  ]
+  document.getElementById('grid').innerHTML = cells.map((c, i) => `<div><div class="lab-cell__t">${c[0]}</div><div id="c${i}"></div></div>`).join('')
+  cells.forEach((c, i) => TW.render(document.getElementById('c' + i), c[1]))
+</script>
+</body></html>

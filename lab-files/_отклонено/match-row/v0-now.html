@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_row.css" />
+<style>
+.v0-in { display: grid; grid-template-columns: 104px minmax(0, 1fr) 96px; align-items: center; gap: 14px; min-height: 58px; padding: 8px 14px; cursor: pointer; }
+.r-row.is-open .v0-in { background: var(--c-ui-item); }
+.v0-tm { display: grid; grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr); align-items: center; gap: 10px; }
+.v0-s { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 15px; font-weight: 500; }
+.v0-s--a { justify-content: flex-end; } .v0-s--a .r-nm { order: 1; } .v0-s--a .r-lg { order: 2; } .v0-s--a em { order: 3; }
+.v0-s em { font: 700 22px var(--font-c); font-style: normal; } .v0-s.is-lose { color: var(--c-caption); font-weight: 400; } .v0-s.is-win { font-weight: 700; }
+.r-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v0-mid { text-align: center; color: var(--c-ui-dim); font: 600 13px var(--font-c); }
+.v0-r { display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: var(--c-ui-dim); }
+.v0-note { padding: 0 14px 10px 132px; }
+.v0-qv { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "tabs ft" "body body"; align-items: center; gap: 12px; padding: 0 14px 14px 132px; background: var(--c-ui-item); }
+.v0-tabs { grid-area: tabs; display: flex; gap: 4px; } .v0-ft { grid-area: ft; display: flex; gap: 8px; } .v0-body { grid-area: body; }
+.v0-tabs button { border: 0; padding: 6px 12px; border-radius: 6px; background: none; color: var(--c-ui-dim); font-weight: 600; font-size: 13px; }
+.v0-tabs button[aria-selected='true'] { background: var(--c-ui-panel); color: var(--c-accent); }
+@container row (max-width: 600px) {
+  .v0-in { grid-template-columns: 58px minmax(0, 1fr) auto; gap: 10px; padding: 8px 10px; }
+  .v0-tm { grid-template-columns: minmax(0, 1fr); gap: 4px; } .v0-mid { display: none; }
+  .v0-s, .v0-s--a { justify-content: flex-start; font-size: 14px; gap: 8px; }
+  .v0-s .r-lg { order: 1 !important; width: 18px; height: 18px; } .v0-s .r-nm { order: 2 !important; flex: 1; } .v0-s em { order: 3 !important; font-size: 18px; }
+  .v0-r .r-bo, .v0-r .chev { display: none; } .r-st b { font-size: 15px; } .r-st small { white-space: normal; font-size: 10.5px; }
+  .v0-note { padding: 0 10px 10px 78px; }
+  .v0-qv { grid-template-columns: minmax(0, 1fr); grid-template-areas: "tabs" "body" "ft"; padding: 0 10px 12px; } .v0-ft .r-btn { flex: 1; }
+  .v0-tabs { overflow-x: auto; } .v0-tabs button { flex: none; }
+}
+</style></head>
+<body><main class="r-page">
+  <h1>v0 · Как сейчас на сайте</h1>
+  <p>Точка отсчёта — строка Match Center как она есть: время слева, команды в одну линию к центру, справа Bo3 · ★ · стрелка. Открыта — вкладки под командами, кнопки справа, блок ниже.</p>
+  <div class="r-tools"><div class="r-seg" data-states></div><div class="r-seg"><button type="button" data-open="0">Закрыта</button><button type="button" data-open="1">Открыта</button></div></div>
+  <div class="r-frames">
+    <div><p class="r-cap">Колонка матчей · 1000 — клик по строке открывает и закрывает</p><div class="r-frame r-frame--col" data-row></div></div>
+    <div><p class="r-cap">Телефон · 390</p><div class="r-frame r-frame--phone" data-row></div></div>
+  </div>
+</main>
+<script>
+// Общее для вариантов: счёт и победитель, вкладки и панели
+window.ROW = {}
+const счёт = (m, k) => m.sa == null || m.скрыт ? '' : m['s' + k]
+const исход = (m, k) => m.st === 'done' && !m.скрыт ? ((k === 'a' ? m.sa > m.sb : m.sb > m.sa) ? 'is-win' : 'is-lose') : ''
+const вкладки = t => t.map(([n], i) => `<button type="button" data-tab="${i}" aria-selected="${i === 0}">${n}</button>`).join('')
+const панели = t => t.map(([, b], i) => `<div class="r-pane" data-pane="${i}" ${i ? 'hidden' : ''}>${b}</div>`).join('')
+const стат = (m, h) => { const [a, b, c] = h.статус(m.вид, m); return `<div class="r-st ${c ? 'is-' + c : ''}"><b>${c === 'live' ? '<i class="r-dot"></i>' : ''}${a}</b><small>${b}</small></div>` }
+const заметка = m => m.заметка && ['delay', 'moved', 'pause', 'cancel'].includes(m.вид) ? m.заметка : ''
+ROW.вариант = (m, open, h) => {
+  const с = k => `<span class="v0-s v0-s--${k} ${исход(m, k)}">${h.лого(m[k])}<span class="r-nm">${h.имя(m[k])}</span>${счёт(m, k) !== '' ? `<em>${счёт(m, k)}</em>` : ''}</span>`
+  const [t, кн] = h.кусочки(m.вид, m)
+  return `<article class="r-row ${open ? 'is-open' : ''} ${m.вид === 'cancel' ? 'r-off' : ''}">
+    <div class="v0-in" data-toggle>${стат(m, h)}<div class="v0-tm">${с('a')}<span class="v0-mid">${m.скрыт ? 'скрыт' : m.sa == null ? 'vs' : ':'}</span>${с('b')}</div>
+      <div class="v0-r"><span class="r-bo">${m.bo}</span><button class="r-fav ${m.fav ? 'is-on' : ''}" type="button">${m.fav ? '★' : '☆'}</button><span class="chev">${open ? '⌃' : m.вид === 'cancel' ? '' : '⌄'}</span></div></div>
+    ${!open && заметка(m) ? `<p class="r-note v0-note">${заметка(m)}</p>` : ''}
+    ${open ? `<div class="v0-qv"><div class="v0-tabs">${вкладки(t)}</div><div class="v0-ft">${h.кнопки(кн)}</div><div class="v0-body">${панели(t)}</div></div>` : ''}
+  </article>`
+}
+</script>
+<script src="_row.js"></script>
+</body></html>

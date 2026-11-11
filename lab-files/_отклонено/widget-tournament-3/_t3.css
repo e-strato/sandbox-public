@@ -1,0 +1,32 @@
+/* Шаг 3 виджета турнира: итог прошедшего турнира, рейтинг и форма в строке. Поверх ../widget-tournament/_w.css и ../widget-tournament-2/_t2.css. */
+/* Рейтинг и форма */
+.t3-rk{ flex:none; margin-left:6px; font-size:12px; color:var(--w-muted-fg); font-variant-numeric:tabular-nums; }
+.t3-fm{ display:inline-flex; gap:2px; vertical-align:middle; }
+.t3-fm i{ width:4px; height:12px; border-radius:1px; background:var(--w-ring); }
+.t3-fm i.W{ background:var(--w-up); } .t3-fm i.L{ background:var(--w-down); opacity:.75; }
+.w-tbl.t3-tbl td, .w-tbl.t3-tbl th{ white-space:nowrap; } /* узкие колонки — без переносов, имя обрезается */
+.w-tbl.t3-tbl td.t3-td{ width:36px; font-size:12px; color:var(--w-muted-fg); }
+.w-tbl.t3-tbl .w-team{ overflow:hidden; }
+/* ширины колонок фиксированы — таблица не вылезает за 320, название обрезается */
+.w-tbl.t3-tbl{ table-layout:fixed; }
+.w-tbl.t3-tbl th:nth-child(1){ width:32px; }
+.w-tbl.t3-tbl th:nth-last-child(1), .w-tbl.t3-tbl th:nth-last-child(2){ width:36px; }
+.w-tbl.t3-tbl--inline th:nth-child(3), .w-tbl.t3-tbl--col th:nth-child(3){ width:36px; }
+.w-tbl.t3-pl th:nth-last-child(1){ width:72px; }
+.w-tbl.t3-pl th:nth-child(1){ width:36px; }
+.t3-two{ display:flex; flex-direction:column; min-width:0; }
+.t3-two__n{ display:flex; align-items:center; min-width:0; }
+.t3-sub{ font-size:11px; line-height:14px; color:var(--w-muted-fg); white-space:nowrap; }
+.t3-l{ font-weight:600; margin-left:2px; }
+.t3-l--W{ color:var(--w-up-fg); } .t3-l--L{ color:var(--w-down-fg); }
+.w-tbl.t3-tbl--sub td{ height:44px; }
+/* Итог прошедшего турнира */
+.t3-win{ display:flex; align-items:center; gap:12px; padding:12px; margin-bottom:12px; border-radius:var(--w-r-sm); background:var(--w-muted); }
+.t3-win__cup{ font-size:20px; }
+.t3-win > span:nth-child(2){ display:flex; flex-direction:column; min-width:0; }
+.t3-win b{ font-weight:600; }
+.t3-win__p{ margin-left:auto; color:var(--w-up-fg); }
+.w-tbl.t3-pl td:first-child{ width:40px; }
+.w-tbl.t3-pl td:last-child{ width:72px; }
+.t3-nx{ color:var(--w-fg); font-weight:600; }
+.t2-p--anchor .t3-cf{ margin-top:12px; }

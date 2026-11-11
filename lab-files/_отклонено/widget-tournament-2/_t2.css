@@ -1,0 +1,26 @@
+/* Шаг 2 виджета турнира: форматы и открытый матч. Поверх ../widget-tournament/_w.css, отступы кратны 4. */
+.w-scroll{ position:relative; } /* для прокрутки к открытому матчу */
+.t2-match b{ font-weight:600; }
+.t2-st__m{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* Швейцарка: группа по счёту, под ней команды */
+.t2-rec{ display:flex; align-items:center; gap:8px; height:28px; margin-top:12px; padding:0 8px; border-radius:6px; background:var(--w-mid-bg); font-size:13px; }
+.t2-rec:first-child{ margin-top:0; }
+.t2-rec b{ font-weight:600; font-variant-numeric:tabular-nums; }
+.t2-rec span{ margin-left:auto; font-size:12px; color:var(--w-muted-fg); }
+.t2-rec--up{ background:var(--w-up-bg); } .t2-rec--up span{ color:var(--w-up-fg); }
+.t2-rec--down{ background:var(--w-down-bg); } .t2-rec--down span{ color:var(--w-down-fg); }
+.t2-team{ display:flex; align-items:center; gap:8px; height:32px; padding:0 8px; font-size:13px; }
+.t2-team + .t2-team{ border-top:1px solid var(--w-border); }
+.t2-team .w-logo{ width:20px; height:20px; font-size:8px; border-radius:5px; }
+.t2-team.is-hl{ background:var(--w-muted); font-weight:600; }
+/* Сетка */
+.t2-side{ margin:16px 0 4px; font-size:13px; font-weight:600; }
+.t2-side:first-child{ margin-top:0; }
+.t2-round{ margin:8px 0 4px; }
+.w-br__m + .w-br__m{ margin-top:8px; }
+.w-br__l > span:not(.w-logo){ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.t2-hl{ font-weight:600; background:var(--w-muted); }
+.t2-when{ padding:4px 8px; border-top:1px solid var(--w-border); font-size:12px; line-height:16px; color:var(--w-muted-fg); }
+/* Доска: два виджета рядом в 2× */
+.t2-pair{ display:flex; gap:16px; margin-top:16px; zoom:2; }
+.t2-cap{ margin-bottom:8px; font-size:12px; line-height:16px; color:var(--w-muted-fg); }

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v4 · Грань — коллекционная, как кристалл: гранёная форма, металлическая рамка с фаской, голова выходит за рамку, герои в ромбах.
+   Правки 01.10: рейтинг — цифра в металлическом бейдже рядом с игроком; шрифт заменён на Roboto Flex (Geologica не зашёл), прямой, без курсива;
+   статы резкие, плотные; команда бейджем снизу; оборот свой */
+/* Заход 4 (01.10): форма щита, как у футбольных карт — верх ровный, низ острым углом. Внутри — прямые плашки без срезов и скруглений;
+   команда — под чертой у нижнего угла, без язычка */
+.c4 { --r: 0; --shape: polygon(.8em 0, calc(100% - .8em) 0, 100% .8em, 100% calc(100% - 2.4em), 50% 100%, 0 calc(100% - 2.4em), 0 .8em);
+  --f-disp: 'Roboto Flex'; --f-ui: 'Roboto Flex'; }
+.c4__face, .c4 .bk { font-family: 'Roboto Flex', sans-serif; }
+/* Цифры и ник — чуть уже, плотнее */
+.c4__ovr b, .c4__nick, .c4__stats b, .c4 .bk__top em, .c4 .bk__stats b { font-stretch: 80%; }
+.c4__face { position: absolute; inset: 0; }
+.c4__plate { position: absolute; inset: 0; clip-path: var(--shape); background: var(--c-card-ink-2); overflow: hidden; }
+.c4__metal { background: linear-gradient(170deg, var(--tier-hi), var(--tier) 45%, color-mix(in srgb, var(--tier) 70%, var(--tier-2))); color: var(--c-card-dark-text); }
+
+/* 2 Фон: грани кристалла цветом силы, логотип команды выгравирован */
+.c4__bg { position: absolute; inset: 0;
+  background:
+    conic-gradient(from 200deg at 50% 18%, color-mix(in srgb, var(--tier) 16%, transparent) 0 9%, transparent 9% 17%, color-mix(in srgb, var(--tier) 9%, transparent) 17% 27%,
+      transparent 27% 40%, color-mix(in srgb, var(--tier-hi) 10%, transparent) 40% 46%, transparent 46% 60%, color-mix(in srgb, var(--tier) 12%, transparent) 60% 72%, transparent 72%),
+    radial-gradient(70% 45% at 50% 20%, color-mix(in srgb, var(--tier) 30%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 70%, var(--c-card-ink)), var(--c-card-ink) 80%); }
+.c4__eng { position: absolute; inset: 0; filter: drop-shadow(0 .1em 0 color-mix(in srgb, var(--tier-hi) 25%, transparent)); }
+.c4__logo { left: 2em; top: 2.6em; width: 18em; height: 15em; background: color-mix(in srgb, var(--c-card-ink) 55%, transparent); }
+
+/* 3 Рамка: металл с фаской — внешняя полоса градиентом силы, внутренняя тонкая светлая */
+.c4__frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 8; fill: none; }
+.c4__frame .out { stroke-width: 5; }
+.c4__frame .in { stroke: color-mix(in srgb, var(--tier-hi) 55%, transparent); stroke-width: .7; }
+
+/* 4 Эффекты: блеск; с Prism — вспышки на гранях рамки; у Legend — лучи из-за головы */
+.c4__glint { position: absolute; inset: 0; z-index: 9; pointer-events: none;
+  background: radial-gradient(1.4em .2em at 12% .9%, var(--c-white), transparent), radial-gradient(1.4em .2em at 88% 99%, var(--c-white), transparent);
+  animation: pulse 2.6s ease-in-out infinite; }
+.c4__rays { position: absolute; left: 10.8em; top: 4.6em; width: 30em; aspect-ratio: 1; translate: -50% -50%; z-index: 1;
+  background: repeating-conic-gradient(from var(--spin), color-mix(in srgb, var(--tier-hi) 22%, transparent) 0 5deg, transparent 5deg 20deg);
+  -webkit-mask: radial-gradient(closest-side, var(--c-black) 20%, transparent 80%); mask: radial-gradient(closest-side, var(--c-black) 20%, transparent 80%);
+  animation: spin 30s linear infinite; }
+
+/* 5 Фото: голова выходит за рамку сверху (вторая копия портрета без обрезки), туловище срезано, свечение за головой */
+.c4__halo { position: absolute; left: 10.2em; top: 4.6em; width: 13em; aspect-ratio: 1; translate: -50% -50%; z-index: 1; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 65%, transparent), color-mix(in srgb, var(--tier) 25%, transparent) 55%, transparent); }
+.c4 .ph { left: 1.2em; top: -1.4em; width: 17.6em; z-index: 2;
+  -webkit-mask: linear-gradient(180deg, var(--c-black) 64%, transparent 82%); mask: linear-gradient(180deg, var(--c-black) 64%, transparent 82%); }
+.c4 .ph.c4__pop { z-index: 10; -webkit-mask: none; mask: none; clip-path: inset(0 0 79% 0); }
+.c4 .ph--sil.c4__pop { display: none; }
+
+/* 6 Игрок */
+.c4__who { position: absolute; left: 1.4em; right: 1.4em; top: 19.2em; z-index: 6; text-align: center; }
+.c4__nick { font-weight: 900; font-size: 2.8em; line-height: 1; letter-spacing: -.02em;
+  background: linear-gradient(180deg, var(--c-white) 40%, var(--tier-hi)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.c4__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .4em; font-weight: 500; font-size: .85em; color: color-mix(in srgb, var(--c-white) 72%, transparent); }
+
+/* 7 Раскладка: рейтинг цифрой в металлическом бейдже рядом с игроком, под ним герои в ромбах, номер карты слева сверху */
+.c4__ovr { position: absolute; right: 1.3em; top: 1.3em; z-index: 11; display: grid; place-content: center; width: 4.6em; height: 4em;
+  box-shadow: 0 .4em 1em color-mix(in srgb, var(--c-black) 50%, transparent); }
+.c4__ovr b { font-weight: 900; font-size: 2.7em; line-height: 1; letter-spacing: -.04em; }
+.c4__heroes { position: absolute; right: 1.55em; top: 6.1em; z-index: 7; display: grid; gap: .35em; justify-items: center; }
+.c4__heroes div { display: grid; justify-items: center; gap: .1em; }
+.c4__dia { width: 3.2em; aspect-ratio: 1; padding: .14em; background: linear-gradient(135deg, var(--tier-hi), var(--tier) 50%, var(--tier-2));
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.c4__dia .hero-ic { width: 100%; height: 100%; aspect-ratio: auto; clip-path: inherit; }
+.c4__heroes small { font-size: .58em; font-weight: 700; white-space: nowrap; }
+.c4__heroes small i { font-style: normal; color: var(--tier-hi); }
+.c4__serial { position: absolute; left: 1.7em; top: 3.2em; z-index: 7; line-height: 1.25; }
+.c4__serial b { display: block; font-size: .78em; font-weight: 800; color: var(--tier-hi); }
+.c4__serial small { display: block; font-size: .56em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Инфо: роль металлической полосой, статы плитками 3×2, команда у нижнего угла */
+.c4__role { position: absolute; left: 1.5em; right: 1.5em; top: 16.9em; z-index: 7; padding: .4em 0; text-align: center; white-space: nowrap; font-size: 1em; font-weight: 800; }
+.c4__stats { position: absolute; left: 1.5em; right: 1.5em; top: 23.4em; z-index: 6; display: grid; grid-template-columns: repeat(3, 1fr); gap: .35em; }
+.c4__stats span { display: flex; justify-content: space-between; align-items: center; padding: .3em .55em .3em .7em;
+  background: color-mix(in srgb, var(--tier) 13%, var(--c-card-ink)); }
+.c4__stats small { font-size: .55em; font-weight: 600; color: var(--c-muted); }
+.c4__stats b { font-size: 1.25em; font-weight: 900; line-height: 1; letter-spacing: -.02em; }
+/* Команда — плашка в стиле рамки (правка 01.10): металлический кант той же огранки, что низ карты, тёмное поле внутри, сидит на нижней грани */
+/* Команда — у нижнего угла щита под тонкой металлической чертой, без плашки */
+.c4__team { position: absolute; left: 50%; top: 27.75em; translate: -50% 0; z-index: 9; display: flex; flex-direction: column; align-items: center; gap: .4em; }
+.c4__team i { width: 9em; height: .12em; background: linear-gradient(90deg, transparent, var(--tier-hi), transparent); }
+.c4__team span { display: flex; align-items: center; gap: .45em; white-space: nowrap; font-size: .72em; font-weight: 800; color: var(--tier-hi); }
+.c4__team .logo { width: 1.7em; height: 1.7em; }
+
+/* 9 Оборот: та же форма щита и металлическая рамка, рейтинг бейджем, статы плитками, герои ромбами */
+.c4 .bk { box-shadow: none; padding: 2em 1.8em 2.2em; gap: .7em;
+  background:
+    conic-gradient(from 200deg at 50% 0%, color-mix(in srgb, var(--tier) 14%, transparent) 0 9%, transparent 9% 20%, color-mix(in srgb, var(--tier) 8%, transparent) 20% 32%, transparent 32%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 65%, var(--c-card-ink)), var(--c-card-ink) 75%); }
+.c4 .bk__top em { display: grid; place-content: center; width: 2.2em; height: 1.8em; font-size: 1.9em; font-weight: 900;
+  background: linear-gradient(170deg, var(--tier-hi), var(--tier) 45%, color-mix(in srgb, var(--tier) 70%, var(--tier-2))); color: var(--c-card-dark-text); }
+.c4 .bk__top b { font-weight: 900; }
+.c4 .bk__stats { gap: .35em; }
+.c4 .bk__stats li { grid-template-columns: 1fr auto; padding: .4em .6em; background: color-mix(in srgb, var(--tier) 13%, var(--c-card-ink)); }
+.c4 .bk__stats b { font-size: 1.3em; font-weight: 900; line-height: 1; }
+.c4 .bk__stats i { display: none; }
+.c4 .bk__heroes { grid-template-columns: repeat(3, 1fr); }
+.c4 .bk__heroes li { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .2em; }
+.c4 .bk__heroes .hero-ic { width: 3.2em; aspect-ratio: 1; border-radius: 0; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.c4 .bk__heroes em { font-weight: 900; }
+.c4 .bk__form li { border-radius: 0; }
+.c4 .bk__btn { border-radius: 0; margin: auto 1.5em 1.2em;
+  background: linear-gradient(170deg, var(--tier-hi), var(--tier) 45%, color-mix(in srgb, var(--tier) 70%, var(--tier-2))); font-weight: 800; }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v4 · Грань</h2>
+    <p class="sec-lead">Коллекционная, как кристалл. Форма щита, как у футбольных карт, металлическая рамка с фаской, внутри прямые плашки, логотип выгравирован в гранях фона. Голова выходит за рамку.
+      Рейтинг — цифра в металлическом бейдже рядом с игроком. Один шрифт — Roboto Flex, без курсива. Команда — у нижнего угла под чертой. С Prism на гранях рамки вспыхивает свет, у Legend из-за головы идут лучи.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+// У каждой рамки свой градиент: цвет силы берётся из её карты. Рамка одна на лицо и оборот
+let n = 0
+const рамка = () => {
+  const g = `c4g${++n}`
+  return `<svg class="c4__frame" data-l="3" viewBox="0 0 220 308" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" style="stop-color: var(--tier-hi)" /><stop offset=".35" style="stop-color: var(--tier)" />
+      <stop offset=".6" style="stop-color: var(--tier-2)" /><stop offset=".8" style="stop-color: var(--tier-hi)" /><stop offset="1" style="stop-color: var(--tier)" />
+    </linearGradient></defs>
+    <polygon class="out" stroke="url(#${g})" points="8,2.5 212,2.5 217.5,8 217.5,284 110,305.4 2.5,284 2.5,8" />
+    <polygon class="in" points="10,7 210,7 213,10 213,281.5 110,300.3 7,281.5 7,10" />
+  </svg>`
+}
+V3.страница({
+  класс: 'c4',
+  иерархия: [
+    'Щит, как у футбольных карт: верх ровный, низ острым углом. Внутри прямые плашки — без срезов и скруглений.',
+    'Грани кристалла в цвете силы, логотип команды выгравирован за игроком.',
+    'Металл с фаской: широкая полоса градиентом силы и тонкая светлая внутри.',
+    'Блеск редкости. С Prism на гранях рамки вспыхивает свет, у Legend из-за головы медленно идут лучи.',
+    'Голова выходит за верх рамки, туловище срезано лентой, за головой свечение.',
+    'Ник крупно по центру металлическим градиентом, ниже флаг и настоящее имя. Шрифт один — Roboto Flex.',
+    'Рейтинг — цифра в металлическом бейдже рядом с игроком. Под ним три героя в ромбах: матчи и винрейт. Номер карты и сезон — слева сверху.',
+    'Позиция и роль — металлической полосой во всю ширину. Статы плотными цифрами в плитках 3×2, внизу команда — у нижнего угла щита под тонкой металлической чертой.',
+    'Свой оборот: та же огранка и рамка, рейтинг бейджем, статы плитками, герои ромбами, форма, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п, рамка()),
+  лицо: (п, r, h) => `
+<div class="c4__face">
+  <div class="c4__plate" data-l="1">
+    <div class="c4__bg" data-l="2"><span class="c4__eng">${h.маска(п, 'c4__logo')}</span></div>
+    <i class="c4__rays" data-l="4" data-deco="3"></i>
+    <i class="c4__halo" data-l="5"></i>
+    ${h.фото(п)}
+    ${h.блеск(r)}
+  </div>
+  ${рамка()}
+  <i class="c4__glint" data-l="4" data-deco="2"></i>
+  ${h.фото(п, 'c4__pop')}
+  <div class="c4__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="c4__ovr c4__metal" data-l="7"><b>${п.рейтинг}</b></div>
+  <div class="c4__heroes" data-l="7">${п.герои.map((г) => `<div><span class="c4__dia">${h.герой(г)}</span><small>${г[2]} М · <i>${г[3]}%</i></small></div>`).join('')}</div>
+  <span class="c4__role c4__metal" data-l="8">Pos ${п.pos} · ${h.РОЛИ[п.pos]}</span>
+  <div class="c4__who" data-l="6"><div class="c4__nick">${п.ник}</div>${п.имя ? `<div class="c4__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  <div class="c4__stats" data-l="8">${h.статы(п).map((с) => `<span><small>${с.к}</small><b data-v="${с.ур}">${с.v}</b></span>`).join('')}</div>
+  <div class="c4__team" data-l="8"><i></i><span>${h.лого(п)}${h.команда(п)}</span></div>
+</div>`,
+})
+</script>
+</body></html>

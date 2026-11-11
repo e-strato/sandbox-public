@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v11 · Арка — игрок в арочном окне, как в портале. Над аркой в углах — номер карты (слева) и рейтинг (справа), герои висят у правого края арки.
+   Ниже по центру — позиция, ник, статы, внизу команда во всю ширину. Только скругления, без срезов. Шрифт один — Manrope */
+.k11 { --r: 1.2em; --shape: inset(0 round 1.2em); --f-disp: 'Manrope'; --f-ui: 'Manrope'; }
+.k11__face, .k11 .bk { font-family: 'Manrope', sans-serif; }
+.k11__face { position: absolute; inset: 0; }
+.k11__plate { position: absolute; inset: 0; border-radius: var(--r);
+  background: radial-gradient(90% 40% at 50% 100%, color-mix(in srgb, var(--tier) 14%, transparent), transparent 70%), var(--c-card-ink);
+  box-shadow: 0 1.4em 2.6em -1em color-mix(in srgb, var(--c-black) 85%, transparent); }
+
+/* 2 Фон: арочное окно — тёмный цвет силы, логотип команды крупно за игроком */
+.k11__arch { position: absolute; left: 1.2em; right: 1.2em; top: 1.2em; height: 16.6em; overflow: hidden; border-radius: 9.8em 9.8em .7em .7em;
+  background:
+    radial-gradient(70% 55% at 50% 35%, color-mix(in srgb, var(--tier) 34%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 90%, var(--c-card-ink)), color-mix(in srgb, var(--tier-2) 35%, var(--c-card-ink))); }
+.k11__logo { left: 2.3em; top: 2.6em; width: 15em; height: 13em; background: color-mix(in srgb, var(--tier) 22%, transparent); }
+
+/* 3 Рамка: кант по краю карты и тонкое кольцо по арке */
+.k11__edge { position: absolute; inset: 0; z-index: 8; border-radius: var(--r); pointer-events: none; box-shadow: inset 0 0 0 .14em var(--tier); }
+.k11__ring { position: absolute; left: 1.2em; right: 1.2em; top: 1.2em; height: 16.6em; z-index: 5; border-radius: 9.8em 9.8em .7em .7em; pointer-events: none;
+  box-shadow: inset 0 0 0 .1em color-mix(in srgb, var(--tier) 80%, transparent); }
+.k11__ring2 { inset: .55em .55em auto; height: 17.9em; border-radius: 10.45em 10.45em 1.1em 1.1em; box-shadow: 0 0 0 .05em color-mix(in srgb, var(--tier) 35%, transparent); }
+
+/* 4 Эффекты: блеск в арке; с Prism — радужный перелив по кольцу арки; у Legend — лучи из-за головы */
+.k11__holo { position: absolute; inset: 0; z-index: 3; mix-blend-mode: screen; opacity: .25;
+  background: conic-gradient(from var(--spin) at 50% 30%, var(--c-rarity-holo-1), var(--c-rarity-holo-2), var(--c-rarity-holo-3), var(--c-rarity-holo-4), var(--c-rarity-holo-5), var(--c-rarity-holo-1));
+  -webkit-mask: radial-gradient(closest-side at 50% 58%, transparent 80%, var(--c-black)); mask: radial-gradient(closest-side at 50% 58%, transparent 80%, var(--c-black));
+  animation: spin 10s linear infinite; }
+.k11__rays { position: absolute; left: 50%; top: 5.2em; width: 26em; aspect-ratio: 1; translate: -50% -50%;
+  background: repeating-conic-gradient(from var(--spin), color-mix(in srgb, var(--tier-hi) 20%, transparent) 0 5deg, transparent 5deg 20deg);
+  -webkit-mask: radial-gradient(closest-side, var(--c-black) 20%, transparent 80%); mask: radial-gradient(closest-side, var(--c-black) 20%, transparent 80%);
+  animation: spin 30s linear infinite; }
+
+/* 5 Фото: по центру арки, туловище уходит в низ окна, свечение за головой */
+.k11__halo { position: absolute; left: 50%; top: 5.4em; width: 12em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 60%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 55%, transparent); }
+.k11 .ph { left: 1.5em; top: 1.3em; width: 16.6em;
+  -webkit-mask: linear-gradient(180deg, var(--c-black) 70%, transparent 90%); mask: linear-gradient(180deg, var(--c-black) 70%, transparent 90%); }
+
+/* 7 Раскладка: номер карты и рейтинг — в углах над аркой, герои — в воздухе у правого края арки */
+.k11__serial { position: absolute; left: 1.3em; top: 1.2em; z-index: 7; display: grid; line-height: 1.2; }
+.k11__serial b { font-size: .9em; font-weight: 800; color: var(--tier-hi); }
+.k11__serial small { font-size: .6em; font-weight: 600; color: var(--c-muted); }
+.k11__ovr { position: absolute; right: 1em; top: .7em; z-index: 7; }
+.k11__ovr b { font-size: 2.9em; font-weight: 800; line-height: 1; letter-spacing: -.04em; color: var(--c-white); }
+.k11__heroes { position: absolute; right: 2.2em; top: 6.4em; z-index: 7; display: grid; gap: .5em; justify-items: center; }
+.k11__heroes div { display: grid; justify-items: center; gap: .2em; }
+.k11__heroes .hero-ic { width: 2.4em; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 .1em color-mix(in srgb, var(--tier) 70%, transparent), 0 .3em .8em color-mix(in srgb, var(--c-black) 50%, transparent); }
+.k11__heroes small { font-size: .54em; font-weight: 600; white-space: nowrap; color: var(--c-muted); }
+.k11__heroes small b { font-weight: 800; color: var(--c-white); }
+
+/* 8 Позиция — пилюлей на нижнем крае арки: тёмная, с кантом, Pos цветом силы */
+.k11__role { position: absolute; left: 50%; top: 16.9em; translate: -50% 0; z-index: 7; padding: .4em 1.1em; border-radius: 2em; white-space: nowrap;
+  font-size: .95em; font-weight: 700; background: var(--c-card-ink); box-shadow: inset 0 0 0 .1em var(--tier); }
+.k11__role b { font-weight: 800; color: var(--tier-hi); }
+
+/* 6 Игрок */
+.k11__who { position: absolute; left: 1.2em; right: 1.2em; top: 19.5em; z-index: 6; text-align: center; }
+.k11__nick { font-size: 2.5em; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+.k11__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .4em; font-size: .8em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Статы строкой с разделителями, команда — во всю ширину внизу */
+.k11__stats { position: absolute; left: 1.2em; right: 1.2em; top: 23.6em; z-index: 6; display: grid; grid-template-columns: repeat(6, 1fr); text-align: center; }
+.k11__stats span + span { box-shadow: inset .05em 0 0 color-mix(in srgb, var(--c-white) 10%, transparent); }
+.k11__stats b { display: block; font-size: 1.35em; font-weight: 800; line-height: 1; }
+.k11__stats small { display: block; margin-top: .3em; font-size: .48em; font-weight: 600; color: var(--c-muted); }
+.k11__team { position: absolute; left: 1.2em; right: 1.2em; bottom: 1.2em; height: 2.9em; z-index: 6; display: flex; justify-content: center; align-items: center; gap: .6em;
+  border-radius: .7em; background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 24%, var(--c-card-ink-2)), color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)) 50%, color-mix(in srgb, var(--tier) 24%, var(--c-card-ink-2))); }
+.k11__team .logo { width: 2.1em; height: 2.1em; }
+.k11__team b { font-size: 1.05em; font-weight: 800; }
+
+/* 9 Оборот: та же арка — в ней рейтинг и логотип, ниже статы полосками, герои, форма, кнопка */
+.k11 .bk { box-shadow: inset 0 0 0 .14em var(--tier); padding: 1.2em; gap: .6em; background: var(--c-card-ink); }
+.k11 .bk__top { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .3em; padding: 1.6em 1em 1em; border-radius: 9.8em 9.8em .7em .7em;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 90%, var(--c-card-ink)), color-mix(in srgb, var(--tier-2) 35%, var(--c-card-ink)));
+  box-shadow: inset 0 0 0 .1em color-mix(in srgb, var(--tier) 80%, transparent); }
+.k11 .bk__top .logo { order: -1; }
+.k11 .bk__top em { font-size: 2.6em; color: var(--c-white); }
+.k11 .bk__top b { font-size: 1.3em; }
+.k11 .bk__stats li { font-size: .66em; }
+.k11 .bk__heroes .hero-ic { border-radius: 50%; width: 2em; aspect-ratio: 1; }
+.k11 .bk__form li { border-radius: 50%; height: auto; aspect-ratio: 1; }
+.k11 .bk__btn { border-radius: .7em; height: 2.6em; }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v11 · Арка</h2>
+    <p class="sec-lead">Игрок стоит в арочном окне, как в портале. Над аркой в углах — номер карты слева и рейтинг справа, герои висят у правого края арки.
+      Ниже по центру позиция, ник и статы, внизу команда во всю ширину. Только скругления, без срезов. Шрифт один — Manrope.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+V3.страница({
+  класс: 'k11',
+  иерархия: [
+    'Скруглённый прямоугольник. Внутри арочное окно под игрока; все углы карты — только скругления.',
+    'Арка: тёмный цвет силы, логотип команды крупно за игроком. Низ карты — тихое свечение силы.',
+    'Кант цвета силы по краю карты и тонкое кольцо по арке. С Holo — второе, едва заметное кольцо снаружи.',
+    'Блеск редкости в арке. С Prism по краю арки идёт радужный перелив, у Legend из-за головы медленно идут лучи.',
+    'Игрок по центру арки, туловище уходит в низ окна, за головой свечение.',
+    'Ник крупно по центру, ниже флаг и настоящее имя.',
+    'Рейтинг — в правом верхнем углу над аркой, крупно, без обводок. Номер карты и сезон — в левом верхнем углу, в цвете силы. Три героя висят в воздухе у правого края арки: матчи и винрейт.',
+    'Позиция — тёмной пилюлей с кантом на нижнем крае арки, Pos цветом силы. Статы строкой с разделителями, внизу команда во всю ширину: логотип и название.',
+    'Свой оборот с той же аркой: в ней логотип, ник и рейтинг, ниже статы полосками, герои, форма точками, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п),
+  лицо: (п, r, h) => `
+<div class="k11__face">
+  <div class="k11__plate" data-l="1"></div>
+  <div class="k11__arch" data-l="2">
+    ${h.маска(п, 'k11__logo')}
+    <i class="k11__rays" data-l="4" data-deco="3"></i>
+    <i class="k11__halo" data-l="5"></i>
+    ${h.фото(п)}
+    <i class="k11__holo" data-l="4" data-deco="2"></i>
+    ${h.блеск(r)}
+  </div>
+  <i class="k11__ring" data-l="3"></i>
+  <i class="k11__ring k11__ring2" data-l="3" data-deco="1"></i>
+  <i class="k11__edge" data-l="3"></i>
+  <div class="k11__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="k11__ovr" data-l="7"><b>${п.рейтинг}</b></div>
+  <div class="k11__heroes" data-l="7">${п.герои.map((г) => `<div>${h.герой(г)}<small><b>${г[2]} М</b> · ${г[3]}%</small></div>`).join('')}</div>
+  <span class="k11__role" data-l="8"><b>Pos ${п.pos}</b> · ${h.РОЛИ[п.pos]}</span>
+  <div class="k11__who" data-l="6"><div class="k11__nick">${п.ник}</div>${п.имя ? `<div class="k11__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  <div class="k11__stats" data-l="8">${h.статы(п).map((с) => `<span><b data-v="${с.ур}">${с.v}</b><small>${с.к}</small></span>`).join('')}</div>
+  <div class="k11__team" data-l="8">${h.лого(п)}<b>${h.команда(п)}</b></div>
+</div>`,
+})
+</script>
+</body></html>

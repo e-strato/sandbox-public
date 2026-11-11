@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v2 · С дополнениями</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../кадр.css" />
+<!-- Т2 «Участники» v2 — v1 (наш стиль) + дополнения созвона 28.10 (§2.1–2.16; задачи/28.10-задачи.md) простыми плашками и контролами:
+     рейтинги, замены с типом, управляемый состав, метки истории, форма, вид «по позиции», 16 мест. Составы, запас, тренеры — _data.js (Liquipedia).
+     ‼️ Пример: рейтинги, форма, объявленные замены, «Запасной А» у команд без запаса, формулировки меток. -->
+<style>
+  :root{ --w-font:'Google Sans Flex', system-ui, sans-serif; --bg:#0b0b0c; --card:#161618; --row:#1d1d20; --line:#2a2a2e; --fg:#f2f2f3; --mut:#8c8c94; --dim:#5d5d64;
+    --up:#4ade80; --down:#f87171; --ed:#c4a1ff; --auto:#7cc4ff; }
+  body{ margin:0; background:var(--bg); color:var(--fg); font:400 13px/18px var(--w-font); }
+  .lab-board{ padding:24px 32px 48px; }
+  .hd{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .hd h2{ margin:0; font:600 18px/24px var(--w-font); }
+  .hd .sub{ color:var(--mut); font-size:12px; }
+  .ctl{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+  .seg{ display:inline-flex; background:var(--card); border-radius:8px; padding:2px; }
+  .seg button, .chip, .tg{ font:500 12px/16px var(--w-font); color:var(--mut); background:none; border:0; border-radius:6px; padding:6px 10px; cursor:pointer; }
+  .seg button.on{ background:#2c2c31; color:var(--fg); }
+  .tg{ background:var(--card); }
+  .tg.on{ color:var(--fg); background:#2c2c31; }
+  .tg::before{ content:'○ '; } .tg.on::before{ content:'● '; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px; }
+  .card{ background:var(--card); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px; }
+  .card.slot{ border:1px dashed var(--line); background:none; color:var(--dim); justify-content:center; align-items:center; min-height:120px; }
+  .th{ display:flex; align-items:center; gap:8px; }
+  .lg{ width:28px; height:28px; object-fit:contain; flex:none; }
+  .r img.f{ width:16px; height:11px; object-fit:cover; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+  .th b{ font:600 13px/18px var(--w-font); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .st{ font:500 10px/16px var(--w-font); color:var(--dim); }
+  .tr{ font:700 14px/18px var(--w-font); }
+  .tr small{ display:block; font:400 10px/12px var(--w-font); color:var(--dim); text-align:right; }
+  .form{ display:flex; gap:3px; align-items:center; font-size:11px; color:var(--mut); }
+  .form i{ width:14px; height:14px; border-radius:3px; display:grid; place-items:center; font:700 9px/1 var(--w-font); font-style:normal; color:#0b0b0c; }
+  .form .W{ background:var(--up); } .form .L{ background:var(--down); }
+  .rows{ display:flex; flex-direction:column; gap:2px; }
+  .r{ display:grid; grid-template-columns:16px 1fr auto; align-items:center; gap:8px; background:var(--row); border-radius:6px; padding:6px 8px; cursor:pointer; }
+  .r:hover{ background:#26262a; }
+  .r.coach{ cursor:default; background:none; padding-top:2px; padding-bottom:2px; }
+  .r .p{ color:var(--dim); font:600 11px/16px var(--w-font); }
+  .r .n{ min-width:0; }
+  .r .n small{ display:block; color:var(--mut); font-size:11px; line-height:14px; }
+  .rt{ font:600 12px/16px var(--w-font); white-space:nowrap; }
+  .rt span{ color:var(--mut); font-weight:400; }
+  .d-up{ color:var(--up); } .d-down{ color:var(--down); }
+  .sb{ font:600 10px/14px var(--w-font); border-radius:4px; padding:0 5px; background:#33303d; color:var(--ed); margin-left:4px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:4px; }
+  .tag{ font:500 11px/14px var(--w-font); border-radius:6px; padding:4px 6px; background:var(--row); color:var(--fg); }
+  .tag::before{ font-size:10px; margin-right:4px; }
+  .tag.auto::before{ content:'авто'; color:var(--auto); } .tag.ed::before{ content:'редакция'; color:var(--ed); }
+  .lbl{ font:500 11px/16px var(--w-font); color:var(--mut); }
+  .subs{ display:flex; flex-direction:column; gap:2px; font-size:12px; }
+  .subs div{ display:flex; gap:6px; align-items:baseline; } .subs em{ font-style:normal; color:var(--mut); }
+  .reset{ font:500 11px/16px var(--w-font); color:var(--mut); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; align-self:flex-start; }
+  /* меню замены */
+  .pop{ position:fixed; z-index:9; background:#232327; border:1px solid var(--line); border-radius:10px; padding:8px; width:240px; box-shadow:0 12px 32px #0008; display:flex; flex-direction:column; gap:6px; }
+  .pop .lbl{ margin-top:2px; }
+  .pop button.opt{ display:flex; justify-content:space-between; font:500 12px/16px var(--w-font); background:var(--row); color:var(--fg); border:0; border-radius:6px; padding:6px 8px; cursor:pointer; text-align:left; }
+  .pop button.opt:hover{ background:#2f2f34; }
+  .pop .seg{ flex-wrap:wrap; }
+  /* вид по позиции */
+  .tbl{ background:var(--card); border-radius:12px; padding:8px; max-width:640px; }
+  .tbl .r{ grid-template-columns:24px 1fr 120px auto; cursor:default; }
+  .note{ margin-top:20px; color:var(--dim); font-size:11px; max-width:720px; }
+</style></head>
+<body><div class="lab-board"><div id="w"></div>
+<p class="note">‼️ Пример: рейтинги (базовый · производный), форма, объявленные замены, «Запасной А» у команд без запаса, формулировки меток. Составы, запас и тренеры — Liquipedia, PARI Universe. Нажми игрока — замена с типом, состав и рейтинг команды пересчитаются.</p></div>
+<script src="_data.js"></script>
+<script>
+// Составы — Liquipedia (_data.js): основа (позиции 1–5), тренер, запас
+const TAG = { '1w Team': '1w', 'Astra Invicta': 'astra', 'BetBoom Team': 'bb', GamerLegion: 'gl', OG: 'og', PARIVISION: 'pv', 'Team Liquid': 'liq', 'Team Spirit': 'ts', 'Team Yandex': 'ya', LEGION: 'lg' }
+const TEAMS = PU_TEAMS.map((t) => {
+  const main = t.tabs[0].m, subs = t.tabs.find((x) => x.tab === 'Subs')?.m ?? []
+  const pl = main.filter((x) => x.role !== 'Coach'), co = main.find((x) => x.role === 'Coach')
+  return { id: TAG[t.name], name: t.name, logo: t.logo, st: t.st, q: t.q, p: pl.map((x) => x.nick), fl: Object.fromEntries([...main, ...subs].map((x) => [x.nick, x.fsrc])), coach: co?.nick, subs: subs.map((x) => x.nick) }
+})
+// Метки истории состава (созвон 28.10, 04:42–09:27): авто — считает система, редакция — пишет редактор. ‼️ формулировки — пример
+const TAGS = {
+  astra: [['auto', 'Nightfall, OmaR, GH — пришли тройкой из одной команды'], ['auto', 'lorenof играл с OmaR и GH один турнир']],
+  bb: [['auto', 'Save- сменил позицию: 4 → 2'], ['auto', 'swedenstrong — новый на 4']],
+  gl: [['auto', '4 игрока вместе 3 турнира'], ['ed', 'Yuma пришёл месяц назад — с ним стали играть лучше']],
+  liq: [['auto', 'm1CKe и Boxi — 500+ матчей вместе']],
+  ts: [['auto', 'Batyuk вернулся: Spirit → академия → Spirit']],
+  ya: [['auto', 'ATF вместо DM на 3 — рейтинг выше']],
+  pv: [['auto', 'Новая команда — раньше вместе не играли']],
+}
+const TYPES = [['map', 'на карту'], ['series', 'на серию'], ['day', 'на день'], ['tour', 'на турнир']]
+// ‼️ пример: замены, уже объявленные на турнире
+const SUBS0 = { ya: [{ pos: 3, who: 'Xibbe', type: 'day', why: 'день 2' }], lg: [{ pos: 2, who: '4nalog', type: 'map', why: 'карта 2 против BB' }] }
+// ‼️ пример: рейтинг — устойчивое псевдослучайное от ника; базовый 60–94, производный ±6 от него. Рейтинг — на этот турнир (§2.16)
+const h = (s) => { let x = 7; for (const c of s) x = (x * 31 + c.charCodeAt(0)) >>> 0; return x }
+const rate = (nick) => { if (!nick) return null; const b = 60 + h(nick) % 35; return { b, d: b - 6 + h(nick + '·') % 13 } }
+const FORM = (id) => [...Array(5)].map((_, i) => (h(id + i) % 3 ? 'W' : 'L'))
+
+const S = { view: 'teams', pos: 1, form: false, tags: true, subs: true, n16: false, swap: structuredClone(SUBS0) }
+const w = document.getElementById('w')
+const cur = (t) => t.p.map((nick, i) => { const s = (S.swap[t.id] || []).find((x) => x.pos === i + 1); return s ? { nick: s.who, sub: s, was: nick } : { nick } })
+const teamRate = (t) => { const r = cur(t).map((x) => rOf(t, x.nick)).filter(Boolean); return r.length ? Math.round(r.reduce((a, x) => a + x.b, 0) / r.length) : '—' }
+const cand = (t) => (t.subs.length ? t.subs : ['Запасной А'])
+const flag = (t, n) => (t.fl[n] ? `<img class="f" src="${t.fl[n]}">` : '')
+const rOf = (t, nick) => rate(nick && nick.startsWith('Запасной') ? nick + t.id : nick)
+const tl = (k) => TYPES.find((x) => x[0] === k)[1]
+
+function card(t) {
+  const rows = cur(t).map((x, i) => {
+    const r = rOf(t, x.nick)
+    let d = ''
+    if (x.sub) { const o = rOf(t, x.was); if (o && r) { const k = r.b - o.b; d = ` <span class="${k >= 0 ? 'd-up' : 'd-down'}">${k >= 0 ? '▲' : '▼'}${Math.abs(k)}</span>` } }
+    return `<div class="r" data-t="${t.id}" data-i="${i}"><span class="p">${i + 1}</span><span class="n">${flag(t, x.nick)}${x.nick}${x.sub ? `<span class="sb">${tl(x.sub.type)}</span><small>вместо ${x.was}${x.sub.why ? ' · ' + x.sub.why : ''}</small>` : ''}</span><span class="rt">${r ? `${r.b} <span>· ${r.d}</span>${d}` : ''}</span></div>`
+  }).join('')
+  const sw = S.swap[t.id] || []
+  return `<div class="card">
+    <div class="th"><img class="lg" src="${t.logo}" alt=""><b>${t.name}</b><span class="st">${t.st}</span><span class="tr">${teamRate(t)}<small>команда</small></span></div>
+    ${t.q ? `<div class="lbl">${t.q[0] === 'Qualifier' ? 'Квалификация' : t.q[0]} · ${t.q[1] === '1st' ? '1-е место' : t.q[1]}</div>` : ''}
+    ${S.form ? `<div class="form">Форма ${FORM(t.id).map((r) => `<i class="${r}">${r === 'W' ? 'В' : 'П'}</i>`).join('')}</div>` : ''}
+    <div class="rows">${rows}<div class="r coach"><span class="p">Т</span><span class="n" style="color:var(--mut)">${flag(t, t.coach)}${t.coach}</span><span class="lbl">тренер</span></div></div>
+    ${S.subs && sw.length ? `<div class="lbl">Замены · ${sw.length}</div><div class="subs">${sw.map((s) => `<div><span class="sb">${tl(s.type)}</span>${s.who} <em>вместо ${t.p[s.pos - 1]}</em></div>`).join('')}</div><button class="reset" data-reset="${t.id}">Вернуть основной состав</button>` : ''}
+    ${S.tags && TAGS[t.id] ? `<div class="tags">${TAGS[t.id].map(([k, s]) => `<span class="tag ${k}">${s}</span>`).join('')}</div>` : ''}
+  </div>`
+}
+
+function byPos() {
+  const all = TEAMS.flatMap((t) => { const x = cur(t)[S.pos - 1]; return x.nick ? [{ t, x, r: rOf(t, x.nick) }] : [] }).sort((a, b) => b.r.b - a.r.b)
+  return `<div class="ctl"><span class="lbl">Позиция</span><div class="seg">${[1, 2, 3, 4, 5].map((p) => `<button data-pos="${p}" class="${S.pos === p ? 'on' : ''}">${p}</button>`).join('')}</div></div>
+    <div class="tbl"><div class="r coach"><span class="p">#</span><span class="lbl">Игрок</span><span class="lbl">Команда</span><span class="lbl">Рейтинг · производный</span></div>
+    <div class="rows">${all.map((a, i) => `<div class="r"><span class="p">${i + 1}</span><span class="n">${flag(a.t, a.x.nick)}${a.x.nick}${a.x.sub ? `<span class="sb">${tl(a.x.sub.type)}</span>` : ''}</span><span style="color:var(--mut)">${a.t.name}</span><span class="rt">${a.r.b} <span>· ${a.r.d}</span></span></div>`).join('')}</div></div>`
+}
+
+function render() {
+  const tg = (k, s) => `<button class="tg ${S[k] ? 'on' : ''}" data-tg="${k}">${s}</button>`
+  w.innerHTML = `<div class="hd"><h2>Участники</h2><span class="sub">${S.n16 ? 16 : 10} команд · PARI Universe · рейтинг на этот турнир</span></div>
+    <div class="ctl"><div class="seg"><button data-view="teams" class="${S.view === 'teams' ? 'on' : ''}">Команды</button><button data-view="pos" class="${S.view === 'pos' ? 'on' : ''}">По позиции</button></div>
+    ${S.view === 'teams' ? tg('tags', 'Метки') + tg('subs', 'Замены') + tg('form', 'Форма') + tg('n16', '16 команд') : ''}</div>
+    ${S.view === 'teams' ? `<div class="grid">${TEAMS.map(card).join('')}${S.n16 ? [...Array(6)].map(() => '<div class="card slot">Место из квалификации</div>').join('') : ''}</div>` : byPos()}`
+}
+
+let pop = null
+const close = () => { pop?.remove(); pop = null }
+function openPop(el, t, i) {
+  close()
+  const orig = t.p[i], has = (S.swap[t.id] || []).find((x) => x.pos === i + 1)
+  let type = has?.type || 'map'
+  pop = document.createElement('div'); pop.className = 'pop'
+  const draw = () => {
+    pop.innerHTML = `<div class="lbl">Заменить ${orig ?? 'игрока'} · позиция ${i + 1}</div>
+      <div class="seg">${TYPES.map(([k, s]) => `<button data-type="${k}" class="${type === k ? 'on' : ''}">${s}</button>`).join('')}</div>
+      <div class="lbl">Кто выходит</div>
+      ${cand(t).map((n) => { const r = rOf(t, n); return `<button class="opt" data-who="${n}"><span>${n}</span><span class="rt">${r.b} <span>· ${r.d}</span></span></button>` }).join('')}
+      ${has ? '<button class="opt" data-who=""><span>Вернуть ' + orig + '</span></button>' : ''}`
+  }
+  draw()
+  pop.addEventListener('click', (e) => {
+    e.stopPropagation()
+    const ty = e.target.closest('[data-type]'); if (ty) { type = ty.dataset.type; draw(); return }
+    const o = e.target.closest('[data-who]'); if (!o) return
+    const list = (S.swap[t.id] || []).filter((x) => x.pos !== i + 1)
+    if (o.dataset.who) list.push({ pos: i + 1, who: o.dataset.who, type })
+    S.swap[t.id] = list; close(); render()
+  })
+  document.body.append(pop)
+  const b = el.getBoundingClientRect()
+  pop.style.left = Math.min(b.left, innerWidth - 252) + 'px'; pop.style.top = Math.min(b.bottom + 4, innerHeight - pop.offsetHeight - 8) + 'px'
+}
+
+w.addEventListener('click', (e) => {
+  e.stopPropagation()
+  const v = e.target.closest('[data-view]'); if (v) { S.view = v.dataset.view; close(); return render() }
+  const p = e.target.closest('[data-pos]'); if (p) { S.pos = +p.dataset.pos; return render() }
+  const g = e.target.closest('[data-tg]'); if (g) { S[g.dataset.tg] = !S[g.dataset.tg]; return render() }
+  const rs = e.target.closest('[data-reset]'); if (rs) { S.swap[rs.dataset.reset] = []; return render() }
+  const r = e.target.closest('.r[data-t]'); if (r) { const t = TEAMS.find((x) => x.id === r.dataset.t); openPop(r, t, +r.dataset.i) }
+})
+document.addEventListener('click', close)
+render()
+</script>
+</body></html>

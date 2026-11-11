@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_matches.css" /></head>
+<body><main class="mx-page">
+  <h1>v1 · Все матчи — расписание на 5 игр</h1>
+  <p>Статичная страница в стиле «Финал»: всё, что лучшее нашли на Figma стр. 06. Наверху — счётчики дня, игры, полоса дней и карусель «В эфире сейчас». Ниже — матчи по дням и турнирам: важные турниры крупнее, мелкие плотнее. Статус в строке словами: скоро · драфт · карта 2 · пауза · перерыв · задержан · перенесён · отменён · итог; у задержки, переноса и отмены — причина строкой ниже. Три строки показаны раскрытыми: <b>скоро</b> (Falcons — Liquid), <b>в эфире</b> (Spirit — Tundra), <b>итог</b> (Aurora — BetBoom). У Paper Rex — LOUD счёт скрыт против спойлеров. Данные условные: вторник 6 октября, 15:35.</p>
+  <p class="mx-cap">Десктоп · 1440 — сетка главной: две большие колонки под матчи, справа узкая «для тебя» (рамка уменьшена под ширину окна)</p><div class="mx-wrap"><div class="mx-frame mx-frame--desk" data-mx></div></div>
+  <p class="mx-cap">Телефон · 390 — одна колонка, строка в два этажа, таб-бар снизу (страница листается внутри рамки)</p><div class="mx-frame mx-frame--phone" data-mx></div>
+</main>
+<script src="_matches.js"></script>
+<script>
+// Десктоп-рамка всегда 1440 внутри (раскладка не ломается), а на экране — уменьшена под ширину окна, как «Сайт целиком» в песочнице
+const fit = () => document.querySelectorAll('.mx-wrap').forEach(w => { w.firstElementChild.style.zoom = Math.min(1, w.clientWidth / 1440) })
+fit(); addEventListener('resize', fit)
+</script>
+</body></html>

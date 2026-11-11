@@ -1,0 +1,87 @@
+/* w-social-2 v27–v29 — «Пульт матча» коротко (код — _wpx.js). ПК — виджет в правой колонке, как «Обсуждение» (widget-promo), раскрыт — поверх колонки */
+body.wpx-on #pills, body.wpx-on .pip-fab, body.wpx-on .pip{ display:none !important; }
+body.wpx-on:not(.is-desk):not(.bar-off) .tabbar{ background:rgba(9,9,11,.94) !important; border-top-color:var(--w-border) !important; backdrop-filter:blur(12px) !important; -webkit-backdrop-filter:blur(12px) !important; }
+body.wpx-on:not(.is-desk) .app{ padding-bottom:130px; }
+body.wpx-lock{ overflow:hidden; }
+
+.wpx{ color:var(--w-fg); font:400 13px/18px var(--w-font); }
+.wpx button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.wpx svg{ display:block; } .wpx img{ display:block; object-fit:contain; flex:none; }
+.wpx .up{ color:var(--w-up); } .wpx .dn{ color:var(--w-down); }
+.wpx-live{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--w-down); animation:wpxPulse 1.4s infinite; flex:none; } @keyframes wpxPulse{ 50%{ opacity:.35; } }
+.wpx-dl{ font:600 12px/16px var(--w-font); font-variant-numeric:tabular-nums; white-space:nowrap; } .wpx-dl.up{ color:var(--w-up); } .wpx-dl.dn{ color:var(--w-down); }
+.wpx-sp{ width:100%; height:100%; } .wpx-sp .ln{ fill:none; stroke:var(--w-up); stroke-width:1.8; vector-effect:non-scaling-stroke; stroke-linejoin:round; } .wpx-sp .ar{ fill:var(--w-up-bg); }
+.wpx-spw{ position:relative; } .wpx-dot{ position:absolute; right:-3px; width:7px; height:7px; margin-top:-3.5px; border-radius:50%; background:var(--w-up); box-shadow:0 0 0 3px var(--w-up-bg); animation:wpxPulse 1.4s infinite; }
+.wpx-mb{ position:relative; display:block; height:4px; border-radius:2px; background:var(--w-b); overflow:hidden; } .wpx-mb u{ display:block; height:100%; background:var(--w-a); transition:width .6s; }
+
+/* ——— ПК: виджет ——— */
+.wpx-slot{ position:relative; }
+.wpx-w{ display:flex; flex-direction:column; gap:12px; padding:12px; border:1px solid var(--w-border); border-radius:var(--w-r, 12px); background:var(--w-card, var(--w-page)); cursor:pointer; transition:border-color .15s; }
+.wpx-w:hover{ border-color:var(--w-ring); }
+.wpx-hd{ display:flex; align-items:center; justify-content:space-between; gap:8px; } .wpx-hd b{ font:600 15px/20px var(--w-font); }
+.wpx-hd small{ display:inline-flex; align-items:center; gap:6px; font:var(--t-sub, 400 12px/16px var(--w-font)); color:var(--w-muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wpx-hero{ display:flex; align-items:flex-end; gap:12px; }
+.wpx-hero > div:first-child{ display:flex; flex-direction:column; gap:2px; flex:none; }
+.wpx-hero small{ font:400 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.wpx-hero b{ font:700 28px/32px var(--w-font); font-variant-numeric:tabular-nums; letter-spacing:-.3px; }
+.wpx-hero .wpx-spw{ flex:1; height:40px; margin-bottom:6px; }
+.wpx-hero.big b{ font-size:32px; line-height:36px; } .wpx-hero.big .wpx-spw{ height:56px; }
+.wpx-st{ display:grid; grid-template-columns:repeat(3, 1fr); border:1px solid var(--w-border); border-radius:8px; }
+.wpx-st > div{ display:flex; flex-direction:column; gap:2px; padding:7px 10px; min-width:0; } .wpx-st > div + div{ border-left:1px solid var(--w-border); }
+.wpx-st small{ font:400 11px/14px var(--w-font); color:var(--w-muted-fg); }
+.wpx-st b{ font:600 15px/20px var(--w-font); font-variant-numeric:tabular-nums; white-space:nowrap; } .wpx-st b em{ font:500 11px/1 var(--w-font); font-style:normal; color:var(--w-muted-fg); }
+.wpx-st .wpx-mb{ margin-top:3px; }
+
+/* ——— раскрытая карточка ——— */
+.wpx-over{ display:flex; flex-direction:column; gap:12px; padding:12px; border:1px solid var(--w-border); border-radius:var(--w-r, 12px); background:var(--w-card, #0c0c0e); }
+.wpx-over.desk{ position:absolute; left:0; right:0; top:0; z-index:30; box-shadow:0 0 0 1px var(--w-ring), 0 24px 60px rgba(0,0,0,.65); animation:wpxIn .22s ease-out; }
+@keyframes wpxIn{ from{ opacity:0; transform:translateY(-4px) scale(.98); } }
+body:not(.is-desk) .wpx-over{ position:fixed; left:8px; right:8px; bottom:8px; z-index:41; max-width:374px; margin:0 auto; max-height:calc(100vh - 60px); overflow:auto; border-radius:20px; background:#0c0c0e; animation:wpxUp .3s cubic-bezier(.2,.8,.2,1); }
+@keyframes wpxUp{ from{ opacity:0; transform:translateY(30px); } }
+.wpx-dim{ position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.55); }
+.wpx-x{ display:grid; place-items:center; width:28px; height:28px; margin-left:auto; border-radius:8px; color:var(--w-muted-fg); flex:none; } .wpx-x:hover{ background:var(--w-muted); color:var(--w-fg); } .wpx-x svg{ width:16px; height:16px; }
+.wpx-over .wpx-hd small{ flex:1; }
+.wpx-tv{ position:relative; aspect-ratio:16 / 9; border-radius:8px; overflow:hidden; cursor:pointer; background:#000; }
+.wpx-tv img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.6); transition:transform 8s linear, filter .3s; } .wpx-tv.play img{ filter:brightness(.85); transform:scale(1.1); }
+.wpx-tv > span{ position:absolute; z-index:1; }
+.wpx-tvl{ left:8px; top:8px; display:flex; align-items:center; gap:4px; padding:3px 6px; border-radius:4px; background:var(--w-down); font:700 10px/1 var(--w-font); color:#fff; } .wpx-tvl i{ width:5px; height:5px; border-radius:50%; background:#fff; }
+.wpx-tvc{ left:10px; bottom:8px; font:600 12px/1 var(--w-font); text-shadow:0 1px 6px #000; }
+.wpx-tvp{ left:50%; top:50%; transform:translate(-50%,-50%); display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.9); color:#000; font:700 13px/1 var(--w-font); transition:opacity .2s; } .wpx-tv.play .wpx-tvp{ opacity:0; }
+.wpx-plat{ display:flex; gap:2px; height:22px; border-radius:6px; overflow:hidden; }
+.wpx-plat span{ display:flex; align-items:center; gap:4px; padding:0 8px; font:500 11px/1 var(--w-font); color:rgba(255,255,255,.85); white-space:nowrap; overflow:hidden; } .wpx-plat b{ font-weight:700; color:#fff; }
+.wpx-plat span:nth-child(1){ background:rgba(145,70,255,.45); } .wpx-plat span:nth-child(2){ background:rgba(239,68,68,.4); } .wpx-plat span:nth-child(3){ background:rgba(34,197,94,.4); }
+.wpx-row{ display:flex; align-items:center; gap:10px; padding-top:12px; border-top:1px solid var(--w-border); }
+.wpx-row > small{ width:96px; flex:none; font:400 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.wpx-row > b{ font:600 14px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpx-tug{ flex:1; display:flex; align-items:center; gap:8px; min-width:0; } .wpx-tug .wpx-mb{ flex:1; height:6px; border-radius:3px; }
+.wpx-vote{ display:inline-flex; align-items:center; gap:2px; margin-left:auto; padding:2px; border-radius:8px; background:var(--w-muted); }
+.wpx-vote button{ display:grid; place-items:center; width:30px; height:28px; border-radius:6px; color:var(--w-muted-fg); } .wpx-vote svg{ width:15px; height:15px; }
+.wpx-vote .on-up{ background:var(--w-up-bg); color:var(--w-up); } .wpx-vote .on-dn{ background:var(--w-down-bg); color:var(--w-down); }
+.wpx-vote b{ min-width:38px; text-align:center; font:600 14px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpx-acts{ display:flex; gap:6px; padding-top:12px; border-top:1px solid var(--w-border); }
+.wpx-acts button{ display:inline-flex; align-items:center; justify-content:center; gap:6px; height:34px; min-width:34px; padding:0 10px; border-radius:8px; background:var(--w-muted) !important; font:500 13px/1 var(--w-font) !important; }
+.wpx-acts button:first-child{ flex:1; background:var(--w-fg) !important; color:var(--w-primary-fg) !important; font-weight:600 !important; } .wpx-acts svg{ width:16px; height:16px; } .wpx-acts .on{ color:var(--w-up); }
+
+/* ——— телефон: свёрнутые формы ——— */
+.wpx-ph{ position:fixed; z-index:21; transition:bottom .3s ease; }
+.wpx-m{ display:flex; align-items:center; gap:8px; font-variant-numeric:tabular-nums; }
+.wpx-m b{ font:700 14px/1 var(--w-font); }
+/* island — капсула над баром */
+body.wpx-k-island .wpx-ph{ left:8px; right:8px; bottom:68px; max-width:374px; margin:0 auto; } body.bar-off.wpx-k-island .wpx-ph{ bottom:12px; }
+.wpx-m--isl{ width:100%; height:42px; padding:0 14px 0 6px; border-radius:21px; background:#000; box-shadow:0 0 0 1px #27272a, 0 8px 24px rgba(0,0,0,.55); }
+.wpx-tag{ display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 9px; border-radius:14px; background:rgba(239,68,68,.16); color:#fca5a5; font:700 11px/1 var(--w-font); }
+.wpx-tag i{ width:6px; height:6px; border-radius:50%; background:var(--w-down); animation:wpxPulse 1.4s infinite; }
+.wpx-sp1{ flex:1; } .wpx-mo{ display:inline-flex; align-items:center; gap:5px; } .wpx-mo .wpx-mb{ width:34px; }
+/* bar — строка приклеена к верху бара навигации */
+body.wpx-k-bar .wpx-ph{ left:0; right:0; bottom:60px; max-width:390px; margin:0 auto; } body.bar-off.wpx-k-bar .wpx-ph{ bottom:0; }
+.wpx-m--bar{ width:100%; height:34px; justify-content:space-between; padding:0 14px; background:rgba(9,9,11,.94); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-top:1px solid var(--w-border); color:var(--w-muted-fg); font:500 11px/1 var(--w-font); }
+.wpx-m--bar > span{ display:inline-flex; align-items:center; gap:5px; } .wpx-m--bar b{ font-size:13px; color:var(--w-fg); } .wpx-m--bar b.up{ color:var(--w-up); } .wpx-m--bar .wpx-dl{ font-size:11px; }
+body.wpx-k-bar:not(.is-desk) .tabbar{ border-top-color:transparent !important; }
+/* dot — маленькая пилюля справа */
+body.wpx-k-dot .wpx-ph{ right:12px; bottom:72px; } body.bar-off.wpx-k-dot .wpx-ph{ bottom:16px; }
+.wpx-m--dot{ height:36px; padding:0 12px 0 10px; border-radius:18px; background:rgba(24,24,27,.94); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 0 0 1px var(--w-border), 0 8px 20px rgba(0,0,0,.5); }
+.wpx-m--dot .wpx-spw{ width:46px; height:16px; } .wpx-m--dot .wpx-dot{ display:none; }
+
+#wpx-toast{ position:fixed; left:50%; top:16px; z-index:60; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:.2s; padding:9px 14px; border-radius:999px;
+  background:var(--w-fg); color:var(--w-primary-fg); font:600 13px/1 var(--w-font); white-space:nowrap; max-width:calc(100vw - 24px); overflow:hidden; text-overflow:ellipsis; }
+#wpx-toast.on{ opacity:1; transform:translate(-50%,0); }

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v1 · Лига</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../кадр.css" /><link rel="stylesheet" href="../../widget-tournament/_w.css" /><link rel="stylesheet" href="_t2.css" /></head>
+<body><div class="lab-board">
+  <h1>Виджет турнира · v1 · Лига</h1>
+  <p class="lab-board__lead">Слева — турнир в групповом этапе: таблицы групп, пунктир — граница выхода. Справа — тот же виджет, когда на странице открыт матч: в полосе под шапкой этот матч, обе команды подсвечены в таблице.</p>
+  <div class="t2-pair">
+    <div><div class="t2-cap">Турнир</div><div id="a"></div></div>
+    <div><div class="t2-cap">Открыт матч Team Lynx — Power Rangers</div><div id="b"></div></div>
+  </div>
+</div>
+<script src="../../widget-tournament/_full.js"></script><script src="_t2.js"></script>
+<script>T2.render(document.getElementById('a'), { start: 'epl' }); T2.render(document.getElementById('b'), { start: 'epl', match: 'lnx-pr' })</script>
+</body></html>

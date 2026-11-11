@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_row.css" />
+<style>
+.v3-in { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 10px 16px; cursor: pointer; }
+.v3-tm { display: grid; gap: 6px; min-width: 0; max-width: 420px; }
+.v3-s { display: grid; grid-template-columns: 24px minmax(0, 1fr) 28px; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
+.v3-s em { justify-self: end; font: 700 20px var(--font-c); font-style: normal; } .v3-s.is-lose { color: var(--c-caption); font-weight: 400; } .v3-s.is-lose em { color: var(--c-ui-dim); } .v3-s.is-win { font-weight: 700; }
+.r-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v3-r { display: flex; align-items: center; gap: 12px; color: var(--c-ui-dim); }
+.v3-note { grid-column: 2 / -1; }
+.r-row.is-open .v3-in { background: var(--c-ui-item); }
+.v3-qv { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 0; margin: 0 12px 12px; border-radius: 10px; background: var(--c-ui-item); overflow: hidden; }
+.v3-side { display: grid; align-content: start; gap: 2px; padding: 12px; background: color-mix(in srgb, var(--c-ui-panel) 60%, var(--c-ui-item)); }
+.v3-side button[data-tab] { border: 0; padding: 9px 12px; border-radius: 7px; background: none; color: var(--c-ui-dim); font-weight: 600; font-size: 13.5px; text-align: left; }
+.v3-side button[aria-selected='true'] { background: var(--c-ui-item); color: var(--c-text); }
+.v3-side .r-btn { margin-top: 6px; } .v3-side .r-btn:first-of-type { margin-top: 14px; }
+.v3-body { padding: 18px 20px; min-height: 150px; }
+@container row (max-width: 600px) {
+  .v3-in { grid-template-columns: 62px minmax(0, 1fr) auto; gap: 10px; padding: 10px 12px; }
+  .v3-r .r-bo { display: none; } .v3-s { font-size: 14px; grid-template-columns: 20px minmax(0, 1fr) 24px; } .v3-s .r-lg { width: 20px; height: 20px; }
+  .r-st b { font-size: 15px; } .r-st small { white-space: normal; font-size: 10.5px; }
+  .v3-qv { grid-template-columns: minmax(0, 1fr); margin: 0 6px 8px; }
+  .v3-side { display: flex; flex-wrap: wrap; } .v3-side button[data-tab] { flex: none; }
+  .v3-side .r-btn { order: 2; flex: 1; margin-top: 8px !important; } .v3-body { padding: 14px 12px; min-height: 0; order: 1; }
+}
+</style></head>
+<body><main class="r-page">
+  <h1>v3 · Вкладки сбоку</h1>
+  <p>Закрытая — как v1 (два этажа). Открыта — слева столбик вкладок, как меню, под ним кнопки; справа широкий блок. Ширина колонки работает: блок не сжат в узкую полосу, вкладки не теряются.</p>
+  <div class="r-tools"><div class="r-seg" data-states></div><div class="r-seg"><button type="button" data-open="0">Закрыта</button><button type="button" data-open="1">Открыта</button></div></div>
+  <div class="r-frames">
+    <div><p class="r-cap">Колонка матчей · 1000 — клик по строке открывает и закрывает</p><div class="r-frame r-frame--col" data-row></div></div>
+    <div><p class="r-cap">Телефон · 390</p><div class="r-frame r-frame--phone" data-row></div></div>
+  </div>
+</main>
+<script>
+// Общее для вариантов: счёт и победитель, вкладки и панели
+window.ROW = {}
+const счёт = (m, k) => m.sa == null || m.скрыт ? '' : m['s' + k]
+const исход = (m, k) => m.st === 'done' && !m.скрыт ? ((k === 'a' ? m.sa > m.sb : m.sb > m.sa) ? 'is-win' : 'is-lose') : ''
+const вкладки = t => t.map(([n], i) => `<button type="button" data-tab="${i}" aria-selected="${i === 0}">${n}</button>`).join('')
+const панели = t => t.map(([, b], i) => `<div class="r-pane" data-pane="${i}" ${i ? 'hidden' : ''}>${b}</div>`).join('')
+const стат = (m, h) => { const [a, b, c] = h.статус(m.вид, m); return `<div class="r-st ${c ? 'is-' + c : ''}"><b>${c === 'live' ? '<i class="r-dot"></i>' : ''}${a}</b><small>${b}</small></div>` }
+const заметка = m => m.заметка && ['delay', 'moved', 'pause', 'cancel'].includes(m.вид) ? m.заметка : ''
+ROW.вариант = (m, open, h) => {
+  const с = k => `<p class="v3-s ${исход(m, k)}">${h.лого(m[k])}<span class="r-nm">${h.имя(m[k])}</span><em>${счёт(m, k)}</em></p>`
+  const [t, кн] = h.кусочки(m.вид, m)
+  return `<article class="r-row ${open ? 'is-open' : ''} ${m.вид === 'cancel' ? 'r-off' : ''}">
+    <div class="v3-in" data-toggle>${стат(m, h)}<div class="v3-tm">${с('a')}${с('b')}</div>
+      <div class="v3-r"><span class="r-bo">${m.bo}</span><button class="r-fav ${m.fav ? 'is-on' : ''}" type="button">${m.fav ? '★' : '☆'}</button><span>${m.вид === 'cancel' ? '' : open ? '⌃' : '⌄'}</span></div>
+      ${!open && заметка(m) ? `<p class="r-note v3-note">${заметка(m)}</p>` : ''}</div>
+    ${open ? `<div class="v3-qv"><div class="v3-side">${вкладки(t)}${h.кнопки(кн)}</div><div class="v3-body">${панели(t)}</div></div>` : ''}
+  </article>`
+}
+</script>
+<script src="_row.js"></script>
+</body></html>

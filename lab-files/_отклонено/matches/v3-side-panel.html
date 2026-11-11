@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_matches.css" />
+<style>
+.mx-frame--desk { overflow: clip; }
+body[data-v='v3'] .mx-right { position: sticky; top: 16px; }
+.v3-pan { padding: 16px; }
+.v3-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: var(--c-caption); font-size: 13px; font-weight: 600; }
+.v3-x { border: 0; background: none; color: var(--c-ui-dim); font-size: 20px; line-height: 1; padding: 0 2px; }
+.v3-sb p { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 16px; font-weight: 600; }
+.v3-sb p span { flex: 1; } .v3-sb .mx-lg { width: 28px; height: 28px; }
+.v3-sb b { font: 700 26px var(--font-c); }
+.v3-sb p.is-lose { color: var(--c-caption); font-weight: 400; } .v3-sb p.is-lose b { color: var(--c-ui-dim); }
+.v3-st { display: flex; gap: 8px; align-items: baseline; margin: 6px 0 14px !important; padding-bottom: 14px; border-bottom: 1px solid var(--c-ui-line); }
+.v3-st b { font: 700 15px var(--font-c); color: var(--c-ui-clock); } .v3-st b.is-live { color: var(--c-live); } .v3-st small { color: var(--c-caption); font-size: 12px; }
+.v3-bl + .v3-bl { margin-top: 14px; }
+.v3-bl .mx-vote2 { flex-direction: column; } .v3-bl .mx-chance { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.v3-ft { display: flex; gap: 8px; margin-top: 16px; } .v3-ft .mx-btn { flex: 1; justify-content: center; }
+.v3-sheet { display: none; }
+@container mx (max-width: 700px) {
+  .v3-pan { display: none; }
+  .v3-sheet { position: absolute; left: 0; right: 0; bottom: 72px; z-index: 6; padding: 16px 16px 18px; border-radius: 18px 18px 0 0; background: var(--c-ui-panel); box-shadow: 0 -20px 50px -10px var(--c-black); }
+  .mx-frame.v3-on .v3-sheet { display: block; }
+}
+</style></head>
+<body data-v="v3"><main class="mx-page">
+  <h1>v3 · Панель справа</h1>
+  <p>Строка не раздвигает список: по клику матч подсвечивается, а подробности встают наверх правой колонки (она едет вместе со страницей). Список остаётся ровным и читаемым, детали — всегда в одном месте. На телефоне — шторка снизу, над таб-баром.</p>
+  <div class="mx-tools"><span>Раскрыть пример:</span><div class="mx-seg"><button type="button" data-show="soon">Скоро · Falcons — Liquid</button><button type="button" data-show="live">В эфире · Spirit — Tundra</button><button type="button" data-show="done">Итог · Aurora — BetBoom</button><button type="button" data-show="none">Свернуть</button></div></div>
+  <p class="mx-cap">Десктоп · 1440 — кликни по любой строке матча (рамка уменьшена под ширину окна)</p><div class="mx-wrap"><div class="mx-frame mx-frame--desk" data-mx></div></div>
+  <p class="mx-cap">Телефон · 390 — строка раскрывается так же, тапом</p><div class="mx-frame mx-frame--phone" data-mx></div>
+</main>
+<script>
+MX_ФОРМЫ = { v3: {} }
+MX_ФОРМЫ.v3.панель = (frame, m, k) => {
+  frame.querySelectorAll('.v3-pan, .v3-sheet').forEach(n => n.remove()); frame.classList.toggle('v3-on', !!m)
+  if (!m) return
+  const K = MX.КУСКИ, итог = m.st === 'done'
+  const стор = id => { const s = id === m.a ? m.sa : m.sb, о = id === m.a ? m.sb : m.sa; return `<p class="${итог && s < о ? 'is-lose' : ''}">${K.лого(id)}<span>${K.имя(id)}</span><b>${s ?? ''}</b></p>` }
+  const бл = k === 'soon' ? [['Форма · 5 матчей', K.форма(m)], ['Кто победит', K.голос(m)]] : k === 'live' ? [['Карты', K.карты(m, k)], ['Шанс победы в карте', K.шанс(m)]] : [['Карты', K.карты(m, k)], ['Игрок матча', K.игрок(m)]]
+  const html = `<div class="v3-h"><span>Матч</span><button class="v3-x" type="button" title="Закрыть">×</button></div>
+    <div class="v3-sb">${стор(m.a)}${стор(m.b)}</div><p class="v3-st">${K.статус(m)}</p>
+    ${бл.map(([t, b]) => `<div class="v3-bl"><p class="mx-k">${t}</p>${b}</div>`).join('')}<div class="v3-ft">${K.кнопки(m, k)}</div>`
+  frame.querySelector('.mx-right').insertAdjacentHTML('afterbegin', `<div class="mx-pan v3-pan">${html}</div>`)
+  frame.insertAdjacentHTML('beforeend', `<div class="v3-sheet">${html}</div>`)
+  frame.querySelectorAll('.v3-x').forEach(x => x.onclick = () => { const r = frame.querySelector('.mx-row.is-open'); r && r.click() })
+}
+</script>
+<script src="_matches.js"></script>
+<script>
+const fit = () => document.querySelectorAll('.mx-wrap').forEach(w => { w.firstElementChild.style.zoom = Math.min(1, w.clientWidth / 1440) })
+fit(); addEventListener('resize', fit)
+</script>
+</body></html>

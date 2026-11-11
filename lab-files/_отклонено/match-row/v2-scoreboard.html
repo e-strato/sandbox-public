@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_row.css" />
+<style>
+.v2-in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 168px minmax(0, 1fr); align-items: center; gap: 18px; padding: 14px 16px; cursor: pointer; }
+.v2-s { display: flex; align-items: center; gap: 12px; min-width: 0; font-size: 16px; font-weight: 600; }
+.v2-s--a { justify-content: flex-end; text-align: right; } .v2-s--a .r-lg { order: 2; }
+.v2-s .r-lg { width: 32px; height: 32px; } .v2-s .r-lg--mono { font-size: 10px; border-radius: 7px; }
+.v2-s.is-lose { color: var(--c-caption); font-weight: 400; }
+.r-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v2-c { display: grid; justify-items: center; gap: 4px; padding: 8px 10px; border-radius: 10px; background: var(--c-ui-item); }
+.v2-c > b { font: 700 26px/1 var(--font-c); } .v2-c > b.is-time { font-size: 22px; } .v2-c > b.is-dim { color: var(--c-ui-dim); }
+.v2-c .r-st { text-align: center; } .v2-c .r-st b { display: none; } .v2-c .r-st small { white-space: nowrap; }
+.v2-c .r-st.is-live small { color: var(--c-live); } .v2-c .r-st.is-pause small { color: var(--c-coin); }
+.v2-meta { position: absolute; right: 14px; top: 10px; display: flex; align-items: center; gap: 8px; }
+.v2-tag { position: absolute; left: 14px; top: 12px; color: var(--c-caption); font-size: 12px; }
+.v2-note { padding: 0 16px 12px; text-align: center; }
+.r-row.is-open .v2-in { background: var(--c-ui-item); } .r-row.is-open .v2-c { background: var(--c-ui-panel); }
+.v2-qv { display: grid; justify-items: center; gap: 14px; padding: 4px 16px 18px; background: var(--c-ui-item); }
+.v2-tabs { display: flex; gap: 2px; padding: 3px; border-radius: 8px; background: var(--c-ui-panel); }
+.v2-tabs button { border: 0; padding: 6px 14px; border-radius: 6px; background: none; color: var(--c-ui-dim); font-weight: 600; font-size: 13px; }
+.v2-tabs button[aria-selected='true'] { background: var(--c-ui-hover); color: var(--c-text); }
+.v2-body { width: min(560px, 100%); display: grid; justify-items: center; } .v2-body .r-pane { width: 100%; display: grid; justify-items: center; text-align: center; }
+.v2-body .r-maps, .v2-body .r-hid { justify-content: center; } .v2-body .r-forms, .v2-body .r-vote, .v2-body .r-chance, .v2-body .r-ev { width: 100%; text-align: left; }
+.v2-body .r-maps > span, .v2-body .r-maps b { justify-content: center; text-align: center; } .v2-body .r-maps b { justify-content: center; }
+.v2-ft { display: flex; gap: 8px; }
+@container row (max-width: 600px) {
+  .v2-in { grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 8px; padding: 34px 10px 12px; }
+  .v2-s, .v2-s--a { flex-direction: column; justify-content: center; text-align: center; font-size: 13px; gap: 6px; } .v2-s--a .r-lg { order: 0; }
+  .v2-s .r-lg { width: 28px; height: 28px; } .r-nm { max-width: 100%; }
+  .v2-c > b { font-size: 22px; } .v2-meta .r-bo { display: none; } .v2-c .r-st small { white-space: normal; text-align: center; }
+  .v2-tabs { max-width: 100%; overflow-x: auto; } .v2-tabs button { flex: none; } .v2-ft { width: 100%; } .v2-ft .r-btn { flex: 1; }
+}
+</style></head>
+<body><main class="r-page">
+  <h1>v2 · Табло</h1>
+  <p>Главное — по центру: счёт в плашке, под ним статус (красным, если в эфире), команды крупно по бокам. Открыта — табло остаётся, под ним вкладки сегментом по центру, блок по центру, кнопки по центру. Одна ось симметрии — глазу не надо бегать.</p>
+  <div class="r-tools"><div class="r-seg" data-states></div><div class="r-seg"><button type="button" data-open="0">Закрыта</button><button type="button" data-open="1">Открыта</button></div></div>
+  <div class="r-frames">
+    <div><p class="r-cap">Колонка матчей · 1000 — клик по строке открывает и закрывает</p><div class="r-frame r-frame--col" data-row></div></div>
+    <div><p class="r-cap">Телефон · 390</p><div class="r-frame r-frame--phone" data-row></div></div>
+  </div>
+</main>
+<script>
+// Общее для вариантов: счёт и победитель, вкладки и панели
+window.ROW = {}
+const счёт = (m, k) => m.sa == null || m.скрыт ? '' : m['s' + k]
+const исход = (m, k) => m.st === 'done' && !m.скрыт ? ((k === 'a' ? m.sa > m.sb : m.sb > m.sa) ? 'is-win' : 'is-lose') : ''
+const вкладки = t => t.map(([n], i) => `<button type="button" data-tab="${i}" aria-selected="${i === 0}">${n}</button>`).join('')
+const панели = t => t.map(([, b], i) => `<div class="r-pane" data-pane="${i}" ${i ? 'hidden' : ''}>${b}</div>`).join('')
+const стат = (m, h) => { const [a, b, c] = h.статус(m.вид, m); return `<div class="r-st ${c ? 'is-' + c : ''}"><b>${c === 'live' ? '<i class="r-dot"></i>' : ''}${a}</b><small>${b}</small></div>` }
+const заметка = m => m.заметка && ['delay', 'moved', 'pause', 'cancel'].includes(m.вид) ? m.заметка : ''
+ROW.вариант = (m, open, h) => {
+  const с = k => `<span class="v2-s v2-s--${k} ${исход(m, k)}">${h.лого(m[k])}<span class="r-nm">${h.имя(m[k])}</span></span>`
+  const [гл] = h.статус(m.вид, m)
+  const центр = m.скрыт ? `<b class="is-dim">? : ?</b>` : m.sa == null ? `<b class="is-time">${гл}</b>` : `<b>${m.sa} : ${m.sb}</b>`
+  const [t, кн] = h.кусочки(m.вид, m)
+  return `<article class="r-row ${open ? 'is-open' : ''} ${m.вид === 'cancel' ? 'r-off' : ''}">
+    <div class="v2-in" data-toggle>${с('a')}<div class="v2-c">${центр}${стат(m, h)}</div>${с('b')}
+      <span class="v2-meta"><span class="r-bo">${m.bo}</span><button class="r-fav ${m.fav ? 'is-on' : ''}" type="button">${m.fav ? '★' : '☆'}</button></span></div>
+    ${!open && заметка(m) ? `<p class="r-note v2-note">${заметка(m)}</p>` : ''}
+    ${open ? `<div class="v2-qv"><div class="v2-tabs">${вкладки(t)}</div><div class="v2-body">${панели(t)}</div><div class="v2-ft">${h.кнопки(кн)}</div></div>` : ''}
+  </article>`
+}
+</script>
+<script src="_row.js"></script>
+</body></html>

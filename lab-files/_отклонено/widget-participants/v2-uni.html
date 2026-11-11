@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v2 · Как наши виджеты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="../widgets-unified/_type.css" />
+<!-- Т2 «Участники» v2 — то же, что v0 (Liquipedia), в стиле итоговых 4 виджетов (widgets-23 v2 · Унифицировано): токены _w.css, шрифты _type.css,
+     шапка 52 с линией, строки через линии без коробок, лого 20 в строке, сегмент как в _uni.css; Main / Subs / Coach — по-английски (решение 34: игровые термины). Без новых функций (дирижёр 28.10).
+     «Экран» в панели — компьютер (сетка во всю ширину) / телефон 390 (одна колонка). v1 — в _отклонено (свой стиль, не как виджеты). -->
+<style>
+  body{ margin:0; background:var(--w-page); color:var(--w-fg); font-family:var(--w-font); }
+  .lab-board{ padding:32px 48px; }
+  .is-phone .lab-board{ padding:32px 0; }
+  .pt{ width:auto; }
+  .is-phone .pt{ width:390px; margin:0 auto; }
+  .pt .w-hd{ height:var(--g-hd); }
+  .pt .w-hd__t{ font:var(--t-title); flex:none; }
+  .pt .w-hd .sub{ font:var(--t-hsub); color:var(--w-muted-fg); flex:1; }
+  .pt-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); }
+  .is-phone .pt-grid{ grid-template-columns:1fr; }
+  /* команда — ячейка сетки, разделена линиями, без своей коробки */
+  .pt-tm{ padding:4px 16px 12px; border-right:1px solid var(--w-border); border-bottom:1px solid var(--w-border); margin:0 -1px -1px 0; }
+  .pt-th{ display:flex; align-items:center; gap:8px; height:var(--g-row); cursor:pointer; }
+  .pt-th img{ width:20px; height:20px; object-fit:contain; flex:none; }
+  .pt-th b{ font:var(--t-title); flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pt-th .st{ font:var(--t-sub); color:var(--w-muted-fg); }
+  .pt-th .ch{ color:var(--w-ring); width:16px; display:grid; place-items:center; transition:transform .2s; }
+  .pt-tm.is-col .ch{ transform:rotate(-90deg); }
+  .pt-tm.is-col .pt-bd{ display:none; }
+  .pt-q{ display:flex; justify-content:space-between; font:var(--t-sub); color:var(--w-muted-fg); margin:-8px 0 8px; }
+  .pt-q b{ font:var(--t-tag); color:var(--w-star); }
+  .pt-seg{ display:flex; gap:2px; padding:2px; border-radius:var(--w-r-sm); background:var(--w-mid-bg); margin-bottom:4px; }
+  .w .pt-seg button{ flex:1; height:28px; border:0; border-radius:6px; background:none; font:var(--t-seg); color:var(--w-muted-fg); cursor:pointer; text-align:center; }
+  .w .pt-seg button.is-on{ background:var(--w-muted); color:var(--w-fg); }
+  .pt-r{ display:flex; align-items:center; gap:8px; height:var(--g-cell); }
+  .pt-r + .pt-r{ border-top:1px solid var(--w-border); }
+  .pt-r .p{ width:16px; font:var(--t-num-s); color:var(--w-muted-fg); text-align:center; flex:none; }
+  .pt-r img.f{ width:16px; height:11px; object-fit:cover; border-radius:2px; flex:none; }
+  .pt-r .n{ flex:1; min-width:0; font:var(--t-cell); color:var(--w-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pt-r .x{ display:flex; align-items:center; gap:4px; font:var(--t-sub); color:var(--w-muted-fg); }
+  .pt-r .x img{ width:16px; height:16px; object-fit:contain; }
+  .pt-r.coach .n{ color:var(--w-muted-fg); }
+</style></head>
+<body><div class="lab-board"><div id="w"></div></div>
+<script src="_data.js"></script>
+<script>
+  const DEV = [{ id: 'desk', name: 'Компьютер' }, { id: 'phone', name: 'Телефон' }]
+  const S = { dev: 0, col: {}, tab: {} }
+  const w = document.getElementById('w')
+  const chev = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  const row = (x) => x.role === 'Coach'
+    ? `<div class="pt-r coach"><img class="f" src="${x.fsrc}" title="${x.flag}"><span class="n">${x.nick}</span><span class="x">Coach</span></div>`
+    : `<div class="pt-r"><img class="f" src="${x.fsrc}" title="${x.flag}"><span class="n">${x.nick}</span>${x.team ? `<span class="x"><img src="${x.team[1]}" title="${x.team[0]}"></span>` : ''}<span class="p">${x.role}</span></div>`
+  function team(t, i) {
+    const col = S.col[i] ?? false, tab = S.tab[i] ?? 0
+    return `<div class="pt-tm ${col ? 'is-col' : ''}">
+      <div class="pt-th" data-col="${i}"><img src="${t.logo}" alt=""><b>${t.name}</b><span class="st">${t.st}</span><span class="ch">${chev}</span></div>
+      ${t.q ? `<div class="pt-q"><span>${t.q[0]}</span><b>${t.q[1]}</b></div>` : ''}
+      <div class="pt-bd">
+        ${t.tabs.length > 1 ? `<div class="pt-seg">${t.tabs.map((x, k) => `<button data-tab="${i}:${k}" class="${tab === k ? 'is-on' : ''}">${x.tab}</button>`).join('')}</div>` : ''}
+        ${t.tabs[tab].m.map(row).join('')}
+      </div></div>`
+  }
+  function render() {
+    document.body.classList.toggle('is-phone', DEV[S.dev].id === 'phone')
+    w.innerHTML = `<div class="w pt"><div class="w-hd"><span class="w-hd__t">Участники</span><span class="sub">${PU_TEAMS.length} команд</span></div>
+      <div class="pt-grid">${PU_TEAMS.map(team).join('')}</div></div>`
+  }
+  w.addEventListener('click', (e) => {
+    const c = e.target.closest('[data-col]'); if (c) { const i = c.dataset.col; S.col[i] = !S.col[i]; return render() }
+    const t = e.target.closest('[data-tab]'); if (t) { const [i, k] = t.dataset.tab.split(':'); S.tab[i] = +k; return render() }
+  })
+  window.LAB = { view: 'toolbar', go: (f, i) => { S.dev = i; render() }, cur: () => ({ f: 0, i: S.dev }),
+    flows: () => [{ name: 'Экран', steps: DEV.map((d) => ({ name: d.name, what: d.name })) }],
+    axes: () => [{ key: 'device', name: 'Экран', value: DEV[S.dev].id, options: DEV.map((d) => ({ v: d.id, label: d.name })) }],
+    set: (k, v) => { S.dev = DEV.findIndex((d) => d.id === v); render() },
+    caption: () => DEV[S.dev].id === 'phone' ? 'Телефон 390 — команды одной колонкой' : 'Компьютер — команды сеткой во всю ширину' }
+  render()
+</script>
+</body></html>

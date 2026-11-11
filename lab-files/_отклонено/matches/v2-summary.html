@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_matches.css" />
+<style>
+.mx-qv--v2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: center; gap: 0; padding: 4px 14px 14px 132px; }
+.mx-qv--v2 > div { padding: 0 20px; border-left: 1px solid var(--c-ui-line); }
+.mx-qv--v2 > div:first-child { padding-left: 0; border-left: 0; }
+.mx-qv--v2 > footer { display: flex; gap: 8px; padding-left: 20px; }
+@container mx (max-width: 700px) {
+  .mx-qv--v2 { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 4px 10px 12px; }
+  .mx-qv--v2 > div { padding: 0; border: 0; }
+  .mx-qv--v2 > footer { padding: 0; } .mx-qv--v2 > footer .mx-btn { flex: 1; justify-content: center; }
+}
+</style></head>
+<body data-v="v2"><main class="mx-page">
+  <h1>v2 · Строка-сводка</h1>
+  <p>Строка раскрывается одной тонкой полосой прямо под командами: два главных факта и кнопка, без карточек внутри карточек. Скоро — форма и «кто победит», в эфире — карты и шанс победы, итог — карты и игрок матча. Стадия, звёзды и прочее из закрытой строки убраны — там только время, команды, счёт.</p>
+  <div class="mx-tools"><span>Раскрыть пример:</span><div class="mx-seg"><button type="button" data-show="soon">Скоро · Falcons — Liquid</button><button type="button" data-show="live">В эфире · Spirit — Tundra</button><button type="button" data-show="done">Итог · Aurora — BetBoom</button><button type="button" data-show="none">Свернуть</button></div></div>
+  <p class="mx-cap">Десктоп · 1440 — кликни по любой строке матча (рамка уменьшена под ширину окна)</p><div class="mx-wrap"><div class="mx-frame mx-frame--desk" data-mx></div></div>
+  <p class="mx-cap">Телефон · 390 — строка раскрывается так же, тапом</p><div class="mx-frame mx-frame--phone" data-mx></div>
+</main>
+<script>
+MX_ФОРМЫ = { v2: (m, k) => { const K = MX.КУСКИ
+  const [a, b] = k === 'soon' ? [['Форма · 5 матчей', K.форма(m)], ['Кто победит', K.голос(m)]]
+    : k === 'live' ? [['Карты', K.карты(m, k)], ['Шанс победы в карте', K.шанс(m)]] : [['Карты', K.карты(m, k)], ['Игрок матча', K.игрок(m)]]
+  return `<div><p class="mx-k">${a[0]}</p>${a[1]}</div><div><p class="mx-k">${b[0]}</p>${b[1]}</div><footer>${K.кнопки(m, k)}</footer>` } }
+</script>
+<script src="_matches.js"></script>
+<script>
+const fit = () => document.querySelectorAll('.mx-wrap').forEach(w => { w.firstElementChild.style.zoom = Math.min(1, w.clientWidth / 1440) })
+fit(); addEventListener('resize', fit)
+</script>
+</body></html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_matches.css" />
+<style>
+.mx-qv--v4 { padding: 0 14px 14px; }
+.v4 { display: grid; gap: 14px; padding: 18px 20px; border-radius: 10px; background: var(--c-ui-panel); }
+.v4-sb { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 20px; }
+.v4-t { display: flex; align-items: center; gap: 12px; min-width: 0; font-size: 17px; font-weight: 700; }
+.v4-t:last-child { flex-direction: row-reverse; text-align: right; }
+.v4-t .mx-lg { width: 44px; height: 44px; } .v4-t .mx-lg--mono { font-size: 12px; border-radius: 10px; }
+.v4-t > span { display: grid; gap: 6px; min-width: 0; } .v4-t:last-child > span { justify-items: end; }
+.v4-c { display: grid; justify-items: center; gap: 2px; }
+.v4-c b { font: 700 40px/1 var(--font-c); } .v4-c b.is-clock { color: var(--c-text); }
+.v4-c small { display: flex; align-items: center; color: var(--c-caption); font-size: 12.5px; } .v4-c small.is-live { color: var(--c-live); }
+.v4-mid { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; }
+.v4-mid .mx-chance { width: 360px; } .v4-mid .mx-vote2 { width: 420px; }
+.v4-ft { display: flex; justify-content: center; gap: 8px; }
+@container mx (max-width: 700px) {
+  .mx-qv--v4 { padding: 0 10px 12px; } .v4 { padding: 14px; }
+  .v4-sb { gap: 8px; } .v4-t { flex-direction: column !important; text-align: center !important; font-size: 13px; gap: 6px; } .v4-t > span { justify-items: center !important; }
+  .v4-t .mx-lg { width: 34px; height: 34px; } .v4-c b { font-size: 32px; }
+  .v4-mid .mx-chance, .v4-mid .mx-vote2 { width: 100%; } .v4-ft .mx-btn { flex: 1; justify-content: center; }
+}
+</style></head>
+<body data-v="v4"><main class="mx-page">
+  <h1>v4 · Карточка матча</h1>
+  <p>Раскрытая строка превращается в маленькое табло: крупные команды по краям, в центре — главное число (время до начала или счёт серии), под ним одна полоса фактов и кнопка. Иерархия одна на все состояния: кто играет → что сейчас → одна подсказка → что сделать.</p>
+  <div class="mx-tools"><span>Раскрыть пример:</span><div class="mx-seg"><button type="button" data-show="soon">Скоро · Falcons — Liquid</button><button type="button" data-show="live">В эфире · Spirit — Tundra</button><button type="button" data-show="done">Итог · Aurora — BetBoom</button><button type="button" data-show="none">Свернуть</button></div></div>
+  <p class="mx-cap">Десктоп · 1440 — кликни по любой строке матча (рамка уменьшена под ширину окна)</p><div class="mx-wrap"><div class="mx-frame mx-frame--desk" data-mx></div></div>
+  <p class="mx-cap">Телефон · 390 — строка раскрывается так же, тапом</p><div class="mx-frame mx-frame--phone" data-mx></div>
+</main>
+<script>
+MX_ФОРМЫ = { v4: (m, k) => { const K = MX.КУСКИ
+  const фм = { a: 'WWLWW', b: 'LWWLL' }
+  const т = s => `<div class="v4-t">${K.лого(m[s])}<span>${K.имя(m[s])}${k === 'soon' ? `<span class="mx-form">${[...фм[s]].map(c => `<i class="${c === 'W' ? 'w' : 'l'}"></i>`).join('')}</span>` : ''}</span></div>`
+  const ц = k === 'soon' ? `<b class="is-clock">${m.t || m.новое}</b><small>${m.через || 'задержан'} · ${m.bo}</small>`
+    : k === 'live' ? `<b>${m.sa} : ${m.sb}</b><small class="is-live"><i class="mx-dot"></i>${m.st === 'live' ? 'Карта ' + m.карта + ' · ' + m.часы : m.st === 'draft' ? 'Драфт' : m.st === 'pause' ? 'Пауза' : 'Перерыв'}</small>`
+    : `<b>${m.sa} : ${m.sb}</b><small>Итог · ${m.bo}</small>`
+  const мид = k === 'soon' ? K.голос(m) : k === 'live' ? K.карты(m, k) + K.шанс(m) : K.карты(m, k) + K.игрок(m)
+  return `<div class="v4"><div class="v4-sb">${т('a')}<div class="v4-c">${ц}</div>${т('b')}</div><div class="v4-mid">${мид}</div><div class="v4-ft">${K.кнопки(m, k)}</div></div>` } }
+</script>
+<script src="_matches.js"></script>
+<script>
+const fit = () => document.querySelectorAll('.mx-wrap').forEach(w => { w.firstElementChild.style.zoom = Math.min(1, w.clientWidth / 1440) })
+fit(); addEventListener('resize', fit)
+</script>
+</body></html>

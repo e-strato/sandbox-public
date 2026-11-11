@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tektur:wdth,wght@75..100,400..900&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v2 · HUD — карта как интерфейс прицела: сетка точек, кольца радара за головой, статы сегментами, герои в шестигранниках.
+   Правки 01.10: уголки-скобы убраны, обводка по всем граням и у оборота, один шрифт — Tektur, команда бейджем снизу, оборот свой */
+.h2 { --r: 0; --c: 1.1em; --shape: polygon(var(--c) 0, calc(100% - var(--c)) 0, 100% var(--c), 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, var(--c) 100%, 0 calc(100% - var(--c)), 0 var(--c));
+  --f-disp: 'Tektur'; --f-ui: 'Tektur'; }
+.h2__face { position: absolute; inset: 0; font-family: 'Tektur', sans-serif; }
+.h2__plate { position: absolute; inset: 0; clip-path: var(--shape); background: var(--c-card-ink-2); overflow: hidden; }
+
+/* 2 Фон: тёмный, сетка точек, свечение силы, логотип команды крупно с уходом в темноту; кольца радара за головой (с Holo) */
+.h2__bg { position: absolute; inset: 0;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--tier) 22%, transparent) .07em, transparent .09em) 0 0 / 1.1em 1.1em,
+    radial-gradient(80% 50% at 50% 26%, color-mix(in srgb, var(--tier) 20%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 45%, var(--c-card-ink)), var(--c-card-ink) 70%); }
+.h2__logo { left: 1.5em; top: 3em; width: 19em; height: 15em;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 26%, transparent), transparent 85%); }
+.h2__radar { position: absolute; left: 9.8em; top: 6em; width: 20em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 1.6em, color-mix(in srgb, var(--tier) 30%, transparent) 1.6em 1.67em);
+  -webkit-mask: radial-gradient(closest-side, var(--c-black) 40%, transparent); mask: radial-gradient(closest-side, var(--c-black) 40%, transparent); }
+
+/* 3 Рамка: тонкий контур по всем восьми граням (svg) и линейка делений по левому краю (с Holo) */
+.h2__frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 8; fill: none; }
+.h2__frame .out { stroke: var(--tier); stroke-width: 1.4; }
+.h2__frame .in { stroke: color-mix(in srgb, var(--tier) 30%, transparent); stroke-width: .6; }
+.h2__ruler { position: absolute; left: .7em; top: 8em; bottom: 8em; width: .5em; z-index: 8;
+  background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--tier) 60%, transparent) 0 .07em, transparent .07em .7em); }
+
+/* 4 Эффекты: блеск редкости; с Prism — скан-линия; у Legend — дуга вокруг головы */
+.h2__scan { position: absolute; left: 0; right: 0; top: var(--scan); height: .14em; z-index: 3; background: var(--tier-hi);
+  box-shadow: 0 0 1em .3em color-mix(in srgb, var(--tier) 60%, transparent); opacity: .7; animation: scan 3.8s linear infinite; }
+.h2__arc { position: absolute; left: 9.8em; top: 6em; width: 13.4em; aspect-ratio: 1; translate: -50% -50%; z-index: 1; border-radius: 50%;
+  background: conic-gradient(from var(--spin), var(--tier-hi) 0 14%, transparent 14% 50%, var(--tier) 50% 58%, transparent 58%);
+  -webkit-mask: radial-gradient(closest-side, transparent 92%, var(--c-black) 93%); mask: radial-gradient(closest-side, transparent 92%, var(--c-black) 93%);
+  animation: spin 6s linear infinite; }
+
+/* 5 Фото: туловище уходит в темноту, свечение за головой */
+.h2__halo { position: absolute; left: 9.8em; top: 6em; width: 13em; aspect-ratio: 1; translate: -50% -50%; z-index: 1; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 55%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 60%, transparent); }
+.h2 .ph { left: 1.2em; top: 1.9em; width: 16.6em; z-index: 2;
+  -webkit-mask: linear-gradient(180deg, var(--c-black) 58%, transparent 78%); mask: linear-gradient(180deg, var(--c-black) 58%, transparent 78%); }
+
+/* 6 Игрок */
+.h2__who { position: absolute; left: 1.6em; right: 1.6em; top: 19.3em; z-index: 6; text-align: center; }
+.h2__nick { font-weight: 800; font-size: 2.9em; line-height: 1; letter-spacing: -.01em; }
+.h2__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .4em; font-size: .8em; font-weight: 500; color: var(--c-muted); }
+
+/* 7 Раскладка: номер карты слева сверху, рейтинг справа сверху, под ним герои в шестигранниках */
+.h2__serial { position: absolute; left: 1.6em; top: 1.4em; z-index: 7; line-height: 1.3; }
+.h2__serial b { display: block; font-size: .8em; font-weight: 700; color: var(--tier-hi); }
+.h2__serial small { display: block; font-size: .58em; color: var(--c-muted); }
+.h2__ovr { position: absolute; right: 1.4em; top: 1em; z-index: 7; font-weight: 800; font-size: 4.2em; line-height: .95; color: var(--c-white);
+  text-shadow: 0 0 .4em color-mix(in srgb, var(--tier) 80%, transparent); }
+.h2__heroes { position: absolute; right: 1.3em; top: 6.4em; z-index: 7; display: grid; gap: .5em; justify-items: end; }
+.h2__heroes div { display: grid; justify-items: center; gap: .15em; }
+.h2__hex { width: 3em; aspect-ratio: 1 / 1.1; padding: .12em; background: var(--tier);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.h2__hex .hero-ic { width: 100%; height: 100%; aspect-ratio: auto; clip-path: inherit; }
+.h2__heroes small { font-size: .55em; font-weight: 700; color: var(--c-white); white-space: nowrap; }
+.h2__heroes small i { font-style: normal; color: var(--tier-hi); }
+
+/* 8 Инфо: роль — метка цели по центру; статы — сегменты; команда бейджем снизу */
+/* Роль — одна плашка: позиция залита цветом силы, роль на тёмном (правка 01.10: без боковых скобок) */
+.h2__role { position: absolute; left: 50%; top: 16.9em; z-index: 7; translate: -50% 0; display: flex; align-items: stretch; white-space: nowrap;
+  font-size: 1.05em; font-weight: 700; background: color-mix(in srgb, var(--c-card-ink) 85%, transparent); box-shadow: inset 0 0 0 .09em var(--tier); }
+.h2__role b { display: grid; place-content: center; padding: .2em .55em; background: var(--tier); color: var(--c-card-dark-text); font-weight: 800; }
+.h2__role span { padding: .2em .7em; }
+.h2__stats { position: absolute; left: 1.7em; right: 1.7em; top: 23.6em; z-index: 6; display: grid; grid-template-columns: repeat(3, 1fr); gap: .65em 1.1em; }
+.h2__stats span { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: .15em; }
+.h2__stats small { font-size: .55em; font-weight: 600; color: var(--c-muted); }
+.h2__stats b { font-size: 1.15em; font-weight: 800; line-height: 1; }
+.h2__stats i { grid-column: 1 / -1; height: .32em; position: relative; --seg: repeating-linear-gradient(90deg, var(--fill) 0 .42em, transparent .42em .52em);
+  --fill: color-mix(in srgb, var(--c-white) 12%, transparent); background: var(--seg); }
+.h2__stats i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--v); --fill: currentColor; background: var(--seg); }
+/* Команда — крупнее и заметнее (правка 01.10) */
+.h2__team { position: absolute; left: 50%; bottom: .65em; translate: -50% 0; z-index: 9; display: flex; align-items: center; gap: .5em; white-space: nowrap;
+  padding: .45em 1.3em .45em 1em; font-size: .85em; font-weight: 800; background: color-mix(in srgb, var(--tier) 28%, var(--c-card-ink));
+  clip-path: polygon(.7em 0, calc(100% - .7em) 0, 100% 50%, calc(100% - .7em) 100%, .7em 100%, 0 50%); }
+.h2__team .logo { width: 1.9em; height: 1.9em; }
+
+/* 9 Оборот: экран статистики — те же восемь граней с обводкой, статы сегментами, герои шестигранниками в ряд, форма делениями */
+.h2 .bk { box-shadow: none; padding: 1.7em 1.7em 1.5em; gap: .8em;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--tier) 18%, transparent) .07em, transparent .09em) 0 0 / 1.1em 1.1em,
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 50%, var(--c-card-ink)), var(--c-card-ink) 70%); }
+.h2 .bk__top b, .h2 .bk__top em { font-weight: 800; }
+.h2 .bk__top em { color: var(--c-white); text-shadow: 0 0 .4em color-mix(in srgb, var(--tier) 80%, transparent); }
+.h2 .bk__stats { gap: .7em 1.2em; }
+.h2 .bk__stats b { font-size: 1.25em; }
+.h2 .bk__stats i { height: .4em; border-radius: 0; --seg: repeating-linear-gradient(90deg, var(--fill) 0 .5em, transparent .5em .62em);
+  --fill: color-mix(in srgb, var(--c-white) 12%, transparent); background: var(--seg); }
+.h2 .bk__stats i::after { border-radius: 0; --fill: var(--tier); background: var(--seg); }
+.h2 .bk__heroes { grid-template-columns: repeat(3, 1fr); }
+.h2 .bk__heroes li { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .2em; }
+.h2 .bk__heroes .hero-ic { width: 3.4em; aspect-ratio: 1 / 1.1; border-radius: 0; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+.h2 .bk__form li { border-radius: 0; height: 1.2em; }
+.h2 .bk__btn { border-radius: 0; clip-path: polygon(.8em 0, calc(100% - .8em) 0, 100% 50%, calc(100% - .8em) 100%, .8em 100%, 0 50%); }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v2 · HUD</h2>
+    <p class="sec-lead">Карта как интерфейс прицела в игре: сетка точек, за головой кольца радара. Статы — сегментами, герои — в шестигранниках.
+      Позиция и роль стоят по центру одной плашкой. Один шрифт — Tektur. С редкостью добавляются деления, скан-линия и дуга вокруг головы.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+// Контур — одна рамка на лицо и оборот: обводка по всем восьми граням
+const РАМКА = `<svg class="h2__frame" data-l="3" viewBox="0 0 220 308" preserveAspectRatio="none" aria-hidden="true">
+  <polygon class="out" points="11,1 209,1 219,11 219,297 209,307 11,307 1,297 1,11" />
+  <polygon class="in" points="12.5,5 207.5,5 215,12.5 215,295.5 207.5,303 12.5,303 5,295.5 5,12.5" />
+</svg>`
+V3.страница({
+  класс: 'h2',
+  иерархия: [
+    'Восемь граней: все углы срезаны поровну.',
+    'Тёмный фон, сетка точек, свечение силы. Логотип команды крупно за игроком уходит в темноту. С Holo появляются кольца радара за головой.',
+    'Тонкий контур цвета силы по всем граням и второй — внутри. С Holo — линейка делений по левому краю.',
+    'Блеск редкости. С Prism — скан-линия сверху вниз, у Legend — дуга, которая крутится вокруг головы.',
+    'Игрок по центру, туловище уходит в темноту, за головой свечение.',
+    'Ник крупно по центру, ниже флаг и настоящее имя.',
+    'Рейтинг в правом верхнем углу без обводок. Под ним три героя в шестигранниках: матчи и винрейт. Номер карты и сезон — слева сверху.',
+    'Позиция и роль по центру одной плашкой между фото и ником. Статы — сегментами 3×2, внизу по центру команда крупным бейджем.',
+    'Свой оборот — экран статистики: те же грани с обводкой, статы сегментами, герои шестигранниками в ряд, форма делениями, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п, РАМКА),
+  лицо: (п, r, h) => `
+<div class="h2__face">
+  <div class="h2__plate" data-l="1">
+    <div class="h2__bg" data-l="2">
+      ${h.маска(п, 'h2__logo')}
+      <i class="h2__radar" data-deco="1"></i>
+    </div>
+    <i class="h2__halo" data-l="5"></i>
+    <i class="h2__arc" data-l="4" data-deco="3"></i>
+    ${h.фото(п)}
+    <i class="h2__scan" data-l="4" data-deco="2"></i>
+    ${h.блеск(r)}
+  </div>
+  ${РАМКА}
+  <i class="h2__ruler" data-l="3" data-deco="1"></i>
+  <div class="h2__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <b class="h2__ovr" data-l="7">${п.рейтинг}</b>
+  <div class="h2__heroes" data-l="7">${п.герои.map((г) => `<div><span class="h2__hex">${h.герой(г)}</span><small>${г[2]} М · <i>${г[3]}%</i></small></div>`).join('')}</div>
+  <span class="h2__role" data-l="8"><b>Pos ${п.pos}</b><span>${h.РОЛИ[п.pos]}</span></span>
+  <div class="h2__who" data-l="6"><div class="h2__nick">${п.ник}</div>${п.имя ? `<div class="h2__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  <div class="h2__stats" data-l="8">${h.статы(п).map((с) => `<span data-v="${с.ур}"><small>${с.к}</small><b>${с.v}</b><i style="--v: ${с.v}%"></i></span>`).join('')}</div>
+  <div class="h2__team" data-l="8">${h.лого(п)}${h.команда(п)}</div>
+</div>`,
+})
+</script>
+</body></html>

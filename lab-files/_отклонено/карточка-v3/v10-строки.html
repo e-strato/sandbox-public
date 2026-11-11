@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400..900&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v10 · Строки — развитие «Зон»: фото во всю ширину сверху, ниже строки зон, как табло.
+   Заход 2 (дирижёр 01.10: «форма резче, шрифт адекватнее, баланс, технологичнее»): срезы углов вместо скруглений — у карты и у зон;
+   шрифт Exo 2 прямой (технологичный, обычной ширины); вес по важности — рейтинг, ник, позиция и статы крупнее, герои и команда спокойнее;
+   в зонах тонкая сетка точек. Сетка зон (em карты): поля .5, зазор .45 */
+.w10 { --r: 0; --shape: polygon(1.6em 0, 100% 0, 100% calc(100% - 1.6em), calc(100% - 1.6em) 100%, 0 100%, 0 1.6em);
+  --f-disp: 'Exo 2'; --f-ui: 'Exo 2'; --zc: polygon(.45em 0, 100% 0, 100% calc(100% - .45em), calc(100% - .45em) 100%, 0 100%, 0 .45em); }
+.w10__face, .w10 .bk { font-family: 'Exo 2', sans-serif; }
+.w10__face { position: absolute; inset: 0; }
+/* Заход 3 (01.10: «без отступов, чтобы элементы прилипали друг к другу»): зоны встык, без полей и зазоров;
+   между ними — волосяные швы цвета силы (сквозь них виден фон карты) */
+.w10__plate { position: absolute; inset: 0; clip-path: var(--shape); background: color-mix(in srgb, var(--tier) 30%, var(--c-card-ink)); }
+.w10__zone { position: absolute; overflow: hidden;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--tier) 14%, transparent) .05em, transparent .07em) 0 0 / .9em .9em,
+    color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)); }
+
+/* 2 Фон: зона фото во всю ширину — тёмный цвет силы, косые полосы, логотип команды крупно за игроком */
+.w10__photo { left: 0; right: 0; top: 0; height: 15em;
+  clip-path: polygon(1.6em 0, 100% 0, 100% 100%, 0 100%, 0 1.6em);
+  background:
+    repeating-linear-gradient(115deg, transparent 0 1.3em, color-mix(in srgb, var(--c-white) 3%, transparent) 1.3em 1.36em),
+    radial-gradient(60% 60% at 50% 32%, color-mix(in srgb, var(--tier) 32%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 85%, var(--c-card-ink)), color-mix(in srgb, var(--tier-2) 30%, var(--c-card-ink))); }
+.w10__logo { left: 3em; top: 1em; width: 16em; height: 13.2em; background: color-mix(in srgb, var(--tier) 22%, transparent); }
+.w10__glow { position: absolute; inset: 0; background: radial-gradient(50% 70% at 50% 100%, color-mix(in srgb, var(--tier) 35%, transparent), transparent 70%); }
+
+/* 3 Рамка: контур формы цвета силы, со срезами (svg — обводка идёт и по срезам) */
+.w10__frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 8; fill: none; }
+.w10__frame .out { stroke: var(--tier); stroke-width: 1.4; }
+
+/* 4 Эффекты: блеск в зоне фото; с Prism — перелив по зонам; у Legend — фольга на зоне рейтинга */
+.w10__sheen { position: absolute; inset: 0; mix-blend-mode: screen; opacity: .3;
+  background: linear-gradient(110deg, transparent 35%, var(--c-rarity-holo-4) 45%, var(--c-rarity-holo-1) 50%, var(--c-rarity-holo-2) 55%, transparent 65%);
+  background-size: 300% 100%; background-position: calc(100% - var(--mx, 0%) - var(--drift) * 2) 0; animation: drift 6s ease-in-out infinite alternate; }
+.w10__foil { position: absolute; inset: 0; mix-blend-mode: soft-light;
+  background: linear-gradient(118deg, transparent 25%, var(--c-white) 50%, transparent 75%); background-size: 300% 100%;
+  background-position: calc(100% - var(--drift) * 3) 0; animation: drift 3s ease-in-out infinite alternate; }
+
+/* 5 Фото: по центру, обрезано краем зоны, свечение за головой */
+.w10__halo { position: absolute; left: 11.3em; top: 5.2em; width: 12em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 60%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 55%, transparent); }
+.w10 .ph { left: 2.6em; top: 1em; width: 16.8em; }
+.w10__serial { position: absolute; right: 1em; top: 1em; z-index: 7; display: grid; justify-items: end; padding: .35em .6em; line-height: 1.2;
+  clip-path: var(--zc); background: color-mix(in srgb, var(--c-card-ink) 78%, transparent); }
+.w10__serial b { font-size: .8em; font-weight: 800; color: var(--tier-hi); }
+.w10__serial small { font-size: .55em; font-weight: 500; color: var(--c-muted); }
+
+/* 7 Строка 1: рейтинг — самый крупный, зона цвета силы; герои — спокойнее */
+.w10__ovr { left: 0; top: 15.07em; width: 6.8em; height: 4.53em; padding-left: .15em; display: grid; place-content: center;
+  background: linear-gradient(160deg, var(--tier-hi), var(--tier) 60%); color: var(--c-card-dark-text); }
+.w10__ovr b { position: relative; font-size: 3.7em; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
+.w10__heroes { left: 6.87em; right: 0; top: 15.07em; height: 4.53em; display: grid; grid-template-columns: repeat(3, 1fr); padding: 0 .2em; }
+.w10__heroes div { display: flex; justify-content: center; align-items: center; gap: .4em; }
+.w10__heroes div + div { box-shadow: inset .05em 0 0 color-mix(in srgb, var(--c-white) 8%, transparent); }
+.w10__heroes .hero-ic { width: 1.9em; aspect-ratio: 1; clip-path: var(--zc); }
+.w10__heroes span { display: grid; line-height: 1.15; }
+.w10__heroes b { font-size: .7em; font-weight: 700; }
+.w10__heroes small { font-size: .6em; font-weight: 600; color: var(--tier-hi); }
+
+/* 6 Строка 2 слева: ник крупно, ниже флаг и имя */
+.w10__who { left: 0; top: 19.67em; width: 15.9em; height: 3.93em; display: grid; align-content: center; padding: 0 1.2em; }
+.w10__nick { font-size: 2.2em; font-weight: 800; line-height: 1; letter-spacing: -.01em; white-space: nowrap; }
+.w10__name { display: flex; align-items: center; gap: .5em; margin-top: .3em; font-size: .74em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Строка 2 справа — позиция крупно; строка 3 — статы (самое важное после рейтинга); строка 4 — команда, спокойнее */
+.w10__role { right: 0; top: 19.67em; width: 6.03em; height: 3.93em; padding-right: .15em; display: grid; place-content: center; justify-items: center; line-height: 1; }
+.w10__role b { font-size: 1.75em; font-weight: 900; color: var(--tier-hi); }
+.w10__role span { margin-top: .2em; font-size: .74em; font-weight: 700; }
+.w10__stats { left: 0; right: 0; top: 23.67em; height: 3.83em; padding: 0 .2em; display: grid; grid-template-columns: repeat(6, 1fr); align-items: center; text-align: center; }
+.w10__stats span + span { box-shadow: inset .05em 0 0 color-mix(in srgb, var(--c-white) 9%, transparent); }
+.w10__stats b { display: block; font-size: 1.6em; font-weight: 800; line-height: 1; }
+.w10__stats small { display: block; margin-top: .25em; font-size: .5em; font-weight: 600; color: var(--c-muted); }
+.w10__foot { left: 0; right: 0; top: 27.57em; bottom: 0; display: flex; justify-content: center; align-items: center; gap: .55em;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.6em), calc(100% - 1.6em) 100%, 0 100%);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 22%, var(--c-card-ink-2)), color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)) 60%, color-mix(in srgb, var(--tier) 22%, var(--c-card-ink-2))); }
+.w10__foot .logo { width: 1.6em; height: 1.6em; }
+.w10__team b { font-size: .95em; font-weight: 800; }
+
+/* 9 Оборот: те же строки и срезы — шапка, статы полосками, герои, форма, кнопка */
+.w10 .bk { box-shadow: none; padding: 0; gap: .07em; background: color-mix(in srgb, var(--tier) 30%, var(--c-card-ink)); }
+.w10 .bk > :not(.bk__mask) { padding: .8em 1.2em; border-radius: 0; background: color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)); }
+.w10 .bk__top b { font-weight: 900; font-size: 1.7em; }
+.w10 .bk__top em { display: grid; place-content: center; margin: -.4em -.45em -.4em 0; width: 1.9em; height: 1.45em; clip-path: var(--zc); font-weight: 900; font-size: 2.2em;
+  background: linear-gradient(160deg, var(--tier-hi), var(--tier) 60%); color: var(--c-card-dark-text); }
+.w10 .bk__top { padding-top: 1.2em !important; }
+.w10 .bk__stats b, .w10 .bk__heroes em { font-weight: 800; font-size: 1.15em; }
+.w10 .bk__stats i, .w10 .bk__stats i::after, .w10 .bk__heroes .hero-ic, .w10 .bk__form li { border-radius: 0; }
+.w10 .bk__lbl { padding-bottom: 0 !important; margin-bottom: -.07em; }
+.w10 .bk__form { margin: 0; }
+.w10 .bk__btn { margin-top: auto; height: 3.2em; padding: 0 !important; background: var(--tier) !important;
+  color: var(--c-card-dark-text); }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v10 · Строки</h2>
+    <p class="sec-lead">Развитие «Зон». Фото во всю ширину сверху, ниже строки зон, как на табло. Форма резкая, со срезами углов; зоны стоят встык, без отступов, разделены тонкими швами.
+      Вес по важности: рейтинг, ник, позиция и статы крупнее, герои и команда спокойнее. Шрифт один — Exo 2, прямой. В зонах тонкая сетка точек.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+// Контур формы со срезами — одна рамка на лицо и оборот
+const РАМКА = `<svg class="w10__frame" data-l="3" viewBox="0 0 220 308" preserveAspectRatio="none" aria-hidden="true">
+  <polygon class="out" points="16.5,1 219,1 219,291.5 203.5,307 1,307 1,16.5" />
+</svg>`
+V3.страница({
+  класс: 'w10',
+  иерархия: [
+    'Резкая форма: срез слева сверху и справа снизу, без скруглений. Зоны внутри — встык, без полей и зазоров, разделены волосяными швами цвета силы.',
+    'Зона фото: тёмный цвет силы, косые полосы, логотип команды крупно за игроком. В остальных зонах — тонкая сетка точек. С Holo снизу фото поднимается свечение.',
+    'Кант цвета силы по форме, идёт и по срезам.',
+    'Блеск редкости в зоне фото. С Prism по зонам идёт перелив, у Legend зона рейтинга покрыта фольгой.',
+    'Игрок по центру, обрезан краем зоны, за головой свечение.',
+    'Строка 2 слева: ник крупно, ниже флаг и настоящее имя.',
+    'Строка 1: рейтинг — самая крупная цифра карты, в зоне цвета силы; рядом три героя спокойнее (матчи и винрейт). Номер карты и сезон — чипом в углу фото.',
+    'Строка 2 справа — позиция крупно. Строка 3 — статы крупными цифрами. Строка 4 — команда, тише остальных.',
+    'Свой оборот из тех же зон со срезами: шапка с рейтингом, статы полосками, герои, форма, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п, РАМКА),
+  лицо: (п, r, h) => `
+<div class="w10__face">
+  <div class="w10__plate" data-l="1"></div>
+  <div class="w10__zone w10__photo" data-l="2">
+    ${h.маска(п, 'w10__logo')}
+    <i class="w10__glow" data-deco="1"></i>
+    <i class="w10__halo" data-l="5"></i>
+    ${h.фото(п)}
+    ${h.блеск(r)}
+  </div>
+  ${РАМКА}
+  <div class="w10__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="w10__zone w10__ovr" data-l="7"><i class="w10__foil" data-l="4" data-deco="3"></i><b>${п.рейтинг}</b></div>
+  <div class="w10__zone w10__heroes" data-l="7"><i class="w10__sheen" data-l="4" data-deco="2"></i>${п.герои.map((г) => `<div>${h.герой(г)}<span><b>${г[2]} М</b><small>${г[3]}%</small></span></div>`).join('')}</div>
+  <div class="w10__zone w10__who" data-l="6"><i class="w10__sheen" data-l="4" data-deco="2"></i><div class="w10__nick">${п.ник}</div>${п.имя ? `<div class="w10__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  <div class="w10__zone w10__role" data-l="8"><i class="w10__sheen" data-l="4" data-deco="2"></i><b>Pos ${п.pos}</b><span>${h.РОЛИ[п.pos]}</span></div>
+  <div class="w10__zone w10__stats" data-l="8"><i class="w10__sheen" data-l="4" data-deco="2"></i>${h.статы(п).map((с) => `<span><b data-v="${с.ур}">${с.v}</b><small>${с.к}</small></span>`).join('')}</div>
+  <div class="w10__zone w10__foot" data-l="8">${h.лого(п)}<span class="w10__team"><b>${h.команда(п)}</b></span></div>
+</div>`,
+})
+</script>
+</body></html>

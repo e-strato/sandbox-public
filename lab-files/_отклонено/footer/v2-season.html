@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&family=Archivo:wdth,wght@62..125,700..900&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_footer.css" />
+<style>
+/* v2 · Сезон: футер как последний экран игры — крупная полоса сезона (цифры, отсчёт до финала, кнопка «Открыть бустер»),
+   под ней логотипы команд сезона, дальше ссылки строками и юридическое. Брендовый и «живой»: продолжает продукт, а не обрывает его */
+.f2 { margin-top: 12px; }
+.f2__season { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; align-items: center; gap: 40px; padding: 40px 48px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(50% 120% at 0% 0%, color-mix(in srgb, var(--c-accent) 22%, transparent), transparent 70%), radial-gradient(40% 120% at 100% 100%, color-mix(in srgb, var(--c-tier-gold) 12%, transparent), transparent 70%), var(--c-ui-panel); }
+.f2__season::after { content: 'F'; position: absolute; right: 24px; top: -60px; z-index: -1; font: 900 320px/1 'Archivo', var(--font); color: color-mix(in srgb, var(--c-white) 3%, transparent); }
+.f2__h { margin: 0; color: var(--c-text); font: 800 38px/1.05 'Archivo', var(--font); font-stretch: 110%; letter-spacing: -.02em; }
+.f2__h + p { margin: 10px 0 0; max-width: 460px; font-size: 14px; }
+.f2__nums { display: grid; grid-template-columns: repeat(2, auto); gap: 18px 36px; justify-content: start; }
+.f2__nums b { display: block; color: var(--c-text); font: 700 34px/1 var(--font-c); }
+.f2__nums small { font-size: 12.5px; }
+.f2__cta { display: grid; gap: 10px; justify-items: stretch; min-width: 220px; }
+.f2__cta .btn { justify-content: center; }
+.f2__cd { text-align: center; font-size: 12.5px; }
+.f2__cd b { color: var(--c-text); font: 700 16px var(--font-c); }
+.f2__teams { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 48px; border-top: 1px solid var(--c-ui-line); border-bottom: 1px solid var(--c-ui-line); }
+.f2__teams img { width: 34px; height: 34px; object-fit: contain; opacity: .55; filter: grayscale(1); transition: opacity .2s, filter .2s; }
+.f2__teams img:hover { opacity: 1; filter: none; }
+.f2__teams span { font-size: 12.5px; white-space: nowrap; }
+.f2__links { display: flex; align-items: center; gap: 28px; padding: 24px 48px 0; }
+.f2__links nav { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--c-text); font-size: 14px; font-weight: 500; }
+.f2__links .ft-soc { margin-left: auto; }
+.f2__sub { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 14px 48px 0; font-size: 13px; }
+.f2__legal { display: flex; align-items: center; gap: 14px; padding: 20px 48px 28px; }
+.f2__legal .ft-fine { flex: 1; }
+@container ft (max-width: 480px) {
+  .f2__season { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 28px 16px; }
+  .f2__season::after { font-size: 220px; top: -40px; right: 0; }
+  .f2__h { font-size: 28px; }
+  .f2__nums b { font-size: 26px; }
+  .f2__teams { display: grid; grid-template-columns: repeat(5, 1fr); justify-items: center; gap: 14px; padding: 18px 16px; }
+  .f2__teams span { grid-column: 1 / -1; justify-self: start; order: -1; }
+  .f2__teams img { width: 30px; height: 30px; }
+  .f2__links { flex-direction: column; align-items: flex-start; gap: 18px; padding: 20px 16px 0; }
+  .f2__links nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; width: 100%; }
+  .f2__links .ft-soc { margin-left: 0; }
+  .f2__sub { padding: 14px 16px 0; }
+  .f2__legal { flex-wrap: wrap; padding: 18px 16px 24px; }
+  .f2__legal .ft-fine { flex: 1 1 100%; order: 3; }
+}
+</style></head>
+<body><div class="ft-lab" id="lab"></div>
+<template id="ft">
+<footer class="ft f2">
+  <section class="f2__season">
+    <div><h2 class="f2__h">Сезон 1 идёт</h2><p>Собери пятёрку из карт про-игроков, угадывай исходы карт и поднимайся в таблице — монеты только игровые, шансы бустеров открыты.</p></div>
+    <div class="f2__nums"><span><b>412</b><small>про-игроков в картах</small></span><span><b>48 210</b><small>участников</small></span><span><b>23</b><small>турнира в сезоне</small></span><span><b>3</b><small>игры: Dota 2, LoL, CS 2</small></span></div>
+    <div class="f2__cta"><a class="btn">Открыть бустер · 600</a><a class="btn btn--quiet">Как это работает</a><span class="f2__cd">до финала сезона <b>18 дн 04:12</b></span></div>
+  </section>
+  <div class="f2__teams"><span>Команды сезона</span><img src="/sandbox-public/site/img/teams/ts.png" alt="Team Spirit" /><img src="/sandbox-public/site/img/teams/tun.png" alt="Tundra" /><img src="/sandbox-public/site/img/teams/pv.png" alt="PARIVISION" /><img src="/sandbox-public/site/img/teams/bb.png" alt="BetBoom" /><img src="/sandbox-public/site/img/teams/gg.png" alt="Gaimin Gladiators" /><img src="/sandbox-public/site/img/teams/flc.png" alt="Team Falcons" /><img src="/sandbox-public/site/img/teams/tl.png" alt="Team Liquid" /><img src="/sandbox-public/site/img/teams/aur.png" alt="Aurora" /><img src="/sandbox-public/site/img/teams/yg.png" alt="Yangon Galacticos" /></div>
+  <div class="f2__links">
+    <span class="ft-brand"><i>F</i>Fantasy · Dota 2</span>
+    <nav><a>Главная</a><a>Матчи</a><a>Бустеры</a><a>Коллекция</a><a>Квесты</a><a>Лидеры</a><a>История</a><a>Как это работает</a></nav>
+    <div class="ft-soc"><a title="Telegram">TG</a><a title="Twitch">TW</a><a title="YouTube">YT</a><a title="Discord">DC</a></div>
+  </div>
+  <div class="f2__sub"><a>Правила очков</a><a>Шансы бустеров</a><a>Частые вопросы</a><a>Поддержка</a><a>Условия</a><a>Конфиденциальность</a><a>Ответственная игра</a></div>
+  <div class="f2__legal">
+    <span class="ft-age">18+</span>
+    <p class="ft-fine">Монеты не покупаются и не выводятся. © 2026 Fantasy · Dota 2 — не связан с Valve и Riot Games. Данные — Liquipedia и OpenDota.</p>
+    <div class="ft-games"><span class="is-on">Dota 2</span><span>LoL</span><span>CS 2</span></div>
+    <span class="ft-lang">RU ▾</span>
+  </div>
+</footer>
+</template>
+<script src="_footer.js"></script>
+<script>FOOTER.страница({ имя: 'v2 · Сезон', описание: 'Футер — последний экран игры: полоса сезона с цифрами, отсчётом до финала и кнопкой бустера, логотипы команд сезона, ссылки строкой, юридическое одной строкой. Продолжает продукт, а не обрывает его.' })</script>
+</body></html>

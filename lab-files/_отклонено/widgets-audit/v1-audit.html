@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v1 · Как есть</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Inter:wght@400..900&family=Archivo:wdth,wght@62..125,700..900&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="../widget-tournament-5/_t5.css" /><link rel="stylesheet" href="../widget-subs-2/_s2.css" /><link rel="stylesheet" href="../widget-subs-2/_s6v6.css" /><link rel="stylesheet" href="../widget-subs-2/_s8.css" />
+<link rel="stylesheet" href="../widget-transfers-2/_tr4.css" /><link rel="stylesheet" href="../widget-mvp-2/_tokens.css" /><link rel="stylesheet" href="../widget-mvp-2/_mvp2.css" /><link rel="stylesheet" href="../карточка-v3/_v3.css" /><link rel="stylesheet" href="../widget-mvp-2/_hg-card.css" /><link rel="stylesheet" href="../widget-mvp-2/_mvp7.css" /><link rel="stylesheet" href="../widget-mvp-2/_mvp10.css" /><link rel="stylesheet" href="../widget-mvp-2/_mvp15.css" />
+<link rel="stylesheet" href="_row.css" /></head>
+<!-- Аудит текстовых слоёв итоговых виджетов (дирижёр 22.10: «проверь все текстовые слои — примерно одинаковая стилистика»). Замер — getComputedStyle в headless 22.10.
+     Виджеты и опции — как на странице «Все виджеты» (lab/widgets-all). Унифицированный вариант — lab/widgets-unified -->
+<body>
+<div class="r-bar" id="bar"></div>
+<div class="r-top">
+  <h1>Текстовые слои — как есть</h1>
+  <p>Включи «Стили текстов»: каждый текст обведён цветом своего стиля, под виджетом — список стилей (размер / межстрочный · вес · цвет) и к какому токену общего набора он ближе. Жёлтым — расхождения.</p>
+  <table class="r-tbl">
+    <tr><th>Роль</th><th>Турнир v6</th><th>Замены v18</th><th>Трансферы v12</th><th>MVP v18</th><th>Предлагаем</th></tr>
+    <tr><td>Заголовок</td><td class="is-off">13/18 · 500 · серый («Турниры»); в турнире 13/18 · 600 белый</td><td>13/18 · 600 · белый</td><td>13/18 · 600 · белый</td><td class="is-off">12/16 · 600 · золото («MVP турнира»)</td><td>13/18 · 600 · белый</td></tr>
+    <tr><td>Ссылка в шапке</td><td class="is-off">12/16 · 400 («Архив»)</td><td class="is-off">12/20 · 500</td><td>12/16 · 500</td><td>—</td><td>12/16 · 500 · серый</td></tr>
+    <tr><td>Подзаголовок шапки</td><td>12/16 · 400 · серый (стадия)</td><td class="is-off">12/20 · 400</td><td>12/16 · 400</td><td>—</td><td>12/16 · 400 · серый</td></tr>
+    <tr><td>Раздел / шапка таблицы</td><td>11/20 · 500</td><td>11/20 · 500</td><td>11/20 · 500</td><td>—</td><td class="is-ok">совпадает: 11/16 · 500 · серый</td></tr>
+    <tr><td>Основной текст строки</td><td class="is-off">13/18 · 500 (список), 12/20 · 400 (таблица)</td><td>13/18 · 600</td><td>13/18 · 600</td><td>—</td><td>13/18 · 600 · белый; в таблице 12/16 · 400</td></tr>
+    <tr><td>Вторичный (время, стадия)</td><td class="is-off">12/16 · 400 стадия, 11/16 · 400 даты</td><td class="is-off">11/20 · 400 время, 11/12 роль, 11/14 метка</td><td>—</td><td class="is-off">11/14 · 400</td><td>11/16 · 400 · серый</td></tr>
+    <tr><td>Число / дата</td><td class="is-off">12/16 · 600 (даты в списке), 12/20 · 400 (В–П)</td><td class="is-off">13/20 · 700 бейдж, 13/16 · 600 позиция</td><td>14/18 · 700</td><td class="is-off">18/22 · 700</td><td>14/18 · 700; в таблице 12/16 · 600; крупная (MVP) 18/22</td></tr>
+    <tr><td>LIVE</td><td class="is-off">12/16 · 600 · межбуквенный .24</td><td>11 · 700</td><td>—</td><td>—</td><td>11/16 · 700 · красный</td></tr>
+    <tr><td>Метка / бейдж</td><td class="is-off">9/14 (T1), 10/16 (Tier 1) · 500</td><td>12 · 600 (число в сегменте)</td><td>—</td><td>—</td><td>10/16 · 600</td></tr>
+    <tr><td>Сегмент</td><td>12/20 · 500</td><td>12/20 · 500</td><td>—</td><td>—</td><td class="is-ok">совпадает: 12 · 500</td></tr>
+    <tr><td>Кнопка</td><td>—</td><td class="is-off">13 · 500 («Дальше»)</td><td>—</td><td class="is-off">14/20 · 600 («Взять в фэнтези»)</td><td>13/18 · 600</td></tr>
+    <tr><td>Высота шапки</td><td class="is-off">52</td><td>48</td><td>48</td><td>—</td><td>52 у всех</td></tr>
+    <tr><td>Строка списка</td><td class="is-off">44 (отступ строки 8 + 8 у виджета)</td><td>52 · отступ 12</td><td>52 · отступ 12</td><td>—</td><td>52 · отступ 12; таблица — 32</td></tr>
+  </table>
+</div>
+<div class="r-row" id="row"></div>
+<script>window.ROW = { title: 'Аудит текстов', styles: true }</script>
+<script src="../widget-tournament-4/_data.js"></script><script src="../widget-tournament-5/_demo.js"></script><script src="../widget-tournament-5/_t5.js"></script><script src="../widget-subs-2/_data.js"></script><script src="../widget-subs-2/_s2.js"></script>
+<script src="../widget-transfers/_data.js"></script><script>window.TR2_BASE = '../widget-transfers-2/'; window.MVP2_BASE = '../widget-mvp-2/'</script><script src="../widget-transfers-2/_mix.js"></script><script src="../widget-transfers-2/_tr4.js"></script>
+<script src="../widget-mvp/_data.js"></script><script src="../widget-mvp-2/_paths.js"></script><script src="../widget-mvp-2/_mvp2.js"></script><script src="../widget-mvp-2/_hg.js"></script><script src="../widget-mvp-2/_mvp7.js"></script><script src="../widget-mvp-2/_mvp10.js"></script><script src="../widget-mvp-2/_mvp15.js"></script><script src="_row.js"></script>
+</body></html>

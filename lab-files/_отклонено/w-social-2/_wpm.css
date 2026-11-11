@@ -1,0 +1,104 @@
+/* w-social-2 v20 — «Пульт матча», графики в стиле Polymarket (код — _wpm.js). Телефон: ячейки висят над баром, раскрыт — на весь экран. ПК: первым блоком правой колонки */
+body.wpm-on #pills, body.wpm-on .pip-fab, body.wpm-on .pip{ display:none !important; }
+body.wpm-on:not(.is-desk):not(.bar-off) .tabbar{ background:rgba(9,9,11,.94) !important; border-top-color:var(--w-border) !important; backdrop-filter:blur(12px) !important; -webkit-backdrop-filter:blur(12px) !important; }
+body.wpm-on:not(.is-desk) .app{ padding-bottom:160px; }
+body.wpm-full{ overflow:hidden; }
+
+.wpm{ font-family:var(--w-font); color:var(--w-fg); }
+.wpm button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent; text-align:inherit; }
+.wpm svg{ display:block; } .wpm img{ display:block; object-fit:contain; }
+.wpm .up{ color:var(--w-up); } .wpm .dn{ color:var(--w-down); }
+.wpm-rec{ display:inline-block; width:6px; height:6px; margin-right:5px; border-radius:50%; background:var(--w-down); animation:wpm-blink 1.6s ease-in-out infinite; vertical-align:1px; }
+@keyframes wpm-blink{ 50%{ opacity:.3 } }
+@keyframes wpm-up{ from{ opacity:0; transform:translateY(24px) } }
+
+/* свёрнут */
+body:not(.is-desk) .wpm{ position:fixed; left:8px; right:8px; bottom:68px; z-index:21; max-width:374px; margin:0 auto; transition:bottom .3s ease; }
+body.bar-off:not(.is-desk) .wpm{ bottom:12px; }
+.wpm-cells{ display:grid; grid-template-columns:repeat(4,1fr); gap:2px; padding:4px; }
+body:not(.is-desk) .wpm-cells{ background:rgba(17,17,19,.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--w-border); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.45); }
+.wpm-cell{ display:flex; flex-direction:column; gap:2px; min-width:0; padding:7px 8px 6px; border-radius:12px; text-align:left; }
+.wpm-cell:hover{ background:var(--w-muted); }
+.wpm-cell p{ margin:0; font:500 10px/1.2 var(--w-font); color:var(--w-muted-fg); white-space:nowrap; }
+.wpm-cell b{ font:700 15px/1.1 var(--w-font); font-variant-numeric:tabular-nums; white-space:nowrap; } .wpm-cell b em{ font:600 11px/1 var(--w-font); font-style:normal; color:var(--w-muted-fg); }
+.wpm-cr .wpm-dl{ font-size:10px; }
+.wpm-sp{ width:100%; height:16px; margin-top:1px; } .wpm-sp polyline{ fill:none; stroke-width:1.5; vector-effect:non-scaling-stroke; stroke-linejoin:round; }
+body.is-desk .wpm > .wpm-chd, body.is-desk .wpm > .wpm-cells{ background:var(--w-bg); }
+body.is-desk .wpm:not(:has(.wpm-open)){ border:1px solid var(--w-border); border-radius:var(--w-r); overflow:hidden; }
+.wpm-chd{ display:flex; align-items:center; justify-content:space-between; height:44px; padding:0 14px; border-bottom:1px solid var(--w-border); }
+.wpm-chd b{ font:600 14px/1 var(--w-font); } .wpm-chd span{ font:500 12px/1 var(--w-font); color:var(--w-muted-fg); }
+body.is-desk .wpm-cells{ grid-template-columns:1fr 1fr; gap:0; padding:0; }
+body.is-desk .wpm-cell{ padding:12px 14px; border-radius:0; gap:3px; } body.is-desk .wpm-cell:nth-child(odd){ border-right:1px solid var(--w-border); } body.is-desk .wpm-cell:nth-child(-n+2){ border-bottom:1px solid var(--w-border); }
+body.is-desk .wpm-cell b{ font-size:20px; } body.is-desk .wpm-cell p{ font-size:12px; } body.is-desk .wpm-cr .wpm-dl{ font-size:12px; } body.is-desk .wpm-sp{ height:24px; margin-top:4px; }
+
+/* изменение ▲ / ▼ */
+.wpm-dl{ font:700 12px/1 var(--w-font); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.wpm-dl.up{ color:var(--w-up); } .wpm-dl.dn{ color:var(--w-down); }
+.tick{ animation:wpm-tick .6s ease-out; } @keyframes wpm-tick{ 0%{ color:var(--w-up); } }
+
+/* раскрыт */
+.wpm-open{ display:flex; flex-direction:column; background:#09090b; }
+body:not(.is-desk) .wpm-open{ position:fixed; inset:0; z-index:40; }
+.wpm-open.enter{ animation:wpm-up .3s cubic-bezier(.2,.8,.2,1); }
+body.is-desk .wpm-open{ border:1px solid var(--w-border); border-radius:var(--w-r); overflow:hidden; background:var(--w-bg); }
+.wpm-hd{ display:flex; align-items:center; gap:8px; height:56px; padding:0 8px 0 16px; border-bottom:1px solid var(--w-border); flex:none; }
+.wpm-hd > div{ flex:1; min-width:0; } .wpm-hd b{ display:block; font:700 16px/1.2 var(--w-font); } .wpm-hd span{ display:block; font:500 12px/1.3 var(--w-font); color:var(--w-muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wpm-seg{ display:inline-flex !important; padding:2px; border-radius:10px; background:var(--w-muted); flex:none; }
+.wpm-seg button{ height:28px; padding:0 10px; border-radius:8px; font:600 12px/1 var(--w-font) !important; color:var(--w-muted-fg) !important; }
+.wpm-seg button.on{ background:var(--w-hover) !important; color:var(--w-fg) !important; }
+.wpm-x{ display:grid; place-items:center; width:36px; height:36px; border-radius:10px; color:var(--w-muted-fg); flex:none; } .wpm-x:hover{ background:var(--w-muted); color:var(--w-fg); } .wpm-x svg{ width:18px; height:18px; }
+.wpm-body{ flex:1; overflow:auto; padding:12px; display:flex; flex-direction:column; gap:10px; } .wpm-body > *{ flex:none; }
+body.is-desk .wpm-body{ overflow:visible; padding:10px; }
+
+/* карточка-«рынок» */
+.wpm-card{ padding:14px 14px 10px; border-radius:14px; background:#111113; border:1px solid var(--w-border); }
+body.is-desk .wpm-card{ background:#0c0c0e; }
+.wpm-ctop{ display:flex; align-items:flex-end; justify-content:space-between; gap:8px; }
+.wpm-ctop p{ margin:0 0 4px; font:500 13px/1 var(--w-font); color:var(--w-muted-fg); }
+.wpm-ctop b{ font:800 30px/1 var(--w-font); font-variant-numeric:tabular-nums; letter-spacing:-.5px; } .wpm-ctop b em{ font:600 14px/1 var(--w-font); font-style:normal; color:var(--w-muted-fg); letter-spacing:0; }
+.wpm-ctop .wpm-dl{ font-size:13px; padding:5px 8px; border-radius:8px; } .wpm-ctop .wpm-dl.up{ background:var(--w-up-bg); } .wpm-ctop .wpm-dl.dn{ background:var(--w-down-bg); }
+.wpm-note{ margin:6px 0 8px; font:500 12px/1.3 var(--w-font); color:var(--w-muted-fg); }
+.wpm-ch{ position:relative; touch-action:pan-y; cursor:crosshair; }
+.wpm-ch svg{ width:100%; height:auto; overflow:visible; }
+.wpm-ch .gr{ stroke:var(--w-border); stroke-dasharray:2 4; vector-effect:non-scaling-stroke; }
+.wpm-ch .ax{ fill:#71717a; font:500 10px var(--w-font); font-variant-numeric:tabular-nums; }
+.wpm-ch .ln{ fill:none; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.wpm-ch .end{ stroke:#09090b; stroke-width:2; }
+.wpm-ch .pulse{ fill:none; stroke-width:2; transform-box:fill-box; transform-origin:center; animation:wpm-pulse 1.8s ease-out infinite; }
+@keyframes wpm-pulse{ from{ transform:scale(1); opacity:.8; } to{ transform:scale(3.2); opacity:0; } }
+.wpm-ch .evt{ font-size:10px; text-anchor:middle; } .wpm-ch .evl{ stroke:#3f3f46; stroke-dasharray:1 3; }
+.wpm-ch .xh{ stroke:var(--w-fg); stroke-width:1; opacity:0; vector-effect:non-scaling-stroke; } .wpm-ch.hov .xh{ opacity:.6; }
+.wpm-ch.hov .pulse{ display:none; }
+.wpm-tip{ position:absolute; top:0; z-index:2; min-width:120px; padding:8px 10px; border-radius:10px; background:rgba(24,24,27,.97); border:1px solid var(--w-border); box-shadow:0 8px 20px rgba(0,0,0,.5);
+  pointer-events:none; opacity:0; transition:opacity .12s; }
+.wpm-ch.hov .wpm-tip{ opacity:1; }
+.wpm-tip p{ display:flex; align-items:center; gap:6px; margin:0; font:500 12px/1.6 var(--w-font); color:var(--w-muted-fg); white-space:nowrap; }
+.wpm-tip p.t{ color:var(--w-fg); font-weight:700; } .wpm-tip p.ev{ color:var(--w-star); }
+.wpm-tip i{ width:8px; height:8px; border-radius:2px; } .wpm-tip b{ margin-left:auto; padding-left:12px; color:var(--w-fg); font-variant-numeric:tabular-nums; }
+
+/* трансляция */
+.wpm-tv{ position:relative; aspect-ratio:16 / 9; border-radius:14px; overflow:hidden; cursor:pointer; background:#000; border:1px solid var(--w-border); }
+.wpm-tv img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.55); transition:transform 8s linear, filter .3s; }
+.wpm-tv.play img{ filter:brightness(.8); transform:scale(1.12); }
+.wpm-tv::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.45), transparent 35%, transparent 60%, rgba(0,0,0,.7)); }
+.wpm-tv > span{ position:absolute; z-index:1; }
+.wpm-tvl{ left:10px; top:10px; display:flex; align-items:center; gap:5px; padding:4px 8px; border-radius:6px; background:var(--w-down); font:800 11px/1 var(--w-font); }
+.wpm-tvl i{ width:6px; height:6px; border-radius:50%; background:#fff; animation:wpm-blink 1.2s infinite; }
+.wpm-tvv{ right:10px; top:10px; padding:4px 8px; border-radius:6px; background:rgba(0,0,0,.6); font:600 12px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpm-tvc{ left:12px; bottom:12px; font:600 13px/1.2 var(--w-font); }
+.wpm-tvp{ left:50%; top:50%; transform:translate(-50%,-50%); display:grid; place-items:center; width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,.92); color:#09090b; font:800 17px/1 var(--w-font); transition:opacity .2s; }
+.wpm-tv.play .wpm-tvp{ opacity:0; } .wpm-tv.play:hover .wpm-tvp{ opacity:.85; }
+
+/* действия */
+.wpm-acts{ display:flex; align-items:center; gap:6px; padding:10px 12px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--w-border); flex:none; }
+.wpm-vote{ display:inline-flex; align-items:center; gap:2px; padding:2px; border-radius:12px; background:var(--w-muted); margin-right:auto; }
+.wpm-vote button{ display:grid; place-items:center; width:40px; height:40px; border-radius:10px; color:var(--w-muted-fg); } .wpm-vote svg{ width:18px; height:18px; }
+.wpm-vote button.on-up{ color:var(--w-up); background:var(--w-up-bg); } .wpm-vote button.on-dn{ color:var(--w-down); background:var(--w-down-bg); }
+.wpm-vote b{ min-width:44px; text-align:center; font:700 16px/1 var(--w-font); font-variant-numeric:tabular-nums; color:var(--w-up); }
+.wpm-act{ display:inline-flex; align-items:center; justify-content:center; gap:6px; min-width:44px; height:44px; padding:0 12px; border-radius:12px; background:var(--w-muted) !important; flex:none; }
+.wpm-act svg{ width:19px; height:19px; } .wpm-act span{ font:600 13px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpm-act.on{ color:var(--w-up); } .wpm-act.on svg{ fill:currentColor; }
+
+#wpm-toast{ position:fixed; left:50%; top:16px; z-index:60; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:.2s; padding:9px 14px; border-radius:999px;
+  background:var(--w-fg); color:var(--w-primary-fg); font:600 13px/1 var(--w-font); white-space:nowrap; max-width:calc(100vw - 24px); overflow:hidden; text-overflow:ellipsis; }
+#wpm-toast.on{ opacity:1; transform:translate(-50%,0); }

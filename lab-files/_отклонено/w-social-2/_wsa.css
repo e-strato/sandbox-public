@@ -1,0 +1,130 @@
+/* w-social-2 v10–v12 — панель действий в нижнем баре (код — _wsa.js). Старые пилюли сообщества — скрыты, бар — со своим фоном */
+body.wsa-on #pills{ display:none !important; }
+body.wsa-on:not(.is-desk):not(.bar-off) .tabbar, body.wsa-on.wsa-nav:not(.is-desk) .tabbar{ background:rgba(9,9,11,.94) !important; border-top-color:var(--w-border) !important;
+  backdrop-filter:blur(12px) !important; -webkit-backdrop-filter:blur(12px) !important; }
+body.wsa-on:not(.is-desk) .app{ padding-bottom:150px; }
+body.wsa-on:not(.is-desk) .pip-fab{ bottom:132px; }
+
+.wsa{ --wa:var(--w-a); --wb:var(--w-b); font-family:var(--w-font); color:var(--w-fg); z-index:21; }
+.wsa button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.wsa svg{ display:block; } .wsa img{ display:block; object-fit:contain; }
+.wsa-sp{ flex:1; }
+.wsa-s-a{ --tc:var(--wa); } .wsa-s-b{ --tc:var(--wb); }
+.wsa-ic{ display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 8px; border-radius:10px; color:var(--w-muted-fg); flex:none; }
+.wsa-ic:hover{ background:var(--w-muted); color:var(--w-fg); } .wsa-ic svg{ width:20px; height:20px; }
+.wsa-ic em{ font:600 12px/1 var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; color:var(--w-fg); }
+.wsa-ring{ position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); pointer-events:none; }
+.wsa-ring circle{ fill:none; stroke-width:3; stroke-linecap:round; stroke-dasharray:100; stroke-dashoffset:100; }
+
+/* ——— v10 · Арена: бар навигации превращается в пульт, когда листаешь матч вниз ——— */
+.wsa--arena{ position:fixed; left:0; right:0; bottom:0; max-width:390px; margin:0 auto; height:60px; padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(9,9,11,.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); transform:translateY(110%); transition:transform .32s cubic-bezier(.2,.8,.2,1); }
+body.bar-off:not(.wsa-nav) .wsa--arena{ transform:none; }
+body.wsa-nav.bar-off .tabbar a{ opacity:1 !important; transform:none !important; pointer-events:auto !important; }
+.wsa-meter{ position:absolute; left:0; right:0; top:0; height:3px; display:flex; }
+.wsa-meter i{ height:100%; transition:width .8s ease; } .wsa-meter .wa{ background:var(--wa); } .wsa-meter .wb{ background:var(--wb); }
+.wsa-meter b{ position:absolute; top:-3px; width:9px; height:9px; margin-left:-4.5px; border-radius:50%; background:var(--w-fg); box-shadow:0 0 10px 2px rgba(255,255,255,.45); transition:left .8s ease; }
+.wsa-row{ display:flex; align-items:center; gap:2px; height:100%; padding:0 8px; }
+.wsa-side{ display:grid; place-items:center; width:40px; height:40px; border-radius:50%; flex:none; background:var(--w-muted); box-shadow:inset 0 0 0 1.5px var(--w-border); }
+.wsa-side span{ font:700 16px/1 var(--w-font); color:var(--w-muted-fg); }
+.wsa-side.on{ box-shadow:inset 0 0 0 2px var(--tc); } .wsa-side img{ width:24px; height:24px; }
+.wsa-hold{ position:relative; display:grid; place-items:center; width:64px; height:64px; margin-top:-26px; border-radius:50%; flex:none; touch-action:none; user-select:none; -webkit-user-select:none;
+  --tc:#f97316; --k:0; background:radial-gradient(circle at 50% 35%, #27272a, #18181b 70%); box-shadow:0 0 0 4px rgba(9,9,11,.96), 0 6px 18px rgba(0,0,0,.5), 0 0 calc(var(--k) * 28px) calc(var(--k) * 6px) color-mix(in srgb, var(--tc) 60%, transparent);
+  transition:transform .15s ease; }
+.wsa-hold.wsa-s-a{ --tc:var(--wa); } .wsa-hold.wsa-s-b{ --tc:var(--wb); }
+.wsa-hold b{ font-size:28px; line-height:1; transform:scale(calc(1 + var(--k) * .35)); transition:transform .1s; }
+.wsa-hold .wsa-ring circle{ stroke:var(--tc); }
+.wsa-hold.down{ transform:scale(.94); }
+.wsa-combo{ position:absolute; top:-10px; right:-14px; font:800 14px/1 var(--w-font); font-style:normal; color:var(--w-fg); opacity:0; text-shadow:0 2px 8px #000; }
+.wsa-combo.pop{ animation:wsa-pop 1.1s ease-out; }
+@keyframes wsa-pop{ 0%{ opacity:0; transform:scale(.4) } 15%{ opacity:1; transform:scale(1.35) } 60%{ opacity:1; transform:scale(1) } 100%{ opacity:0; transform:translateY(-10px) } }
+body.is-desk .wsa--arena{ right:auto; bottom:20px; max-width:none; margin:0; width:420px; height:64px; transform:translateX(-50%); border:1px solid var(--w-border); border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
+body.is-desk .wsa--arena .wsa-meter{ left:20px; right:20px; } body.is-desk .wsa--arena .wsa-hold{ margin-top:-30px; }
+
+/* ——— v11 · Канат: верхняя кромка бара — канат, в центре бара — «Тяни» ——— */
+body.wsa-k-rope:not(.is-desk) .tabbar, body.wsa-k-moment:not(.is-desk) .tabbar{ grid-template-columns:1fr 1fr 80px 1fr 1fr; }
+body.wsa-k-rope:not(.is-desk) .tabbar > a:nth-child(3), body.wsa-k-moment:not(.is-desk) .tabbar > a:nth-child(3){ grid-column:4; }
+.wsa--rope, .wsa--moment{ position:fixed; left:0; right:0; bottom:60px; max-width:390px; margin:0 auto; height:0; transition:bottom .3s ease; }
+body.bar-off .wsa--rope, body.bar-off .wsa--moment{ bottom:40px; }
+.wsa-rope{ position:absolute; left:0; right:0; bottom:0; height:0; }
+.wsa-line{ position:absolute; left:0; right:0; bottom:-2px; height:4px; display:flex; }
+.wsa-line i{ height:100%; transition:width .7s ease; } .wsa-line .wa{ background:var(--wa); } .wsa-line .wb{ background:var(--wb); }
+.wsa-line u{ position:absolute; top:-4px; width:12px; height:12px; margin-left:-6px; border-radius:50%; background:var(--w-fg); box-shadow:0 0 12px 3px rgba(255,255,255,.5); transition:left .7s ease; }
+.wsa-rl, .wsa-rr{ position:absolute; bottom:8px; display:flex; align-items:center; gap:5px; padding:3px 8px; border-radius:999px; background:rgba(9,9,11,.85); border:1px solid var(--w-border); }
+.wsa-rl{ left:8px; } .wsa-rr{ right:8px; }
+.wsa-rl img, .wsa-rr img{ width:16px; height:16px; }
+.wsa-rl b, .wsa-rr b{ font:700 12px/1 var(--w-font); font-variant-numeric:tabular-nums; } .wsa-rl b{ color:var(--w-a-fg); } .wsa-rr b{ color:#fcd34d; }
+.wsa-pull{ position:absolute; left:50%; bottom:-56px; width:52px; height:52px; margin-left:-26px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  --tc:var(--w-ring); background:radial-gradient(circle at 50% 35%, #27272a, #18181b 70%); box-shadow:inset 0 0 0 2px var(--tc); }
+.wsa-pull img{ width:22px; height:22px; } .wsa-pull span{ font:700 11px/1 var(--w-font); letter-spacing:.2px; }
+.wsa-pull.hit{ animation:wsa-hit .35s ease-out; }
+@keyframes wsa-hit{ 0%{ transform:scale(.88) } 60%{ transform:scale(1.06) } 100%{ transform:scale(1) } }
+.wsa-wave{ position:absolute; left:50%; bottom:44px; transform:translateX(-50%); display:flex; align-items:center; gap:8px; white-space:nowrap; padding:8px 12px; border-radius:999px;
+  font:600 13px/1 var(--w-font); background:rgba(9,9,11,.92); border:1px solid var(--tc); box-shadow:0 0 18px color-mix(in srgb, var(--tc) 35%, transparent); animation:wsa-in .3s ease-out; }
+.wsa-wave b{ display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--tc); color:#09090b; font:800 12px/1 var(--w-font); }
+.wsa-rope.wave-a .wsa-line .wa, .wsa-rope.wave-b .wsa-line .wb{ animation:wsa-glow 1s ease-in-out infinite; }
+@keyframes wsa-glow{ 50%{ filter:brightness(1.6) } }
+@keyframes wsa-in{ from{ opacity:0; transform:translate(-50%,8px) } }
+body.is-desk .wsa--rope{ right:auto; bottom:20px; max-width:none; margin:0; height:64px; transform:translateX(-50%); display:flex; align-items:center; gap:10px; padding:0 10px 0 16px;
+  background:rgba(24,24,27,.94); backdrop-filter:blur(14px); border:1px solid var(--w-border); border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
+body.is-desk .wsa-rope{ position:relative; width:360px; height:28px; display:flex; align-items:center; justify-content:space-between; }
+body.is-desk .wsa-line{ left:96px; right:96px; bottom:auto; top:12px; }
+body.is-desk .wsa-rl, body.is-desk .wsa-rr{ position:static; }
+body.is-desk .wsa-pull{ position:relative; left:auto; bottom:auto; margin:0; width:48px; height:48px; box-shadow:inset 0 0 0 2px var(--tc); }
+body.is-desk .wsa-pull img{ width:20px; height:20px; } body.is-desk .wsa-pull span{ font-size:10px; }
+body.is-desk .wsa-wave{ bottom:76px; }
+.wsa-dsep{ width:1px; height:28px; background:var(--w-border); }
+
+/* ——— v12 · Угадай момент: кнопка-таймер в центре бара, вопрос выезжает из бара ——— */
+.wsa-mo{ position:absolute; left:50%; bottom:-34px; width:64px; height:64px; margin-left:-32px; border-radius:50%; display:grid; place-items:center;
+  background:radial-gradient(circle at 50% 35%, #27272a, #18181b 70%); box-shadow:0 0 0 4px rgba(9,9,11,.96), 0 6px 18px rgba(0,0,0,.5); }
+.wsa-mo b{ font-size:26px; line-height:1; color:var(--w-muted-fg); }
+.wsa-mo .wsa-ring circle{ stroke:var(--w-ring); transition:stroke-dashoffset 1s linear; }
+.wsa-mo.ph-open .wsa-ring circle{ stroke:var(--w-up); } .wsa-mo.ph-open{ animation:wsa-pulse 1.2s ease-in-out infinite; }
+.wsa-mo.ph-wait .wsa-ring circle{ stroke:var(--w-star); } .wsa-mo.ph-res .wsa-ring circle{ stroke:var(--w-fg); }
+@keyframes wsa-pulse{ 50%{ box-shadow:0 0 0 4px rgba(9,9,11,.96), 0 0 0 9px rgba(34,197,94,.25), 0 6px 18px rgba(0,0,0,.5); } }
+.wsa-mo em{ position:absolute; top:-6px; right:-10px; padding:3px 6px; border-radius:999px; font:700 11px/1 var(--w-font); font-style:normal; background:var(--w-star); color:#09090b; }
+.wsa-card{ position:absolute; left:8px; right:8px; bottom:42px; padding:12px; border-radius:18px; background:rgba(24,24,27,.97); border:1px solid var(--w-border);
+  box-shadow:0 12px 32px rgba(0,0,0,.55); }
+.wsa-card.enter{ animation:wsa-up .35s cubic-bezier(.2,.8,.2,1); }
+@keyframes wsa-up{ from{ opacity:0; transform:translateY(24px) scale(.96) } }
+.wsa-card-hd{ display:flex; align-items:center; gap:8px; height:28px; }
+.wsa-card-hd > i{ font-style:normal; font-size:18px; }
+.wsa-live{ font:700 12px/1 var(--w-font); padding:4px 8px; border-radius:999px; background:var(--w-up-bg); color:var(--w-up-fg); }
+.wsa-live.wait{ background:rgba(250,204,21,.14); color:#fde68a; } .wsa-live.win{ background:var(--w-up-bg); color:var(--w-up-fg); } .wsa-live.lose{ background:var(--w-down-bg); color:var(--w-down-fg); }
+.wsa-tm{ font:700 13px/1 var(--w-font); font-variant-numeric:tabular-nums; color:var(--w-fg); }
+.wsa-streak{ font:600 12px/1 var(--w-font); color:var(--w-muted-fg); }
+.wsa-card-hd .wsa-ic{ height:28px; width:28px; padding:0; justify-content:center; } .wsa-card-hd .wsa-ic svg{ width:16px; height:16px; }
+.wsa-q{ margin:10px 2px 10px; font:600 17px/1.25 var(--w-font); }
+.wsa-opts{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.wsa-opt{ position:relative; overflow:hidden; display:flex; align-items:center; gap:8px; height:52px; padding:0 12px; border-radius:12px; background:var(--w-muted) !important; --tc:var(--w-ring);
+  box-shadow:inset 0 0 0 1px var(--w-border); text-align:left; transition:transform .12s; }
+.wsa-opt:not([disabled]):active{ transform:scale(.97); }
+.wsa-opt img{ width:24px; height:24px; position:relative; } .wsa-opt span{ position:relative; flex:1; font:600 15px/1 var(--w-font); }
+.wsa-opt em{ position:relative; font:700 13px/1 var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; color:var(--w-muted-fg); }
+.wsa-opt::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:0; background:color-mix(in srgb, var(--tc) 22%, transparent); transition:width .6s ease; }
+.ph-wait .wsa-opt::before, .ph-res .wsa-opt::before, .wsa-opt.me::before{ width:var(--p); }
+.wsa-opt.me{ box-shadow:inset 0 0 0 2px var(--w-fg); } .wsa-opt.me em{ color:var(--w-fg); }
+.wsa-opt.ok{ box-shadow:inset 0 0 0 2px var(--w-up); } .wsa-opt.ok::after{ content:'✓'; position:absolute; right:8px; top:6px; font:800 11px/1 var(--w-font); color:var(--w-up); }
+.wsa-opt[disabled]{ cursor:default; }
+.wsa-gain{ margin:10px 2px 0; font:600 13px/1.3 var(--w-font); color:var(--w-up-fg); animation:wsa-in2 .4s ease-out; }
+@keyframes wsa-in2{ from{ opacity:0; transform:translateY(6px) } }
+body.is-desk .wsa--moment{ right:auto; bottom:20px; max-width:none; margin:0; width:440px; height:auto; transform:translateX(-50%); }
+body.is-desk .wsa--moment > .wsa-row{ height:60px; padding:0 8px 0 10px; gap:8px; background:rgba(24,24,27,.94); backdrop-filter:blur(14px); border:1px solid var(--w-border); border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
+body.is-desk .wsa-mo{ position:relative; left:auto; bottom:auto; margin:0; width:44px; height:44px; box-shadow:none; flex:none; } body.is-desk .wsa-mo b{ font-size:20px; }
+body.is-desk .wsa-dhint{ flex:1; font:500 14px/1.2 var(--w-font); color:var(--w-muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+body.is-desk .wsa-card{ position:relative; left:auto; right:auto; bottom:auto; margin-bottom:8px; }
+
+/* общее: вылет, тост, выбор стороны */
+.wsa-fly{ position:fixed; z-index:30; pointer-events:none; line-height:1; transform:translate(-50%,0); opacity:.5; animation:wsa-fly 1.5s cubic-bezier(.2,.7,.3,1) forwards; }
+.wsa-fly.me{ opacity:1; font-weight:800; color:var(--w-fg); text-shadow:0 2px 10px rgba(0,0,0,.6); }
+@keyframes wsa-fly{ to{ transform:translate(calc(-50% + var(--dx)), var(--dy)) scale(1.15); opacity:0; } }
+.wsa-pop{ position:fixed; z-index:40; padding:10px; border-radius:16px; background:rgba(24,24,27,.98); border:1px solid var(--w-border); box-shadow:0 12px 32px rgba(0,0,0,.55);
+  font-family:var(--w-font); color:var(--w-fg); animation:wsa-up .25s ease-out; }
+.wsa-pop p{ margin:0 2px 8px; font:600 13px/1 var(--w-font); color:var(--w-muted-fg); }
+.wsa-pop div{ display:flex; gap:8px; }
+.wsa-pop button{ display:flex; align-items:center; gap:8px; height:44px; padding:0 14px 0 10px; border-radius:12px; border:0; background:var(--w-muted); color:var(--w-fg); font:600 14px/1 var(--w-font); cursor:pointer; }
+.wsa-pop button:hover{ background:var(--w-hover); } .wsa-pop img{ width:24px; height:24px; object-fit:contain; }
+#wsa-toast{ position:fixed; left:50%; top:16px; z-index:50; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:.2s; padding:9px 14px; border-radius:999px;
+  background:var(--w-fg); color:var(--w-primary-fg); font:600 13px/1 var(--w-font); white-space:nowrap; max-width:calc(100vw - 24px); overflow:hidden; text-overflow:ellipsis; }
+#wsa-toast.on{ opacity:1; transform:translate(-50%,0); }

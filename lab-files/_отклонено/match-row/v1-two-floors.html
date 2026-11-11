@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_row.css" />
+<style>
+.v1-in { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 10px 16px; cursor: pointer; }
+.v1-tm { display: grid; gap: 6px; min-width: 0; max-width: 420px; }
+.v1-s { display: grid; grid-template-columns: 24px minmax(0, 1fr) 28px; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
+.v1-s em { justify-self: end; font: 700 20px var(--font-c); font-style: normal; } .v1-s.is-lose { color: var(--c-caption); font-weight: 400; } .v1-s.is-lose em { color: var(--c-ui-dim); } .v1-s.is-win { font-weight: 700; }
+.r-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v1-r { display: flex; align-items: center; gap: 12px; color: var(--c-ui-dim); }
+.v1-meta { color: var(--c-caption); font-size: 12.5px; text-align: right; }
+.v1-note { grid-column: 2 / -1; margin-top: -2px; }
+.r-row.is-open .v1-in { background: var(--c-ui-item); }
+.v1-qv { margin: 0 12px 12px; padding: 0 16px 16px; border-radius: 0 0 10px 10px; background: var(--c-ui-item); }
+.v1-tabs { display: flex; gap: 22px; margin-bottom: 16px; border-bottom: 1px solid var(--c-ui-line); }
+.v1-tabs button { padding: 10px 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: var(--c-ui-dim); font-weight: 600; font-size: 13.5px; }
+.v1-tabs button[aria-selected='true'] { color: var(--c-text); border-bottom-color: var(--c-accent); }
+.v1-ft { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.r-row.is-open .v1-in { border-radius: 0; }
+@container row (max-width: 600px) {
+  .v1-in { grid-template-columns: 62px minmax(0, 1fr) auto; gap: 10px; padding: 10px 12px; }
+  .v1-meta, .v1-r .r-bo { display: none; } .v1-s { font-size: 14px; grid-template-columns: 20px minmax(0, 1fr) 24px; } .v1-s .r-lg { width: 20px; height: 20px; }
+  .r-st b { font-size: 15px; } .r-st small { white-space: normal; font-size: 10.5px; }
+  .v1-qv { margin: 0 6px 8px; padding: 0 12px 12px; } .v1-tabs { gap: 16px; overflow-x: auto; } .v1-tabs button { flex: none; }
+  .v1-ft .r-btn { flex: 1; }
+}
+</style></head>
+<body><main class="r-page">
+  <h1>v1 · Два этажа</h1>
+  <p>Как в приложениях счёта (Flapscore, cyberscore): команды двумя строками, счёт — столбиком справа от имён, всё читается слева направо, одинаково на десктопе и телефоне. Открыта — под строкой одна панель во всю ширину: вкладки-подчёркивание, блок, кнопки внизу справа. Ничего не висит в пустоте слева.</p>
+  <div class="r-tools"><div class="r-seg" data-states></div><div class="r-seg"><button type="button" data-open="0">Закрыта</button><button type="button" data-open="1">Открыта</button></div></div>
+  <div class="r-frames">
+    <div><p class="r-cap">Колонка матчей · 1000 — клик по строке открывает и закрывает</p><div class="r-frame r-frame--col" data-row></div></div>
+    <div><p class="r-cap">Телефон · 390</p><div class="r-frame r-frame--phone" data-row></div></div>
+  </div>
+</main>
+<script>
+// Общее для вариантов: счёт и победитель, вкладки и панели
+window.ROW = {}
+const счёт = (m, k) => m.sa == null || m.скрыт ? '' : m['s' + k]
+const исход = (m, k) => m.st === 'done' && !m.скрыт ? ((k === 'a' ? m.sa > m.sb : m.sb > m.sa) ? 'is-win' : 'is-lose') : ''
+const вкладки = t => t.map(([n], i) => `<button type="button" data-tab="${i}" aria-selected="${i === 0}">${n}</button>`).join('')
+const панели = t => t.map(([, b], i) => `<div class="r-pane" data-pane="${i}" ${i ? 'hidden' : ''}>${b}</div>`).join('')
+const стат = (m, h) => { const [a, b, c] = h.статус(m.вид, m); return `<div class="r-st ${c ? 'is-' + c : ''}"><b>${c === 'live' ? '<i class="r-dot"></i>' : ''}${a}</b><small>${b}</small></div>` }
+const заметка = m => m.заметка && ['delay', 'moved', 'pause', 'cancel'].includes(m.вид) ? m.заметка : ''
+ROW.вариант = (m, open, h) => {
+  const с = k => `<p class="v1-s ${исход(m, k)}">${h.лого(m[k])}<span class="r-nm">${h.имя(m[k])}</span><em>${счёт(m, k)}</em></p>`
+  const [t, кн] = h.кусочки(m.вид, m)
+  return `<article class="r-row ${open ? 'is-open' : ''} ${m.вид === 'cancel' ? 'r-off' : ''}">
+    <div class="v1-in" data-toggle>${стат(m, h)}<div class="v1-tm">${с('a')}${с('b')}</div>
+      <div class="v1-r">${m.скрыт ? '<span class="v1-meta">счёт скрыт</span>' : ''}<span class="r-bo">${m.bo}</span><button class="r-fav ${m.fav ? 'is-on' : ''}" type="button">${m.fav ? '★' : '☆'}</button><span>${m.вид === 'cancel' ? '' : open ? '⌃' : '⌄'}</span></div>
+      ${!open && заметка(m) ? `<p class="r-note v1-note">${заметка(m)}</p>` : ''}</div>
+    ${open ? `<div class="v1-qv"><div class="v1-tabs">${вкладки(t)}</div>${панели(t)}<div class="v1-ft">${h.кнопки(кн)}</div></div>` : ''}
+  </article>`
+}
+</script>
+<script src="_row.js"></script>
+</body></html>

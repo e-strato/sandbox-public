@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v6 · Что на кону: бейдж</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../../кадр.css" /><link rel="stylesheet" href="../../../widget-tournament/_w.css" /><link rel="stylesheet" href="_t2.css" /></head>
+<body><div class="lab-board">
+  <h1>Виджет турнира · v6 · Что на кону: бейдж</h1>
+  <p class="lab-board__lead">Открыт матч. Справа от команды короткая метка: «На вылет», «Без риска», «Важный» — без лишнего текста.</p>
+  <div class="t2-pair">
+    <div><div class="t2-cap">Лига: для Team Lynx матч на вылет</div><div id="a"></div></div>
+    <div><div class="t2-cap">Сетка: финал верхней — проигрыш не страшен</div><div id="b"></div></div>
+  </div>
+</div>
+<script src="../../../widget-tournament/_full.js"></script><script src="_t2.js"></script>
+<script>T2.render(document.getElementById('a'), { start: 'epl', match: 'lnx-pr', stake: 6 }); T2.render(document.getElementById('b'), { start: 'ti', match: 'pv-ydx', stake: 6 })</script>
+</body></html>

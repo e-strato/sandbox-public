@@ -1,0 +1,86 @@
+/* w-social-2 — панель сообщества матча, как на Sports.ru (код — _ws2.js). Старые кнопки сообщества страницы (пилюли над баром) — скрыты */
+body.ws2-on #pills{ display:none !important; }
+
+.ws2{ font-family:var(--w-font); color:var(--w-fg); }
+.ws2 button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.ws2 svg, .ws2-sh svg{ width:18px; height:18px; display:block; }
+.ws2-sp{ flex:1; }
+.ws2-row{ display:flex; align-items:center; gap:8px; height:40px; }
+
+/* кнопка-квадрат 32 */
+.ws2-b{ display:grid; place-items:center; width:32px; height:32px; border-radius:var(--w-r-sm); color:var(--w-muted-fg); background:none; border:0; cursor:pointer; }
+.ws2-b:hover{ background:var(--w-muted); color:var(--w-fg); }
+.ws2-b.on{ color:var(--w-fg); } .ws2-b.on svg{ fill:currentColor; }
+.ws2-b.on-up{ color:var(--w-up); background:var(--w-up-bg); } .ws2-b.on-dn{ color:var(--w-down); background:var(--w-down-bg); }
+
+/* оценка матча: + 71 − */
+.ws2-rate{ display:inline-flex; align-items:center; gap:2px; }
+.ws2-rate b{ min-width:34px; text-align:center; font:600 14px/1 var(--w-font); font-variant-numeric:tabular-nums; color:var(--w-muted-fg); }
+.ws2-rate b.up{ color:var(--w-up); } .ws2-rate b.dn{ color:var(--w-down); }
+
+/* комментарии: значок + число (row — с подписью «Обсудить») */
+.ws2-t{ display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px; border-radius:var(--w-r-sm); color:var(--w-fg); }
+.ws2-t:hover{ background:var(--w-muted); }
+.ws2-t span{ font:500 14px/1 var(--w-font); }
+.ws2-t em{ font:600 12px/1 var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; padding:3px 6px; border-radius:999px; background:var(--w-muted); color:var(--w-fg); }
+.ws2-row .ws2-t{ background:var(--w-muted); } .ws2-row .ws2-t em{ background:var(--w-hover); }
+
+/* поле «Написать комментарий» */
+.ws2-in{ display:flex; align-items:center; width:100%; height:40px; padding:0 14px; border-radius:999px; background:var(--w-muted) !important; color:var(--w-muted-fg) !important; font:400 14px/1 var(--w-font) !important; text-align:left; }
+.ws2-in:hover{ background:var(--w-hover) !important; }
+
+/* sticky / row — висит над баром навигации; бар уехал (листаешь вниз) — опускается к низу */
+.ws2-fix{ position:fixed; left:0; right:0; bottom:60px; z-index:9; max-width:390px; margin:0 auto; padding:8px 12px; display:flex; flex-direction:column; gap:6px;
+  background:rgba(9,9,11,.94); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-top:1px solid var(--w-border); transition:bottom .3s ease; }
+.ws2-fix.ws2-L-row{ padding:4px 12px; }
+body.bar-off .ws2-fix{ bottom:0; }
+body.ws2-L-sticky:not(.is-desk) .app{ padding-bottom:184px; } body.ws2-L-row:not(.is-desk) .app{ padding-bottom:136px; }
+/* компьютер: по ширине главной колонки (left/width — из _ws2.js), карточкой у низа окна */
+body.is-desk .ws2-fix{ right:auto; bottom:16px; max-width:none; margin:0; border:1px solid var(--w-border); border-radius:var(--w-r); }
+body.is-desk.ws2-L-sticky .ws2-fix{ flex-direction:row; align-items:center; gap:12px; } body.is-desk.ws2-L-sticky .ws2-fix .ws2-in{ flex:1; }
+body.is-desk.ws2-L-sticky .ws2-fix .ws2-row{ flex:none; }
+body.is-desk.ws2-on:not(.ws2-L-flow) .app{ padding-bottom:96px; }
+
+/* flow — в конце главной колонки матча, как под статьёй на Sports.ru */
+.ws2-flow{ display:flex; flex-direction:column; gap:6px; margin-top:12px; padding:12px; border:1px solid var(--w-border); border-radius:var(--w-r); background:var(--w-bg); }
+
+/* обсуждение — шторка снизу */
+.ws2-dim{ position:fixed; inset:0; z-index:20; background:rgba(0,0,0,.5); }
+.ws2-sh{ position:fixed; left:0; right:0; bottom:0; z-index:21; max-width:390px; max-height:80vh; margin:0 auto; display:flex; flex-direction:column;
+  font-family:var(--w-font); color:var(--w-fg); background:var(--w-bg); border:1px solid var(--w-border); border-bottom:0; border-radius:16px 16px 0 0; }
+body.is-desk .ws2-sh{ right:auto; bottom:16px; max-width:none; max-height:70vh; margin:0; border-bottom:1px solid var(--w-border); border-radius:var(--w-r); }
+.ws2-sh-hd{ display:flex; align-items:center; gap:8px; height:52px; padding:0 8px 0 16px; border-bottom:1px solid var(--w-border); }
+.ws2-sh-hd b{ font:600 16px/1 var(--w-font); }
+.ws2-sh-hd em{ font:600 12px/1 var(--w-font); font-style:normal; padding:3px 6px; border-radius:999px; background:var(--w-muted); }
+.ws2-list{ flex:1; overflow:auto; padding:4px 16px; }
+.ws2-c{ display:grid; grid-template-columns:28px 1fr auto; gap:10px; padding:10px 0; border-bottom:1px solid var(--w-border); }
+.ws2-c:last-child{ border-bottom:0; }
+.ws2-c > i{ display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--w-muted); font:600 12px/1 var(--w-font); font-style:normal; color:var(--w-muted-fg); }
+.ws2-c p{ margin:0; font:400 14px/1.4 var(--w-font); }
+.ws2-c p:first-child{ display:flex; gap:8px; align-items:baseline; margin-bottom:2px; }
+.ws2-c p b{ font:600 13px/1.2 var(--w-font); } .ws2-c p span{ font:400 12px/1 var(--w-font); color:var(--w-muted-fg); }
+.ws2-c > em{ font:600 12px/28px var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; color:var(--w-muted-fg); }
+.ws2-c > em.up{ color:var(--w-up); } .ws2-c > em.dn{ color:var(--w-down); }
+.ws2-cmp{ display:flex; gap:8px; align-items:center; padding:8px 12px calc(8px + env(safe-area-inset-bottom)); border-top:1px solid var(--w-border); }
+.ws2-cmp input{ flex:1; height:40px; padding:0 14px; border-radius:999px; border:0; outline:none; background:var(--w-muted); color:var(--w-fg); font:400 14px/1 var(--w-font); }
+.ws2-cmp input::placeholder{ color:var(--w-muted-fg); }
+
+#ws2-toast{ position:fixed; left:50%; top:16px; z-index:30; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:.2s; padding:8px 14px; border-radius:999px;
+  background:var(--w-fg); color:var(--w-primary-fg); font:500 13px/1 var(--w-font); }
+#ws2-toast.on{ opacity:1; transform:translate(-50%,0); }
+
+/* v4–v6 — колонка сбоку (ПК), как у Sports.ru в блогах и dev.to: слева от главной колонки, едет со скроллом (top/left — из _ws2.js) */
+body.is-desk.ws2-D-rail .ws2-fix{ display:none; } body.is-desk.ws2-D-rail .app{ padding-bottom:40px; }
+body.is-desk.ws2-D-rail .gm-cols{ padding-left:64px; }
+.ws2-rail{ position:fixed; z-index:7; width:48px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.ws2-vb{ position:relative; display:flex; flex-direction:column; align-items:center; gap:2px; width:44px; padding:8px 0; border-radius:var(--w-r-sm); color:var(--w-muted-fg); }
+.ws2-vb:hover{ background:var(--w-muted); color:var(--w-fg); } .ws2-vb.on{ color:var(--w-fg); } .ws2-vb.on svg{ fill:currentColor; }
+.ws2-vb em{ font:600 12px/1 var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; color:var(--w-muted-fg); }
+.ws2-vr{ display:flex; flex-direction:column; align-items:center; gap:2px; }
+.ws2-vr b{ font:600 13px/20px var(--w-font); font-variant-numeric:tabular-nums; color:var(--w-muted-fg); } .ws2-vr b.up{ color:var(--w-up); } .ws2-vr b.dn{ color:var(--w-down); }
+.ws2-vsep{ width:24px; height:1px; margin:4px 0; background:var(--w-border); }
+
+/* swap (телефон) — строка на месте бара: бар виден — строка спрятана под ним; листаешь вниз — бар уехал, строка встала к низу */
+.ws2-fix.ws2-L-swap{ padding:4px 12px; bottom:0; transform:translateY(100%); transition:transform .3s ease; }
+body.bar-off .ws2-fix.ws2-L-swap{ transform:none; }
+body.ws2-L-swap:not(.is-desk) .app{ padding-bottom:88px; }

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tektur:wdth,wght@75..100,400..900&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v9 · Колонка — развитие «Зон» (дирижёр 01.10: «идея интересная, хочу видеть что-то в этом роде дальше»). Фото слева,
+   справа колонка зон: рейтинг, позиция крупной цифрой, герои строками. Ниже во всю ширину — имя, статы, команда.
+   Без скосов: скруглённый прямоугольник. Шрифт один — Tektur. Сетка зон (em карты): поля .5, зазор .45, колонка 6.45 */
+.q9 { --r: .9em; --shape: inset(0 round .9em); --f-disp: 'Tektur'; --f-ui: 'Tektur'; --zr: .55em; }
+.q9__face, .q9 .bk { font-family: 'Tektur', sans-serif; }
+.q9__face { position: absolute; inset: 0; }
+.q9__plate { position: absolute; inset: 0; border-radius: var(--r); background: var(--c-card-ink);
+  box-shadow: 0 1.4em 2.6em -1em color-mix(in srgb, var(--c-black) 85%, transparent); }
+.q9__zone { position: absolute; border-radius: var(--zr); overflow: hidden; background: color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)); }
+
+/* 2 Фон: зона фото — тёмный цвет силы, логотип команды крупно за игроком */
+.q9__photo { left: .5em; top: .5em; width: 14.1em; height: 17em;
+  background:
+    radial-gradient(75% 50% at 50% 30%, color-mix(in srgb, var(--tier) 30%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 85%, var(--c-card-ink)), color-mix(in srgb, var(--tier-2) 30%, var(--c-card-ink))); }
+.q9__logo { left: .5em; top: 2em; width: 13em; height: 12em; background: color-mix(in srgb, var(--tier) 22%, transparent); }
+.q9__dots { position: absolute; inset: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tier) 26%, transparent) .07em, transparent .09em) 0 0 / 1.1em 1.1em;
+  -webkit-mask: linear-gradient(180deg, var(--c-black), transparent 85%); mask: linear-gradient(180deg, var(--c-black), transparent 85%); }
+
+/* 3 Рамка: кант цвета силы по контуру */
+.q9__edge { position: absolute; inset: 0; z-index: 8; border-radius: var(--r); pointer-events: none;
+  box-shadow: inset 0 0 0 .14em var(--tier), inset 0 0 0 .3em color-mix(in srgb, var(--tier) 18%, transparent); }
+
+/* 4 Эффекты: блеск в зоне фото; с Prism — перелив по зоне героев; у Legend — фольга на зоне рейтинга */
+.q9__sheen { position: absolute; inset: 0; mix-blend-mode: screen; opacity: .3;
+  background: linear-gradient(160deg, transparent 30%, var(--c-rarity-holo-4) 42%, var(--c-rarity-holo-1) 50%, var(--c-rarity-holo-2) 58%, transparent 70%);
+  background-size: 100% 300%; background-position: 0 calc(var(--my, 50%) + var(--drift)); animation: drift 6s ease-in-out infinite alternate; }
+.q9__foil { position: absolute; inset: 0; mix-blend-mode: soft-light;
+  background: linear-gradient(118deg, transparent 25%, var(--c-white) 50%, transparent 75%); background-size: 300% 100%;
+  background-position: calc(100% - var(--drift) * 3) 0; animation: drift 3s ease-in-out infinite alternate; }
+
+/* 5 Фото: обрезано краем зоны — туловище короче, свечение за головой */
+.q9__halo { position: absolute; left: 7.3em; top: 5em; width: 11.5em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 60%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 55%, transparent); }
+.q9 .ph { left: -1.45em; top: .9em; width: 17em; }
+
+/* 7 Раскладка — колонка справа: рейтинг (залит цветом силы), позиция, герои; номер карты — чипом в углу фото */
+.q9__col { right: .5em; width: 6.45em; }
+.q9__ovr { top: .5em; height: 4.1em; display: grid; place-content: center; background: linear-gradient(160deg, var(--tier-hi), var(--tier) 60%); color: var(--c-card-dark-text); }
+.q9__ovr b { position: relative; font-size: 3.2em; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+.q9__heroes { top: 9.85em; height: 7.65em; display: grid; grid-template-rows: repeat(3, 1fr); padding: .3em .5em; }
+.q9__heroes div { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: .5em; }
+.q9__heroes div + div { box-shadow: inset 0 .05em 0 color-mix(in srgb, var(--c-white) 8%, transparent); }
+.q9__heroes .hero-ic { width: 2em; aspect-ratio: 1; border-radius: .35em; }
+.q9__heroes span { display: grid; line-height: 1.15; }
+.q9__heroes b { font-size: .72em; font-weight: 800; }
+.q9__heroes small { font-size: .6em; font-weight: 600; color: var(--tier-hi); }
+.q9__serial { position: absolute; left: 1em; top: 1em; z-index: 7; display: grid; padding: .35em .6em; border-radius: .4em; line-height: 1.2;
+  background: color-mix(in srgb, var(--c-card-ink) 75%, transparent); }
+.q9__serial b { font-size: .76em; font-weight: 800; color: var(--tier-hi); }
+.q9__serial small { font-size: .55em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Позиция — своя зона в колонке: номер позиции крупно, роль подписью */
+.q9__role { top: 5.05em; height: 4.35em; display: grid; place-content: center; justify-items: center; line-height: 1; }
+.q9__role small { font-size: .55em; font-weight: 600; color: var(--c-muted); }
+.q9__role b { font-size: 2.3em; font-weight: 800; color: var(--tier-hi); }
+.q9__role span { margin-top: .15em; font-size: .72em; font-weight: 700; }
+
+/* 6 Игрок: зона имени во всю ширину */
+.q9__who { left: .5em; right: .5em; top: 17.95em; height: 3.95em; display: grid; place-content: center; text-align: center; }
+.q9__nick { font-size: 2.5em; font-weight: 800; line-height: 1; letter-spacing: -.01em; }
+.q9__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .4em; font-size: .78em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Инфо: статы строкой из 6 ячеек, команда — во всю нижнюю зону */
+.q9__stats { left: .5em; right: .5em; top: 22.35em; height: 3.35em; display: grid; grid-template-columns: repeat(6, 1fr); align-items: center; text-align: center; }
+.q9__stats span + span { box-shadow: inset .05em 0 0 color-mix(in srgb, var(--c-white) 9%, transparent); }
+.q9__stats b { display: block; font-size: 1.4em; font-weight: 800; line-height: 1; }
+.q9__stats small { display: block; margin-top: .3em; font-size: .5em; font-weight: 600; color: var(--c-muted); }
+.q9__foot { left: .5em; right: .5em; top: 26.15em; bottom: .5em; display: flex; justify-content: center; align-items: center; gap: .8em;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--tier) 26%, var(--c-card-ink-2)), color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)) 60%, color-mix(in srgb, var(--tier) 26%, var(--c-card-ink-2))); }
+.q9__foot .logo { width: 2.7em; height: 2.7em; }
+.q9__team { display: grid; line-height: 1.05; }
+.q9__team b { font-size: 1.55em; font-weight: 800; }
+.q9__team small { font-size: .58em; font-weight: 500; color: var(--c-muted); }
+
+/* 9 Оборот: те же зоны — шапка, статы полосками в зоне, герои, форма, кнопка во всю ширину */
+.q9 .bk { box-shadow: inset 0 0 0 .14em var(--tier); padding: .5em .5em .5em; gap: .45em; background: var(--c-card-ink); }
+.q9 .bk > :not(.bk__mask) { padding: .75em .85em; border-radius: var(--zr); background: color-mix(in srgb, var(--tier) 8%, var(--c-card-ink-2)); }
+.q9 .bk__top em { display: grid; place-content: center; margin: -.4em -.45em -.4em 0; width: 1.9em; height: 1.45em; border-radius: .25em; font-weight: 800; font-size: 2.2em;
+  background: linear-gradient(160deg, var(--tier-hi), var(--tier) 60%); color: var(--c-card-dark-text); }
+.q9 .bk__lbl { padding-bottom: 0 !important; border-radius: var(--zr) var(--zr) 0 0 !important; margin-bottom: -.45em; }
+.q9 .bk__form { margin: 0; border-radius: 0 0 var(--zr) var(--zr) !important; }
+.q9 .bk__btn { margin-top: auto; height: 2.6em; padding: 0 !important; background: var(--tier) !important; }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v9 · Колонка</h2>
+    <p class="sec-lead">Развитие «Зон». Фото слева, справа колонка зон: рейтинг, позиция крупной цифрой, герои строками. Ниже во всю ширину — имя, статы и команда.
+      Без скосов, скруглённый прямоугольник. Шрифт один — Tektur.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+V3.страница({
+  класс: 'q9',
+  иерархия: [
+    'Скруглённый прямоугольник без скосов. Внутри зоны с ровным зазором: фото слева, колонка справа, три строки снизу.',
+    'Зона фото: тёмный цвет силы, логотип команды крупно за игроком. С Holo появляется сетка точек.',
+    'Кант цвета силы по контуру.',
+    'Блеск редкости в зоне фото. С Prism по зоне героев идёт перелив, у Legend зона рейтинга покрыта фольгой.',
+    'Игрок обрезан краем зоны — туловище короче, за головой свечение.',
+    'Зона имени во всю ширину: ник крупно, ниже флаг и настоящее имя.',
+    'Колонка справа: рейтинг в зоне цвета силы, ниже позиция, ещё ниже три героя строками (матчи и винрейт). Номер карты и сезон — чипом в углу фото.',
+    'Позиция — своя зона: цифра крупно, роль подписью. Статы строкой из 6 ячеек. Нижняя зона — команда: крупный логотип и название.',
+    'Свой оборот из тех же зон: шапка с рейтингом, статы полосками, герои, форма, кнопка «Страница игрока» во всю ширину.',
+  ],
+  оборот: (п, r, h) => h.оборот(п),
+  лицо: (п, r, h) => `
+<div class="q9__face">
+  <div class="q9__plate" data-l="1"></div>
+  <div class="q9__zone q9__photo" data-l="2">
+    ${h.маска(п, 'q9__logo')}
+    <i class="q9__dots" data-deco="1"></i>
+    <i class="q9__halo" data-l="5"></i>
+    ${h.фото(п)}
+    ${h.блеск(r)}
+  </div>
+  <i class="q9__edge" data-l="3"></i>
+  <div class="q9__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="q9__zone q9__col q9__ovr" data-l="7"><i class="q9__foil" data-l="4" data-deco="3"></i><b>${п.рейтинг}</b></div>
+  <div class="q9__zone q9__col q9__role" data-l="8"><small>Pos</small><b>${п.pos}</b><span>${h.РОЛИ[п.pos]}</span></div>
+  <div class="q9__zone q9__col q9__heroes" data-l="7"><i class="q9__sheen" data-l="4" data-deco="2"></i>${п.герои.map((г) => `<div>${h.герой(г)}<span><b>${г[2]} М</b><small>${г[3]}%</small></span></div>`).join('')}</div>
+  <div class="q9__zone q9__who" data-l="6"><div class="q9__nick">${п.ник}</div>${п.имя ? `<div class="q9__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  <div class="q9__zone q9__stats" data-l="8">${h.статы(п).map((с) => `<span><b data-v="${с.ур}">${с.v}</b><small>${с.к}</small></span>`).join('')}</div>
+  <div class="q9__zone q9__foot" data-l="8">${h.лого(п)}<span class="q9__team"><b>${h.команда(п)}</b><small>Команда</small></span></div>
+</div>`,
+})
+</script>
+</body></html>

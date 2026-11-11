@@ -1,0 +1,148 @@
+/* Страница турнира — копия Liquipedia (лаба gs-tournament, v2). Токены — ../widget-tournament/_w.css, текст — ../widgets-unified/_type.css.
+   Телефон — колонка 390, «О турнире» сверху; компьютер (body.is-desk) — 1440: главная колонка + «О турнире» справа, как на Liquipedia. */
+html, body{ margin:0; background:var(--w-page); color:var(--w-fg); font:400 14px/20px var(--w-font); -webkit-font-smoothing:antialiased; }
+*{ box-sizing:border-box; }
+button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+a{ color:inherit; text-decoration:none; }
+.num{ font-variant-numeric:tabular-nums; }
+.mut{ color:var(--w-muted-fg); }
+.app{ max-width:390px; margin:0 auto; padding:0 12px 48px; }
+.is-desk .app{ max-width:1440px; padding:0 32px 64px; }
+
+/* Шапка портала — как в gs-match */
+.portal{ display:flex; align-items:center; gap:16px; height:56px; }
+.pt-brand{ display:flex; align-items:center; gap:8px; font:700 15px/20px var(--w-font); }
+.pt-logo{ display:grid; place-items:center; width:28px; height:28px; border-radius:8px; background:var(--w-fg); color:var(--w-primary-fg); font-size:13px; }
+.pt-nav{ display:none; gap:4px; flex:1; }
+.is-desk .pt-nav{ display:flex; }
+.pt-nav a{ height:32px; padding:0 12px; border-radius:var(--w-r-sm); font:var(--t-seg); line-height:32px; color:var(--w-muted-fg); }
+.pt-nav a.is-on{ color:var(--w-fg); background:var(--w-muted); }
+.pt-in{ margin-left:auto; height:32px; padding:0 14px; border-radius:var(--w-r-sm); background:var(--w-fg); color:var(--w-primary-fg); font:var(--t-btn); line-height:32px; }
+.is-desk .pt-in{ margin-left:0; }
+
+/* Заголовок, серия, вкладки */
+.ttl{ margin:16px 0 12px; font:600 26px/32px var(--w-font); }
+.series{ display:flex; flex-direction:column; gap:2px; padding:10px 12px; border:1px solid var(--w-border); border-radius:var(--w-r-sm); background:var(--w-bg); font:var(--t-sub); color:var(--w-muted-fg); }
+.series > b{ font:var(--t-title); color:var(--w-fg); }
+.series span b{ color:var(--w-fg); }
+.tabs{ display:flex; gap:4px; margin:12px 0 20px; border-bottom:1px solid var(--w-border); }
+.tabs button{ height:40px; padding:0 14px; font:var(--t-seg); color:var(--w-muted-fg); border-bottom:2px solid transparent; margin-bottom:-1px; }
+.tabs button.is-on{ color:var(--w-fg); border-color:var(--w-fg); }
+
+.lay{ display:flex; flex-direction:column; gap:24px; }
+.side{ order:-1; }
+.is-desk .lay{ flex-direction:row; align-items:flex-start; gap:32px; }
+.is-desk .col{ flex:1; min-width:0; }
+.is-desk .side{ order:0; width:340px; flex:none; position:sticky; top:16px; }
+.empty{ padding:48px 16px; border:1px dashed var(--w-ring); border-radius:var(--w-r); text-align:center; color:var(--w-muted-fg); font:var(--t-sub); }
+
+/* Разделы */
+.sec{ margin-bottom:32px; }
+.sec h2{ display:flex; align-items:baseline; gap:8px; margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--w-border); font:600 20px/26px var(--w-font); }
+.sec h2 small{ font:var(--t-hsub); color:var(--w-muted-fg); }
+.sec h3{ margin:20px 0 8px; font:600 16px/22px var(--w-font); }
+.more{ display:inline-block; margin-top:8px; font:var(--t-link); color:var(--w-muted-fg); }
+.scroll{ overflow-x:auto; }
+.sw{ display:inline-flex; align-items:center; gap:6px; font:var(--t-cell); color:var(--w-fg); }
+.sw input{ accent-color:var(--w-fg); }
+.chip{ display:inline-block; padding:0 6px; border-radius:4px; background:var(--w-muted); font:var(--t-tag); }
+.chip.live{ background:var(--w-down); color:#fff; }
+.sm{ height:24px; padding:0 8px; border:1px solid var(--w-border); border-radius:6px; font:var(--t-sub); }
+.lg{ display:inline-grid; place-items:center; width:28px; height:28px; flex:none; border-radius:6px; overflow:hidden; }
+.lg img{ width:100%; height:100%; object-fit:contain; }
+.lg--txt{ background:var(--w-muted); border:1px solid var(--w-border); font:600 8px/10px var(--w-font); }
+.lg--20{ width:20px; height:20px; border-radius:5px; }
+.tmn{ display:inline-flex; align-items:center; gap:8px; white-space:nowrap; font:var(--t-title); min-width:0; }
+.fl{ font-size:13px; line-height:1; }
+
+/* Ближайшие матчи */
+.ups{ display:flex; gap:8px; margin-top:12px; overflow-x:auto; padding-bottom:4px; }
+.up{ display:flex; flex-direction:column; gap:6px; min-width:168px; padding:10px 12px; border:1px solid var(--w-border); border-radius:var(--w-r-sm); background:var(--w-bg); }
+.up:hover{ background:var(--w-hover); }
+.up small{ font:var(--t-sub); color:var(--w-muted-fg); }
+.up .chip{ align-self:flex-start; }
+
+/* Формат */
+.fmt, .fmt ul{ margin:0; padding-left:18px; font:var(--t-cell); line-height:22px; }
+.fmt i{ color:var(--w-muted-fg); }
+.fmt mark{ background:var(--w-up-bg); color:var(--w-up-fg); padding:0 3px; border-radius:3px; }
+.fmt a{ text-decoration:underline; color:var(--w-muted-fg); }
+
+/* Таблицы */
+.tbl{ border-collapse:collapse; width:100%; }
+.tbl th{ height:var(--g-cell); padding:0 8px; text-align:left; font:var(--t-label); color:var(--w-muted-fg); white-space:nowrap; }
+.tbl td{ height:40px; padding:0 8px; border-top:1px solid var(--w-border); font:var(--t-cell); white-space:nowrap; }
+.plc{ display:inline-grid; place-items:center; width:20px; height:20px; border-radius:5px; background:var(--w-muted); font:var(--t-num-s); }
+.prz{ max-width:560px; }
+.prz .p1 .plc{ background:#c9a227; color:#000; } .prz .p2 .plc{ background:#9aa3ab; color:#000; } .prz .p3 .plc{ background:#a8703a; color:#000; }
+.more-row{ text-align:center; } .more-row button{ font:var(--t-link); color:var(--w-muted-fg); }
+
+/* Участники */
+.tgls{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; margin-bottom:12px; }
+.pi{ height:28px; padding:0 10px; border:1px solid var(--w-border); border-radius:6px; font:var(--t-btn); line-height:26px; }
+.teams{ display:grid; grid-template-columns:1fr; gap:8px; }
+.is-desk .teams{ grid-template-columns:repeat(5, minmax(0, 1fr)); }
+.team{ border:1px solid var(--w-border); border-radius:var(--w-r-sm); background:var(--w-bg); padding:0 8px 6px; align-self:start; }
+.team-hd{ display:flex; align-items:center; gap:8px; height:48px; }
+.team-hd b{ flex:1; min-width:0; font:var(--t-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.st{ padding:0 6px; border:1px solid var(--w-border); border-radius:4px; font:var(--t-tag); color:var(--w-muted-fg); }
+.car{ color:var(--w-muted-fg); font-size:11px; }
+.qual{ display:flex; justify-content:space-between; align-items:center; height:28px; padding:0 6px; margin-bottom:4px; border-radius:6px; background:var(--w-muted); font:var(--t-sub); }
+.gold{ padding:0 6px; border-radius:4px; background:#c9a227; color:#000; font:var(--t-tag); }
+.seg{ display:grid; grid-template-columns:1fr 1fr; gap:2px; padding:2px; margin-bottom:4px; border-radius:6px; background:var(--w-muted); }
+.seg button{ height:24px; border-radius:5px; font:var(--t-sub); color:var(--w-muted-fg); text-align:center; }
+.seg button.is-on{ background:var(--w-bg); color:var(--w-fg); }
+.pl{ display:flex; align-items:center; gap:8px; height:30px; padding:0 4px; border-radius:5px; font:var(--t-cell); }
+.pl:nth-child(odd){ background:color-mix(in srgb, var(--w-muted) 45%, transparent); }
+.pl span{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pl small{ font:var(--t-num-s); color:var(--w-muted-fg); }
+
+/* Групповая стадия */
+.grp-row{ display:flex; flex-direction:column; gap:12px; }
+.is-desk .grp-row{ flex-direction:row; align-items:flex-start; gap:24px; }
+.gt{ max-width:440px; }
+.gt tr.in td{ background:var(--w-up-bg); }
+.gt tr.out td{ background:var(--w-down-bg); }
+.gt tr.in .plc{ background:var(--w-up); color:#000; } .gt tr.out .plc{ background:var(--w-down); color:#fff; }
+.rr{ border-collapse:separate; border-spacing:2px; }
+.rr th{ width:52px; height:36px; } .rr th .lg{ margin:auto; display:grid; }
+.rr td{ width:52px; height:40px; text-align:center; border-radius:5px; }
+.rr td b{ display:block; font:var(--t-num-s); }
+.rr td small{ display:block; font:400 9px/12px var(--w-font); opacity:.75; }
+.rr td.win{ background:var(--w-up-bg); color:var(--w-up-fg); } .rr td.loss{ background:var(--w-down-bg); color:var(--w-down-fg); } .rr td.x{ background:var(--w-muted); }
+.day{ border-top:1px solid var(--w-border); }
+.day summary{ display:flex; align-items:center; gap:8px; height:40px; cursor:pointer; font:var(--t-title); list-style:none; }
+.day summary::before{ content:'›'; color:var(--w-muted-fg); transition:transform .15s; } .day[open] summary::before{ transform:rotate(90deg); }
+.day summary small{ font:var(--t-sub); color:var(--w-muted-fg); }
+.mrow{ display:grid; grid-template-columns:72px 1fr auto 1fr; align-items:center; gap:8px; height:36px; padding-left:16px; }
+.mrow small{ font:var(--t-sub); color:var(--w-muted-fg); }
+.mrow .tmn:nth-of-type(1){ justify-self:end; } .mrow b{ font:var(--t-num-s); min-width:40px; text-align:center; }
+
+/* Плей-офф */
+.br{ display:flex; flex-direction:column; gap:20px; min-width:760px; }
+.br-row{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; align-items:center; }
+.bc{ display:flex; flex-direction:column; gap:8px; justify-content:space-around; height:100%; }
+.bc > small{ font:var(--t-label); color:var(--w-muted-fg); }
+.bm{ position:relative; border:1px solid var(--w-border); border-radius:6px; background:var(--w-bg); }
+.bm > div{ display:flex; justify-content:space-between; align-items:center; height:30px; padding:0 8px; }
+.bm > div + div{ border-top:1px solid var(--w-border); }
+.bm b{ font:var(--t-num-s); color:var(--w-muted-fg); }
+.bm .chip{ position:absolute; top:-8px; right:6px; }
+
+/* Статистика героев */
+.hs td.b{ font-weight:700; }
+.hero{ display:inline-flex; align-items:center; gap:8px; font:var(--t-title); }
+.hero img, .hero i{ width:36px; height:20px; border-radius:4px; object-fit:cover; background:var(--w-muted); }
+.tot td{ font:var(--t-num-s); text-align:center; }
+.tot .rad{ background:var(--w-up-bg); color:var(--w-up-fg); } .tot .dire{ background:var(--w-down-bg); color:var(--w-down-fg); }
+.cr td:last-child{ white-space:normal; color:var(--w-muted-fg); }
+
+/* О турнире (инфобокс справа) */
+.ib{ border:1px solid var(--w-border); border-radius:var(--w-r); background:var(--w-bg); overflow:hidden; }
+.ib-t{ padding:10px 12px; background:var(--w-muted); font:var(--t-title); text-align:center; }
+.ib-logo{ display:grid; place-items:center; height:120px; font:800 28px/1 var(--w-font); letter-spacing:1px; font-style:italic; }
+.ib-logo b{ color:var(--w-up); }
+.ib dl{ display:grid; grid-template-columns:auto 1fr; gap:8px 12px; margin:0; padding:12px; font:var(--t-cell); }
+.ib dt{ color:var(--w-muted-fg); text-align:right; } .ib dd{ margin:0; }
+.links{ display:flex; flex-wrap:wrap; gap:6px; padding:12px; }
+.links a{ height:28px; padding:0 10px; border:1px solid var(--w-border); border-radius:6px; font:var(--t-sub); line-height:26px; color:var(--w-muted-fg); }

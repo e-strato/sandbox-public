@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v9 · Таблица и матчи</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../кадр.css" /><link rel="stylesheet" href="../../widget-tournament/_w.css" /></head>
+<body><div class="lab-board">
+  <h1>Виджет турнира · v9 · Таблица и матчи</h1>
+  <p class="lab-board__lead">Две вкладки: таблица групп и матчи турнира (в эфире, сегодня, вчера). Справа — вкладка «Матчи». Базовая версия: одна обычная лига, 320×400, лишнее скроллится внутри.</p>
+  <div class="lab-pair"><div id="a"></div><div id="b"></div></div>
+</div>
+<script src="../../widget-tournament/_full.js"></script><script src="_tb.js"></script>
+<script>TB.render(document.getElementById('a'), 9); TB.render(document.getElementById('b'), 9, 1)</script>
+</body></html>

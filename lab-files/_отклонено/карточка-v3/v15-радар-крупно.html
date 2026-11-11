@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v15 · Радар · крупно — вариант идеи v13 (дирижёр 01.10): диаграмма во всю ширину — главный элемент; позиция, ник и имя — на фото снизу;
+   команда — язычком в левом нижнем углу, номер карты — в правом. Шрифт — IBM Plex Sans */
+.d15 { --r: .9em; --shape: inset(0 round .9em); --f-disp: 'IBM Plex Sans'; --f-ui: 'IBM Plex Sans'; }
+.d15__face, .d15 .bk { font-family: 'IBM Plex Sans', sans-serif; }
+.d15__face { position: absolute; inset: 0; }
+.d15__plate { position: absolute; inset: 0; border-radius: var(--r); overflow: hidden; background: var(--c-card-ink);
+  box-shadow: 0 1.4em 2.6em -1em color-mix(in srgb, var(--c-black) 85%, transparent); }
+
+/* 2 Фон: сверху тёмный цвет силы и логотип команды за игроком, ниже — тёмное поле под диаграмму */
+.d15__bg { position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 30% at 50% 18%, color-mix(in srgb, var(--tier) 30%, transparent), transparent 75%),
+    radial-gradient(50% 25% at 50% 75%, color-mix(in srgb, var(--tier) 10%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 85%, var(--c-card-ink)), var(--c-card-ink) 50%); }
+.d15__logo { left: 4em; top: 1.2em; width: 14em; height: 10em; background: color-mix(in srgb, var(--tier) 20%, transparent); }
+
+/* 3 Рамка: кант поверх всего — язычок команды его не рвёт */
+.d15__edge { position: absolute; inset: 0; z-index: 12; border-radius: var(--r); pointer-events: none; box-shadow: inset 0 0 0 .15em var(--tier); }
+
+/* 5 Фото: сверху по центру, уходит в тёмное поле, свечение за головой */
+.d15__halo { position: absolute; left: 11em; top: 4em; width: 10em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 55%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 55%, transparent); }
+.d15 .ph { left: 4.3em; top: .7em; width: 13.4em;
+  -webkit-mask: linear-gradient(180deg, var(--c-black) 52%, transparent 70%); mask: linear-gradient(180deg, var(--c-black) 52%, transparent 70%); }
+
+/* 7 Раскладка: рейтинг справа сверху, герои в воздухе под ним, номер карты — чипом слева сверху */
+.d15__ovr { position: absolute; right: 1.2em; top: .8em; z-index: 7; }
+.d15__ovr b { font-size: 3.1em; font-weight: 700; line-height: 1; letter-spacing: -.04em; color: var(--c-white);
+  text-shadow: 0 .05em .4em color-mix(in srgb, var(--c-black) 45%, transparent); }
+.d15__heroes { position: absolute; right: 1.3em; top: 4.9em; z-index: 7; display: grid; gap: .45em; justify-items: center; }
+.d15__heroes div { display: grid; justify-items: center; gap: .2em; }
+.d15__heroes .hero-ic { width: 2.3em; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 .1em color-mix(in srgb, var(--tier) 70%, transparent), 0 .3em .8em color-mix(in srgb, var(--c-black) 50%, transparent); }
+.d15__heroes small { font-size: .54em; font-weight: 500; white-space: nowrap; color: var(--c-muted); }
+.d15__heroes small b { font-weight: 700; color: var(--c-white); }
+.d15__serial { position: absolute; left: 1em; top: 1em; z-index: 7; display: grid; padding: .35em .65em; border-radius: .45em; line-height: 1.2;
+  background: color-mix(in srgb, var(--c-card-ink) 75%, transparent); }
+.d15__serial b { font-size: .82em; font-weight: 700; color: var(--tier-hi); }
+.d15__serial small { font-size: .56em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Позиция — пилюлей по центру над ником */
+.d15__role { position: absolute; left: 50%; top: 9.7em; translate: -50% 0; z-index: 7; padding: .38em 1.05em; border-radius: 2em; white-space: nowrap;
+  font-size: .92em; font-weight: 600; background: var(--c-card-ink); box-shadow: inset 0 0 0 .1em var(--tier); }
+.d15__role b { font-weight: 700; color: var(--tier-hi); }
+
+/* 6 Игрок */
+.d15__who { position: absolute; left: 1.2em; right: 1.2em; top: 11.6em; z-index: 6; text-align: center; }
+.d15__nick { font-size: 2.3em; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.d15__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .35em; font-size: .78em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Статы — паук навыков: фигура игрока цветом силы, у вершин — подпись и значение */
+/* Заход 2 (01.10): без сетки и луча радара — только паук навыков; двигается в 3D за курсором, как игрок */
+.d15__radar { left: calc(50% - 8.7em); top: 15.2em; width: 17.4em; height: 14em; z-index: 6; }
+.d15__radar .shape { fill: color-mix(in srgb, var(--tier) 38%, transparent); stroke-width: 1.8; }
+
+/* 4 Эффекты: блеск по фото; с Holo — паук светится; с Prism — переливается */
+
+/* 8 Команда — язычком у нижнего края, как в v1, со скруглёнными верхними углами */
+.d15__team { position: absolute; left: 50%; bottom: 0; translate: -50% 0; z-index: 9; display: flex; align-items: center; gap: .5em; white-space: nowrap;
+  padding: .45em 1.4em .55em; border-radius: .8em .8em 0 0; font-size: .82em; font-weight: 700;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--tier) 30%, var(--c-card-ink)), color-mix(in srgb, var(--tier) 10%, var(--c-card-ink))); }
+.d15__team .logo { width: 1.9em; height: 1.9em; }
+
+/* 9 Оборот: та же диаграмма крупнее нет — оборот подробный: статы полосками с полными названиями, герои, форма, кнопка */
+.d15 .bk { box-shadow: inset 0 0 0 .15em var(--tier); padding: 1.3em; gap: .7em; }
+.d15 .bk__top b, .d15 .bk__top em { font-weight: 700; }
+.d15 .bk__top em { color: var(--c-white); }
+.d15 .bk__stats { grid-template-columns: 1fr; gap: .35em; }
+.d15 .bk__stats li { grid-template-columns: 6.5em 1fr 2em; align-items: center; gap: .6em; font-size: .72em; }
+.d15 .bk__stats b { order: 3; text-align: right; font-size: 1.1em; }
+.d15 .bk__stats i { grid-column: auto; height: .45em; }
+.d15 .bk__heroes { grid-template-columns: repeat(3, 1fr); }
+.d15 .bk__heroes li { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .2em; }
+.d15 .bk__heroes .hero-ic { width: 2.2em; aspect-ratio: 1; border-radius: 50%; }
+.d15 .bk__btn { border-radius: .6em; }
+
+/* Язычки в нижних углах: команда слева, номер карты справа (кант лежит поверх) */
+.d15__team { left: 0; translate: none; border-radius: 0 .8em 0 0; padding: .5em 1.1em .55em .9em; }
+.d15__serial { left: auto; right: 0; top: auto; bottom: 0; border-radius: .8em 0 0 0; padding: .5em .9em .55em 1.1em; justify-items: end;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--tier) 30%, var(--c-card-ink)), color-mix(in srgb, var(--tier) 10%, var(--c-card-ink))); }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v15 · Радар · крупно</h2>
+    <p class="sec-lead">Та же идея, главный элемент — паук навыков: крупно, во всю ширину, без сетки радара, двигается в 3D вместе с игроком. Значения у вершин читаются издалека. Позиция и ник стоят на фото снизу. Команда и номер карты — язычками в нижних углах. Шрифт один — IBM Plex Sans.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+V3.страница({
+  класс: 'd15',
+  иерархия: [
+    'Скруглённый прямоугольник, только скругления.',
+    'Сверху тёмный цвет силы и логотип команды за игроком, ниже — тёмное поле под крупную диаграмму.',
+    'Кант цвета силы поверх всего — язычки в нижних углах его не рвут.',
+    'Блеск редкости по фото. С Holo паук светится, с Prism переливается радугой.',
+    'Игрок сверху, меньше обычного — место отдано диаграмме; за головой свечение.',
+    'Ник по центру на фото снизу, ниже флаг и настоящее имя.',
+    'Рейтинг в правом верхнем углу крупно, без обводок. Под ним три героя в воздухе: матчи и винрейт. Номер карты и сезон — язычком в правом нижнем углу.',
+    'Позиция — пилюлей над ником. Статы — крупный паук навыков во всю ширину, без сетки радара; двигается в 3D за курсором, как игрок. Значения у вершин. Команда — язычком в левом нижнем углу.',
+    'Свой оборот — подробный: статы полосками с полными названиями, герои, форма, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п),
+  лицо: (п, r, h) => `
+<div class="d15__face">
+  <div class="d15__plate" data-l="1">
+    <div class="d15__bg" data-l="2">${h.маска(п, 'd15__logo')}</div>
+    <i class="d15__halo" data-l="5"></i>
+    ${h.фото(п)}
+    ${h.блеск(r)}
+  </div>
+  <i class="d15__edge" data-l="3"></i>
+  <div class="d15__serial" data-l="7" style="z-index: 9"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="d15__ovr" data-l="7"><b>${п.рейтинг}</b></div>
+  <div class="d15__heroes" data-l="7">${п.герои.map((г) => `<div>${h.герой(г)}<small><b>${г[2]} М</b> · ${г[3]}%</small></div>`).join('')}</div>
+  <span class="d15__role" data-l="8"><b>Pos ${п.pos}</b> · ${h.РОЛИ[п.pos]}</span>
+  <div class="d15__who" data-l="6"><div class="d15__nick">${п.ник}</div>${п.имя ? `<div class="d15__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  ${h.радар(п, 'd15__radar rd--3d', { сетка: false })}
+  <div class="d15__team" data-l="8">${h.лого(п)}${h.команда(п)}</div>
+</div>`,
+})
+</script>
+</body></html>

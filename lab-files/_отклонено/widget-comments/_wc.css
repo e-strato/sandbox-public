@@ -1,0 +1,110 @@
+/* Т4 · низ страницы матча (_wc.js): строка как на Пикабу + сайдбар обсуждения. Токены — ../widget-tournament/_w.css, ../widgets-unified/_type.css */
+body{ margin:0; background:var(--w-page); color:var(--w-fg); font-family:var(--w-font); }
+.lab-board{ padding:24px 32px 48px; } .is-phone .lab-board{ padding:16px 0 32px; }
+#pg{ max-width:1376px; margin:0 auto; } .is-phone #pg{ width:390px; padding:0 12px; box-sizing:border-box; }
+.wc-hd{ height:52px; display:flex; align-items:center; padding:0 16px; margin-bottom:16px; border:1px solid var(--w-border); border-radius:var(--w-r); background:var(--w-bg); font:var(--t-title); }
+.wc-cols{ display:flex; gap:20px; align-items:flex-start; } .is-phone .wc-cols{ flex-direction:column; gap:12px; }
+.wc-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:12px; }
+.wc-right{ width:340px; flex:none; display:flex; flex-direction:column; gap:12px; position:sticky; top:16px; } .is-phone .wc-right{ width:100%; position:static; }
+.wc-ph{ border:1px dashed var(--w-border); border-radius:var(--w-r); display:grid; place-items:center; font:var(--t-sub); color:var(--w-ring); }
+
+/* строка — в потоке, не висит (как под постом на Пикабу): реакции, ниже 💬 ♡ сохранить поделиться … трансляция */
+.wc-row{ display:flex; flex-direction:column; gap:10px; padding:12px 16px; border:1px solid var(--w-border); border-radius:var(--w-r); background:var(--w-bg); }
+.wc-re{ display:flex; flex-wrap:wrap; gap:6px; }
+.wc-rp{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px; border:0; border-radius:14px; background:var(--w-mid-bg); color:var(--w-fg); font:var(--t-seg); cursor:pointer; }
+.wc-rp b{ font-weight:600; color:var(--w-muted-fg); } .wc-rp:hover{ background:var(--w-muted); }
+.wc-rp.is-on{ background:var(--w-a-bg); } .wc-rp.is-on b{ color:var(--w-a-fg); }
+.wc-rp--add{ width:28px; padding:0; justify-content:center; color:var(--w-muted-fg); }
+.wc-tools{ display:flex; align-items:center; gap:4px; flex-wrap:wrap; } .wc-tools .sp{ flex:1; }
+.wc-row:not(.is-inline) .wc-tools{ padding-top:10px; border-top:1px solid var(--w-border); }
+.wc-row.is-inline .wc-re{ margin-left:8px; }
+.wc-t{ display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px; border:0; border-radius:8px; background:none; color:var(--w-muted-fg); font:var(--t-seg); cursor:pointer; }
+.wc-t b{ font-weight:600; } .wc-t:hover{ background:var(--w-muted); color:var(--w-fg); }
+.wc-t.is-on{ background:var(--w-fg); color:var(--w-bg); } .wc-t.is-like{ color:#f87171; }
+.wc-t--tv{ color:var(--w-fg); background:var(--w-mid-bg); }
+.is-phone .wc-t--tv{ display:none; }
+
+/* сайдбар обсуждения — на месте виджетов правой колонки; на телефоне — на весь экран поверх */
+.wc-side.w{ width:auto; display:flex; flex-direction:column; height:calc(100vh - 48px); max-height:820px; }
+.wc-side .w-hd{ height:var(--g-hd); } .wc-side .w-hd__t{ font:var(--t-title); flex:none; } .wc-side .sub{ font:var(--t-hsub); color:var(--w-muted-fg); flex:1; }
+.wc-seg{ display:flex; gap:2px; padding:2px; border-radius:var(--w-r-sm); background:var(--w-mid-bg); }
+.w .wc-seg button{ height:24px; padding:0 8px; border-radius:6px; font:var(--t-tag); color:var(--w-muted-fg); }
+.w .wc-seg button.is-on{ background:var(--w-muted); color:var(--w-fg); }
+.w .wc-x{ display:grid; place-items:center; width:28px; height:28px; margin-right:-8px; border-radius:var(--w-r-sm); color:var(--w-muted-fg); } .w .wc-x:hover{ background:var(--w-muted); color:var(--w-fg); }
+.wc-list{ flex:1; overflow-y:auto; padding:4px 16px; scrollbar-width:thin; }
+.wc-c{ display:flex; gap:10px; padding:10px 0; } .wc-c + .wc-c{ border-top:1px solid var(--w-border); } .wc-c.is-sub{ padding:8px 0 0; border:0; }
+.wc-c .av{ width:28px; height:28px; flex:none; border-radius:50%; display:grid; place-items:center; background:var(--w-muted); font:var(--t-tag); }
+.wc-c.is-sub .av{ width:22px; height:22px; }
+.wc-c .bd{ flex:1; min-width:0; } .wc-c .hd{ display:flex; gap:8px; align-items:baseline; } .wc-c .hd b{ font:var(--t-title); } .wc-c .hd span{ font:var(--t-sub); color:var(--w-muted-fg); }
+.wc-c p{ margin:2px 0 4px; font:var(--t-cell); color:var(--w-fg); }
+.wc-c .ft{ display:flex; gap:12px; } .w .wc-c .ft button{ font:var(--t-sub); color:var(--w-muted-fg); } .w .wc-c .ft button:hover{ color:var(--w-fg); }
+.wc-in{ display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--w-border); }
+.wc-in input{ flex:1; min-width:0; height:36px; padding:0 12px; border:1px solid var(--w-border); border-radius:8px; background:var(--w-mid-bg); color:var(--w-fg); font:var(--t-cell); }
+.w .wc-send{ height:36px; padding:0 12px; border-radius:8px; background:var(--w-fg); color:var(--w-bg); font:var(--t-btn); }
+.is-phone .wc-cols.is-open .wc-right{ position:fixed; inset:0; z-index:10; padding:0; background:var(--w-page); }
+.is-phone .wc-cols.is-open .wc-side.w{ height:100%; max-height:none; border-radius:0; border:0; }
+
+/* строка внутри карточки графика (row 'card') — как внутри поста на Пикабу ИИ (C7) */
+.wc-card{ border:1px solid var(--w-border); border-radius:var(--w-r); background:var(--w-bg); overflow:hidden; }
+.wc-card .wc-ph--in{ border:0; border-radius:0; }
+.wc-card .wc-row{ border:0; border-top:1px solid var(--w-border); border-radius:0; }
+/* строка ввода (ask) — как композер Пикабу ИИ (C7): чипы над полем, поле со своими кнопками */
+.wc-ask{ display:flex; flex-direction:column; gap:8px; }
+.wc-ask.is-dock{ position:sticky; bottom:12px; z-index:4; padding-top:24px; background:linear-gradient(to bottom, transparent, var(--w-page) 40%); }
+.wc-chips{ display:flex; gap:6px; flex-wrap:wrap; }
+.wc-chips button{ display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; border:1px solid var(--w-border); border-radius:15px; background:var(--w-bg); color:var(--w-fg); font:var(--t-seg); cursor:pointer; }
+.wc-chips button svg{ color:var(--w-a); } .wc-chips button:hover{ background:var(--w-muted); }
+.wc-box{ display:flex; align-items:center; gap:4px; padding:6px 6px 6px 14px; border:1px solid var(--w-border); border-radius:14px; background:var(--w-bg); }
+.wc-box:focus-within{ border-color:var(--w-ring); }
+.wc-box input{ flex:1; min-width:0; height:36px; border:0; background:none; color:var(--w-fg); font:var(--t-cell); outline:none; }
+.wc-go{ width:36px; height:36px; flex:none; display:grid; place-items:center; border:0; border-radius:50%; background:var(--w-fg); color:var(--w-bg); cursor:pointer; }
+.is-phone .wc-box .wc-t[aria-label="Поделиться"]{ display:none; }
+/* вкладка ИИ в обсуждении */
+.wc-ai{ padding:10px 0; } .wc-ai + .wc-ai{ border-top:1px solid var(--w-border); }
+.wc-ai .q{ margin-left:auto; width:fit-content; max-width:85%; padding:6px 10px; border-radius:10px; background:var(--w-muted); font:var(--t-cell); margin-bottom:8px; }
+.wc-ai .a{ display:flex; gap:10px; } .wc-ai .a .av{ width:24px; height:24px; flex:none; border-radius:6px; display:grid; place-items:center; background:var(--w-a-bg); color:var(--w-a-fg); font-size:12px; }
+.wc-ai .a p{ margin:0; font:var(--t-cell); color:var(--w-fg); line-height:18px; }
+.wc-empty{ padding:24px 0; text-align:center; font:var(--t-sub); color:var(--w-muted-fg); }
+
+/* голосование по событию — вид виджета-опроса AI-консьержа (SurveyWidget): шапка с вопросом, полоска хода, тёмная врезка с вариантами */
+.wc-vt{ border-radius:22px; background:#1f1f23; overflow:hidden; }
+.wc-vt .hd{ display:flex; align-items:flex-start; gap:12px; padding:14px 14px 12px; }
+.wc-vt .t{ flex:1; min-width:0; } .wc-vt .t b{ display:block; font:500 16px/22px var(--w-font); } .wc-vt .t small{ display:block; font:var(--t-sub); color:var(--w-muted-fg); margin-top:2px; }
+.wc-vt .rb{ width:36px; height:36px; flex:none; display:grid; place-items:center; border:0; border-radius:50%; background:#34343a; color:var(--w-muted-fg); cursor:pointer; } .wc-vt .rb:hover{ color:var(--w-fg); }
+.wc-vt .pr{ height:2px; } .wc-vt .pr i{ display:block; height:100%; background:#e0b97a; transition:width .3s; }
+.wc-vt .ops{ background:#121214; border-radius:18px 18px 22px 22px; }
+.wc-vt .op{ position:relative; display:flex; align-items:center; gap:8px; width:100%; min-height:44px; padding:0 14px 0 16px; border:0; background:none; color:var(--w-fg); font:500 14px/20px var(--w-font); text-align:left; cursor:pointer; box-sizing:border-box; }
+.wc-vt .op + .op{ box-shadow:inset 0 1px 0 #2a2a2e; } .wc-vt .op span{ flex:1; position:relative; } .wc-vt .op svg{ color:var(--w-muted-fg); }
+.wc-vt button.op:hover{ background:#1a1a1d; }
+.wc-vt .op.is-res i{ position:absolute; left:0; top:0; bottom:0; background:#26262b; } .wc-vt .op.is-me i{ background:rgba(224,185,122,.22); }
+.wc-vt .op.is-res b{ position:relative; font:var(--t-num-s); color:var(--w-muted-fg); } .wc-vt .op.is-me b{ color:#e0b97a; }
+.wc-vt .op:last-child{ border-radius:0 0 22px 22px; }
+.wc-vt .ft{ display:flex; justify-content:space-between; align-items:center; padding:10px 16px 12px; background:#121214; font:var(--t-sub); color:var(--w-muted-fg); border-radius:0 0 22px 22px; }
+.wc-vt .ops:has(+ .ft){ border-radius:18px 18px 0 0; } .wc-vt .ops:has(+ .ft) .op:last-child{ border-radius:0; }
+.wc-vt .ft button{ border:0; background:none; color:var(--w-fg); font:var(--t-link); cursor:pointer; }
+
+/* голосование в нашем стиле (vstyle 'ours') — виджет .w */
+.wc-vo.w{ width:auto; }
+.wc-vo .w-hd{ height:var(--g-hd); } .wc-vo .w-hd__t{ font:var(--t-title); flex:none; } .wc-vo .sub{ font:var(--t-hsub); color:var(--w-muted-fg); flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wc-vo .dot, .wc-bl .dot{ width:8px; height:8px; border-radius:50%; background:var(--w-down); flex:none; box-shadow:0 0 0 3px var(--w-down-bg); }
+.wc-vo .q{ padding:12px 16px 4px; font:600 15px/20px var(--w-font); }
+.wc-vo .ops{ padding:0 16px; }
+.wc-vo .op{ display:flex; align-items:center; gap:10px; width:100%; min-height:40px; padding:0; border:0; background:none; color:var(--w-fg); font:var(--t-cell); text-align:left; cursor:pointer; }
+.wc-vo .op + .op{ border-top:1px solid var(--w-border); } .wc-vo .op > span:first-child{ flex:1; min-width:0; } .wc-vo .op svg{ color:var(--w-ring); }
+.wc-vo button.op:hover{ color:var(--w-fg); } .wc-vo button.op:hover svg{ color:var(--w-fg); }
+.wc-vo .op .bar{ width:96px; height:4px; border-radius:2px; background:var(--w-muted); overflow:hidden; flex:none; } .wc-vo .op .bar i{ display:block; height:100%; background:var(--w-muted-fg); }
+.wc-vo .op.is-me .bar i{ background:var(--w-up); } .wc-vo .op.is-me > span:first-child{ font-weight:600; }
+.wc-vo .op b{ width:36px; text-align:right; font:var(--t-num-s); color:var(--w-muted-fg); } .wc-vo .op.is-me b{ color:var(--w-up); }
+.wc-vo .w-ft{ margin-top:4px; } .w .wc-vo .w-link, .wc-vo .w-link{ border:0; background:none; cursor:pointer; font:var(--t-link); }
+/* нижняя плашка — всегда висит внизу страницы */
+.wc-bar{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:30; width:min(760px, calc(100% - 32px)); display:flex; flex-direction:column; gap:8px; }
+.wc-bl.w{ width:auto; display:flex; align-items:center; gap:12px; padding:8px 8px 8px 16px; min-height:56px; border-radius:14px; background:color-mix(in srgb, var(--w-bg) 88%, transparent); backdrop-filter:blur(12px); box-shadow:0 12px 32px #000a; flex-wrap:wrap; }
+.wc-bl .ev{ flex:1; min-width:160px; display:flex; flex-direction:column; } .wc-bl .ev b{ font:var(--t-title); } .wc-bl .ev small{ font:var(--t-sub); color:var(--w-muted-fg); }
+.wc-bl .opts{ display:flex; gap:6px; flex-wrap:wrap; }
+.wc-bt{ height:36px; padding:0 14px; border:1px solid var(--w-border); border-radius:10px; background:var(--w-mid-bg); color:var(--w-fg); font:var(--t-seg); cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+button.wc-bt:hover{ background:var(--w-muted); } .wc-bt.is-on{ background:var(--w-fg); color:var(--w-bg); border-color:var(--w-fg); }
+.wc-bt.is-res{ cursor:default; } .wc-bt.is-res b{ color:var(--w-muted-fg); } .wc-bt.is-me{ border-color:var(--w-up); } .wc-bt.is-me b{ color:var(--w-up); }
+.wc-bl .w-link{ border:0; background:none; color:var(--w-muted-fg); font:var(--t-link); cursor:pointer; padding:0 8px; }
+.wc-bar.is-x .wc-vo.is-pop{ box-shadow:0 12px 32px #000a; }
+.lab-board:has(.wc-bar){ padding-bottom:120px; }
+.is-phone .wc-bar{ width:366px; }

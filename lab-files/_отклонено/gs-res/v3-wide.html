@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v3 · Широкий 2200</title>
+<style>html, body{ margin:0; height:100%; background:#000; overflow:hidden; }
+.box{ position:relative; height:100%; display:flex; justify-content:center; }
+iframe{ border:0; width:2200px; height:1375px; flex:none; transform-origin:top center; background:#09090b; }</style></head>
+<!-- gs-res v3 · Широкий 2200 — страница матча (gs-match v33) в live, широкий экран 2200 — главная колонка делится пополам (от 1920) (дирижёр 27.10: «лаба, как будет просто в лайв-режиме на трёх разрешениях»).
+     Страница — во вложенном окне настоящей ширины 2200; не влезает — ужата целиком (scale), раскладка — как на настоящем экране такой ширины. -->
+<body><div class="box"><iframe src="../../gs-match/v33-draft.html?fit=1&state=live" title="Страница матча · широкий экран 2200 — главная колонка делится пополам (от 1920)"></iframe></div>
+<script>
+  // ужать окно страницы под рамку лабы: по ширине и по высоте; высота окна — на всю рамку
+  const f = document.querySelector('iframe'), W = 2200;
+  const fit = () => { const k = Math.min(1, innerWidth / W); f.style.transform = `scale(${k})`; f.style.height = innerHeight / k + 'px'; };
+  addEventListener('resize', fit); fit();
+</script></body></html>

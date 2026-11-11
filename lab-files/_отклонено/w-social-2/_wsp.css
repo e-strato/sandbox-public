@@ -1,0 +1,77 @@
+/* w-social-2 v7–v9 — панель действий матча (код — _wsp.js). Старые кнопки сообщества страницы (пилюли над баром) — скрыты */
+body.wpa-on #pills{ display:none !important; }
+
+/* панель: телефон — плавает над баром навигации, бар уехал — опускается; компьютер — пилюлей внизу по центру главной колонки */
+.wpa{ position:fixed; left:8px; right:8px; bottom:68px; z-index:9; max-width:374px; margin:0 auto; height:52px; padding:0 6px; display:flex; align-items:center; gap:4px;
+  font-family:var(--w-font); color:var(--w-fg); background:rgba(24,24,27,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--w-border); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.4); transition:bottom .3s ease; }
+.wpa[hidden]{ display:none; }
+body.bar-off .wpa{ bottom:12px; }
+body.wpa-on:not(.is-desk) .app{ padding-bottom:140px; }
+body.is-desk .wpa{ right:auto; bottom:20px; max-width:none; margin:0; transform:translateX(-50%); padding:0 8px; }
+.wpa button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.wpa svg{ width:18px; height:18px; display:block; }
+.wpa img{ width:24px; height:24px; object-fit:contain; display:block; }
+.wpa-sep{ width:1px; height:24px; margin:0 2px; background:var(--w-border); flex:none; }
+
+.wpa-b{ display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 8px; border-radius:10px; color:var(--w-muted-fg); flex:none; }
+.wpa-b:hover{ background:var(--w-muted); color:var(--w-fg); }
+.wpa-b em, .wpa-r em{ font:600 12px/1 var(--w-font); font-style:normal; font-variant-numeric:tabular-nums; }
+
+/* crowd — реакции */
+.wpa-r{ display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 8px; border-radius:10px; flex:none; transition:transform .12s; }
+.wpa-r:hover{ background:var(--w-muted); } .wpa-r:active{ transform:scale(.9); }
+.wpa-r b{ font:700 16px/1 var(--w-font); } .wpa-r em{ color:var(--w-muted-fg); }
+.wpa-r.on{ background:var(--w-muted); } .wpa-r.on em{ color:var(--w-fg); }
+.wpa--crowd .wpa-r{ padding:0 6px; }
+.wpa-eq{ display:flex; align-items:flex-end; gap:2px; height:20px; width:22px; margin:0 4px 0 6px; flex:none; }
+.wpa-eq i{ flex:1; height:var(--h); border-radius:1px; background:var(--w-up); transition:height .5s ease; }
+.wpa-fly{ position:fixed; z-index:30; pointer-events:none; font:700 22px/1 var(--w-font); color:var(--w-fg); transform:translate(-50%,0); opacity:.55;
+  animation:wpa-fly 1.6s ease-out forwards; }
+.wpa-fly.me{ opacity:1; font-size:28px; }
+@keyframes wpa-fly{ to{ transform:translate(calc(-50% + var(--dx)), -240px) scale(1.2); opacity:0; } }
+
+/* rope — канат */
+.wpa-side{ display:grid; place-items:center; width:40px; height:40px; border-radius:10px; flex:none; opacity:.7; }
+.wpa-side:hover{ background:var(--w-muted); opacity:1; }
+.wpa-side.on{ opacity:1; background:var(--w-muted); box-shadow:inset 0 0 0 1px var(--w-ring); }
+.wpa-rope{ position:relative; flex:1; min-width:96px; height:24px; display:flex; border-radius:8px; overflow:hidden; }
+.wpa-rope span{ display:flex; align-items:center; transition:width .6s ease; }
+.wpa-ra{ background:var(--w-a-bg); justify-content:flex-start; padding-left:6px; } .wpa-rb{ background:rgba(245,158,11,.22); justify-content:flex-end; padding-right:6px; }
+.wpa-rope b{ font:700 12px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpa-ra b{ color:var(--w-a-fg); } .wpa-rb b{ color:#fcd34d; }
+.wpa-rope i{ position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:var(--w-fg); transition:left .6s ease; }
+body.is-desk .wpa-rope{ width:240px; flex:none; }
+
+/* phase — по ходу матча */
+.wpa-t{ display:inline-flex; align-items:center; gap:6px; height:40px; padding:0 12px; border-radius:10px; font:500 14px/1 var(--w-font) !important; color:var(--w-fg); background:var(--w-muted) !important; flex:none; }
+.wpa-t:hover{ background:var(--w-hover) !important; } .wpa-t.on{ color:var(--w-up); }
+.wpa-t--hi{ background:var(--w-fg) !important; color:var(--w-primary-fg) !important; }
+.wpa-pick{ display:inline-flex; align-items:center; gap:2px; margin-left:4px; font:400 13px/1 var(--w-font); color:var(--w-muted-fg); }
+.wpa-pick span{ margin-right:4px; }
+.wpa-pick button{ display:grid; place-items:center; width:36px; height:36px; border-radius:10px; opacity:.6; }
+.wpa-pick button:hover{ background:var(--w-muted); opacity:1; } .wpa-pick button.on{ opacity:1; background:var(--w-muted); box-shadow:inset 0 0 0 1px var(--w-ring); }
+.wpa-stars{ display:inline-flex; gap:0; margin:0 4px; flex:1; }
+.wpa-stars button{ display:grid; place-items:center; width:32px; height:40px; color:var(--w-hover); }
+.wpa-stars button svg{ width:22px; height:22px; } .wpa-stars button.on, .wpa-stars:hover button{ color:var(--w-star); }
+.wpa-stars button:hover ~ button{ color:var(--w-hover); }
+
+/* карточка «Поделиться итогом» */
+.wpa-dim{ position:fixed; inset:0; z-index:20; background:rgba(0,0,0,.6); }
+.wpa-card{ position:fixed; left:50%; top:50%; z-index:21; width:min(340px, calc(100vw - 32px)); transform:translate(-50%,-50%); font-family:var(--w-font); color:var(--w-fg);
+  background:var(--w-bg); border:1px solid var(--w-border); border-radius:16px; overflow:hidden; }
+.wpa-card button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+.wpa-card svg{ display:block; }
+.wpa-card-hd{ display:flex; align-items:center; justify-content:space-between; height:52px; padding:0 8px 0 16px; border-bottom:1px solid var(--w-border); font:600 16px/1 var(--w-font); }
+.wpa-card-hd .wpa-b{ display:grid; place-items:center; width:32px; height:32px; border-radius:8px; color:var(--w-muted-fg); } .wpa-card-hd svg{ width:18px; height:18px; }
+.wpa-shot{ margin:16px; padding:16px; border-radius:12px; background:linear-gradient(160deg,#18181b,#09090b); border:1px solid var(--w-border); text-align:center; }
+.wpa-shot p{ margin:0; font:400 12px/1.4 var(--w-font); color:var(--w-muted-fg); }
+.wpa-sc{ display:flex; align-items:center; justify-content:center; gap:16px; margin:12px 0 6px; }
+.wpa-sc img{ width:44px; height:44px; object-fit:contain; } .wpa-sc b{ font:700 32px/1 var(--w-font); font-variant-numeric:tabular-nums; }
+.wpa-shot svg{ width:100%; height:48px; margin:12px 0 8px; }
+.wpa-shot .wpa-shot-ft{ color:var(--w-fg); font-weight:500; }
+.wpa-card-ft{ display:flex; gap:8px; padding:0 16px 16px; } .wpa-card-ft .wpa-t{ flex:1; justify-content:center; }
+
+#wpa-toast{ position:fixed; left:50%; top:16px; z-index:40; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:.2s; padding:8px 14px; border-radius:999px;
+  background:var(--w-fg); color:var(--w-primary-fg); font:500 13px/1 var(--w-font); white-space:nowrap; }
+#wpa-toast.on{ opacity:1; transform:translate(-50%,0); }

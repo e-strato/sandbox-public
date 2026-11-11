@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>Скелетон · v2 · Как Twitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../кадр.css" /><link rel="stylesheet" href="../../widget-tournament/_w.css" /><link rel="stylesheet" href="../../widget-tournament-2/_t2.css" /><link rel="stylesheet" href="../../widget-tournament-3/_t3.css" /><link rel="stylesheet" href="_sk.css" />
+<style>
+  .l2{ display:grid; grid-template-columns:1fr 320px; gap:24px; height:800px; /* без vh: песочница растягивает кадр по содержимому */ }
+  .l2-main{ display:flex; flex-direction:column; gap:16px; min-height:0; }
+  .l2-side{ display:flex; flex-direction:column; gap:16px; min-height:0; }
+  .l2-chat{ flex:1; display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden; }
+</style></head>
+<body><div class="pg"><div class="pg-bar"><b>Скелетон · v2 · Как Twitch</b><span class="w-cap">большое окно слева, справа виджет турнира и чат</span></div>
+<div class="pg-in"><div class="l2">
+  <div class="l2-main"><div class="pg-hd"><div class="pg-logo"></div><div class="sk-l" style="width:120px"></div><div class="pg-hd__c"><div class="sk-l" style="width:80px;height:24px"></div><div class="sk-l" style="width:140px"></div></div><div class="sk-l" style="width:120px"></div><div class="pg-logo"></div></div>
+    <div class="pg-card" style="flex:1;display:flex;flex-direction:column"><div class="pg-tag">График золота / трансляция · главное окно</div><div class="sk" style="flex:1"></div></div>
+    <div class="pg-card" style="display:flex;gap:12px"><div class="sk" style="flex:1;height:40px"></div><div class="sk" style="flex:1;height:40px"></div><div class="sk" style="flex:1;height:40px"></div></div>
+  </div>
+  <div class="l2-side"><div data-tw></div>
+    <div class="pg-card l2-chat"><div class="pg-tag">Чат · прогнозы и события внутри</div>
+      <div class="sk-l" style="width:80%"></div><div class="sk-l" style="width:60%"></div><div class="sk" style="height:56px"></div><div class="sk-l" style="width:70%"></div><div class="sk-l" style="width:50%"></div><div class="sk" style="height:32px;margin-top:auto"></div></div>
+  </div>
+</div></div></div>
+<script src="../../widget-tournament/_full.js"></script><script src="../../widget-tournament-2/_t2.js"></script><script src="_sk.js"></script>
+</body></html>

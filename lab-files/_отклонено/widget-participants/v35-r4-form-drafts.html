@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><base href="../../widget-participants/" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v35 · Рейтинг 4 цифры, позиции первыми, форма точками, драфты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="../widget-tournament-5/_t5.css" /><link rel="stylesheet" href="../widgets-unified/_cons.css" /><link rel="stylesheet" href="../widgets-unified/_type.css" />
+<link rel="stylesheet" href="_wp.css" /><link rel="stylesheet" href="_wp-fit.css" />
+<!-- 2.3 «Участники» v35 — как v34 (виджет со страницы турнира: WP.mount flt, карточки по 4 в ряд), по созвону 02.11 §2.3 (сверено с дирижёром):
+     рейтинг команды и игроков — четыре цифры, ближе к Elo / Glicko (1572, 1776); у игрока главный — крупно белым, второй — мелко серым, без слэша;
+     позиция 1–5 — мелко и первой в строке; замена — заменённый (зачёркнут, тише) и замена друг под другом, слева линия-скобка;
+     тренер — значок в шапке карточки, имя при наведении; под названием команды вместо Invited / Qualified — 5 точек формы и рейтинг со сдвигом «1572 ▲12»;
+     наведение на команду (лого и имя) — частые пики и баны на турнире. Код — _wp.js (WP.mount r4) + _wp.css. ‼️ Рейтинги, форма, сдвиг, драфты, замены — пример. -->
+<style>
+  body{ margin:0; background:var(--w-page); color:var(--w-fg); font-family:var(--w-font); }
+  .lab-board{ padding:32px 48px; } #w{ max-width:1100px; }
+  .is-phone .lab-board{ padding:32px 0; } .is-phone #w{ width:390px; margin:0 auto; }
+</style></head>
+<body><div class="lab-board"><div id="w"></div></div>
+<script src="../widgets-unified/_cons.js"></script>
+<script>window.WP_BASE = ''</script><script src="_data.js"></script><script src="_wp.js"></script>
+<script>
+  const WHO = [{ v: 'fan', label: 'Зритель' }, { v: 'ed', label: 'Редактор' }], DEV = [{ v: 'desk', label: 'Компьютер' }, { v: 'phone', label: 'Телефон' }]
+  const S = { who: 'fan', device: 'desk' }, w = document.getElementById('w')
+  function render() { const ph = S.device === 'phone'; document.body.classList.toggle('is-phone', ph)
+    WP.mount(w, { who: S.who, phone: ph, fit: 'w4', colMode: 'icon', colLeft: true, flt: true, r4: true }) }
+  window.LAB = { view: 'toolbar', go: (f, i) => { S.device = DEV[i].v; render() }, cur: () => ({ f: 0, i: DEV.findIndex((d) => d.v === S.device) }),
+    flows: () => [{ name: 'Экран', steps: DEV.map((d) => ({ name: d.label, what: d.label })) }],
+    axes: () => [{ key: 'who', name: 'Кто смотрит', value: S.who, options: WHO }, { key: 'device', name: 'Экран', value: S.device, options: DEV }],
+    set: (k, v) => { S[k] = v; render() },
+    caption: () => 'Наведи на лого команды — частые пики и баны; на значок свистка — тренер. ‼️ Рейтинги, форма, драфты, замены — пример' }
+  render()
+</script>
+</body></html>

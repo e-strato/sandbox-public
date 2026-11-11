@@ -1,0 +1,51 @@
+/* Набор 7 · Клиент Доты (Claude-B, 01.10) — сайт на языке самого клиента Dota 2: тёмный сланец с фактурой камня,
+   тёплое золото как акцент, пара Radiant-зелёный / Dire-красный для «за / против» и побед / поражений, главная кнопка —
+   зелёная, как «Играть» в клиенте. Редкость карт — цветами редкости предметов Доты (Common → Rare → Mythical → Immortal).
+   Заголовки — Spectral (засечки, обычный регистр), текст и цифры — Inter. Без капса и разрядки. */
+body.t-dota {
+  --s-page: #08090a; --s-bg: #0f1214; --s-panel: #171b1e; --s-panel-2: #222830; --s-line: #2c3338; --s-line-2: #20262a;
+  --s-text: #ece6d8; --s-muted: #9b9586; --s-accent: #d2a95c; --s-accent-soft: #d2a95c1c; --s-on-accent: #1d1406;
+  --s-live: #d8483b; --s-coin: #e8c56d; --s-win: #77c34f; --s-lose: #d8483b; --s-track: #262c31; --s-shadow: #000000;
+  --s-team-a: #77c34f; --s-team-b: #d8483b; --s-hd-bg: #0b0d0f; --s-hd-h: 60px;
+  --s-medal: linear-gradient(150deg, #f4dc9e, #c4954a 48%, #5e3f14); --s-medal-ink: #2a1a05;
+  --s-gold: #e4ae39; --s-silver: #c3cad3; --s-bronze: #c4824f;
+  --s-font: 'Inter', system-ui, sans-serif; --s-font-h: 'Spectral', Georgia, serif; --s-font-num: 'Inter', system-ui, sans-serif; --s-fs: 14px;
+  --s-r: 4px; --s-r-s: 3px; --s-r-btn: 3px; --s-r-pill: 3px; --s-pad: 18px; --s-gap: 14px; --s-row-pad: 10px; --s-bar-h: 5px;
+  --s-h3: 18px; --s-h3-w: 600; --s-h1: 44px; --s-h1-w: 700; --s-track-h1: -.01em; --s-nick-w: 700; --s-num-w: 700; --s-score-w: 600; --s-team-w: 600;
+  /* Панель — плита: светлее сверху, тонкий блик по верхней кромке, тёмный край */
+  --s-panel-edge: inset 0 1px 0 #ffffff0d, inset 0 0 0 1px #2c3338, 0 2px 0 #00000066;
+  --s-btn-glow: inset 0 1px 0 #ffffff33, inset 0 -2px 0 #00000040, 0 6px 18px -8px #77c34f99;
+  /* Редкость — как у предметов Доты */
+  --d-base: #b0c3d9; --d-holo: #4b69ff; --d-prism: #8847ff; --d-legend: #e4ae39;
+  /* Камень: две мелкие сетки поверх градиента — фактура без картинок */
+  --d-stone: repeating-linear-gradient(33deg, #ffffff03 0 2px, transparent 2px 7px), repeating-linear-gradient(-57deg, #00000014 0 1px, transparent 1px 5px);
+}
+.t-dota .ap { font-feature-settings: 'tnum' 1; background: var(--d-stone), radial-gradient(80% 50% at 50% 0%, #2a2418 0%, transparent 70%), var(--s-bg); }
+.t-dota .a-panel { background: var(--d-stone), linear-gradient(180deg, #1c2125, #14181b); }
+.t-dota .a-ph h3, .t-dota .a-h1, .t-dota .a-plh__nick, .t-dota .a-feat__team b, .t-dota .a-brand { font-feature-settings: 'lnum' 1; }
+/* Шапка: вкладки клиента — активная светлее и с золотой нижней кромкой во всю ширину вкладки */
+.t-dota .a-hd { background: linear-gradient(180deg, #14181b, #0b0d0f); border-bottom: 1px solid #000; box-shadow: 0 1px 0 #ffffff0a; }
+.t-dota .a-nav a { border-radius: 0; padding: 0 14px; height: var(--s-hd-h); display: flex; align-items: center; font-size: 14px; color: #8d8779; }
+.t-dota .a-nav a[aria-current] { color: var(--s-text); background: linear-gradient(180deg, transparent, #d2a95c1f); box-shadow: inset 0 -2px 0 var(--s-accent); }
+.t-dota .a-brand__mark { background: linear-gradient(160deg, #8f2a20, #4d140f); color: #f1d9a4; box-shadow: inset 0 1px 0 #ffffff2b, inset 0 0 0 1px #00000080; font-family: var(--s-font-h); }
+.t-dota .a-brand b { color: var(--s-text); }
+.t-dota .a-coins { background: #0f1214; box-shadow: inset 0 0 0 1px var(--s-line); }
+/* Кнопки: обычная — плита, главная — зелёная, как «Играть» */
+.t-dota .a-btn { background: linear-gradient(180deg, #2b3238, #1f2429); box-shadow: inset 0 1px 0 #ffffff14, inset 0 0 0 1px #00000099; }
+.t-dota .a-btn--pri { background: linear-gradient(180deg, #5f9f3a, #3d7323); color: #f4fbe9; box-shadow: var(--s-btn-glow), inset 0 0 0 1px #1d3d0e; }
+.t-dota .a-chips button[aria-pressed='true'] { background: var(--s-accent); color: var(--s-on-accent); }
+.t-dota .a-seg button[aria-pressed='true'] { background: #2f363d; }
+.t-dota .a-tag { background: #d2a95c24; color: #e7c37b; }
+.t-dota .a-bar i { background: linear-gradient(90deg, #a07a35, var(--s-accent)); }
+.t-dota .a-acc__seg i.is-on { background: var(--s-accent); }
+.t-dota .a-lr--me { background: #d2a95c1f; box-shadow: inset 0 0 0 1px #d2a95c40; }
+/* Выбор — золотая рамка целиком */
+.t-dota .a-opt.is-on, .t-dota .a-teamt.is-on, .t-dota .a-qq__opts .is-on, .t-dota .a-vote button[aria-pressed='true'] { box-shadow: inset 0 0 0 1px var(--s-accent), 0 0 18px -8px var(--s-accent); background: #d2a95c17; }
+.t-dota .a-opt, .t-dota .a-teamt, .t-dota .a-qq, .t-dota .a-field span { background: linear-gradient(180deg, #1d2226, #161a1d); box-shadow: inset 0 1px 0 #ffffff0a, inset 0 0 0 1px var(--s-line); }
+.t-dota .a-reward { background: #0f1214; box-shadow: inset 0 0 0 1px var(--s-line); }
+.t-dota .a-subnav a[aria-current] { border-bottom-color: var(--s-accent); }
+.t-dota .a-info__h { background: linear-gradient(180deg, #2a2418, #1d1911); color: #f1d9a4; }
+.t-dota .a-road::before { background: linear-gradient(90deg, var(--s-line), var(--s-accent)); }
+.t-dota .a-chest { background: radial-gradient(50% 60% at 50% 60%, #e4ae3933, transparent 70%), var(--d-stone), linear-gradient(180deg, #1c2125, #121518); }
+.t-dota .a-modal { background: var(--d-stone), linear-gradient(180deg, #1c2125, #121518); }
+.t-dota .a-cmp__bar i { background: var(--s-team-a); } .t-dota .a-cmp__bar--b i { background: var(--s-team-b); }

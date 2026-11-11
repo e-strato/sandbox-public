@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v9 · Цветная строка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../../кадр.css" /><link rel="stylesheet" href="../../../widget-tournament/_w.css" /><link rel="stylesheet" href="_t2.css" /></head>
+<body><div class="lab-board">
+  <h1>Виджет турнира · v9 · Цветная строка</h1>
+  <p class="lab-board__lead">Выбранная строка заливается синим, панель внизу того же цвета — видно, что это одно. Нажми на любую команду — внизу её ближайший матч; повторный клик или ✕ — закрыть. ‹ › — лига, швейцарка, сетка.</p>
+  <div class="t2-one"><div id="w"></div></div>
+</div>
+<script src="../../../widget-tournament/_full.js"></script><script src="_t2.js"></script>
+<script>T2.render(document.getElementById('w'), { start: 'epl', tap: 9 })</script>
+</body></html>

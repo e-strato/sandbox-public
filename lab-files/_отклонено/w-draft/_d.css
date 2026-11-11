@@ -1,0 +1,99 @@
+/* w-draft — фаза драфта перед графиком (задачи-по-виджетам.md §2). Цвета — токены виджетов (widget-tournament/_w.css). */
+:root{ --up:#22c55e; --dn:#ef4444; }
+*{ box-sizing:border-box; }
+body{ margin:0; min-height:100vh; padding:16px; background:var(--w-page); color:var(--w-fg); font:13px/1.35 var(--w-font); }
+.stage{ margin:0 auto; display:flex; flex-direction:column; gap:12px; } .stage.is-desk{ width:1040px; } .stage.is-phone{ width:358px; }
+.num{ font-variant-numeric:tabular-nums; }
+.cd{ background:var(--w-bg); border:1px solid var(--w-border); border-radius:var(--w-r); padding:12px; }
+.cd-hd{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:12px; color:var(--w-muted-fg); }
+.cd-hd b{ color:var(--w-fg); font-weight:500; font-size:13px; }
+.tms{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.tm{ display:flex; align-items:center; gap:6px; font-size:12px; } .tm:last-child{ justify-content:flex-end; }
+.tm img{ width:18px; height:18px; object-fit:contain; } .tm i{ width:6px; height:6px; border-radius:50%; }
+.tm--a i{ background:var(--up); } .tm--b i{ background:var(--dn); }
+/* таймлайн: шаги сверху вниз, Radiant — слева, Dire — справа, номер шага по центру */
+.tl{ display:flex; flex-direction:column; gap:2px; }
+.st{ display:grid; grid-template-columns:1fr 28px 1fr; align-items:center; gap:8px; min-height:34px; border-radius:8px; padding:2px 4px; }
+.st > span{ text-align:center; font-size:11px; color:var(--w-muted-fg); }
+.st.is-now{ background:#1c1b26; } .st.is-now > span{ color:#a78bfa; font-weight:600; }
+.st.is-wait{ opacity:.35; }
+.h{ display:flex; align-items:center; gap:8px; min-width:0; } .h--b{ flex-direction:row-reverse; text-align:right; }
+.h img{ width:44px; height:25px; object-fit:cover; border-radius:4px; flex:none; }
+.h small{ color:var(--w-muted-fg); font-size:11px; } .h div{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.h.ban img{ filter:grayscale(1) brightness(.6); } .h.ban div{ color:var(--w-muted-fg); text-decoration:line-through; }
+.h .q{ width:44px; height:25px; border-radius:4px; border:1px dashed #a78bfa; flex:none; display:grid; place-items:center; color:#a78bfa; font-size:11px; }
+.clock{ color:#a78bfa; }
+/* после драфта: пятёрки команд */
+.five{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+.five + .five{ margin-top:10px; }
+.five .p{ display:flex; flex-direction:column; gap:4px; align-items:center; font-size:11px; color:var(--w-muted-fg); min-width:0; }
+.five .p img{ width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:4px; }
+.five .p span{ max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.row{ display:flex; align-items:center; gap:6px; margin-bottom:6px; font-size:12px; } .row img{ width:16px; height:16px; object-fit:contain; } .row i{ width:6px; height:6px; border-radius:50%; }
+.bans{ display:flex; gap:4px; margin-top:6px; } .bans img{ width:28px; height:16px; object-fit:cover; border-radius:3px; filter:grayscale(1) brightness(.55); }
+.graph{ height:220px; display:grid; place-items:center; border:1px dashed var(--w-border); border-radius:var(--w-r); color:var(--w-muted-fg); }
+.is-desk .graph{ height:300px; }
+/* v2–v4: слоты шагов (сделан — герой, бан серым; текущий — пунктир; впереди — пустой) */
+.s{ display:grid; place-items:center; flex:none; border-radius:4px; object-fit:cover; font-size:10px; }
+.s--pick{ width:56px; height:32px; } .s--ban{ width:36px; height:20px; }
+img.s--ban{ filter:grayscale(1) brightness(.55); }
+.s--empty{ background:#141417; } .s--now{ border:1px dashed #a78bfa; color:#a78bfa; background:#1c1b26; }
+/* v2 «По фазам» */
+.ph{ display:flex; flex-direction:column; gap:2px; }
+.ph-r{ display:grid; grid-template-columns:1fr 56px 1fr; align-items:center; gap:10px; min-height:40px; padding:4px 6px; border-radius:8px; }
+.ph-r > span{ text-align:center; font-size:11px; color:var(--w-muted-fg); }
+.ph-r.is-now{ background:#1c1b26; } .ph-r.is-now > span{ color:#a78bfa; font-weight:600; } .ph-r.is-wait{ opacity:.45; }
+.ph-a, .ph-b{ display:flex; gap:4px; flex-wrap:wrap; } .ph-a{ justify-content:flex-end; }
+.is-phone .ph-r{ grid-template-columns:1fr 40px 1fr; gap:6px; padding:4px 2px; } .is-phone .s--pick{ width:44px; height:25px; } .is-phone .s--ban{ width:30px; height:17px; }
+/* v3 «Полоса» */
+.sp{ display:flex; gap:8px; } .sp-t{ display:flex; flex-direction:column; justify-content:space-between; padding:6px 0; flex:none; }
+.sp-t .tm:last-child{ justify-content:flex-start; }
+.sp-x{ overflow-x:auto; scrollbar-width:none; } .sp-l{ display:flex; gap:3px; align-items:center; }
+.sp-c{ flex:none; display:grid; place-items:center; } .sp-c--pick{ width:50px; } .sp-c--ban{ width:30px; }
+.sp-l:first-child, .sp-l:last-child{ height:34px; } .sp .s--pick{ width:50px; height:28px; } .sp .s--ban{ width:30px; height:17px; }
+.sp-n{ height:18px; font-size:10px; color:var(--w-muted-fg); } .sp-n.is-now{ color:#a78bfa; font-weight:600; }
+/* v4 «Пятёрки растут» */
+.fv{ display:grid; grid-template-columns:1fr 14px 1fr; gap:14px; }
+.fv-t:last-child .row{ justify-content:flex-end; } .fv-t:last-child .fv-b{ justify-content:flex-end; }
+.fv-p{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; } .fv-p .s{ width:100%; height:auto; aspect-ratio:16/9; }
+.fv-b{ display:flex; align-items:center; gap:4px; margin-top:8px; } .fv-b small{ color:var(--w-muted-fg); font-size:11px; margin-right:4px; }
+.fv-b .s--now{ font-size:0; }
+.fv-r{ display:flex; flex-direction:column; align-items:center; gap:3px; padding-top:2px; }
+.fv-r i{ width:6px; height:6px; border-radius:50%; border:1px solid #3f3f46; } .fv-r i.p{ width:10px; height:10px; }
+.fv-r i.done.a{ background:var(--up); border-color:var(--up); } .fv-r i.done.b{ background:var(--dn); border-color:var(--dn); }
+.fv-r i.now{ border-color:#a78bfa; box-shadow:0 0 0 3px #a78bfa44; }
+.is-phone .fv{ grid-template-columns:1fr; gap:12px; } .is-phone .fv-r{ flex-direction:row; flex-wrap:wrap; order:-1; justify-content:center; }
+.is-phone .fv-t:last-child .row, .is-phone .fv-t:last-child .fv-b{ justify-content:flex-start; }
+/* v5 — v4 без шкалы: две половины; «Ход» B — ходящая команда светлее, C — строка фазы */
+.fv--2{ grid-template-columns:1fr 1fr; gap:20px; }
+.fv-t{ border-radius:10px; padding:8px; margin:-8px; transition:background .3s, opacity .3s; }
+.fv-t.is-on{ background:#1c1b26; } .fv-t.is-off{ opacity:.5; }
+.fv-t em{ font-style:normal; font-size:11px; color:#a78bfa; margin-left:6px; }
+.fv-line{ font-size:12px; color:var(--w-muted-fg); margin:-4px 0 10px; }
+.is-phone .fv--2{ grid-template-columns:1fr; gap:16px; }
+/* v6 «Эфир Dota» */
+.ca-h .tms{ margin-bottom:10px; }
+.ca{ display:grid; grid-template-columns:1fr 120px 1fr; gap:14px; align-items:stretch; }
+.ca-t{ padding:8px; border-radius:10px; border:1px solid transparent; transition:border-color .3s, box-shadow .3s; }
+.ca-t.is-on{ border-color:var(--tc); box-shadow:0 0 18px -6px var(--tc); }
+.ca-m{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+.ca-clock{ font-size:26px; font-weight:600; } .ca-who{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--w-muted-fg); } .ca-who img{ width:16px; height:16px; object-fit:contain; }
+.is-phone .ca{ grid-template-columns:1fr; } .is-phone .ca-m{ order:-1; flex-direction:row; gap:12px; }
+/* v7 «Как в LoL» */
+.lo{ display:grid; grid-template-columns:1fr 130px 1fr; gap:14px; }
+.lo-c{ display:flex; flex-direction:column; gap:4px; padding:8px; border-radius:10px; transition:background .3s; } .lo-c.is-on{ background:#1c1b26; }
+.lo-c .fv-b{ margin:0 0 4px; } .lo-c--b{ align-items:flex-end; } .lo-c--b .row{ flex-direction:row-reverse; }
+.lo-p{ display:flex; align-items:center; gap:8px; width:100%; font-size:12px; } .lo-c--b .lo-p{ flex-direction:row-reverse; text-align:right; }
+.lo-p small{ color:var(--w-muted-fg); font-size:11px; } .lo-p .s{ width:64px; height:36px; }
+.lo-m{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; text-align:center; } .lo-m small{ color:var(--w-muted-fg); font-size:11px; }
+.is-phone .lo{ grid-template-columns:1fr 1fr; gap:8px; } .is-phone .lo-m{ grid-column:1 / -1; order:-1; flex-direction:row; gap:12px; }
+.is-phone .lo-p .s{ width:44px; height:25px; } .is-phone .lo-p{ font-size:11px; } .is-phone .lo-c .s--ban{ width:20px; height:12px; } .is-phone .lo-c{ padding:4px; }
+/* v8 «Журнал ходов» */
+.lg{ display:grid; grid-template-columns:1fr 1fr; gap:16px; } .lg-t:last-child .row, .lg-t:last-child .lg-s{ justify-content:flex-end; }
+.lg-s{ display:flex; align-items:center; gap:3px; } .lg-s .s--pick{ width:44px; height:25px; } .lg-s .s--ban{ width:22px; height:13px; } .lg-gap{ width:8px; }
+.lg-f{ margin-top:12px; border-top:1px solid var(--w-border); padding-top:8px; display:flex; flex-direction:column; gap:2px; }
+.lg-r{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--w-muted-fg); min-height:26px; } .lg-r b{ font-weight:500; }
+.lg-r > span{ width:20px; text-align:right; font-size:11px; } .lg-r img{ width:36px; height:20px; object-fit:cover; border-radius:3px; } .lg-r img.ban{ filter:grayscale(1) brightness(.55); }
+.lg-r.is-now{ color:var(--w-fg); background:#1c1b26; border-radius:6px; padding:0 4px; margin:0 -4px; }
+.is-phone .lg{ grid-template-columns:1fr; gap:10px; } .is-phone .lg-t:last-child .row, .is-phone .lg-t:last-child .lg-s{ justify-content:flex-start; }
+.is-phone .lg-s .s--pick{ width:38px; height:21px; } .is-phone .lg-s .s--ban{ width:18px; height:11px; }

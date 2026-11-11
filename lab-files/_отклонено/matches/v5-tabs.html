@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="_matches.css" />
+<style>
+.mx-qv--v5 { padding: 0 14px 14px 132px; }
+.v5-tabs { display: flex; align-items: center; gap: 4px; margin-bottom: 12px; }
+.v5-tabs button { border: 0; padding: 6px 12px; border-radius: 6px; background: none; color: var(--c-ui-dim); font: 600 13px var(--font) !important; }
+.v5-tabs button[aria-selected='true'] { background: var(--c-ui-panel); color: var(--c-accent) !important; }
+.v5-tabs .mx-btn { margin-left: 6px; } .v5-tabs .mx-btn:first-of-type { margin-left: auto; }
+.v5-p { min-height: 64px; } .v5-p[hidden] { display: none; }
+.v5-p .mx-chance { max-width: 460px; } .v5-p .mx-vote2 { max-width: 460px; }
+@container mx (max-width: 700px) {
+  .mx-qv--v5 { padding: 0 10px 12px; }
+  .v5-tabs { flex-wrap: wrap; } .v5-tabs .mx-btn { margin: 8px 0 0 !important; flex: 1; justify-content: center; }
+}
+</style></head>
+<body data-v="v5"><main class="mx-page">
+  <h1>v5 · Вкладки</h1>
+  <p>Раскрытие — одна вкладка за раз: сверху три коротких вкладки, под ними один блок. Информации много, но на экране всегда только кусочек, остальное — по клику. Скоро: кто победит · форма · личные встречи. В эфире: карты · шанс победы · события. Итог: карты · игрок матча · новости.</p>
+  <div class="mx-tools"><span>Раскрыть пример:</span><div class="mx-seg"><button type="button" data-show="soon">Скоро · Falcons — Liquid</button><button type="button" data-show="live">В эфире · Spirit — Tundra</button><button type="button" data-show="done">Итог · Aurora — BetBoom</button><button type="button" data-show="none">Свернуть</button></div></div>
+  <p class="mx-cap">Десктоп · 1440 — кликни по любой строке матча (рамка уменьшена под ширину окна)</p><div class="mx-wrap"><div class="mx-frame mx-frame--desk" data-mx></div></div>
+  <p class="mx-cap">Телефон · 390 — строка раскрывается так же, тапом</p><div class="mx-frame mx-frame--phone" data-mx></div>
+</main>
+<script>
+MX_ФОРМЫ = { v5: (m, k) => { const K = MX.КУСКИ
+  const вкл = k === 'soon' ? [['Кто победит', K.голос(m)], ['Форма', K.форма(m)], ['Личные встречи', K.встречи(m)]]
+    : k === 'live' ? [['Карты', K.карты(m, k)], ['Шанс победы', K.шанс(m)], ['События', K.события(m)]] : [['Карты', K.карты(m, k)], ['Игрок матча', K.игрок(m)], ['Новости', K.новость(m)]]
+  return `<div class="v5-tabs">${вкл.map(([t], i) => `<button type="button" aria-selected="${i === 0}">${t}</button>`).join('')}${K.кнопки(m, k)}</div>${вкл.map(([, b], i) => `<div class="v5-p" ${i ? 'hidden' : ''}>${b}</div>`).join('')}` } }
+MX_ФОРМЫ.v5.после = row => {
+  const bs = row.querySelectorAll('.v5-tabs button'), ps = row.querySelectorAll('.v5-p')
+  bs.forEach((b, i) => b.onclick = () => { bs.forEach((x, j) => x.setAttribute('aria-selected', i === j)); ps.forEach((p, j) => p.hidden = i !== j) })
+}
+</script>
+<script src="_matches.js"></script>
+<script>
+const fit = () => document.querySelectorAll('.mx-wrap').forEach(w => { w.firstElementChild.style.zoom = Math.min(1, w.clientWidth / 1440) })
+fit(); addEventListener('resize', fit)
+</script>
+</body></html>

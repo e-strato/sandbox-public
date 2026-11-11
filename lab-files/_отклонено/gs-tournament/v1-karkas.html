@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v1 · Каркас страницы турнира</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../../widget-tournament/_w.css" />
+<link rel="stylesheet" href="../../widgets-unified/_type.css" />
+<link rel="stylesheet" href="_tn.css" />
+</head>
+<!-- v1-karkas — страница турнира «до старта» по созвону 28.10 (созвон-1-турнир.html, §1): основа Liquipedia PARI Universe, не копия.
+     Вкладки: «Обзор» — групповая стадия (таблица + «каждый с каждым», лого сверху), место под «Участников» (виджет Claude-B, Т2), статистика героев;
+     «Расписание и инфо» — матчи турнира (как в ленте главной), тир и даты, формат. Призовых, матчей по дням и сетки плей-офф нет.
+     Данные — PARI Universe 2026 с Liquipedia (кадры созвона): группы, ближайшие матчи, топ-5 героев. -->
+<body>
+<div class="app">
+  <header class="portal"><a class="pt-brand" href="#"><span class="pt-logo">◆</span>GoatScout</a>
+    <nav class="pt-nav"><a href="#">Матчи</a><a href="#" class="is-on">Турниры</a><a href="#">Фэнтези</a><a href="#">Новости</a></nav>
+    <a class="pt-in" href="#">Войти</a></header>
+
+  <section class="th">
+    <div class="th-row">
+      <a class="ib" href="#" aria-label="Назад">‹</a>
+      <span class="th-logo">PU</span>
+      <div class="th-t"><b>PARI Universe 2026</b><small><span class="tag">Tier 1</span>Dota 2 · 22.10 – 01.11 · онлайн, Европа</small></div>
+      <span class="th-st"><i></i>Плей-офф</span>
+    </div>
+    <nav class="tabs" id="tabs"><button class="is-on" data-t="ov">Обзор</button><button data-t="info">Расписание и инфо</button></nav>
+  </section>
+
+  <main id="ov" class="pane is-on">
+    <section class="w card"><div class="hd"><b>Групповая стадия</b><small>22–26.10 · Bo3 · 4 лучших — в плей-офф</small></div><div id="groups" class="groups"></div></section>
+    <section class="w card ph"><div class="hd"><b>Участники</b><small>10 команд</small></div>
+      <div class="ph-box">Виджет «Участники» — делает Claude-B (Т2): ростеры, замены по типам, метки истории состава, рейтинги.</div></section>
+    <section class="w card"><div class="hd"><b>Статистика героев</b><small>48 игр · Radiant 25–23</small></div><div class="scroll"><table class="hs" id="heroes"></table></div>
+      <a class="more" href="#">Вся статистика ›</a></section>
+  </main>
+
+  <main id="info" class="pane">
+    <section class="w card"><div class="hd"><b>Расписание</b><small>как в ленте главной</small></div><div id="sched"></div></section>
+    <section class="w card"><div class="hd"><b>О турнире</b></div>
+      <dl class="kv"><dt>Тир</dt><dd><span class="tag">Tier 1</span></dd><dt>Даты</dt><dd>22.10 – 01.11.2026</dd><dt>Где</dt><dd>Онлайн · Европа (Europe West)</dd>
+        <dt>Организатор</dt><dd>FISSURE</dd><dt>Команд</dt><dd>10</dd><dt>Патч</dt><dd>7.41f</dd></dl></section>
+    <section class="w card"><div class="hd"><b>Формат и правила</b></div>
+      <div class="fmt"><b>Групповая стадия · 22–26.10</b><p>Две группы по 5 команд, каждый с каждым, все серии Bo3. 4 лучших из группы — в плей-офф, остальные выбывают.</p>
+        <b>Плей-офф · 28.10 – 01.11</b><p>Сетка с нижней веткой (double elimination). Гранд-финал — Bo5, остальные серии — Bo3.</p>
+        <a class="more" href="#">Регламент и тай-брейки ›</a></div></section>
+  </main>
+</div>
+<script src="_tn.js"></script>
+</body></html>

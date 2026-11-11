@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="_v3.css" />
+<style>
+/* v13 · Радар — статы главные (правки начальника: «статистика самая важная»): шесть статов шестигранной диаграммой в центре карты,
+   значения у вершин. Сверху игрок, рейтинг в правом верхнем углу, герои в воздухе под ним; позиция и ник по центру; команда язычком у нижнего края.
+   Только скругления. Шрифт один — IBM Plex Sans */
+.d13 { --r: .9em; --shape: inset(0 round .9em); --f-disp: 'IBM Plex Sans'; --f-ui: 'IBM Plex Sans'; }
+.d13__face, .d13 .bk { font-family: 'IBM Plex Sans', sans-serif; }
+.d13__face { position: absolute; inset: 0; }
+.d13__plate { position: absolute; inset: 0; border-radius: var(--r); overflow: hidden; background: var(--c-card-ink);
+  box-shadow: 0 1.4em 2.6em -1em color-mix(in srgb, var(--c-black) 85%, transparent); }
+
+/* 2 Фон: сверху тёмный цвет силы и логотип команды за игроком, ниже — тёмное поле под диаграмму */
+.d13__bg { position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 30% at 50% 18%, color-mix(in srgb, var(--tier) 30%, transparent), transparent 75%),
+    radial-gradient(50% 25% at 50% 75%, color-mix(in srgb, var(--tier) 10%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tier-2) 85%, var(--c-card-ink)), var(--c-card-ink) 50%); }
+.d13__logo { left: 3em; top: 1.6em; width: 16em; height: 12em; background: color-mix(in srgb, var(--tier) 20%, transparent); }
+
+/* 3 Рамка: кант поверх всего — язычок команды его не рвёт */
+.d13__edge { position: absolute; inset: 0; z-index: 12; border-radius: var(--r); pointer-events: none; box-shadow: inset 0 0 0 .15em var(--tier); }
+
+/* 5 Фото: сверху по центру, уходит в тёмное поле, свечение за головой */
+.d13__halo { position: absolute; left: 11em; top: 4.8em; width: 12em; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--tier-hi) 55%, transparent), color-mix(in srgb, var(--tier) 22%, transparent) 55%, transparent); }
+.d13 .ph { left: 2.8em; top: .9em; width: 16.4em;
+  -webkit-mask: linear-gradient(180deg, var(--c-black) 52%, transparent 66%); mask: linear-gradient(180deg, var(--c-black) 52%, transparent 66%); }
+
+/* 7 Раскладка: рейтинг справа сверху, герои в воздухе под ним, номер карты — чипом слева сверху */
+.d13__ovr { position: absolute; right: 1.2em; top: .8em; z-index: 7; }
+.d13__ovr b { font-size: 3.1em; font-weight: 700; line-height: 1; letter-spacing: -.04em; color: var(--c-white);
+  text-shadow: 0 .05em .4em color-mix(in srgb, var(--c-black) 45%, transparent); }
+.d13__heroes { position: absolute; right: 1.3em; top: 4.9em; z-index: 7; display: grid; gap: .45em; justify-items: center; }
+.d13__heroes div { display: grid; justify-items: center; gap: .2em; }
+.d13__heroes .hero-ic { width: 2.3em; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 .1em color-mix(in srgb, var(--tier) 70%, transparent), 0 .3em .8em color-mix(in srgb, var(--c-black) 50%, transparent); }
+.d13__heroes small { font-size: .54em; font-weight: 500; white-space: nowrap; color: var(--c-muted); }
+.d13__heroes small b { font-weight: 700; color: var(--c-white); }
+.d13__serial { position: absolute; left: 1em; top: 1em; z-index: 7; display: grid; padding: .35em .65em; border-radius: .45em; line-height: 1.2;
+  background: color-mix(in srgb, var(--c-card-ink) 75%, transparent); }
+.d13__serial b { font-size: .82em; font-weight: 700; color: var(--tier-hi); }
+.d13__serial small { font-size: .56em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Позиция — пилюлей по центру над ником */
+.d13__role { position: absolute; left: 50%; top: 13.1em; translate: -50% 0; z-index: 7; padding: .38em 1.05em; border-radius: 2em; white-space: nowrap;
+  font-size: .92em; font-weight: 600; background: var(--c-card-ink); box-shadow: inset 0 0 0 .1em var(--tier); }
+.d13__role b { font-weight: 700; color: var(--tier-hi); }
+
+/* 6 Игрок */
+.d13__who { position: absolute; left: 1.2em; right: 1.2em; top: 14.9em; z-index: 6; text-align: center; }
+.d13__nick { font-size: 2.3em; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.d13__name { display: flex; justify-content: center; align-items: center; gap: .5em; margin-top: .35em; font-size: .78em; font-weight: 500; color: var(--c-muted); }
+
+/* 8 Статы — диаграмма: сетка из трёх шестиугольников, фигура игрока цветом силы, у вершин — подпись и значение */
+.d13__radar { left: 50%; top: 18em; width: 13em; height: 10.4em; translate: -50% 0; z-index: 6; }
+
+/* 4 Эффекты: блеск по фото; с Holo — сетка диаграммы светится; с Prism — фигура переливается; у Legend — по диаграмме ходит луч радара */
+.d13__sweep { position: absolute; left: 50%; top: 23.2em; width: 7.4em; aspect-ratio: 1; translate: -50% -50%; z-index: 6; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from var(--spin), color-mix(in srgb, var(--tier-hi) 45%, transparent), transparent 18%);
+  -webkit-mask: radial-gradient(closest-side, var(--c-black) 98%, transparent); mask: radial-gradient(closest-side, var(--c-black) 98%, transparent);
+  animation: spin 4s linear infinite; mix-blend-mode: screen; }
+
+/* 8 Команда — язычком у нижнего края, как в v1, со скруглёнными верхними углами */
+.d13__team { position: absolute; left: 50%; bottom: 0; translate: -50% 0; z-index: 9; display: flex; align-items: center; gap: .5em; white-space: nowrap;
+  padding: .45em 1.4em .55em; border-radius: .8em .8em 0 0; font-size: .82em; font-weight: 700;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--tier) 30%, var(--c-card-ink)), color-mix(in srgb, var(--tier) 10%, var(--c-card-ink))); }
+.d13__team .logo { width: 1.9em; height: 1.9em; }
+
+/* 9 Оборот: та же диаграмма крупнее нет — оборот подробный: статы полосками с полными названиями, герои, форма, кнопка */
+.d13 .bk { box-shadow: inset 0 0 0 .15em var(--tier); padding: 1.3em; gap: .7em; }
+.d13 .bk__top b, .d13 .bk__top em { font-weight: 700; }
+.d13 .bk__top em { color: var(--c-white); }
+.d13 .bk__stats { grid-template-columns: 1fr; gap: .35em; }
+.d13 .bk__stats li { grid-template-columns: 6.5em 1fr 2em; align-items: center; gap: .6em; font-size: .72em; }
+.d13 .bk__stats b { order: 3; text-align: right; font-size: 1.1em; }
+.d13 .bk__stats i { grid-column: auto; height: .45em; }
+.d13 .bk__heroes { grid-template-columns: repeat(3, 1fr); }
+.d13 .bk__heroes li { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .2em; }
+.d13 .bk__heroes .hero-ic { width: 2.2em; aspect-ratio: 1; border-radius: 50%; }
+.d13 .bk__btn { border-radius: .6em; }
+</style></head>
+<body><section class="section v3">
+  <div class="sec-head">
+    <h2 class="sec-title">v13 · Радар</h2>
+    <p class="sec-lead">Статы — главное на карте: шесть статов шестигранной диаграммой в центре, значения у вершин. Видно сразу, в чём игрок силён.
+      Сверху игрок, рейтинг в правом верхнем углу, герои висят под ним. Позиция и ник по центру, команда — язычком у нижнего края, как в v1. Только скругления. Шрифт один — IBM Plex Sans.</p>
+  </div>
+  <div id="v3"></div>
+</section>
+<script src="_v3.js"></script>
+<script>
+V3.страница({
+  класс: 'd13',
+  иерархия: [
+    'Скруглённый прямоугольник, только скругления.',
+    'Сверху тёмный цвет силы и логотип команды крупно за игроком, ниже — тёмное поле под диаграмму.',
+    'Кант цвета силы поверх всего — язычок команды его не рвёт.',
+    'Блеск редкости по фото. С Holo светится сетка диаграммы, с Prism фигура переливается радугой, у Legend по диаграмме ходит луч радара.',
+    'Игрок сверху по центру, уходит в тёмное поле, за головой свечение.',
+    'Ник по центру, ниже флаг и настоящее имя.',
+    'Рейтинг в правом верхнем углу крупно, без обводок. Под ним три героя в воздухе: матчи и винрейт. Номер карты и сезон — чипом слева сверху.',
+    'Позиция — пилюлей над ником. Статы — шестигранной диаграммой в центре, значения у вершин цветом уровня. Команда — язычком у нижнего края.',
+    'Свой оборот — подробный: статы полосками с полными названиями, герои, форма, кнопка «Страница игрока».',
+  ],
+  оборот: (п, r, h) => h.оборот(п),
+  лицо: (п, r, h) => `
+<div class="d13__face">
+  <div class="d13__plate" data-l="1">
+    <div class="d13__bg" data-l="2">${h.маска(п, 'd13__logo')}</div>
+    <i class="d13__halo" data-l="5"></i>
+    ${h.фото(п)}
+    ${h.блеск(r)}
+  </div>
+  <i class="d13__edge" data-l="3"></i>
+  <div class="d13__serial" data-l="7"><b>${h.серия(п)}</b><small>${h.СЕЗОН}</small></div>
+  <div class="d13__ovr" data-l="7"><b>${п.рейтинг}</b></div>
+  <div class="d13__heroes" data-l="7">${п.герои.map((г) => `<div>${h.герой(г)}<small><b>${г[2]} М</b> · ${г[3]}%</small></div>`).join('')}</div>
+  <span class="d13__role" data-l="8"><b>Pos ${п.pos}</b> · ${h.РОЛИ[п.pos]}</span>
+  <div class="d13__who" data-l="6"><div class="d13__nick">${п.ник}</div>${п.имя ? `<div class="d13__name">${h.флаг(п)}${п.имя}</div>` : ''}</div>
+  ${h.радар(п, 'd13__radar')}
+  <i class="d13__sweep" data-l="4" data-deco="3"></i>
+  <div class="d13__team" data-l="8">${h.лого(п)}${h.команда(п)}</div>
+</div>`,
+})
+</script>
+</body></html>

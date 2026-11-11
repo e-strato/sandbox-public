@@ -1,0 +1,64 @@
+/* Набор 7 · Редакция (Claude-B, 01.10) — единственный светлый набор: как современное спортивное издание (The Athletic, ESPN, Bloomberg).
+   Тёплая бумага, чёрный текст, один насыщенный акцент — киноварь; разделы отбиты линейками, а не панелями; фото и карты — в тёмных фотоблоках.
+   Шрифт — Onest (гротеск с хорошей кириллицей), цифры табличные. Тёмный фотоблок (.l7-dark) переопределяет токены внутри себя */
+body.t-red {
+  --s-page: #ebe6dc; --s-bg: #f6f3ed; --s-panel: #fffdf8; --s-panel-2: #ece7dd; --s-line: #1d1a1524; --s-line-2: #1d1a1514;
+  --s-text: #161411; --s-muted: #6d675d; --s-accent: #e0401b; --s-accent-soft: #e0401b14; --s-on-accent: #ffffff;
+  --s-live: #d3223c; --s-coin: #b8860b; --s-win: #19804f; --s-lose: #c23a1f; --s-track: #e3ddd1; --s-shadow: #3b2f1a33;
+  --s-team-a: var(--c-team-ts); --s-team-b: var(--c-team-tun); --s-hd-bg: #f6f3ed; --s-hd-h: 58px;
+  --s-medal: linear-gradient(145deg, #f7dfa0, #c9961f 55%, #6e4c08); --s-medal-ink: #2e1f00;
+  --s-gold: #e7b93c; --s-silver: #c7ccd4; --s-bronze: #cf8a52;
+  --s-font: 'Onest', system-ui, sans-serif; --s-font-h: 'Onest', system-ui, sans-serif; --s-font-num: 'Onest', system-ui, sans-serif; --s-fs: 14.5px;
+  --s-r: 2px; --s-r-s: 2px; --s-r-btn: 2px; --s-r-pill: 999px; --s-pad: 0px; --s-gap: 28px; --s-row-pad: 11px; --s-bar-h: 4px;
+  --s-h3: 19px; --s-h3-w: 700; --s-h1: 52px; --s-h1-w: 800; --s-track-h: -.01em; --s-track-h1: -.035em; --s-nick-w: 800; --s-num-w: 700; --s-score-w: 800; --s-team-w: 700;
+  --s-panel-edge: none; --s-btn-glow: none; --s-nav-on: transparent;
+}
+.t-red .ap { font-feature-settings: 'tnum' 1; }
+
+/* Разделы — без плашек: сверху жирная линейка во всю ширину, заголовок под ней */
+.t-red .a-panel { background: none; border-top: 2px solid var(--s-text); padding-top: 12px; border-radius: 0; }
+.t-red .a-ph { margin-bottom: 10px; }
+.t-red .a-ph h3 { letter-spacing: -.015em; }
+
+/* Шапка — газетная: текущий раздел отмечен весом и цветом, без плашки */
+.t-red .a-hd { border-bottom: 1px solid var(--s-text); }
+.t-red .a-nav a { font-weight: 500; color: var(--s-text); }
+.t-red .a-nav a[aria-current] { color: var(--s-accent); font-weight: 700; }
+.t-red .a-brand__mark { border-radius: 2px; background: var(--s-text); color: var(--s-bg); }
+.t-red .a-brand b { color: var(--s-text); font-weight: 800; }
+.t-red .a-coins { background: none; box-shadow: inset 0 0 0 1px var(--s-line); }
+.t-red .a-seg { background: none; box-shadow: inset 0 0 0 1px var(--s-line); border-radius: 999px; }
+.t-red .a-seg button { border-radius: 999px; }
+.t-red .a-seg button[aria-pressed='true'] { background: var(--s-text); color: var(--s-bg); box-shadow: none; }
+
+/* Кнопки: чёрная — основная, контурная — второстепенная; акцент — только у «прогноза» */
+.t-red .a-btn { background: none; box-shadow: inset 0 0 0 1px var(--s-text); font-weight: 600; }
+.t-red .a-btn--pri { background: var(--s-accent); box-shadow: none; }
+.t-red .a-chips button { box-shadow: inset 0 0 0 1px var(--s-line); font-weight: 500; color: var(--s-text); }
+.t-red .a-chips button[aria-pressed='true'] { background: var(--s-text); color: var(--s-bg); }
+.t-red .a-link { color: var(--s-text); font-weight: 600; text-decoration: underline; text-decoration-color: var(--s-accent); text-underline-offset: 3px; }
+
+/* Строки таблиц и списков — тонкие линейки */
+.t-red .a-lr--me { margin: 6px 0 0; padding: 9px 8px; background: var(--s-accent-soft); }
+.t-red .a-tag { background: none; box-shadow: inset 0 0 0 1px currentColor; }
+.t-red .a-tag--q { color: var(--s-muted); }
+.t-red .a-acc__seg i { border-radius: 0; height: 8px; }
+.t-red .a-bar { border-radius: 0; }
+
+/* Онбординг: общие тела шагов — белые карточки с тонкой рамкой; выбранное — чёрная рамка и киноварь */
+.t-red .a-opt, .t-red .a-teamt, .t-red .a-qq, .t-red .a-field span { background: var(--s-panel); }
+.t-red .a-opt.is-on, .t-red .a-teamt.is-on, .t-red .a-qq__opts .is-on { box-shadow: inset 0 0 0 2px var(--s-text); background: var(--s-panel); }
+.t-red .a-opt.is-on em, .t-red .a-teamt em { color: var(--s-accent); }
+.t-red .a-qq__opts button { background: var(--s-bg); box-shadow: inset 0 0 0 1px var(--s-line); }
+.t-red .a-reward { background: none; box-shadow: inset 0 0 0 1px var(--s-line); }
+.t-red .a-tile { border-top-width: 1px; }
+.t-red .a-tile b { font-size: 40px; letter-spacing: -.03em; }
+.t-red .a-mini-lead { border-top-width: 1px; }
+
+/* Сундук и открытие — тёмная фотостудия: карты Arcane сделаны под тёмный фон */
+.t-red .a-chest, .t-red .a-open3d { --s-text: #f4efe6; --s-muted: #a69e90; --s-panel-2: #2a251e; --s-line: #ffffff1f; color: var(--s-text);
+  background: radial-gradient(50% 60% at 50% 60%, #e0401b2e, transparent 70%), #17140f; }
+.t-red .a-chest { border-radius: 2px; }
+.t-red .a-modal { border-radius: 2px; box-shadow: 0 40px 120px -20px #000000; }
+.t-red .a-modal-bg { background: color-mix(in srgb, #17140f 60%, transparent); }
+.t-red .a-odds__i { background: var(--s-bg); box-shadow: inset 0 0 0 1px var(--s-line); }

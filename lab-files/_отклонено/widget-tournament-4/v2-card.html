@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<title>v2 · На кону в карточке</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../кадр.css" /><link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="_t4.css" /><link rel="stylesheet" href="../widget-states/_s.css" /></head>
+<!-- Подача v13 (решение 26): на странице только виджет; «Экран» — под кадром лабы. Свитч «Со созвона» убран (дирижёр 21.10: «подсказки уберём пока что»), пункты созвона в S_CFG.hints оставлены — вернуть: data-hint="tags" data-switch="Со созвона" -->
+<body data-view="toolbar" data-hint="none"><div class="lab-board s-only"><div class="s-z2"><div><div id="w"></div></div></div></div>
+<script>window.S_CFG = { opt: { mark: 'bg', stakes: 'card' }, hints: { home: [['.t4-lbl', 'Т1.12', 'список делим: «Идут сейчас» · «Предстоящие»'], ['.t4-tr', 'Т1.11', 'у турнира лого турнира и игры, даты, стадия'], ['.t4-arch', 'Т1.12', 'прошедшие — только кнопкой «Архив турниров»'], ['', 'Т1.10 · Т1.13', 'поиска и звезды нет']], match: [['.t4-ctx', 'Т1.22', 'в матче подсвечены обе команды', 1], ['.t4-z--up', 'Т1.14', 'зоны выхода и вылета — фоном строки', 1], ['[data-list]', 'Т1.15', 'бургер — выбор турнира остался, ‹ › между турнирами убраны'], ['', 'Т1.20', 'важность матча — в карточке: нажми на подсвеченную команду']], team: [['.t4-hd', 'Т1.21', 'выбрана команда — в виджете только её турниры'], ['.t4-tr .t4-cap', 'Т1.19', 'где команда сейчас — её место в каждом турнире']] } }</script>
+<script src="_data.js"></script><script src="_t4.js"></script><script src="../widget-states/_states.js"></script><script src="../widget-states/_shell.js"></script>
+</body></html>

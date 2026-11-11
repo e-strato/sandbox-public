@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Roboto+Condensed:wght@500..700&display=swap" />
+<link rel="stylesheet" href="/sandbox-public/site/styles.css" /><link rel="stylesheet" href="../../match-row/_rich.css" /><link rel="stylesheet" href="../../match-page/_page.css" />
+<style>
+.v3 { display: grid; gap: 16px; }
+.v3-bar { display: grid; grid-template-columns: minmax(min-content, 1fr) auto minmax(min-content, 1fr); align-items: center; gap: 20px; padding: 14px 20px; border-radius: 12px; background: var(--c-ui-panel); }
+.v3-bar__t { display: flex; align-items: center; gap: 12px; min-width: 0; font-size: 20px; font-weight: 700; } .v3-bar__t:last-child { justify-content: flex-end; }
+.v3-bar__t .r-lg { width: 44px; height: 44px; }
+.v3-bar__c { display: grid; justify-items: center; gap: 4px; } .v3-bar__c b { font: 700 46px/1 var(--font-c); } .v3-bar__c small { color: var(--c-caption); font-size: 12.5px; }
+.v3-bar__meta { grid-column: 1 / -1; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 14px; color: var(--c-caption); font-size: 12.5px; }
+.v3-grid { display: grid; grid-template-columns: 330px minmax(0, 1fr) 330px; gap: 16px; align-items: start; }
+.v3-mid { display: grid; gap: 16px; min-width: 0; }
+.v3-clock { display: grid; justify-items: center; gap: 6px; padding: 30px 20px; border-radius: 12px; background: radial-gradient(60% 100% at 50% 0%, color-mix(in srgb, var(--c-accent) 18%, transparent), transparent 70%), var(--c-ui-panel); text-align: center; }
+.v3-clock b { font: 700 72px/1 var(--font-c); } .v3-clock p { color: var(--c-caption); font-size: 14px; }
+.v3 .v3-strip--2 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.v3 .v3-sb .p-sb__m { margin: 10px 0; }
+.v3 .x-cmp__r { grid-template-columns: minmax(70px, max-content) minmax(0, 1fr) 100px minmax(0, 1fr) minmax(70px, max-content); }
+.v3-strip { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+  .v3-grid > div { display: grid; gap: 16px; align-content: start; }
+.v3 .x-tab td:first-child span { max-width: 96px; overflow: hidden; text-overflow: ellipsis; }
+@container row (max-width: 700px) {
+  .v3-bar { gap: 8px; padding: 12px; } .v3-bar__t { flex-direction: column; font-size: 13px; gap: 6px; text-align: center; } .v3-bar__t:last-child { flex-direction: column-reverse; }
+  .v3-bar__t .r-lg { width: 36px; height: 36px; } .v3-bar__c b { font-size: 34px; } .v3-bar__c small { max-width: 140px; text-align: center; } .v3-bar__c .p-pill { white-space: normal; height: auto; }
+  .v3-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; } .v3-grid > :first-child { order: 2; } .v3-grid > :last-child { order: 3; } .v3-mid { order: 1; gap: 12px; }
+  .v3-strip, .v3 .v3-strip--2 { grid-template-columns: minmax(0, 1fr); gap: 12px; } .v3-clock b { font-size: 52px; } .v3 { gap: 12px; }
+}
+</style></head>
+<body><main class="p-page">
+  <h1>v3 · Кокпит</h1>
+  <p>Как трансляционный HUD (cyberscore Quick view, развёрнутый на всю страницу): по краям — составы двух команд со статистикой, в центре — главное в этот момент. До матча в центре большой отсчёт, кольца-показатели и прогноз; в эфире — трансляция, под ней золото или раунды и ход карты; в итоге — игрок матча и карты. Снизу полоса: серия по картам, шанс победы, паспорт матча, турнир, последнее. 07.10: табло как в v1, по краям — составы и форма до матча, таблица игроков и лучшие в игре.</p>
+  <div class="p-tools"><div class="p-seg" data-moments></div><div class="p-seg"><button type="button" data-g="dota">Dota 2 · Spirit — Tundra</button><button type="button" data-g="cs">CS2 · G2 — FaZe</button></div></div>
+  <p class="p-cap">Десктоп · 1440 (рамка уменьшена под ширину окна)</p><div class="p-wrap"><div class="p-frame p-frame--desk" data-mp></div></div>
+  <p class="p-cap">Телефон · 390 — листается внутри рамки</p><div class="p-frame p-frame--phone" data-mp></div>
+</main>
+<script src="../../match-row/_rich.js"></script>
+<script>
+window.MP = {}
+MP.вариант = (m, x) => {
+  const мом = m.S.мом, сек = x.сек, h = x.h, cs = m.g === 'cs'
+  const [sa, sb] = m.S.серия || []
+  const бар = x.табло(m, 'v3-sb')
+  const ход = cs ? 'Раунды' : 'Золото по минутам'
+  const центр = {
+    pre: () => `<div class="v3-clock"><b>${m.t}</b><p>через 25 минут · ${cs ? 'вето карт в 16:45' : 'драфт в 16:55'}</p><button class="p-btn" type="button">★ Напомнить о начале</button></div>` + сек('Перед матчем', x.показатели(m)) + сек('Прогноз счёта', x.прогноз(m)) + сек(cs ? 'Карты: победы за 3 месяца' : 'Любимые герои', x.пул(m)),
+    draft: () => сек(cs ? 'Вето карт' : 'Драфт · карта 1', x.вето(m)) + сек('Трансляция', x.стрим(m)) + сек(cs ? 'Карты: победы за 3 месяца' : 'Любимые герои', x.пул(m)),
+    live1: () => сек('', x.стрим(m)) + сек(ход, x.ход(m)) + сек('Ход карты', x.события(m)),
+    break: () => сек('Карта 1 · команды рядом', x.рядом(m)) + сек('', x.стрим(m)) + сек('Видео', x.видео(m)),
+    live2: () => сек('', x.стрим(m)) + сек(ход, x.ход(m)) + сек('Ход карты', x.события(m)),
+    done: () => сек('', x.mvp(m)) + сек('Серия целиком', x.рядом(m)) + сек('Рейтинг после матча', x.рейтинг(m)) + сек('Видео', x.видео(m)),
+  }[мом]()
+  const ростер = (k) => сек('Состав', x.составы(m, k).replace('p-roster', 'p-roster p-roster--col'))
+  const край = (k) => {
+    if (мом === 'pre') return ростер(k) + сек('Форма', x.форма(m, k)) + (k === 'a' ? сек('Твои игроки', x.мои(m)) : сек('Личные встречи', x.встречи(m)))
+    if (мом === 'draft') return ростер(k) + сек('Форма', x.форма(m, k))
+    const таб = сек('', x.скорборд(m, k, { кратко: true }))
+    if (мом === 'done') return таб + (k === 'a' ? сек('Лучшие в матче', x.рекорды(m).replace('p-recs', 'p-recs p-recs--col')) : сек('Дальше у команд', x.дальше(m)) + сек('Твои игроки', x.мои(m)))
+    if (мом === 'break') return таб + (k === 'a' ? сек('Лучшие на карте 1', x.рекорды(m).replace('p-recs', 'p-recs p-recs--col')) : сек('Прогноз счёта', x.прогноз(m)) + сек('Твои игроки', x.мои(m)))
+    return таб + (k === 'a' ? сек('Что происходит', x.лог(m)) : сек(cs ? 'Раунды по закупке' : 'Объекты карты', x.объекты(m)) + сек('Твои игроки', x.мои(m)))
+  }
+  return `<div class="p-body v3">${бар}<div class="v3-grid"><div>${край('a')}</div><div class="v3-mid">${центр}</div><div>${край('b')}</div></div>
+    <div class="v3-strip">${сек('Серия по картам', x.сводка(m))}${сек('Шанс победы', x.шанс(m))}${сек('О матче', x.паспорт(m))}</div>
+    <div class="v3-strip v3-strip--2">${сек('Турнир', x.турнир(m))}${сек(мом === 'done' || мом === 'pre' ? 'Новости' : 'Последнее', мом === 'done' || мом === 'pre' ? x.новости(m) : x.лента(m))}</div></div>`
+}
+</script>
+<script src="../../match-page/_page.js"></script>
+</body></html>

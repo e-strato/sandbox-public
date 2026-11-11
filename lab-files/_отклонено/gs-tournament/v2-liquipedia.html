@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v2 · Как на Liquipedia целиком</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" />
+<link rel="stylesheet" href="../widgets-unified/_type.css" />
+<link rel="stylesheet" href="_lq.css" />
+</head>
+<!-- v2-liquipedia — страница Liquipedia PARI Universe целиком, 1:1 по блокам и порядку, в нашем стиле (дирижёр 28.10: «лучше бы ты полностью скопировал вначале»).
+     Резать и переделывать по созвону (созвон-1-турнир.html) — следующими версиями. Данные — кадры созвона 28.10: составы, группы, матчи, топ-5 героев, страны.
+     Нет только вики-обвязки (оглавление, edit, Share) и трансляций / комментаторов (на кадрах не видно). Вид — «Телефон 390 / Компьютер 1440» в панели песочницы. -->
+<body>
+<div class="app">
+  <header class="portal"><a class="pt-brand" href="#"><span class="pt-logo">◆</span>GoatScout</a>
+    <nav class="pt-nav"><a href="#">Матчи</a><a href="#" class="is-on">Турниры</a><a href="#">Фэнтези</a><a href="#">Новости</a></nav>
+    <a class="pt-in" href="#">Войти</a></header>
+
+  <h1 class="ttl">PARI Universe</h1>
+  <div class="series"><b>События FISSURE</b><span>2026 · FISSURE Universe (#8) · <b>PARI Universe (#1)</b></span></div>
+  <nav class="tabs" id="tabs"><button class="is-on" data-t="ov">Обзор</button><button data-t="q">Квалификация</button><button data-t="st">Статистика</button></nav>
+
+  <div class="lay">
+    <main class="col" id="main"></main>
+    <aside class="side" id="side"></aside>
+  </div>
+</div>
+<script src="_lq.js"></script>
+</body></html>

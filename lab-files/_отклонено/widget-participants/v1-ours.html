@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v1 · В нашем стиле</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="../кадр.css" />
+<!-- Т2 «Участники» v1 — то же, что v0 (Liquipedia), перерисовано в стиле наших виджетов, без новых функций (дирижёр 28.10).
+     Main / Subs → «Основа · Запас», Invited / Qualified — серым, квалификация строкой, тренер последней строкой. Данные — _data.js (Liquipedia). -->
+<style>
+  :root{ --w-font:'Google Sans Flex', system-ui, sans-serif; --bg:#0b0b0c; --card:#161618; --row:#1d1d20; --line:#2a2a2e; --fg:#f2f2f3; --mut:#8c8c94; --dim:#5d5d64; }
+  body{ margin:0; background:var(--bg); color:var(--fg); font:400 13px/18px var(--w-font); }
+  .lab-board{ padding:24px 32px 48px; }
+  .hd{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .hd h2{ margin:0; font:600 18px/24px var(--w-font); }
+  .hd .sub{ color:var(--mut); font-size:12px; flex:1; }
+  .seg{ display:inline-flex; background:var(--row); border-radius:8px; padding:2px; }
+  .seg button, .tg{ font:500 12px/16px var(--w-font); color:var(--mut); background:none; border:0; border-radius:6px; padding:4px 10px; cursor:pointer; }
+  .seg button.on, .tg.on{ background:#2c2c31; color:var(--fg); }
+  .tg{ background:var(--card); padding:6px 10px; } .tg::before{ content:'○ '; } .tg.on::before{ content:'● '; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px; align-items:start; }
+  .card{ background:var(--card); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px; }
+  .th{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .th img{ width:28px; height:28px; object-fit:contain; flex:none; }
+  .th b{ font:600 13px/18px var(--w-font); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .st{ font:500 11px/16px var(--w-font); color:var(--dim); }
+  .ch{ color:var(--dim); font-size:10px; width:16px; text-align:center; }
+  .q{ display:flex; justify-content:space-between; font:500 12px/16px var(--w-font); color:var(--mut); background:var(--row); border-radius:6px; padding:6px 8px; }
+  .q b{ color:#e8c547; font-weight:600; }
+  .rows{ display:flex; flex-direction:column; gap:2px; }
+  .r{ display:grid; grid-template-columns:16px 16px 1fr auto; align-items:center; gap:8px; background:var(--row); border-radius:6px; padding:6px 8px; }
+  .r .p{ color:var(--dim); font:600 11px/16px var(--w-font); text-align:center; }
+  .r img.f{ width:16px; height:11px; object-fit:cover; border-radius:2px; }
+  .r .n{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .r .x{ display:flex; align-items:center; gap:4px; color:var(--mut); font-size:11px; }
+  .r .x img{ width:16px; height:16px; object-fit:contain; }
+  .r.coach{ background:none; padding-top:2px; padding-bottom:2px; } .r.coach .n{ color:var(--mut); }
+  .card.col .body{ display:none; }
+  .body{ display:flex; flex-direction:column; gap:8px; }
+</style></head>
+<body><div class="lab-board"><div id="w"></div></div>
+<script src="_data.js"></script>
+<script>
+  const TAB = { Main: 'Основа', Subs: 'Запас' }
+  const S = { rosters: true, col: {}, tab: {} }
+  const w = document.getElementById('w')
+  const row = (x) => x.role === 'Coach'
+    ? `<div class="r coach"><span class="p">Т</span><img class="f" src="${x.fsrc}" title="${x.flag}"><span class="n">${x.nick}</span><span class="x">тренер</span></div>`
+    : `<div class="r"><span class="p">${x.role}</span><img class="f" src="${x.fsrc}" title="${x.flag}"><span class="n">${x.nick}</span><span class="x">${x.team ? `<img src="${x.team[1]}">${x.team[0]}` : ''}</span></div>`
+  function card(t, i) {
+    const col = S.col[i] ?? !S.rosters, tab = S.tab[i] ?? 0
+    return `<div class="card ${col ? 'col' : ''}">
+      <div class="th" data-col="${i}"><img src="${t.logo}" alt=""><b>${t.name}</b><span class="st">${t.st}</span><span class="ch">${col ? '▼' : '▲'}</span></div>
+      ${t.q ? `<div class="q"><span>${t.q[0] === 'Qualifier' ? 'Квалификация' : t.q[0]}</span><b>${t.q[1] === '1st' ? '1-е место' : t.q[1]}</b></div>` : ''}
+      <div class="body">
+        ${t.tabs.length > 1 ? `<div class="seg">${t.tabs.map((x, k) => `<button data-tab="${i}:${k}" class="${tab === k ? 'on' : ''}">${TAB[x.tab] ?? x.tab}</button>`).join('')}</div>` : ''}
+        <div class="rows">${t.tabs[tab].m.map(row).join('')}</div>
+      </div></div>`
+  }
+  function render() {
+    w.innerHTML = `<div class="hd"><h2>Участники</h2><span class="sub">${PU_TEAMS.length} команд · PARI Universe</span><button class="tg ${S.rosters ? 'on' : ''}" data-sw="rosters">Составы</button></div>
+      <div class="grid">${PU_TEAMS.map(card).join('')}</div>`
+  }
+  w.addEventListener('click', (e) => {
+    if (e.target.closest('[data-sw]')) { S.rosters = !S.rosters; S.col = {}; return render() }
+    const c = e.target.closest('[data-col]'); if (c) { const i = c.dataset.col; S.col[i] = !(S.col[i] ?? !S.rosters); return render() }
+    const t = e.target.closest('[data-tab]'); if (t) { const [i, k] = t.dataset.tab.split(':'); S.tab[i] = +k; return render() }
+  })
+  render()
+</script>
+</body></html>
