@@ -20,12 +20,14 @@ h1.text-\\[18px\\]{font-size:24px!important;font-weight:500!important}
 .h-dvh{height:calc(100dvh - ${Ii}px)!important}
 .flex.h-12.shrink-0.items-stretch.gap-1{display:none!important}
 aside{display:none!important}
-main > .h-16{display:none!important}
-div:has(> h1.text-\\[18px\\]){display:none!important}
+main > .h-16{height:56px!important;padding:0 16px!important}
+main > .h-16 > .ml-auto{display:none!important}
+main > div:last-child{padding:0 16px 64px!important}
+div:has(> h1.text-\\[18px\\]) > :not(h1){display:none!important}
+h1.text-\\[18px\\]{margin:4px 8px 0}
 .h-dvh.flex-col > .flex.min-h-0.flex-1{padding:0!important}
 main.rounded-2xl{border:0!important;border-radius:0!important}
 main [class*="grid-cols-2"]{grid-template-columns:1fr!important}
-main > div:first-child{padding:0 16px!important}
 .flex.shrink-0.flex-col.gap-2[style*="width"]{width:100%!important}
 .min-h-0.flex-1.overflow-auto.p-6{padding:12px 8px!important}
 .relative.shrink-0.overflow-hidden.rounded-md[style*="width"]{width:100%!important;height:auto!important}
