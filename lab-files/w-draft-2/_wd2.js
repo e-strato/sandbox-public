@@ -12,7 +12,9 @@
   if (window.WD2_NOPH) document.documentElement.classList.add('wd2-noph');
   // v24–v27 (WD2_CL, дирижёр 11.11: «по центру надо сделать — начальник на созвоне; график фигово выглядит, сдвинуть»): раскладка центра — big (пики крупно, график полосой снизу) · sides (пики колонками по краям, график между) · tug (без графика — шанс полосой) · low (график сверху, пики внизу у игроков)
   if (window.WD2_CL) document.documentElement.classList.add('wd2-cl', 'wd2-cl--' + window.WD2_CL);
-  if (window.WD2_OV) document.documentElement.classList.add('wd2-ov-on');   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
+  if (window.WD2_OV) document.documentElement.classList.add('wd2-ov-on');
+  if (window.WD2_STILL) document.documentElement.classList.add('wd2-still');
+  if (window.WD2_NOGROW) document.documentElement.classList.add('wd2-nogrow');   // v32 (дирижёр 11.11: «прилетает сверху — не должна, просто есть на странице»): в драфте блок стоит на месте, двигается только в итог и к низу графика   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
   // v9 (WD2_NODATA): в нижней панели всё на месте, но данных ещё нет — золото, перевес, K/D/A, счёт и время — «—»
   if (window.WD2_NODATA) { document.documentElement.classList.add('wd2-nodata'); setInterval(() => { if (!document.documentElement.classList.contains('wd2-nodata')) return; const r = document.querySelector('.wl-pre .d3-row'); if (!r) return; r.querySelectorAll('.wb2-at, .wb2-nt, .wb2-cd b, .d3-sc b, .d3-k').forEach(e => { if (e.textContent !== '—') { if (e.__orig == null) e.__orig = e.innerHTML; e.textContent = '—'; } }); }, 300); }
   // v10 (WD2_END, дирижёр 06.11: «финальное состояние — не начинать сначала, а показать график до 12′, когда матч ещё не начался»): драфт прошёл один раз —
@@ -82,7 +84,7 @@
     let o = keep.ov
     if (!o) { const nm = s => { const e = row.querySelector(`.d3-five.${s} .ws-tn b`), i = row.querySelector(`.d3-five.${s} .wb-lr img`); return [e ? e.textContent : '', i ? i.getAttribute('src') : ''] }, [na, ia] = nm('a'), [nb, ib] = nm('b')
       o = keep.ov = Object.assign(document.createElement('div'), { className: 'wd2-ov' })
-      o.innerHTML = `<div class="wd2-ov__in"><div class="wd2-tug wd2-tug2"><small>Шанс по драфту</small><div class="wd2-tug__r"><span class="a"><img src="${ia}" alt=""><em>${na}</em><b class="num"></b></span><span class="b"><b class="num"></b><em>${nb}</em><img src="${ib}" alt=""></span></div><span class="wd2-tug__b"><i></i><em></em></span></div>
+      o.innerHTML = `<div class="wd2-ov__in"><div class="wd2-tug wd2-tug2${window.WD2_MIDL ? ' is-midl' : ''}">${window.WD2_MIDL ? '' : '<small>Шанс по драфту</small>'}<div class="wd2-tug__r"><span class="a"><img src="${ia}" alt=""><em>${na}</em><b class="num"></b></span>${window.WD2_MIDL ? '<small class="wd2-tug__l">Шанс по драфту</small>' : ''}<span class="b"><b class="num"></b><em>${nb}</em><img src="${ib}" alt=""></span></div><span class="wd2-tug__b"><i></i><em></em></span></div>
         <div class="wd2-cp"><div class="a">${'<i></i>'.repeat(5)}</div><small>пики</small><div class="b">${'<i></i>'.repeat(5)}</div></div></div>` }
     if (o.previousElementSibling !== d) d.after(o)
     if (o.style.top !== d.style.top || o.style.height !== d.style.height) { o.style.top = d.style.top; o.style.height = d.style.height }
@@ -98,8 +100,8 @@
     if (dock) { y = Hb - 64 - inH / 2; sc = .6
       // v30 (дирижёр 11.11: «шанс по драфту надо центрировать»): по центру области графика — без колонки подписей справа (0.0k)
       if (window.WD2_PLOTC) { const tag = d.parentElement.querySelector('[data-wd="gold"] .g2-tag'); if (tag) x = ((tag.getBoundingClientRect().left - d.getBoundingClientRect().left) - d.offsetWidth) / 2 } }
-    else if (fin) y = (Hb - inH) / 2
-    else { const y0 = Math.max(0, (Hb - th - GAP - inH) / 2), c9 = d.querySelector('.wdr--c9'); if (c9 && c9.style.paddingTop !== y0 + 'px') c9.style.paddingTop = y0 + 'px'; y = y0 + th + GAP }
+    else if (fin) y = window.WD2_NOGROW && keep.y0 != null ? keep.y0 : (Hb - inH) / 2   // v33 (дирижёр 11.11: «всё выбрано — не растёт, просто выбрано, потом уезжает вниз»): итог остаётся там, где был
+    else { const y0 = Math.max(0, (Hb - th - GAP - inH) / 2), c9 = d.querySelector('.wdr--c9'); if (c9 && c9.style.paddingTop !== y0 + 'px') c9.style.paddingTop = y0 + 'px'; y = y0 + th + GAP; keep.y0 = y }
     o.classList.toggle('is-fin', !!fin || dock); tg.classList.toggle('is-fin', !!fin || dock); o.classList.toggle('is-dock', dock); o.classList.toggle('is-go', H.classList.contains('wd2-go'))
     const k = y.toFixed(1) + '|' + sc + '|' + x.toFixed(1); if (o.__k !== k) { o.__k = k; o.style.setProperty('--y', y.toFixed(1) + 'px'); o.style.setProperty('--x', x.toFixed(1) + 'px'); o.style.setProperty('--s', sc) } }
   // герой «едет» из точки r (пик в полоске / слот по порядку пиков) в портрет слота игрока

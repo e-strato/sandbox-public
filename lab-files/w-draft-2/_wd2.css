@@ -314,3 +314,11 @@ html.wd2-cl--tug [data-wd="draft"].wdr-out > .wdr { opacity: 1; } html.wd2-cl--t
 /* центр драфта под слоем: только баны и таймер; свой итог не показываем — итог это тот же слой */
 html.wd2-ov-on .wdr--c9:not(.is-fin) { justify-content: flex-start; }
 html.wd2-ov-on .c9-fin { visibility: hidden; }
+/* v31 (WD2_MIDL, дирижёр 11.11: «оно не по центру»): «Шанс по драфту» — посередине строки, между командами, на одной линии с процентами */
+.wd2-tug2.is-midl .wd2-tug__r { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px; }
+.wd2-tug2.is-midl .wd2-tug__r > .b { justify-self: end; }
+.wd2-tug__l { font: 500 13px/16px var(--w-font, system-ui); color: var(--w-muted-fg, #a1a1aa); white-space: nowrap; }
+/* v32 (WD2_STILL): при открытии страницы и во время драфта блок не анимируется — только переход в итог и к низу графика */
+html.wd2-still .wd2-ov:not(.is-fin) .wd2-ov__in { transition: none; }
+/* v33 (WD2_NOGROW): итог не растёт — те же размеры, что в драфте */
+html.wd2-nogrow .wd2-tug2.is-fin .wd2-tug__r b { font-size: 32px; } html.wd2-nogrow .wd2-tug2.is-fin .wd2-tug__r img { width: 28px; height: 28px; }
