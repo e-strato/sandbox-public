@@ -1,0 +1,33 @@
+/* «Все турниры» v9–v11 — спокойно (дирижёр 11.11): без карточек и раскрытий; строки с тонкими разделителями, заголовки разделов текстом. Шапка и футер — ../gs-home/_home*.css */
+.t9-h{ display:flex; align-items:center; flex-wrap:wrap; gap:12px 16px; margin:20px 0 0; }
+.t9-h h1{ margin:0; font:700 24px/32px var(--w-font); } .is-desk .t9-h h1{ font-size:32px; line-height:40px; }
+.t9-h .t9-f{ margin-left:auto; }
+.t9-f{ display:flex; flex-wrap:wrap; gap:4px; margin-top:16px; } .t9-h .t9-f{ margin-top:0; }
+.t9-f button{ display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border:0; border-radius:16px; background:transparent; color:var(--w-muted-fg); font:500 13px/16px var(--w-font); cursor:pointer; }
+.t9-f button:hover{ color:var(--w-fg); } .t9-f button.is-on{ background:var(--w-mid-bg); color:var(--w-fg); }
+.t9-f button small{ font-size:11px; color:var(--w-muted-fg); } .t9-f .sc-gi{ filter:grayscale(1); } .t9-f button.is-on .sc-gi{ filter:none; }
+.t9-list{ display:flex; flex-direction:column; gap:32px; margin:24px 0 40px; }
+.t9-sec h2{ display:flex; align-items:center; gap:8px; margin:0 0 4px; padding-bottom:8px; border-bottom:1px solid var(--w-border); font:600 16px/22px var(--w-font); }
+.t9-sec h2 small{ font-size:12px; font-weight:500; color:var(--w-muted-fg); } .t9-sec h2 .sc-gi{ filter:grayscale(1); }
+.t9-r{ display:grid; grid-template-columns:20px 28px minmax(0, 1fr) 56px 112px 128px 200px; align-items:center; column-gap:14px; min-height:56px; padding:6px 8px; border-radius:6px; color:inherit; text-decoration:none; }
+.t9-r + .t9-r{ box-shadow:0 -1px 0 color-mix(in srgb, var(--w-border) 60%, transparent); } .t9-r:hover{ background:var(--w-mid-bg); box-shadow:none; } .t9-r:hover + .t9-r{ box-shadow:none; }
+.t9-r__g .sc-gi{ filter:grayscale(1); opacity:.8; display:block; } .t9-r .sc-tl{ border-radius:6px; }
+.t9-r__n{ display:flex; flex-direction:column; gap:2px; min-width:0; } .t9-r__n b{ font:600 14px/18px var(--w-font); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.t9-r__n small{ font:var(--t-sub); color:var(--w-muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.t9-t{ justify-self:start; font:500 11px/16px var(--w-font); color:var(--w-muted-fg); white-space:nowrap; } .t9-t.is-1{ color:var(--w-fg); }
+.t9-r__d{ font:500 12px/16px var(--sc-mono); color:var(--w-muted-fg); white-space:nowrap; }
+.t9-r__p{ justify-self:end; font:600 13px/16px var(--sc-mono); white-space:nowrap; }
+.t9-s{ justify-self:end; display:inline-flex; align-items:center; gap:6px; min-width:0; font:500 12px/16px var(--w-font); color:var(--w-muted-fg); white-space:nowrap; }
+.t9-s.is-live{ color:var(--w-fg); } .t9-s.is-w b{ color:var(--w-fg); font-weight:600; overflow:hidden; text-overflow:ellipsis; }
+.t9-r.is-done .t9-r__n b, .t9-r.is-done .t9-r__p{ color:var(--w-muted-fg); }
+.t9-sec.is-past h2{ color:var(--w-muted-fg); } .t9-r.is-done{ opacity:.7; }
+.t9-now{ display:flex; align-items:center; gap:10px; margin:6px 0; font:600 11px/16px var(--w-font); color:var(--w-fg); } .t9-now::before, .t9-now::after{ content:''; height:1px; background:var(--w-fg); opacity:.5; } .t9-now::before{ width:16px; } .t9-now::after{ flex:1; }
+.t9-empty{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:64px 16px; text-align:center; color:var(--w-muted-fg); } .t9-empty b{ color:var(--w-fg); font:600 16px/22px var(--w-font); }
+.t9-empty button{ margin-top:8px; height:32px; padding:0 14px; border:1px solid var(--w-border); border-radius:16px; background:none; color:var(--w-fg); cursor:pointer; }
+/* телефон: название и статус сверху, даты · фонд — строкой ниже */
+body:not(.is-desk) .t9-h .t9-f{ margin-left:0; width:100%; }
+body:not(.is-desk) .t9-f{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+body:not(.is-desk) .t9-r{ grid-template-columns:28px minmax(0, 1fr) auto; grid-template-areas:"lg n s" "lg dp dp"; row-gap:2px; padding:10px 4px; }
+body:not(.is-desk) .t9-r > .sc-tl{ grid-area:lg; } body:not(.is-desk) .t9-r__n{ grid-area:n; } body:not(.is-desk) .t9-s{ grid-area:s; }
+body:not(.is-desk) .t9-r__g, body:not(.is-desk) .t9-t{ display:none; }
+body:not(.is-desk) .t9-r__d{ grid-area:dp; } body:not(.is-desk) .t9-r__p{ grid-area:dp; justify-self:end; font-size:12px; }
