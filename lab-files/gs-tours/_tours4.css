@@ -31,3 +31,21 @@ body:not(.is-desk) .t9-r{ grid-template-columns:28px minmax(0, 1fr) auto; grid-t
 body:not(.is-desk) .t9-r > .sc-tl{ grid-area:lg; } body:not(.is-desk) .t9-r__n{ grid-area:n; } body:not(.is-desk) .t9-s{ grid-area:s; }
 body:not(.is-desk) .t9-r__g, body:not(.is-desk) .t9-t{ display:none; }
 body:not(.is-desk) .t9-r__d{ grid-area:dp; } body:not(.is-desk) .t9-r__p{ grid-area:dp; justify-self:end; font-size:12px; }
+/* v12 (дирижёр 11.11): две колонки — турниры по играм (1fr) и новости справа (360), без карточек */
+.t9-lay{ display:flex; flex-direction:column; gap:32px; margin:24px 0 40px; } .t9-lay .t9-list{ margin:0; }
+.is-desk .t9-lay{ display:grid; grid-template-columns:minmax(0, 1fr) 360px; gap:40px; align-items:start; }
+.t9-side{ display:flex; flex-direction:column; } .is-desk .t9-side{ position:sticky; top:20px; }
+.t9-side h2{ display:flex; align-items:center; margin:0 0 4px; padding-bottom:8px; border-bottom:1px solid var(--w-border); font:600 16px/22px var(--w-font); }
+.t9-side h2 a{ margin-left:auto; font:500 12px/16px var(--w-font); color:var(--w-muted-fg); text-decoration:none; } .t9-side h2 a:hover{ color:var(--w-fg); }
+.t9-nd{ margin:14px 0 2px; font:600 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.t9-n{ display:grid; grid-template-columns:40px minmax(0, 1fr) 64px; align-items:start; gap:10px; padding:8px 0; color:inherit; text-decoration:none; }
+.t9-n + .t9-n{ border-top:1px solid color-mix(in srgb, var(--w-border) 60%, transparent); }
+.t9-n time{ font-size:11px; line-height:18px; color:var(--w-muted-fg); }
+.t9-n b{ font:500 13px/18px var(--w-font); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; } .t9-n:hover b{ text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--w-ring); }
+.t9-n img, .t9-n i{ width:64px; height:36px; border-radius:4px; object-fit:cover; background:var(--w-mid-bg); }
+.t9-all{ margin-top:12px; padding:10px 0; border-top:1px solid var(--w-border); font:500 13px/18px var(--w-font); color:var(--w-fg); text-decoration:none; }
+.is-desk .t9-lay .t9-r{ grid-template-columns:20px 28px minmax(0, 1fr) 48px 104px 112px 160px; column-gap:12px; }
+.t9-n.no-img{ grid-template-columns:40px minmax(0, 1fr); }
+.t9-f button{ white-space:nowrap; flex:none; }
+/* v13: наш виджет «Новости» в правой колонке — на всю её ширину, без отступа сверху; «Все новости» — только внизу, как на странице матча */
+.t9-side--w .gm-wd{ margin-top:0; } .t9-side--w .w{ width:auto; max-width:none; } .t9-side--w .nw-all{ display:none; }

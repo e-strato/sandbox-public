@@ -302,7 +302,7 @@ window.HOME2 = (() => {
     return [`Мета турнира · ${H.games} карт`, `<div class="h12-mt">${L.map((x) => `<p>${heroImg(x.hero, 18)}<span>${esc((window.DB.hero(x.hero) || {}).name || x.hero)}</span><span class="mono">${x.pickBan}%</span><b class="mono${x.picks && x.pickWins / x.picks >= 0.5 ? ' is-up' : ' is-dn'}">${x.picks ? Math.round(x.pickWins / x.picks * 100) : 0}%</b></p>`).join('')}</div><small class="h12-note">пик/бан · винрейт</small>`, 1] }
   const exStat = (m, soon) => { const k = real(m) ? O.ex : 'cmp', mp = soon ? [] : [[...cMaps(m), 1]]
     if (k === 'pl') return [...mp, cPl(m), ...(soon ? [cH2H(m)] : [])]
-    if (k === 'draft') return [...mp, cPicks(m, 'picks', 'Чаще пикают'), cPicks(m, 'bans', 'Чаще банят против них'), cMeta(m), ...(soon ? [cH2H(m)] : [])]
+    if (k === 'draft') return [...mp, O.oc === 'pk' ? null : cPicks(m, 'picks', 'Чаще пикают'), cPicks(m, 'bans', 'Чаще банят против них'), cMeta(m), ...(soon ? [cH2H(m)] : [])]
     return [...mp, cCmp(m), soon ? cForm5(m) : null, cH2H(m)] }
   const exOf = (m) => { if (O.ex) { const soon = ['soon', 'delayed', 'tba', 'moved', 'cancel'].includes(m.state), cells = exStat(m, soon).filter(Boolean)
       const act = isLive(m) ? [['Смотреть', 'go', 1], ['Страница матча', 'go', 0]] : soon ? [[CFG.star.has(m.id) ? 'Напомним' : 'Напомнить', 'star', 1], ['Страница матча', 'go', 0]] : [['Страница матча', 'go', 1], ['Запись', 'rec', 0]]
@@ -313,7 +313,19 @@ window.HOME2 = (() => {
     return `<div class="h11-ex"><div class="h11-ex__in"><div class="h11-cs">${cells.map(([t, h]) => `<div class="h11-c"><small>${t}</small>${h}</div>`).join('')}</div>
       <div class="h11-act">${act.map(([t, k, main]) => `<button class="h11-b${main ? ' is-main' : ''}" data-xa="${k}" data-id="${m.id}">${t}</button>`).join('')}</div></div></div>` }
   const CHV = '<svg class="h11-chv" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg>'
-  const row11 = (m) => `<div class="h11-r${CFG.open === m.id ? ' is-open' : ''}" data-xr="${m.id}">${row1(m).replace(' data-m="', ' aria-expanded="' + (CFG.open === m.id) + '" data-x="').replace(/(<span class="hm-bo">Bo\d<\/span>)/, '$1' + CHV)}${exOf(m)}</div>`
+  // ── v15–v17 (дирижёр 11.11: «ближе к старой версии — Match Center, цвета те же, чуть пересобрать открытые строки»): раскрытая строка на компьютере —
+  //    команды друг под другом (лого, название, форма 5 серий), справа крупный счёт и статус, как в Match Center; снизу мини-виджеты и кнопки колонкой под счётом.
+  //    O.oc: 'card' — только это · 'cols' — + колонки цифр у каждой команды (серии, карты, очки игроков, коэф. — где есть) · 'pk' — + чаще пикают иконками у команды
+  const ocTm = (m) => { const w = hid(m) ? -1 : win(m), r = real(m)
+    const C = O.oc === 'cols' ? [['Серии', (s, id) => `${s.series[0]}–${s.series[1]}`], ['Карты', (s) => `${s.maps[0]}–${s.maps[1]}`], ...(r ? [['Очки', (s, id) => plOf(m, id).reduce((a, p) => a + (p.pts || 0), 0)]] : []), ...(m.odds ? [['Коэф.', (s, id) => (m.odds[id] ? m.odds[id].toFixed(2) : '—')]] : [])] : []
+    const line = (i) => { const id = m[i ? 'b' : 'a'], s = tst(m, id)
+      return `<span class="oc-t${w === 1 - i ? ' is-lose' : ''}${w === i ? ' is-win' : ''}"><span class="oc-n">${logo(id, 24)}<b>${name(id, 'mid')}</b><span class="oc-f">${s.form.slice(0, 5).map((f) => `<i class="${f.win ? 'w' : ''}"></i>`).join('')}</span></span>${O.oc === 'pk' ? `<span class="oc-pk">${(s.picks || []).slice(0, 5).map(([h]) => heroImg(h, 20)).join('')}</span>` : ''}${C.map(([, f]) => `<span class="mono">${f(s, id)}</span>`).join('')}</span>` }
+    const hd = C.length || (O.oc === 'pk' && real(m)) ? `<span class="oc-hd"><span>${r ? '' : EXS}</span>${O.oc === 'pk' ? '<span>Чаще пикают</span>' : ''}${C.map(([t]) => `<span>${t}</span>`).join('')}</span>` : ''
+    return `<span class="oc-tm oc-${O.oc}" style="--oc-n:${C.length}">${hd}${line(0)}${line(1)}</span>` }
+  const ocBig = (m) => { const st = isLive(m) ? (m.state === 'draft' ? 'Драфт' : m.state === 'pause' ? 'Пауза · ' + mapLbl(m) : m.state === 'break' ? 'Перерыв · ' + mapLbl(m) : mapLbl(m) + (m.clock ? ' · ' + m.clock : ''))
+      : m.state === 'done' ? (hid(m) ? '' : 'Итог · ' + hm(m.start)) : m.state === 'cancel' ? '' : hm(m.start)
+    return `<span class="oc-big${isLive(m) ? ' is-live' : ''}">${cen(m)}${st ? `<small>${isLive(m) && m.state !== 'pause' && m.state !== 'break' ? '<i class="sc-dot"></i>' : ''}${st}</small>` : ''}</span>` }
+  const row11 = (m) => `<div class="h11-r${CFG.open === m.id ? ' is-open' : ''}" data-xr="${m.id}">${row1(m).replace(' data-m="', ' aria-expanded="' + (CFG.open === m.id) + '" data-x="').replace('<span class="hm-r__m">', O.oc ? ocTm(m) + ocBig(m) + '<span class="hm-r__m">' : '<span class="hm-r__m">').replace(/(<span class="hm-bo">Bo\d<\/span>)/, '$1' + CHV)}${exOf(m)}</div>`
   const ms11 = () => { const A = all(), L = list(), lv = ofDay(A).filter(isLive).length
     if (CFG.open === undefined) { const f = L.find(isLive); CFG.open = f ? f.id : null }
     const T = new Map(); L.forEach((m) => { if (!T.has(m.tour)) T.set(m.tour, []); T.get(m.tour).push(m) })

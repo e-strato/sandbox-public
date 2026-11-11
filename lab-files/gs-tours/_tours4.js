@@ -41,6 +41,12 @@ window.TOURS4 = (() => {
     return sec('<i class="sc-dot"></i>Идут сейчас', live) + sec('Скоро', soon) + sec('Прошли', done)
   }
 
+  // v12 (O.side = 'news', дирижёр 11.11: «v10 норм, только две колонки; в правой — просто новости»): новости списком по дням — время, заголовок, картинка; «Все новости ›»
+  const NEWSP = `../news-page/v62-match.html${FIT ? '?fit=1' : ''}`
+  const dayH = (d) => { const k = S.dayDiff(d); return k === 0 ? 'Сегодня' : k === -1 ? 'Вчера' : `${+d.slice(8)} ${S.MON[+d.slice(5, 7) - 1]}` }
+  const news = () => { if (!window.DB) return ''; const L = window.DB.news().filter((n) => Date.parse(n.t) <= S.NOW).slice(0, 12), ds = [...new Set(L.map((n) => n.t.slice(0, 10)))]
+    return `<aside class="t9-side"><h2>Новости<a href="${NEWSP}">Все новости ›</a></h2>${ds.map((d) => `<p class="t9-nd">${dayH(d)}</p>${L.filter((n) => n.t.startsWith(d)).map((n) => `<a class="t9-n${n.img ? '' : ' no-img'}" href="${NEWSP}"><time class="mono">${n.t.slice(11, 16)}</time><b>${esc(n.title)}</b>${n.img ? `<img src="${esc(window.DB.url(n.img))}" alt="">` : ''}</a>`).join('')}`).join('')}
+      <a class="t9-all" href="${NEWSP}">Все новости ›</a></aside>` }
   const FT = { 'Разделы': ['Матчи', 'Турниры', 'Новости', 'Рейтинг команд', 'Трансферы', 'Фэнтези'], 'Игры': S.GAMES.map((g) => g.name),
     'Проект': ['О нас', 'Реклама', 'Контакты', 'Вакансии'], 'Помощь': ['Правила', 'Конфиденциальность', 'Источники данных', 'Обратная связь'] }
   const footer = () => `<footer class="h5-f"><div class="h5-f__top"><div class="h5-f__b"><span class="pt-brand"><span class="pt-logo">◆</span>GoatScout</span><small>Матчи, турниры, новости и статистика: Dota 2, CS2, LoL, Valorant, MLBB</small>
@@ -57,9 +63,15 @@ window.TOURS4 = (() => {
     if (CFG.state === 'skel') b = `<section class="t9-sec">${[0, 1, 2, 3, 4].map(() => '<p class="t9-r"><span class="sk" style="width:100%;height:28px"></span></p>').join('')}</section>`
     else if (!L.length) b = `<div class="t9-empty"><b>${A.length ? 'Турниров не нашли' : 'Турниров пока нет'}</b><span>${A.length ? 'По этим фильтрам ничего нет' : 'Календарь обновится, как только организаторы объявят даты'}</span>${A.length ? '<button data-reset>Сбросить</button>' : ''}</div>`
     else b = body(L)
-    document.getElementById('main').innerHTML = `<div class="t9-h"><h1>Турниры</h1>${tiers}</div>${games}<div class="t9-list">${b}</div>${footer()}
+    document.getElementById('main').innerHTML = `<div class="t9-h"><h1>Турниры</h1>${tiers}</div>${games}${O.side === 'news' ? `<div class="t9-lay"><div class="t9-list">${b}</div>${news()}</div>` : O.side === 'nw2' ? `<div class="t9-lay"><div class="t9-list">${b}</div><aside class="t9-side t9-side--w"></aside></div>` : `<div class="t9-list">${b}</div>`}${footer()}
       ${CFG.state === 'offline' ? `<div class="hm-off"><span><b>Нет сети</b> · данные на ${S.hm(new Date(S.NOW).toISOString())}</span><button data-retry>Обновить</button></div>` : ''}`
+    // v13 (O.side = 'nw2', дирижёр 11.11: «у нас уже есть виджет новостей — зачем новый?»): справа — наш виджет «Новости» (widget-news NW2) с теми же настройками, что в правой колонке страницы матча; узел один, при смене фильтров переставляется
+    if (O.side === 'nw2' && window.NW2) { const as = document.querySelector('.t9-side--w'); if (!NWEL) { NWEL = document.createElement('div'); NWEL.className = 'gm-wd mn-side'
+        NW2.render(NWEL, { pic: 'mix', fresh: true, btn: 'more', icon: 'doc', open: 'inline', reveal: 'type', pts: 2, even: true, rich: true, para2: true, hl: 'chip', ava: true, sq: true, sm: true, pad: true, calm: true, pl: 'logos', dock: 2, nodiv: true, gap: true, edge: true, fade: 'p', fadeLate: 40, fadeLateB: 40, phone: CFG.view !== 'desk' })
+        const t = NWEL.querySelector('.w-hd__t'); if (t) t.textContent = 'Новости' }
+      if (as) as.append(NWEL) }
   }
+  let NWEL = null
   const toast = (t) => { let el = document.querySelector('.hm-toast'); if (!el) { el = document.createElement('div'); el.className = 'hm-toast'; document.body.append(el) } el.textContent = t; clearTimeout(el._t); el.style.display = ''; el._t = setTimeout(() => (el.style.display = 'none'), 2600) }
   const goTour = (id) => { const x = S.T[id]; if (x.id === 'ti-2026' || x.id === 'universe-ep7') location.href = '../gs-tournament/v46-hs.html' + (FIT ? '?fit=1' : ''); else toast(`${x.name} — страница турнира (в лабе открыта только TI 2026)`) }
 

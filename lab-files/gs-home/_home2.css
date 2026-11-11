@@ -290,3 +290,27 @@ body:not(.is-desk) .h3-t .h3-tier, body:not(.is-desk) .h3-t__s{ display:none; }
 .h12-mt p > span:nth-child(2){ min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; } .h12-mt .mono{ color:var(--w-muted-fg); font-size:11px; }
 .h12-mt b{ text-align:right; font:600 11px/14px var(--sc-mono); } .h12-mt b.is-up{ color:var(--w-up-fg, #86efac); } .h12-mt b.is-dn{ color:var(--w-down-fg); }
 .h12-note{ font-size:10px; color:var(--w-muted-fg); }
+
+/* ── v15–v17 (дирижёр 11.11: «ближе к старой версии — Match Center, цвета те же, чуть пересобрать открытые строки»): раскрытая строка на компьютере —
+   команды друг под другом, справа крупный счёт и статус над кнопками; закрытая строка — как была. Телефон — как был */
+.oc-tm, .oc-big{ display:none; }
+.is-desk .h11-r.is-open .hm-r{ grid-template-columns:72px minmax(0, 1fr) 168px 28px; align-items:center; padding:12px 8px 8px 12px; }
+.is-desk .h11-r.is-open .hm-r__a, .is-desk .h11-r.is-open .hm-r__c, .is-desk .h11-r.is-open .hm-r__b, .is-desk .h11-r.is-open .hm-r__m{ display:none; }
+.is-desk .h11-r.is-open .hm-r__t{ align-self:start; padding-top:4px; }
+.is-desk .h11-r.is-open .oc-tm{ display:grid; grid-template-columns:minmax(0, 1fr) repeat(var(--oc-n), 64px); row-gap:8px; column-gap:12px; align-items:center; min-width:0; }
+.is-desk .h11-r.is-open .oc-tm.oc-pk{ grid-template-columns:minmax(0, 1fr) auto; }
+.oc-t, .oc-hd{ display:contents; }
+.oc-n{ display:flex; align-items:center; gap:10px; min-width:0; font:600 15px/24px var(--w-font); }
+.oc-n b{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; }
+.oc-t.is-lose .oc-n, .oc-t.is-lose > .mono{ color:var(--w-muted-fg); }
+.oc-hd > span{ font:var(--t-label); color:var(--w-muted-fg); text-align:right; white-space:nowrap; } .oc-hd > span:first-child{ text-align:left; }
+.oc-t > .mono{ font:600 13px/24px var(--sc-mono); text-align:right; }
+.oc-big{ flex-direction:column; align-items:center; justify-content:center; gap:4px; align-self:stretch; text-align:center; }
+.is-desk .h11-r.is-open .oc-big{ display:flex; }
+.oc-big .hm-sc{ font:700 30px/34px var(--sc-mono); gap:10px; }
+.oc-big .hm-vs{ font:600 18px/24px var(--w-font); color:var(--w-muted-fg); }
+.oc-big > small{ display:inline-flex; align-items:center; gap:6px; font:500 12px/16px var(--sc-mono); color:var(--w-muted-fg); }
+.oc-big.is-live > small{ color:var(--w-fg); }
+.oc-f{ display:inline-flex; gap:3px; } .oc-f i{ width:6px; height:6px; border-radius:2px; background:var(--w-muted); } .oc-f i.w{ background:var(--w-fg); }
+.oc-pk{ display:inline-flex; gap:4px; justify-content:flex-end; }
+.is-desk .h11-r.is-open .h11-ex__in{ border-top:0; padding-top:4px; }
