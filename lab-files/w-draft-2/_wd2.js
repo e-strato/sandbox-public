@@ -17,7 +17,8 @@
   if (window.WD2_NOGROW) document.documentElement.classList.add('wd2-nogrow');
   if (window.WD2_MOB2) document.documentElement.classList.add('wd2-mob2');
   if (window.WD2_MOBL) document.documentElement.classList.add('wd2-mobl', 'wd2-mobl--' + window.WD2_MOBL);
-  if (window.WD2_MBN) document.documentElement.classList.add('wd2-mbn');   // v38 (дирижёр 11.11: «на планшете сильно маленькие баны»): баны — доля ширины, растут вместе с пиками   // v34 (дирижёр 11.11: «на мобилке баны не должны быть больше пиков»): телефон — баны мелко в две колонки, пики крупно двумя строками, в полосе — лого и проценты   // v32 (дирижёр 11.11: «прилетает сверху — не должна, просто есть на странице»): в драфте блок стоит на месте, двигается только в итог и к низу графика   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
+  if (window.WD2_MBN) document.documentElement.classList.add('wd2-mbn');
+  if (window.WD2_ALLV) document.documentElement.classList.add('wd2-allv');   // v39 (дирижёр 11.11: «ни одна не нравится; нормально и на компе, и на планшете, и на телефоне, и не так много места»): компактно — строка на команду: лого, пики, баны мельче; между командами — полоса шанса   // v38 (дирижёр 11.11: «на планшете сильно маленькие баны»): баны — доля ширины, растут вместе с пиками   // v34 (дирижёр 11.11: «на мобилке баны не должны быть больше пиков»): телефон — баны мелко в две колонки, пики крупно двумя строками, в полосе — лого и проценты   // v32 (дирижёр 11.11: «прилетает сверху — не должна, просто есть на странице»): в драфте блок стоит на месте, двигается только в итог и к низу графика   // без подписей фаз и линий — только график   // v12+: вид без фиолетового (panel · quiet · card)
   // v9 (WD2_NODATA): в нижней панели всё на месте, но данных ещё нет — золото, перевес, K/D/A, счёт и время — «—»
   if (window.WD2_NODATA) { document.documentElement.classList.add('wd2-nodata'); setInterval(() => { if (!document.documentElement.classList.contains('wd2-nodata')) return; const r = document.querySelector('.wl-pre .d3-row'); if (!r) return; r.querySelectorAll('.wb2-at, .wb2-nt, .wb2-cd b, .d3-sc b, .d3-k').forEach(e => { if (e.textContent !== '—') { if (e.__orig == null) e.__orig = e.innerHTML; e.textContent = '—'; } }); }, 300); }
   // v10 (WD2_END, дирижёр 06.11: «финальное состояние — не начинать сначала, а показать график до 12′, когда матч ещё не начался»): драфт прошёл один раз —
@@ -87,7 +88,7 @@
     // v35–v37 (WD2_MOBL, дирижёр 11.11: «неадаптивно; несколько мобильных версий — чтобы было связано, может, другая раскладка»): на телефоне свой слой —
     // team: команда блоком — лого, баны мелко, под ними её пики; полоса шанса между командами · cols: две колонки — у каждой пики списком по порядку и баны сеткой
     // line: ход драфта лентой — 24 хода по порядку, сверху одна команда, снизу другая, баны мелко, пики крупно; лента сама едет к текущему ходу
-    const MOB = window.WD2_MOBL && !document.body.classList.contains('is-desk') ? window.WD2_MOBL : ''
+    const MOB = window.WD2_MOBL && (window.WD2_ALLV || !document.body.classList.contains('is-desk')) ? window.WD2_MOBL : ''   // WD2_ALLV (v39): одна раскладка на всех экранах
     let o = keep.ov; if (o && o.__mob !== MOB) { o.remove(); o = keep.ov = null }
     if (!o) { const nm = s => { const e = row.querySelector(`.d3-five.${s} .ws-tn b`), i = row.querySelector(`.d3-five.${s} .wb-lr img`); return [e ? e.textContent : '', i ? i.getAttribute('src') : ''] }, [na, ia] = nm('a'), [nb, ib] = nm('b')
       o = keep.ov = Object.assign(document.createElement('div'), { className: 'wd2-ov' })
@@ -99,6 +100,8 @@
         o.classList.add('wd2-ovm', 'wd2-ovm--' + MOB)
         o.firstElementChild.innerHTML = MOB === 'team'
           ? `<div class="m-tm a">${hd('a', na, ia)}<span class="m-bn">${bn('a', 0)}</span><div class="m-pk">${pk('a')}</div></div>${tug}<div class="m-tm b"><div class="m-pk">${pk('b')}</div>${hd('b', nb, ib)}<span class="m-bn">${bn('b', 1)}</span></div>`
+          : MOB === 'compact'
+          ? `<div class="m-row a"><span class="m-lg" title="${na}"><img src="${ia}" alt=""></span><div class="m-pk">${pk('a')}</div><span class="m-bn">${bn('a', 0)}</span></div>${tug}<div class="m-row b"><span class="m-lg" title="${nb}"><img src="${ib}" alt=""></span><div class="m-pk">${pk('b')}</div><span class="m-bn">${bn('b', 1)}</span></div>`
           : MOB === 'cols'
           ? `${tug}<div class="m-cols">${['a', 'b'].map((s, t) => `<div class="m-c ${s}">${[0, 1, 2, 3, 4].map(k => `<p><small class="num">${k + 1}</small><i data-pk="${s}${k}"></i></p>`).join('')}<span class="m-bn">${bn(s, t)}</span></div>`).join('<i class="m-cl"></i>')}</div>`
           : `${tug}<div class="m-ln"><span class="m-ln__lg a"><img src="${ia}" alt=""></span><span class="m-ln__lg b"><img src="${ib}" alt=""></span><div class="m-ln__s">${PB.map((x, i) => `<span class="m-mv ${x.team ? 'b' : 'a'} ${x.is_pick ? 'p' : 'n'}" style="grid-column:${i + 1}"><i data-mv="${i}"></i></span>`).join('')}<i class="m-ln__x"></i></div></div>` } }
