@@ -1,0 +1,67 @@
+/* Песочница: движок и пользователи (лаба gs-split). Макет главной песочницы в нашей тёмной теме; токены — ../widget-tournament/_w.css */
+html, body{ margin:0; background:var(--w-page); color:var(--w-fg); font:400 14px/20px var(--w-font); -webkit-font-smoothing:antialiased; }
+*{ box-sizing:border-box; } a{ color:inherit; text-decoration:none; } button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.mono{ font-family:'JetBrains Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+.sp{ display:grid; grid-template-columns:232px minmax(0, 1fr); min-height:100vh; }
+.sp-side{ position:sticky; top:0; height:100vh; padding:16px 12px; border-right:1px solid var(--w-border); background:var(--w-bg); }
+.sp-brand{ display:flex; align-items:center; gap:8px; height:32px; padding:0 8px; margin-bottom:12px; font:600 14px/20px var(--w-font); }
+.sp-side nav{ display:flex; flex-direction:column; gap:2px; }
+.sp-side nav a{ display:flex; align-items:center; gap:10px; height:36px; padding:0 10px; border-radius:var(--w-r-sm); color:var(--w-muted-fg); font:500 13px/18px var(--w-font); cursor:pointer; }
+.sp-side nav a:hover{ background:var(--w-mid-bg); color:var(--w-fg); } .sp-side nav a.is-on{ background:var(--w-muted); color:var(--w-fg); }
+.sp-side nav a small{ margin-left:auto; font:500 10px/16px var(--w-font); color:var(--w-muted-fg); }
+.sp-gh{ margin:20px 10px 6px; font:500 11px/16px var(--w-font); color:var(--w-muted-fg); }
+.sp-main{ padding:24px 32px 48px; min-width:0; }
+.sp-h{ display:flex; align-items:flex-end; gap:16px; margin-bottom:20px; }
+.sp-h h1{ margin:0; font:700 24px/32px var(--w-font); } .sp-h p{ margin:2px 0 0; color:var(--w-muted-fg); font-size:13px; }
+.sp-h > :last-child:not(div:first-child){ margin-left:auto; }
+
+/* переключатель «для кого» */
+.sp-seg{ display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:4px; margin-bottom:20px; border-radius:var(--w-r); background:var(--w-mid-bg); }
+.sp-seg button{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:8px; text-align:left; color:var(--w-muted-fg); }
+.sp-seg button > svg{ flex:none; width:20px; height:20px; }
+.sp-seg button span{ display:flex; flex-direction:column; min-width:0; } .sp-seg button b{ font:600 14px/20px var(--w-font); color:inherit; } .sp-seg button small{ font-size:12px; line-height:16px; }
+.sp-seg button i{ margin-left:auto; font:500 11px/16px var(--w-font); font-style:normal; padding:0 8px; border-radius:6px; box-shadow:inset 0 0 0 1px var(--w-border); }
+.sp-seg button.is-on{ background:var(--w-page); color:var(--w-fg); } .sp-seg button:not(.is-on):hover{ color:var(--w-fg); }
+
+/* карточка страницы: живая миниатюра + подпись */
+.sp-grid{ display:flex; flex-wrap:wrap; gap:16px; }
+.sp-c{ display:flex; flex-direction:column; border-radius:var(--w-r); background:var(--w-mid-bg); padding:4px; }
+.sp-c:hover{ box-shadow:inset 0 0 0 1px var(--w-ring); }
+.sp-sh{ position:relative; display:block; overflow:hidden; border-radius:8px; background:var(--w-page); }
+.sp-sh iframe{ position:absolute; left:0; top:0; border:0; transform-origin:0 0; pointer-events:none; }
+.sp-sh--d{ width:300px; height:188px; } .sp-sh--d iframe{ width:1440px; height:900px; transform:scale(.2083); }
+.sp-sh--m{ width:140px; height:303px; } .sp-sh--m iframe{ width:390px; height:844px; transform:scale(.359); }
+.sp-sh--none{ display:grid; place-items:center; box-shadow:inset 0 0 0 1px var(--w-border); background:repeating-linear-gradient(135deg, transparent 0 8px, rgba(255,255,255,.025) 8px 16px); }
+.sp-sh--none span{ font:500 12px/16px var(--w-font); color:var(--w-muted-fg); text-align:center; padding:0 12px; }
+.sp-c.is-none{ cursor:default; } .sp-c.is-none:hover{ box-shadow:none; }
+.sp-c__f{ display:flex; align-items:center; gap:6px; padding:8px 8px 4px; min-width:0; }
+.sp-c__f b{ font:600 13px/18px var(--w-font); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp-c--usr .sp-c__f{ max-width:140px; flex-wrap:wrap; }
+.sp-v{ font-size:11px; font-style:normal; color:var(--w-muted-fg); }
+.sp-dev{ margin-left:auto; display:grid; color:var(--w-muted-fg); font-style:normal; }
+.sp-tag{ margin-left:auto; display:inline-flex; align-items:center; gap:4px; height:20px; padding:0 6px; border-radius:6px; font:500 11px/1 var(--w-font); font-style:normal; color:var(--w-muted-fg); box-shadow:inset 0 0 0 1px var(--w-border); }
+.sp-tag--eng{ background:var(--w-fg); color:var(--w-page); box-shadow:none; }
+
+/* v3 — пары */
+.sp-ph{ display:grid; grid-template-columns:120px 308px 1fr; gap:16px; margin:0 0 8px; font:500 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.sp-ph span{ display:inline-flex; align-items:center; gap:6px; } .sp-ph span:first-child{ grid-column:2; } .sp-ph small{ font-size:10px; opacity:.8; }
+.sp-pairs{ display:flex; flex-direction:column; gap:12px; }
+.sp-pair{ display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:start; padding-top:12px; border-top:1px solid var(--w-border); }
+.sp-pair h3{ margin:8px 0 0; font:600 14px/20px var(--w-font); }
+.sp-pair > div{ display:flex; gap:16px; align-items:flex-start; }
+
+/* v4 — фильтр */
+.sp-chips{ display:inline-flex; gap:2px; padding:3px; border-radius:10px; background:var(--w-mid-bg); margin-left:auto; }
+.sp-chips button{ height:30px; padding:0 12px; border-radius:7px; font:500 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.sp-chips button.is-on{ background:var(--w-muted); color:var(--w-fg); }
+.sp-grid--mix{ align-items:flex-start; }
+
+/* v5 — матрица */
+.sp-mx{ border-radius:var(--w-r); background:var(--w-mid-bg); padding:4px; }
+.sp-mx__r{ display:grid; grid-template-columns:220px repeat(7, minmax(0, 1fr)); align-items:center; min-height:48px; background:var(--w-page); border-top:1px solid var(--w-border); }
+.sp-mx__r:first-child{ border-top:0; border-radius:8px 8px 0 0; } .sp-mx__r:last-child{ border-radius:0 0 8px 8px; }
+.sp-mx__h{ min-height:36px; font:500 11px/14px var(--w-font); color:var(--w-muted-fg); }
+.sp-mx__h span{ padding:0 8px; text-align:center; }
+.sp-mx__n{ display:flex; align-items:center; gap:8px; padding:0 14px; } .sp-mx__n b{ font:600 13px/18px var(--w-font); } .sp-mx__n small{ font-size:11px; color:var(--w-muted-fg); }
+.sp-mx__c{ display:grid; place-items:center; height:32px; margin:0 6px; border-radius:8px; color:var(--w-ring); font-size:12px; }
+.sp-mx__c.is-ok{ background:var(--w-mid-bg); color:var(--w-fg); } .sp-mx__c.is-ok:hover{ background:var(--w-muted); }

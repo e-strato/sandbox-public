@@ -1,0 +1,35 @@
+/* v15–v18 — макет экрана лабы песочницы (как на скрине дирижёра 12.11) + где стоит «Движок / Сайт» */
+html, body{ margin:0; background:#202023; color:#fafafa; font:400 14px/20px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+*{ box-sizing:border-box; } a{ color:inherit; text-decoration:none; } button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.lv{ min-height:100vh; padding:8px 12px 24px; }
+.lv-tabs{ display:flex; align-items:center; gap:4px; height:44px; margin-bottom:6px; }
+.lv-tabs a{ display:flex; align-items:center; gap:10px; height:40px; padding:0 20px; border-radius:8px; color:#c4c4c8; font-weight:500; font-size:14px; line-height:20px; }
+.lv-tabs a.is-on{ min-width:300px; background:#121214; color:#fafafa; }
+.lv-tabs__r{ margin-left:auto; display:flex; align-items:center; gap:8px; }
+.lv-body{ max-width:800px; margin:0 0 0 12px; }
+.lv-bar{ display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; padding:8px 0 4px; }
+.lv-lbl{ color:#a1a1aa; font-size:13px; margin-left:6px; } .lv-bar .lv-lbl:first-child{ margin-left:0; }
+.lv-seg{ display:inline-flex; gap:2px; }
+.lv-seg button{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 9px; border-radius:6px; font-weight:600; font-size:13px; line-height:18px; color:#e4e4e7; }
+.lv-seg button.is-on{ background:#fafafa; color:#09090b; } .lv-seg button:not(.is-on):hover{ background:#2c2c30; }
+.lv-dd{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px; border-radius:6px; background:#2c2c30; font-weight:600; font-size:13px; line-height:18px; }
+.lv-cap{ margin:4px 0 10px; font-size:13px; line-height:20px; color:#c4c4c8; }
+.lv-fw{ position:relative; }
+.lv-frame{ position:relative; height:520px; border-radius:4px; overflow:hidden; background:#000; }
+.lv-frame iframe{ width:1440px; height:940px; border:0; transform:scale(.5556); transform-origin:0 0; }
+/* v16 — вкладки над кадром */
+.lv-ft{ display:flex; gap:2px; }
+.lv-ft button{ display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 14px; border-radius:8px 8px 0 0; background:#2a2a2e; color:#a1a1aa; font-weight:600; font-size:13px; line-height:18px; }
+.lv-ft button.is-on{ background:#000; color:#fafafa; }
+.lv-frame--t{ border-radius:0 4px 4px 4px; }
+/* v18 — метка на кадре с выбором */
+.lv-badge{ position:absolute; left:10px; top:10px; z-index:3; }
+.lv-badge > button{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 10px; border-radius:8px; background:rgba(250,250,250,.94); color:#09090b; font-weight:600; font-size:12px; line-height:16px; box-shadow:0 4px 16px rgba(0,0,0,.5); }
+.lv-menu{ position:absolute; top:34px; left:0; display:flex; flex-direction:column; gap:2px; width:220px; padding:4px; border-radius:10px; background:#18181b; box-shadow:0 0 0 1px #2e2e33, 0 12px 32px rgba(0,0,0,.6); }
+.lv-menu button{ display:grid; grid-template-columns:16px 1fr; align-items:center; column-gap:8px; padding:8px; border-radius:7px; text-align:left; font-weight:600; font-size:13px; line-height:18px; }
+.lv-menu button small{ grid-column:2; font-weight:400; font-size:11px; color:#a1a1aa; }
+.lv-menu button.is-on{ background:#27272a; } .lv-menu button:hover{ background:#27272a; }
+.lv-foot{ display:flex; align-items:flex-start; gap:16px; margin-top:12px; }
+.lv-foot > div{ flex:1; } .lv-foot b{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; line-height:20px; } .lv-foot p{ margin:4px 0 0; font-size:13px; color:#c4c4c8; }
+.lv-tag{ display:inline-flex; align-items:center; gap:4px; height:20px; padding:0 6px; border-radius:6px; background:#2c2c30; font-weight:500; font-size:11px; line-height:1; font-style:normal; color:#e4e4e7; }
+.lv-again{ height:30px; padding:0 12px; border-radius:7px; background:#2c2c30; font-weight:600; font-size:13px; line-height:18px; }

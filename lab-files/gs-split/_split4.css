@@ -1,0 +1,70 @@
+/* v6–v9 — макет нынешней главной песочницы (как на скрине дирижёра 12.11) + «Движок / Пользователи». Токены — ../widget-tournament/_w.css */
+html, body{ margin:0; background:#111113; color:var(--w-fg); font:400 14px/20px var(--w-font); -webkit-font-smoothing:antialiased; }
+*{ box-sizing:border-box; } a{ color:inherit; text-decoration:none; cursor:pointer; } button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.s2{ display:grid; grid-template-columns:276px minmax(0, 1fr); min-height:100vh; padding:8px 8px 8px 0; }
+.s2-side{ padding:4px 12px; }
+.s2-crumb{ display:flex; align-items:center; gap:10px; height:40px; padding:0 12px; margin-bottom:12px; border-radius:var(--w-r-sm); background:#09090b; font:500 13px/18px var(--w-font); }
+.s2-q{ display:flex; align-items:center; gap:8px; height:34px; padding:0 10px; margin-bottom:12px; border-radius:var(--w-r-sm); background:#1c1c1f; color:var(--w-muted-fg); font-size:13px; }
+.s2-side nav{ display:flex; flex-direction:column; gap:2px; }
+.s2-side nav a{ display:flex; align-items:center; gap:12px; height:34px; padding:0 10px; border-radius:var(--w-r-sm); color:#d4d4d8; font:500 13px/18px var(--w-font); }
+.s2-side nav a.is-on{ background:#26262a; color:var(--w-fg); } .s2-side nav a:hover{ background:#1f1f22; }
+.s2-tree{ margin-top:16px; } .s2-tree p{ display:flex; align-items:center; gap:6px; margin:8px 0 4px; font:500 13px/18px var(--w-font); color:#d4d4d8; } .s2-tree small{ color:var(--w-muted-fg); }
+.s2-tree a{ display:block; padding:5px 10px 5px 26px; border-radius:6px; font-size:13px; color:#d4d4d8; } .s2-tree a.is-on{ background:#26262a; }
+.s2-main{ border-radius:12px; background:#1a1a1d; padding:16px 26px 40px; min-width:0; }
+.s2-tools{ display:flex; justify-content:flex-end; align-items:center; gap:8px; }
+.s2-btn{ height:34px; padding:0 14px; border-radius:var(--w-r-sm); background:#2a2a2e; font:600 13px/18px var(--w-font); }
+.s2-main h2{ margin:20px 0 16px; font:700 26px/32px var(--w-font); } .s2-main h2 small, .s2-main h3 small{ font-weight:400; color:var(--w-muted-fg); font-size:16px; }
+.s2-main h3{ margin:28px 0 14px; font:600 16px/22px var(--w-font); }
+.s2-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:22px; }
+.s2-c{ border-radius:8px; background:#232327; overflow:hidden; box-shadow:inset 0 0 0 1px #2e2e33; }
+.s2-c:hover{ box-shadow:inset 0 0 0 1px #3b82f6; }
+.s2-c__p{ display:block; }
+.s2-th{ position:relative; display:block; overflow:hidden; aspect-ratio:1440 / 900; background:#09090b; }
+.s2-th iframe{ position:absolute; left:0; top:0; border:0; pointer-events:none; transform-origin:0 0; }
+.s2-th--d iframe{ width:1440px; height:900px; transform:scale(var(--k, .195)); }
+.s2-th--m{ display:grid; place-items:center; background:repeating-linear-gradient(135deg, #0c0c0e 0 10px, #0f0f12 10px 20px); }
+.s2-ph{ position:relative; display:block; width:78px; height:169px; border-radius:10px; overflow:hidden; box-shadow:0 0 0 3px #2e2e33; background:#000; }
+.s2-ph iframe{ width:390px; height:844px; transform:scale(.2); }
+.s2-c__f{ display:flex; align-items:center; gap:10px; height:46px; padding:0 12px; font:500 14px/20px var(--w-font); }
+.s2-c__f b{ font-weight:500; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.s2-a{ display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--w-muted-fg); }
+.s2-lg{ display:inline-flex; gap:4px; color:var(--w-muted-fg); }
+/* переключатели */
+.s2-seg{ display:inline-flex; gap:2px; padding:3px; border-radius:10px; background:#09090b; }
+.s2-seg button{ display:inline-flex; align-items:center; justify-content:center; gap:6px; height:28px; padding:0 12px; border-radius:7px; font:500 12px/16px var(--w-font); color:var(--w-muted-fg); }
+.s2-seg button.is-on{ background:#2a2a2e; color:var(--w-fg); }
+.s2-seg--full{ display:flex; } .s2-seg--full button{ flex:1; }
+.s2-mini{ display:inline-flex; gap:2px; padding:2px; border-radius:7px; background:#09090b; }
+.s2-mini button{ display:grid; place-items:center; width:26px; height:24px; border-radius:5px; color:var(--w-muted-fg); } .s2-mini button.is-on{ background:#2a2a2e; color:var(--w-fg); }
+/* v8 — обе версии в одной миниатюре: компьютер, поверх справа — телефон */
+.s2-both{ position:relative; display:block; }
+.s2-both__m{ position:absolute; right:10px; bottom:-34px; } .s2-both__m .s2-th--m{ background:none; aspect-ratio:auto; overflow:visible; }
+.s2-both__m .s2-ph{ width:62px; height:134px; box-shadow:0 0 0 3px #2e2e33, 0 8px 24px rgba(0,0,0,.6); } .s2-both__m .s2-ph iframe{ transform:scale(.159); }
+.s2-both .s2-th--d{ overflow:hidden; }
+/* v9 — открытая страница с панелью справа */
+.s2-main--open{ padding:12px; }
+.s2-open{ display:grid; grid-template-columns:minmax(0, 1fr) 280px; gap:12px; height:calc(100vh - 40px); }
+.s2-stage{ position:relative; border-radius:10px; background:#000; overflow:hidden; display:grid; place-items:start center; }
+.s2-stage iframe{ border:0; width:100%; height:100%; }
+.s2-stage--usr iframe{ width:390px; height:100%; box-shadow:0 0 0 1px #2e2e33; }
+.s2-pan{ display:flex; flex-direction:column; gap:8px; padding:14px; border-radius:10px; background:#232327; }
+.s2-pan h4{ margin:0 0 6px; font:600 15px/20px var(--w-font); }
+.s2-pan label{ margin-top:8px; font:500 11px/16px var(--w-font); color:var(--w-muted-fg); }
+.s2-hint{ font-size:11px; line-height:16px; color:var(--w-muted-fg); }
+.s2-dd{ display:flex; align-items:center; justify-content:space-between; height:34px; padding:0 10px; border-radius:var(--w-r-sm); background:#09090b; font-size:13px; }
+
+/* v19–v22 — переключатель «Движок / Сайт» на главном экране песочницы */
+.s4-tag{ display:inline-flex; align-items:center; gap:4px; height:20px; padding:0 6px; border-radius:6px; font:500 11px/1 var(--w-font); white-space:nowrap; }
+.s4-tag--eng{ background:#fafafa; color:#09090b; } .s4-tag--usr{ box-shadow:inset 0 0 0 1px #3f3f46; color:#d4d4d8; }
+.s4-side{ display:flex; flex-direction:column; gap:4px; padding:4px; margin:-4px 0 14px; border-radius:10px; background:#09090b; }
+.s4-side button, .s4-big button, .s4-menu button{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:7px; text-align:left; color:#a1a1aa; }
+.s4-side button span, .s4-big button span, .s4-menu button span{ display:flex; flex-direction:column; } .s4-side b, .s4-big b, .s4-menu b{ font:600 13px/18px var(--w-font); color:inherit; }
+.s4-side small, .s4-big small, .s4-menu small{ font-size:11px; line-height:14px; }
+.s4-side button.is-on, .s4-big button.is-on{ background:#2a2a2e; color:#fafafa; }
+.s4-big{ display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:4px; margin:16px 0 4px; border-radius:12px; background:#09090b; }
+.s4-big button{ padding:12px 14px; } .s4-big button > svg{ width:18px; height:18px; }
+.s4-crumb{ position:relative; padding:0; } .s4-crumb > button{ display:flex; align-items:center; gap:10px; width:100%; height:40px; padding:0 12px; font:500 13px/18px var(--w-font); }
+.s4-crumb > button .s4-tag{ margin-left:auto; }
+.s4-menu{ position:absolute; top:44px; left:0; right:0; z-index:5; display:flex; flex-direction:column; gap:2px; padding:4px; border-radius:10px; background:#18181b; box-shadow:0 0 0 1px #2e2e33, 0 12px 32px rgba(0,0,0,.6); }
+.s4-menu button.is-on, .s4-menu button:hover{ background:#27272a; color:#fafafa; }
+.s4-main--usr .s2-c{ box-shadow:inset 0 0 0 1px #3f3f46; }

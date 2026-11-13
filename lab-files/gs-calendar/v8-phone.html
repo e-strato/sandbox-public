@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- gs-calendar v8 — как v7, на телефоне список турниров без контейнера, во всю ширину экрана (дирижёр 12.11). v7 — телефон ровнее (дирижёр 12.11: «отступы разные»): одна линия 12 px от края для шапки, ленты и карточки; вторая строка турнира — под названием (статус словом, без значка и места). v6 — телефон: фильтр шторкой, строка в две строки, главные лентой. v5 — серая подложка, как в расписании v14: шапка 52 без значка, отступ 12, строки 52, поля 36 с рамкой, кнопки 32, тир плашкой, выбор тира сегментом. v3 — как v2 + лого турниров и сверху «главные» обложками (dltv.org), фильтр не заезжает под шапку (дирижёр 12.11). v2 — как v1 + ещё 18 турниров со страницы cyberscore (дирижёр 12.11: «маловато данных»), по 20 на страницу. v1 — календарь турниров как у cyberscore (дирижёр 12.11: «это за основу»): таблица Даты · Турнир · Место · Призовые · Тир, статус значком слева (идёт · скоро · завершён), сортировка по колонкам, справа фильтр с «Применить». Вид — как расписание gs-schedule v14. Логика — _cal.js, вид — _cal.css. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>v8 · Календарь турниров — телефон без контейнера</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" />
+<link rel="stylesheet" href="../widget-tournament/_w.css" /><link rel="stylesheet" href="../widgets-unified/_type.css" /><link rel="stylesheet" href="../gs-tournament/_ours.css" />
+<link rel="stylesheet" href="../gs-home/_home.css?v=7" /><link rel="stylesheet" href="../w-profile/_pf.css" /><link rel="stylesheet" href="_cal.css?v=7" />
+</head>
+<body class="is-desk">
+<div class="app" id="app"></div>
+<script src="../_db/_db.js"></script><script src="../_db/db.js"></script>
+<script src="_cal.js?v=7"></script>
+<script>CAL.mount({ more: true, pics: true, sk: 'grey', phone: true, ph2: true, ph3: true })</script>
+<script>window.PF_HD = 'fly2'; window.PF_IN = 'box2'; window.PF_MONO = true</script><script src="../w-profile/_pf.js"></script>
+</body></html>

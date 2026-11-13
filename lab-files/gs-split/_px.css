@@ -1,0 +1,25 @@
+/* v23–v26 — снимок главной песочницы 1:1 + переключатель «Движок / Сайт» в её стиле (замеры — _px.js) */
+html, body{ margin:0; background:#262626; overflow-x:hidden; }
+*{ box-sizing:border-box; } button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+.px{ position:relative; width:1440px; height:900px; transform-origin:0 0; background:url(_sandbox-home.jpg) 0 0 / 1440px 900px no-repeat; font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color:#fafafa; }
+.px-at{ position:absolute; display:flex; align-items:center; gap:8px; }
+.px-lbl{ font-size:12px; color:#a3a3a3; }
+.px-seg{ display:inline-flex; gap:2px; height:32px; padding:2px; border-radius:6px; background:#262626; }
+.px-seg button{ height:28px; padding:0 12px; border-radius:5px; font-size:12px; font-weight:500; color:#a3a3a3; }
+.px-seg button.is-on{ background:rgb(56,56,56); color:#fafafa; } .px-seg button:not(.is-on):hover{ color:#fafafa; }
+.px-seg--big button{ padding:0 16px; }
+.px-side{ flex-direction:column; align-items:stretch; gap:2px; padding:4px; border-radius:8px; background:#1f1f1f; }
+.px-side button, .px-menu button{ display:flex; flex-direction:column; align-items:flex-start; padding:6px 10px; border-radius:5px; text-align:left; color:#a3a3a3; }
+.px-side b, .px-menu b{ font-size:13px; font-weight:500; line-height:18px; } .px-side small, .px-menu small{ font-size:11px; line-height:14px; opacity:.8; }
+.px-side button.is-on, .px-menu button.is-on{ background:rgb(56,56,56); color:#fafafa; } .px-side button:not(.is-on):hover{ background:#2a2a2a; }
+.px-tab{ display:inline-flex; align-items:center; gap:6px; height:22px; padding:0 8px; border-radius:5px; background:rgb(56,56,56); font-size:12px; font-weight:500; }
+.px-tab i{ font-style:normal; font-size:9px; opacity:.7; }
+.px-menu{ position:absolute; top:28px; left:0; z-index:5; display:flex; flex-direction:column; gap:2px; width:230px; padding:4px; border-radius:8px; background:#1f1f1f; box-shadow:0 0 0 1px #333, 0 12px 32px rgba(0,0,0,.6); }
+.px-tag{ position:absolute; height:20px; padding:0 7px; border-radius:5px; font-size:11px; font-weight:500; line-height:20px; }
+.px-tag--eng{ background:#fafafa; color:#171717; } .px-tag--usr{ box-shadow:inset 0 0 0 1px #525252; color:#d4d4d4; }
+
+.px--clean{ background-image:url(_sandbox-home2.jpg); }
+
+/* v28 — «Движок»: пусто, вместо страниц и виджетов (main: x 262…1436, y 48…896; контент с 287) */
+.px-none{ position:absolute; left:263px; top:110px; width:1172px; height:785px; padding:120px 0 0; background:#171717; border-radius:0 0 16px 16px; display:flex; flex-direction:column; align-items:center; gap:6px; color:#a3a3a3; font-size:13px; }
+.px-none b{ color:#fafafa; font-size:16px; font-weight:600; }

@@ -1,0 +1,188 @@
+/* Календарь турниров (лаба gs-calendar). Раскладка — cyberscore.live (таблица + фильтр справа), вид — как расписание gs-schedule v14:
+   серая карточка, данные на чёрной скруглённой подложке, Lucide, ч/б. Токены — ../widget-tournament/_w.css, тексты — ../widgets-unified/_type.css. */
+.app{ max-width:1440px; padding:0 32px 48px; }
+.cl-q4 .app{ max-width:960px; padding:0 16px 32px; }
+.mono{ font-family:'JetBrains Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+.cl-nd{ color:var(--w-ring); }
+.cl-lay{ display:grid; grid-template-columns:minmax(0, 1fr) 300px; gap:16px; align-items:start; padding-top:12px; }
+.cl-q4 .cl-lay{ grid-template-columns:minmax(0, 1fr) 240px; gap:10px; }
+.cl-card{ border-radius:var(--w-r); background:var(--w-mid-bg); padding:4px; }
+.cl-in{ border-radius:8px; background:var(--w-page); overflow:hidden; }
+.cl-h{ display:flex; align-items:center; gap:10px; height:52px; padding:0 16px; border-bottom:1px solid var(--w-border); color:var(--w-muted-fg); }
+.cl-h h1, .cl-h h2{ margin:0; font:var(--t-title); font-size:15px; color:var(--w-fg); }
+.cl-h > .mono{ font-size:12px; }
+.cl-ib{ margin-left:auto; display:grid; place-items:center; width:28px; height:28px; border-radius:7px; color:var(--w-muted-fg); }
+.cl-ib:hover{ background:var(--w-muted); color:var(--w-fg); }
+
+/* таблица: Даты · Турнир · Место · Призовые · Тир */
+.cl-th, .cl-r{ display:grid; grid-template-columns:200px minmax(0, 1fr) 150px 120px 72px; align-items:center; column-gap:16px; padding:0 16px; }
+.cl-q4 .cl-th, .cl-q4 .cl-r{ grid-template-columns:150px minmax(0, 1fr) 0 90px 52px; column-gap:10px; padding:0 10px; }
+.cl-q4 .cl-th > :nth-child(3), .cl-q4 .cl-w{ visibility:hidden; overflow:hidden; }
+.cl-th{ height:36px; border-bottom:1px solid var(--w-border); }
+.cl-th button{ display:inline-flex; align-items:center; gap:4px; justify-self:start; font:var(--t-label); color:var(--w-muted-fg); }
+.cl-th button:nth-child(n+4){ justify-self:end; }
+.cl-th button svg{ opacity:.5; } .cl-th button:hover, .cl-th button.is-on{ color:var(--w-fg); } .cl-th button.is-on svg{ opacity:1; }
+.cl-r{ min-height:56px; border-top:1px solid var(--w-border); }
+.cl-r:first-of-type{ border-top:0; }
+.cl-r:hover{ background:var(--w-mid-bg); }
+.cl-d{ display:flex; align-items:center; gap:12px; min-width:0; }
+.cl-d > span{ display:flex; flex-direction:column; min-width:0; }
+.cl-d b{ font-size:13px; line-height:18px; font-weight:500; white-space:nowrap; }
+.cl-d small, .cl-w small{ font:var(--t-sub); color:var(--w-muted-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cl-st{ flex:none; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--w-muted); color:var(--w-muted-fg); }
+.is-live .cl-st{ background:var(--w-fg); color:var(--w-page); }
+.is-done .cl-st{ background:transparent; box-shadow:inset 0 0 0 1px var(--w-border); }
+.cl-n{ display:flex; align-items:center; gap:12px; min-width:0; }
+.cl-n img, .cl-n0{ flex:none; width:28px; height:28px; object-fit:contain; border-radius:6px; }
+.cl-n0{ display:grid; place-items:center; background:var(--w-muted); color:var(--w-muted-fg); font:700 8px/1 var(--w-font); font-style:normal; letter-spacing:-.02em; }
+.cl-n b{ font:var(--t-title); font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.is-done .cl-n b, .is-done .cl-d b{ color:var(--w-muted-fg); }
+.cl-w{ display:flex; flex-direction:column; min-width:0; }
+.cl-w b{ font:var(--t-cell); color:var(--w-fg); }
+.cl-p{ text-align:right; font-size:13px; color:var(--w-fg); }
+.cl-t{ text-align:right; font:var(--t-num-s); color:var(--w-muted-fg); white-space:nowrap; }
+.cl-empty{ margin:0; padding:40px 16px; text-align:center; font:var(--t-sub); color:var(--w-muted-fg); }
+.cl-pg{ display:flex; align-items:center; justify-content:space-between; height:44px; padding:0 12px; font-size:12px; color:var(--w-muted-fg); }
+.cl-pgb{ display:inline-flex; gap:4px; }
+.cl-pgb button{ display:grid; place-items:center; min-width:28px; height:28px; padding:0 6px; border-radius:7px; font:500 12px/1 var(--w-font); color:var(--w-muted-fg); }
+.cl-pgb button.is-on{ background:var(--w-page); color:var(--w-fg); }
+.cl-pgb button:disabled{ opacity:.4; cursor:default; }
+
+/* фильтр справа */
+.cl-f{ position:sticky; top:12px; }
+.cl-fb{ display:flex; flex-direction:column; gap:8px; padding:12px 16px 16px; }
+.cl-fb label{ margin-top:6px; font:var(--t-label); color:var(--w-muted-fg); }
+.cl-seg{ display:flex; } .cl-seg button{ flex:1; justify-content:center; padding:0 6px; }
+.cl-inp{ display:flex; align-items:center; gap:8px; height:36px; padding:0 10px; border-radius:var(--w-r-sm); background:var(--w-mid-bg); color:var(--w-muted-fg); }
+.cl-fb input, .cl-fb select{ width:100%; min-width:0; height:36px; padding:0 10px; border:0; border-radius:var(--w-r-sm); background:var(--w-mid-bg); color:var(--w-fg); font:var(--t-cell); color-scheme:dark; outline:none; }
+.cl-inp input{ height:34px; padding:0; background:none; }
+.cl-fb input::placeholder{ color:var(--w-muted-fg); }
+.cl-chips{ display:flex; gap:6px; }
+.cl-chips button{ flex:1; height:32px; border-radius:var(--w-r-sm); box-shadow:inset 0 0 0 1px var(--w-border); font:var(--t-seg); color:var(--w-muted-fg); }
+.cl-chips button:hover{ color:var(--w-fg); } .cl-chips button.is-on{ background:var(--w-muted); box-shadow:none; color:var(--w-fg); }
+.cl-2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; } .cl-2 > span{ display:flex; flex-direction:column; gap:8px; }
+.cl-go{ margin-top:10px; height:40px; border-radius:var(--w-r-sm); background:var(--w-fg); color:var(--w-page); font:var(--t-btn); }
+.cl-go:hover{ opacity:.9; }
+.cl-q4 .cl-fb{ padding:10px; } .cl-q4 .cl-2{ grid-template-columns:1fr; }
+
+.cl-bc{ display:flex; align-items:center; gap:8px; margin-top:16px; padding:0 4px; font:var(--t-sub); color:var(--w-muted-fg); }
+.cl-bc a:hover{ color:var(--w-fg); } .cl-bc b{ font-weight:500; color:var(--w-fg); }
+
+/* v3: фильтр липнет под шапкой сайта (52 px + 12); полоса «главных» турниров обложками; лого крупнее */
+.cl-v3 .cl-f{ top:64px; }
+.cl-main{ display:flex; flex-direction:column; gap:16px; min-width:0; }
+.cl-ft{ display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:12px; }
+.cl-fc{ display:flex; flex-direction:column; border-radius:var(--w-r); background:var(--w-mid-bg); padding:4px; }
+.cl-fc img{ display:block; width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:8px; }
+.cl-fc span{ display:flex; flex-direction:column; gap:2px; padding:8px 8px 6px; min-width:0; }
+.cl-fc b{ font:var(--t-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cl-fc small{ font-size:11px; line-height:16px; color:var(--w-muted-fg); }
+.cl-fc:hover{ box-shadow:inset 0 0 0 1px var(--w-ring); }
+.cl-v3 .cl-n img, .cl-v3 .cl-n0{ width:32px; height:32px; }
+.cl-q4 .cl-ft{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+
+/* v4, v5 (дирижёр 12.11: «ближе к текущим страницам — кнопки, иконки, скругления, отступы»): мерки как на матче v86 и турнире v46 —
+   шапка карточки 52 без значка, заголовок 13/18·600, отступ 12, шапка таблицы 32, строка 52, поля 36 с рамкой 1 px и скруглением 8,
+   кнопки-значки 32×32, тир — плашкой (Tier 1 жёлтая), выбор тира — сегментом, «Применить» 36. v4 — карточки с рамкой (как страницы), v5 — серая подложка (как расписание v14) */
+[data-sk] .cl-h{ height:var(--g-hd); padding:0 var(--g-pad); gap:8px; }
+[data-sk] .cl-h h1, [data-sk] .cl-h h2{ font:var(--t-title); }
+[data-sk] .cl-h > .mono{ font:500 12px/16px var(--sc-mono); color:var(--w-muted-fg); }
+[data-sk] .cl-ib{ width:32px; height:32px; border-radius:var(--w-r-sm); }
+[data-sk] .cl-th, [data-sk] .cl-r{ padding:0 var(--g-pad); column-gap:12px; }
+[data-sk] .cl-th{ height:var(--g-cell); }
+[data-sk] .cl-r{ min-height:var(--g-row); }
+[data-sk] .cl-st{ width:24px; height:24px; }
+[data-sk] .cl-d{ gap:10px; }
+[data-sk] .cl-d b{ font:500 12px/16px var(--sc-mono); }
+[data-sk] .cl-n{ gap:10px; } [data-sk] .cl-n b{ font:var(--t-title); }
+[data-sk] .cl-n img, [data-sk] .cl-n0{ width:28px; height:28px; }
+[data-sk] .cl-p{ font:var(--t-num-s); font-family:var(--sc-mono); }
+[data-sk] .cl-t .sc-tier{ display:inline-block; font-style:normal; }
+.sc-tier--4{ background:var(--w-muted); color:var(--w-muted-fg); }
+[data-sk] .cl-pg{ height:var(--g-hd); padding:0 var(--g-pad); }
+[data-sk] .cl-pgb button{ min-width:32px; height:32px; border-radius:var(--w-r-sm); }
+[data-sk] .cl-pgb button.is-on{ background:var(--w-muted); }
+[data-sk] .cl-fb{ gap:6px; padding:4px var(--g-pad) var(--g-pad); }
+[data-sk] .cl-fb label{ margin-top:10px; }
+[data-sk] .cl-inp, [data-sk] .cl-fb input, [data-sk] .cl-fb select{ height:36px; border-radius:var(--w-r-sm); background:transparent; box-shadow:inset 0 0 0 1px var(--w-border); }
+[data-sk] .cl-inp input{ box-shadow:none; height:34px; }
+[data-sk] .cl-fb input:focus, [data-sk] .cl-fb select:focus, [data-sk] .cl-inp:focus-within{ box-shadow:inset 0 0 0 1px var(--w-ring); }
+[data-sk] .cl-go{ height:36px; margin-top:14px; font:var(--t-btn); }
+[data-sk] .cl-fc span{ padding:8px var(--g-pad) 10px; }
+[data-sk] .cl-ft{ gap:16px; }
+[data-sk] .cl-lay{ gap:16px; padding-top:16px; }
+/* v4 — карточки как на страницах: фон #09090b, рамка 1 px, скругление 12, без серой подложки */
+[data-sk="card"] .cl-card, [data-sk="card"] .cl-fc{ padding:0; background:var(--w-bg); box-shadow:inset 0 0 0 1px var(--w-border); }
+[data-sk="card"] .cl-in{ background:transparent; border-radius:var(--w-r); }
+[data-sk="card"] .cl-pg{ border-top:1px solid var(--w-border); }
+[data-sk="card"] .cl-r:hover{ background:var(--w-mid-bg); }
+[data-sk="card"] .cl-fc img{ border-radius:var(--w-r) var(--w-r) 0 0; }
+[data-sk="card"] .cl-fc:hover{ box-shadow:inset 0 0 0 1px var(--w-ring); }
+/* v5 — серая подложка как в расписании v14, внутренняя чёрная — скругление 8, зазор 4 */
+[data-sk="grey"] .cl-in{ border-radius:var(--w-r-sm); }
+
+/* v6 — телефон 390 (дирижёр 12.11: «v5 норм, посмотреть на телефоне»): одна колонка; главные турниры — лентой с прокруткой вбок;
+   строка турнира в две строки (лого · название · тир / статус · даты · место · призовые); шапка таблицы с сортировкой скрыта;
+   фильтр — кнопкой «Фильтр» в шапке карточки, открывается шторкой снизу */
+.cl-fbtn{ display:none; }
+.cl-ph .app{ max-width:390px; padding:0 12px 32px; }
+.cl-ph .cl-lay{ display:block; padding-top:12px; }
+.cl-ph .cl-main{ gap:12px; }
+.cl-ph .cl-ft{ display:flex; gap:8px; margin:0 -12px; padding:0 12px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
+.cl-ph .cl-fc{ flex:none; width:240px; scroll-snap-align:start; }
+.cl-ph .cl-th{ display:none; }
+.cl-ph .cl-r{ grid-template-columns:auto minmax(0, 1fr) auto; grid-template-areas:"n n t" "d w p"; row-gap:6px; column-gap:8px; padding:10px var(--g-pad); }
+.cl-ph .cl-n{ grid-area:n; } .cl-ph .cl-t{ grid-area:t; } .cl-ph .cl-d{ grid-area:d; } .cl-ph .cl-w{ grid-area:w; } .cl-ph .cl-p{ grid-area:p; }
+.cl-ph .cl-n img, .cl-ph .cl-n0{ width:24px; height:24px; }
+.cl-ph .cl-d{ gap:6px; } .cl-ph .cl-st{ width:18px; height:18px; } .cl-ph .cl-st svg{ width:10px; height:10px; }
+.cl-ph .cl-d small{ display:none; }
+.cl-ph .cl-d b{ font-size:11px; color:var(--w-muted-fg); }
+.cl-ph .cl-w{ flex-direction:row; align-items:baseline; gap:4px; overflow:hidden; }
+.cl-ph .cl-w b, .cl-ph .cl-w small{ font:var(--t-sub); color:var(--w-muted-fg); white-space:nowrap; }
+.cl-ph .cl-w b::after{ content:' ·'; }
+.cl-ph .cl-p{ font-size:12px; }
+.cl-ph .cl-pg > .mono{ font-size:11px; }
+.cl-ph .cl-fbtn{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px; border-radius:var(--w-r-sm); box-shadow:inset 0 0 0 1px var(--w-border); font:var(--t-seg); color:var(--w-fg); }
+.cl-ph .cl-fbtn svg{ width:14px; height:14px; color:var(--w-muted-fg); }
+.cl-fbtn b{ display:grid; place-items:center; min-width:16px; height:16px; border-radius:8px; background:var(--w-fg); color:var(--w-page); font-size:10px; }
+.cl-sh{ position:fixed; inset:0; z-index:30; pointer-events:none; }
+.cl-sh__bg{ position:absolute; inset:0; background:rgba(0,0,0,.6); opacity:0; transition:opacity .2s; }
+.cl-sh__p{ position:absolute; left:50%; bottom:0; width:100%; max-width:390px; max-height:85vh; overflow-y:auto; transform:translate(-50%, 100%); transition:transform .25s ease;
+  border-radius:16px 16px 0 0; background:var(--w-mid-bg); padding:8px 4px 4px; }
+.cl-sh.is-on{ pointer-events:auto; } .cl-sh.is-on .cl-sh__bg{ opacity:1; } .cl-sh.is-on .cl-sh__p{ transform:translate(-50%, 0); }
+.cl-sh__g{ display:block; width:36px; height:4px; margin:0 auto 8px; border-radius:2px; background:var(--w-ring); }
+.cl-sh .cl-f{ position:static; padding:0; background:none; }
+.cl-ph .cl-bc{ display:none; }
+
+/* v7 — телефон ровнее (дирижёр 12.11: «криво, отступы разные»): одна линия слева и справа для всего — 12 px от края экрана:
+   шапка сайта, лента главных (прокрутка с тем же отступом), карточка таблицы; внутри карточки — 12 px; вторая строка турнира начинается там же, где название;
+   «—» вместо места не показываем; карточки ленты той же высоты */
+[data-ph2].cl-ph header.portal{ margin:0; padding:0 4px; }
+[data-ph2].cl-ph .cl-ft{ scroll-padding-inline:12px; gap:8px; }
+[data-ph2].cl-ph .cl-fc{ width:calc(100% - 48px); max-width:300px; }
+[data-ph2].cl-ph .cl-fc span{ padding:8px 12px 10px; }
+[data-ph2].cl-ph .cl-r{ grid-template-columns:24px minmax(0, 1fr) auto; grid-template-areas:"l n t" ". d p"; column-gap:10px; row-gap:4px; padding:10px 12px; min-height:0; }
+[data-ph2].cl-ph .cl-n{ display:contents; }
+[data-ph2].cl-ph .cl-n img, [data-ph2].cl-ph .cl-n0{ grid-area:l; width:24px; height:24px; }
+[data-ph2].cl-ph .cl-n b{ grid-area:n; align-self:center; }
+[data-ph2].cl-ph .cl-t{ align-self:center; }
+[data-ph2].cl-ph .cl-d{ grid-area:d; gap:0; min-width:0; }
+[data-ph2].cl-ph .cl-st{ display:none; }
+[data-ph2].cl-ph .cl-d > span{ flex-direction:row; align-items:baseline; gap:6px; }
+[data-ph2].cl-ph .cl-d small{ display:inline; font-size:11px; }
+[data-ph2].cl-ph .cl-d small::before{ content:'· '; }
+[data-ph2].cl-ph .is-live .cl-d small{ color:var(--w-fg); }
+[data-ph2].cl-ph .cl-w{ display:none; }
+[data-ph2].cl-ph .cl-p{ grid-area:p; align-self:center; font-size:12px; color:var(--w-muted-fg); }
+[data-ph2].cl-ph .cl-h{ padding:0 8px 0 12px; }
+[data-ph2].cl-ph .cl-pg{ padding:0 8px 0 4px; }
+
+/* v8 — телефон: список турниров без контейнера (дирижёр 12.11: «нет смысла брать в контейнер на мобилке, расширить по максимуму»):
+   без серой подложки, рамки и скругления, во всю ширину экрана; линии между строками — от края до края, текст — 12 px от края, как шапка и лента */
+[data-ph3].cl-ph .cl-main > .cl-card{ margin:0 -12px; padding:0; background:none; border-radius:0; }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-in{ background:none; border-radius:0; }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-h{ padding:0 12px; }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-r{ padding:10px 12px; }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-r:last-child{ border-bottom:1px solid var(--w-border); }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-pg{ padding:0 12px; }
+[data-ph3].cl-ph .cl-main > .cl-card .cl-pgb{ margin-left:-6px; }

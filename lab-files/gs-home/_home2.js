@@ -97,7 +97,7 @@ window.HOME2 = (() => {
       return `<div class="h3-t" data-tour="${t.id}" role="link" tabindex="0">${gameIc(t.game, 16)}${S.tourLogo(t, 28)}<span class="h3-t__n"><b>${esc(t.name)}</b><small>${CFG.tt === 'live' ? esc(t.stage || '') : `<span class="mono">${S.dm(t.from)} – ${S.dm(t.to)}</span>${t.where ? ' · ' + esc(t.where) : ''}`}</small></span>
         ${tierM(t.tier)}<span class="h3-t__p mono">${esc(t.prize)}</span><span class="h3-t__s">${CFG.tt === 'live' ? (n ? `<i class="sc-dot"></i><span class="mono">${n}</span> ${pl(n, 'матч', 'матча', 'матчей')}` : '') : (() => { const k = S.dayDiff(t.from); return `<span class="mono">${k === 1 ? 'завтра' : `через ${k} ${pl(k, 'день', 'дня', 'дней')}`}</span>` })()}</span></div>` }
     return `<section class="h2-card"><div class="h2-h"><h2>Турниры</h2><div class="h2-seg"><button class="${CFG.tt === 'live' ? 'is-on' : ''}" data-tt="live">Идут</button><button class="${CFG.tt === 'soon' ? 'is-on' : ''}" data-tt="soon">Скоро</button></div></div>
-      <div class="h3-tl">${L.map(row).join('')}</div><div class="h2-ft"><a class="h2-ln h2-ln--r" href="../gs-tours/v4-gantt.html${FIT ? '?fit=1' : ''}">Все турниры ${ARR}</a></div></section>` }
+      <div class="h3-tl">${L.map(row).join('')}</div><div class="h2-ft"><a class="h2-ln h2-ln--r" href="../gs-tours/v13-games-nw.html${FIT ? '?fit=1' : ''}">Все турниры ${ARR}</a></div></section>` }
 
   // ── v3 «Рейтинг команд»: топ-10 по игре. ‼️ пример: очки и движение придуманы (рейтинга в базе нет), команды Dota — участники TI 2026 из базы
   const RANK = (() => { const pts = [2840, 2615, 2390, 2210, 2045, 1890, 1760, 1620, 1505, 1390], dl = [0, 1, -1, 2, 0, -2, 3, 0, -1, 1]
@@ -329,6 +329,11 @@ window.HOME2 = (() => {
   const ms11 = () => { const A = all(), L = list(), lv = ofDay(A).filter(isLive).length
     if (CFG.open === undefined) { const f = L.find(isLive); CFG.open = f ? f.id : null }
     const T = new Map(); L.forEach((m) => { if (!T.has(m.tour)) T.set(m.tour, []); T.get(m.tour).push(m) })
+    // v18 (дирижёр 12.11): строки матчей — карточкой из расписания (gs-schedule v14, window.SD.card), без групп по турнирам: турнир в самой карточке
+    if (O.es && window.SD && L.length) { const R = [...L].sort((a, b) => (isLive(b) - isLive(a)) || String(a.start).localeCompare(String(b.start)))
+      return `<section class="h11-ms"><div class="h11-h"><h2>Матчи</h2>${lv && CFG.day === 'today' ? `<span class="h2-lv"><i class="sc-dot"></i><b class="mono">${lv}</b> ${pl(lv, 'идёт', 'идут', 'идут')}</span>` : ''}
+      <div class="h2-seg"><button class="${CFG.day === 'today' ? 'is-on' : ''}" data-day="today">Сегодня</button><button class="${CFG.day === 'tom' ? 'is-on' : ''}" data-day="tom">Завтра</button></div>
+      <a class="h2-ln" href="../gs-schedule/v16-states.html${FIT ? '?fit=1' : ''}">Всё расписание ${ARR}</a></div>${games(A)}<div class="h8-gs sd-bw sd-main--es">${R.map(window.SD.card).join('')}</div></section>` }
     const body = !L.length ? `<div class="h2-empty"><b>${A.length ? 'Матчей нет' : 'Матчей пока нет'}</b>${A.length ? 'Посмотрите другой день' : 'Расписание обновится, как только турниры объявят пары'}</div>`
       : [...T.entries()].sort((a, b) => (Math.min(...a[1].map((m) => ORD[m.state])) - Math.min(...b[1].map((m) => ORD[m.state]))) || (S.T[a[0]].tier - S.T[b[0]].tier)).map(([t, ms]) => grpT(t, ms, row11)).join('')
     return `<section class="h11-ms"><div class="h11-h"><h2>Матчи</h2>${lv && CFG.day === 'today' ? `<span class="h2-lv"><i class="sc-dot"></i><b class="mono">${lv}</b> ${pl(lv, 'идёт', 'идут', 'идут')}</span>` : ''}
@@ -364,7 +369,7 @@ window.HOME2 = (() => {
     if (!ids.length) return `<span class="t2-k mono">${t.teams ? `${t.teams} ${pl(t.teams, 'команда', 'команды', 'команд')}` : 'участники позже'}</span>`
     return `<span class="t2-lg">${ids.slice(0, max).map((id) => logo(id, 20)).join('')}${ids.length > max ? `<small class="mono">+${ids.length - max}</small>` : ''}</span>` }
   const soonCards = () => { if (CFG.state === 'skel') return ''; const L = Object.values(S.T).filter((t) => t.state === 'soon').sort((a, b) => a.tier - b.tier || a.from.localeCompare(b.from)).slice(0, 4); if (!L.length) return ''
-    return `<section class="h2-card"><div class="h2-h"><h2>Главные турниры · скоро</h2><a class="h2-ln h2-ln--r" href="../gs-tours/v4-gantt.html${FIT ? '?fit=1' : ''}">Календарь ${ARR}</a></div><div class="t2-cs">${L.map((t) => { const k = S.dayDiff(t.from)
+    return `<section class="h2-card"><div class="h2-h"><h2>Главные турниры · скоро</h2><a class="h2-ln h2-ln--r" href="../gs-tours/v13-games-nw.html${FIT ? '?fit=1' : ''}">Календарь ${ARR}</a></div><div class="t2-cs">${L.map((t) => { const k = S.dayDiff(t.from)
       return `<div class="t2-c" data-tour="${t.id}" role="link" tabindex="0"><span class="t2-c__b">${S.tourLogo(t, 56)}<span class="t2-c__g">${gameIc(t.game, 16)}</span><span class="t2-c__s">${k <= 1 ? 'завтра' : `через <span class="mono">${k}</span> ${pl(k, 'день', 'дня', 'дней')}`}</span></span>
         <span class="t2-c__n"><b>${esc(t.name)}</b><small><span class="mono">${S.dm(t.from)} – ${S.dm(t.to)}</span>${t.where ? ' · ' + esc(t.where) : ''}</small></span>
         <span class="t2-c__f"><span class="mono t2-c__p">${esc(t.prize)}</span>${tierM(t.tier)}${tLogos(t, 6)}</span></div>` }).join('')}</div></section>` }
@@ -410,6 +415,7 @@ window.HOME2 = (() => {
         if (k === 'star') { CFG.star.has(m.id) ? CFG.star.delete(m.id) : CFG.star.add(m.id); render(); if (CFG.star.has(m.id)) toast('Напомним о старте матча'); return }
         if (k === 'rec') { toast('Запись матча — в лабе не открывается'); return }
         if (m && m.href) location.href = m.href + (FIT ? '?fit=1' : ''); else toast('Страница матча — пример: в лабе открыта только PARIVISION — Team Spirit'); return }
+      const ac = q('[data-act]'); if (ac && O.es) { e.preventDefault(); toast(ac.dataset.act === 'star' ? 'Напомним о старте матча' : 'Трансляция, разбор и чат — в лабе не открываются'); return }
       if (q('.h11-ex')) return
       const xr = q('[data-x]'); if (xr) { const id = xr.dataset.x, w = xr.closest('.h11-r'), was = w.classList.contains('is-open')
         document.querySelectorAll('.h11-r.is-open').forEach((r) => { r.classList.remove('is-open'); r.querySelector('[data-x]').setAttribute('aria-expanded', 'false') })
