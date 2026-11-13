@@ -1,0 +1,1 @@
+.tooltip{z-index:var(--z-modal);padding:var(--space-6) var(--space-10);border-radius:var(--radius-8);background:var(--c-surface-2);box-shadow:var(--shadow-pop);color:var(--c-text);font:500 12px/1.3 var(--w-font);white-space:nowrap;animation:tooltip-in var(--dur-150) ease-out}@keyframes tooltip-in{0%{opacity:0}}@media(prefers-reduced-motion:reduce){.tooltip{animation:none}}

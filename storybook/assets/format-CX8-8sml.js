@@ -1,0 +1,1 @@
+import{D as a}from"./db-C0JPCiI4.js";const e=t=>`${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,"0")}`,o=t=>(Math.abs(t)/1e3).toFixed(1)+"k",n=t=>(t>=0?"+":"−")+o(t),r=t=>t>=1e3?(t/1e3).toFixed(1).replace(".",",")+"k":String(Math.round(t)),m=t=>a().team(t)?.name??String(t);export{o as a,n as b,r as k,e as m,m as t};

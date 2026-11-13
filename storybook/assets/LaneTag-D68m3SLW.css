@@ -1,0 +1,1 @@
+.lane-tag{--lane-tag-none: var(--c-text-3);display:block;max-width:100%;overflow:hidden;font:500 9px/12px var(--w-font);letter-spacing:-.01em;white-space:nowrap}.lane-tag--up{color:var(--w-up)}.lane-tag--dn{color:var(--w-down)}.lane-tag--none{color:var(--lane-tag-none)}

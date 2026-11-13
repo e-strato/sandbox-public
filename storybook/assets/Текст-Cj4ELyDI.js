@@ -1,0 +1,4 @@
+import{j as t,M as r}from"./iframe-F93FfCMw.js";import{useMDXComponents as o}from"./react-CLD956pq.js";import{T as c}from"./Swatches-Dnxd3Dcf.js";import"./preload-helper-PPVm8Dsz.js";function s(e){const n={code:"code",h1:"h1",p:"p",...o(),...e.components};return t.jsxs(t.Fragment,{children:[t.jsx(r,{title:"Основа/Текст"}),`
+`,t.jsx(n.h1,{id:"текст",children:"Текст"}),`
+`,t.jsxs(n.p,{children:["Один шрифт — Google Sans (дирижёр 20.10), цифры — моноширинные (",t.jsx(n.code,{children:".num"}),", ",t.jsx(n.code,{children:"tabular-nums"}),")."]}),`
+`,t.jsx(c,{names:["--t-big","--t-num","--t-title","--t-btn","--t-num-s","--t-link","--t-seg","--t-alert","--t-hsub","--t-cell","--t-label","--t-sub","--t-live","--t-tag"]})]})}function u(e={}){const{wrapper:n}={...o(),...e.components};return n?t.jsx(n,{...e,children:t.jsx(s,{...e})}):s(e)}export{u as default};
