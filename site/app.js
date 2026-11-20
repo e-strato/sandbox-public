@@ -298,7 +298,7 @@ document.querySelectorAll('#card-builder-v2').forEach((root) => {
         + `<div class="cb2-bk-sum"><span><b>${д.ovr}</b><small>Рейтинг</small></span><span><b>${матчей}</b><small>Матчей</small></span><span><b>${вр}%</b><small>Винрейт</small></span></div>`
         + `<ul class="cb2-bk-bars">${д.stats.map((v, i) => `<li><span>${СТАТЫ_ИМЯ[i]}</span><i style="--v: ${v}%"></i><b data-l="${уровень(v)}">${v}</b></li>`).join('')}</ul>` + кнопка
       back.querySelector('.cb2-bk--heroes').innerHTML = шапка('Лучшие герои')
-        + `<ul class="cb2-bk-heroes">${д.heroes.map(([id, n, , , м, в]) => `<li><img src="img/heroes/${id}.webp" alt="" /><span><b>${n}</b><small>${м} матчей</small></span><em>${в}%</em><i style="--v: ${в}%"></i></li>`).join('')}</ul>`
+        + `<ul class="cb2-bk-heroes">${д.heroes.map(([id, n, , , м, в]) => `<li><img src="img/heroes/icon/${id}.png" alt="" /><span><b>${n}</b><small>${м} матчей</small></span><em>${в}%</em><i style="--v: ${в}%"></i></li>`).join('')}</ul>`
         + `<div class="cb2-bk-sum"><span><b>${матчей}</b><small>Матчей</small></span><span><b>${вр}%</b><small>Винрейт</small></span><span><b>${д.pos}</b><small>${РОЛИ[д.pos]}</small></span></div>` + кнопка
       back.querySelector('.cb2-bk--form').innerHTML = шапка(СЕЗОН)
         + `<div class="cb2-bk-sum"><span><b>${д.ovr}</b><small>Рейтинг</small></span><span><b>${побед}–${10 - побед}</b><small>Победы – поражения</small></span></div>`
@@ -320,12 +320,12 @@ document.querySelectorAll('#card-builder-v2').forEach((root) => {
       cardEl.querySelector('.cb2-id').innerHTML = `<em>${СЕЗОН}</em><b>#${x.id}</b><small>/ ${ТИРАЖ}</small>`
       cardEl.querySelector('.cb2-name').textContent = x.name
       cardEl.querySelector('.cb2-top3').innerHTML = x.heroes.map(([id, n, , , м, вр], i) =>
-        `<span${i === 2 ? ' class="is-best"' : ''}><img src="img/heroes/${id}.webp" alt="${n}" /><small>${м} М</small><small>${вр}%</small></span>`).join('')
+        `<span${i === 2 ? ' class="is-best"' : ''}><img src="img/heroes/icon/${id}.png" alt="${n}" /><small>${м} М</small><small>${вр}%</small></span>`).join('')
     }
     if (o.step >= 8) {
       const x = ДАННЫЕ[o.player]
       cardEl.querySelector('.cb2-heroes').innerHTML = x.heroes.map(([id, n, доля, бонус], i) =>
-        `<span class="cb2-hero${i === 2 ? ' is-best' : ''}"><img src="img/heroes/${id}.webp" alt="" /><b>${n}</b><small>${доля} % карт</small><em>+${бонус}%</em></span>`).join('')
+        `<span class="cb2-hero${i === 2 ? ' is-best' : ''}"><img src="img/heroes/icon/${id}.png" alt="" /><b>${n}</b><small>${доля} % карт</small><em>+${бонус}%</em></span>`).join('')
       cardEl.querySelector('.cb2-role').innerHTML = `<span class="cb2-role__main"><i class="cb2-role__pos"><small>POS</small><b>${x.pos}</b></i><span class="cb2-role__name">${РОЛИ[x.pos]}</span></span>`
         + `<span class="cb2-role__team"><img src="img/teams/${o.team}.png" alt="" /><span>${имяКоманды(o.team)}</span></span>`
       cardEl.querySelector('.cb2-stats').innerHTML = x.stats.map((v, i) => `<span style="--v: ${v}"><b data-l="${уровень(v)}">${v}</b><small>${СТАТЫ[i]}</small></span>`).join('')

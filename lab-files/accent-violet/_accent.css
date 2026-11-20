@@ -1,0 +1,32 @@
+/* Акцент портала для концептов (турниры, главная, расписание) — поверх их стилей, подключается последним.
+   Решение — лаба accent-violet v12, DECISIONS 16.11: акцент #3f238b, жёлтый — только золото, баллы — фиолетовые, кнопки без «пилюль».
+   В ui/ то же — токенами --c-brand* (ui/src/tokens/tokens.css). */
+:root { --av: #3f238b; --av-2: color-mix(in srgb, #3f238b 60%, #000); --av-3: color-mix(in srgb, #3f238b 35%, #000); }
+
+/* тиры: Tier 1 — акцент, Tier 2 / 3 — темнее к чёрному, текст белый */
+.sc-tier--1 { background: var(--av); color: #fff; }
+.sc-tier--2 { background: var(--av-2); color: #fff; }
+.sc-tier--3 { background: var(--av-3); color: #fff; }
+.h3-tier.is-1 { background: var(--av); color: #fff; }
+
+/* главная кнопка и выбранное — акцент */
+.cl-go { background: var(--av); color: #fff; }
+.is-live .cl-st { background: var(--av); color: #fff; }
+.h2-g button.is-on { background: var(--av); border-color: var(--av); color: #fff; }
+.h2-g button.is-on small { color: #fff; opacity: .7; }
+
+/* жёлтое не про золото — белым */
+.sd-ic.is-on { color: var(--w-fg); }
+.tr-r__w svg { color: var(--w-fg); }
+
+/* кошелёк в шапке (w-profile): баллы — акцент, без золота и зелёного */
+.pf, .pf-fl { --pf-gold: var(--av); }
+.pf-coin circle + circle { fill-opacity: 1; }
+.pf-in--box2 .pf-in.on { background: var(--av); box-shadow: none; color: #fff; }
+.pf-in--box2 .pf-btn:hover .pf-in.on { background: color-mix(in srgb, var(--av) 85%, #fff); }
+.pf-c2 small .pf-ic { color: var(--w-muted-fg); }
+.pf .pf-up, .pf--fly .pf-w.is-up .pf-n { color: var(--w-fg); }
+.pf--fly .pf-w.is-up { box-shadow: inset 0 0 0 1px var(--av); background: color-mix(in srgb, var(--av) 30%, transparent); }
+.pf-st:first-child b { color: var(--w-fg); }
+.pf-fl { background: var(--av); color: #fff; }
+.pf-fl .pf-coin { stroke: #fff; }

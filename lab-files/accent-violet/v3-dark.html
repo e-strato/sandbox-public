@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v3 — тёмные оттенки (дирижёр 16.11: «хотелось бы более тёмную версию»). Как v2, 6 оттенков от «Глубокого» темнее на тех же местах, что в v1: тиры, замок 150, «Новый», «Применить», «Новая новость». Скрины — настоящие страницы демо с подменой цвета. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Тёмный фиолетовый</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --chip:#E5E5EA; --sel:#fff; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --chip:#2C2C2E; --sel:#636366; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0 0 18px; color:var(--tx2); }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.sw{ display:flex; flex-wrap:wrap; gap:4px; padding:4px; border-radius:12px; background:var(--chip); width:max-content; max-width:100%; }
+.sw button{ display:flex; align-items:center; gap:8px; height:40px; padding:0 12px; border:0; border-radius:9px; background:none; color:var(--tx); font:500 14px/1 inherit; font-family:inherit; cursor:pointer; }
+.sw button i{ width:18px; height:18px; border-radius:5px; }
+.sw button small{ color:var(--tx2); font-size:12px; }
+.sw button.on{ background:var(--sel); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-top:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+.t{ font-size:17px; font-weight:600; } .note{ color:var(--tx2); font-size:14px; }
+.grid{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.sh img{ display:block; max-width:100%; height:auto; }
+.strip{ display:grid; grid-template-columns:repeat(6, 1fr); gap:8px; }
+.strip div{ border-radius:10px; overflow:hidden; background:#000; cursor:pointer; outline:2px solid transparent; outline-offset:2px; }
+.strip div.on{ outline-color:var(--tx); }
+.strip i{ display:block; height:44px; }
+.strip span{ display:block; padding:6px 8px; color:#fff; font-size:12px; } .strip em{ font-style:normal; color:rgba(235,235,245,.6); }
+@media (max-width:760px){ .strip{ grid-template-columns:repeat(4, 1fr); } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div>
+    <h1>Какой фиолетовый</h1>
+    <p class="sub">6 тёмных оттенков на тех же местах, что в v1. Первый — «Глубокий» из v2, дальше темнее. Текст фиолетовым («Новый», 150) — светлее заливки, иначе на чёрном не читается.</p>
+  </div><button class="th" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button></div>
+  <div class="sw" id="sw"></div>
+  <div class="card"><div class="hd"><span class="t">Все рядом</span><span class="note">на чёрном, как в продукте</span></div><div class="strip" id="strip"></div></div>
+  <div class="card"><div class="hd"><span class="t" id="nm"></span><span class="note" id="nt"></span></div><div class="grid" id="g"></div></div>
+</div>
+<script>
+const S = [
+  ['d-deep', 'Глубокий', '#6d4fc2', 'из v2, отсюда темнее'],
+  ['d-dark', 'Тёмный', '#5b40a8', 'на шаг темнее, тон тот же'],
+  ['d-ink', 'Чернильный', '#4c3a91', 'тёмный, чуть в синеву'],
+  ['d-dusty', 'Тёмный пыльный', '#564a8c', 'тёмный с серым, самый тихий'],
+  ['d-plum', 'Тёмная слива', '#5e3f80', 'тёмный, теплее'],
+  ['d-night', 'Ночной', '#3d2f78', 'самый тёмный'],
+]
+const I = [['tier-cal', 'Теги тиров', 86], ['lock', 'Замок 150', 253], ['new', '«Новый» в прогнозах', 310], ['apply', '«Применить»', 300], ['news-pill', '«Новая новость»', 276]]
+const sw = document.getElementById('sw'), strip = document.getElementById('strip')
+let cur = 'now'; try { cur = localStorage.getItem('av-shade3') || 'd-deep' } catch (e) {}
+function show(k) {
+  cur = k; try { localStorage.setItem('av-shade3', k) } catch (e) {}
+  const s = S.find(x => x[0] === k)
+  sw.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === k))
+  strip.querySelectorAll('div').forEach(b => b.classList.toggle('on', b.dataset.k === k))
+  document.getElementById('nm').textContent = s[1] + ' · ' + s[2]
+  document.getElementById('nt').textContent = s[3]
+  document.getElementById('g').innerHTML = I.map(([id, n, w]) => `<div class="sh"><b>${n}</b><img src="img/s-${k}-${id}.png" width="${w}" /></div>`).join('')
+}
+sw.innerHTML = S.map(s => `<button data-k="${s[0]}"><i style="background:${s[2]}"></i>${s[1]} <small>${s[2]}</small></button>`).join('')
+strip.innerHTML = S.map(s => `<div data-k="${s[0]}"><i style="background:${s[2]}"></i><span>${s[1]}<br><em>${s[2]}</em></span></div>`).join('')
+sw.querySelectorAll('button').forEach(b => b.onclick = () => show(b.dataset.k))
+strip.querySelectorAll('div').forEach(b => b.onclick = () => show(b.dataset.k))
+show(S.some(s => s[0] === cur) ? cur : 'd-deep')
+</script>
+</body></html>

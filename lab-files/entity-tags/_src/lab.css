@@ -1,0 +1,37 @@
+/* Оболочка лабы «Теги»: фон страницы, кадр телефона, заглушка страницы сущности, страница «Все теги». */
+html, body { margin: 0; background: var(--w-page); color: var(--w-fg); }
+body.is-phone { display: flex; justify-content: center; background: #1b1b1f; }
+.lab-phone { width: 390px; height: 100vh; border: 0; background: var(--w-page); }
+.lab-stub { max-width: 720px; margin: 0 auto; padding: 32px 24px; font: var(--type-body-1); }
+.lab-stub__back { color: var(--c-text-3); text-decoration: none; font: var(--type-caption-1); }
+.lab-stub__head { margin: 24px 0 8px; font: var(--type-title-2); }
+.lab-stub p { color: var(--c-text-3); }
+.lab-stub__note { margin-top: 32px; padding: 12px 14px; border-radius: 8px; background: var(--w-surface-2); }
+.lab-sheet { max-width: 1200px; margin: 0 auto; padding: 32px 40px 80px; font: var(--type-body-1); }
+.lab-sheet__head h1 { margin: 0 0 8px; font: var(--type-title-2); }
+.lab-sheet__head p, .lab-note { margin: 0; color: var(--c-text-3); font: var(--type-caption-1); }
+.lab-sheet section { margin-top: 40px; }
+.lab-sheet h2 { margin: 0 0 16px; font: var(--type-subtitle-2); }
+.lab-grid { display: grid; gap: 14px 16px; align-items: center; }
+.lab-grid small { color: var(--c-text-3); font: var(--type-caption-1); }
+.lab-grid b { font: var(--type-caption-1-strong); color: var(--c-text-3); }
+.lab-fs-s { font: var(--type-caption-1); } .lab-fs-m { font: var(--type-body-1); } .lab-fs-l { font: var(--type-title-3); }
+.lab-text { max-width: 720px; margin: 0; line-height: 1.9; }
+.lab-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; background: var(--w-bg); }
+.lab-row small { margin-left: auto; color: var(--c-text-3); font: var(--type-caption-1); }
+.lab-row + .lab-note { margin: 8px 0 20px; }
+.lab-table { border-collapse: collapse; min-width: 520px; background: var(--w-bg); border-radius: 10px; overflow: hidden; font: var(--type-caption-1); }
+.lab-table th { padding: 8px 12px; color: var(--c-text-3); font-weight: 400; text-align: left; }
+.lab-table td { padding: 6px 12px; height: 32px; }
+.lab-table tbody tr:nth-child(odd) { background: #ffffff06; }
+.lab-code { margin: 0 0 12px; padding: 14px 16px; border-radius: 10px; background: var(--w-surface-2); font: 12px/1.7 var(--font-mono, monospace); color: var(--w-fg); overflow: auto; }
+.lab-list { margin: 0; padding-left: 18px; color: var(--c-text-3); font: var(--type-caption-1); line-height: 1.8; }
+.lab-list b { color: var(--w-fg); font-weight: 500; }
+@media (max-width: 640px) { .lab-sheet { padding: 20px 16px 60px; } .lab-grid { grid-template-columns: 1fr 1fr !important; } .lab-grid > span:first-child { display: none; } .lab-table { min-width: 0; width: 100%; } }
+/* v7: тег в увеличении с размерами */
+.lab-ms__row { display: flex; flex-wrap: wrap; gap: 32px 48px; }
+.lab-ms__zoom { display: inline-block; zoom: 4; }
+.lab-ms__zoom .etag__pic { outline: .25px dashed #f472b6; }
+.lab-ms__zoom .etag { outline: .25px solid #ffffff40; }
+.lab-ms__nums { margin: 10px 0 0; padding: 0; list-style: none; color: var(--c-text-3); font: var(--type-caption-1); }
+.lab-ms__nums b { color: var(--w-fg); font-weight: 600; font-variant-numeric: tabular-nums; }

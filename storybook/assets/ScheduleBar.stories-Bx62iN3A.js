@@ -1,0 +1,7 @@
+import{j as c,r as m}from"./iframe-DJapxiKZ.js";import{a as j,c as s,b as k,l as v,t as i}from"./data-DSm6FJdw.js";import{S as T}from"./ScheduleBar-B5v8IWvh.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./Segment-fVJOZprT.js";import"./Button-BhfpQAr1.js";import"./Icon-CQeUycSL.js";import"./GameIcon-wxfrG6vp.js";import"./TourCards-CaNpu6eS.js";import"./TierTag-PxPrNucA.js";function l({g0:p=["dota2"]}){const[u,d]=m.useState(p),[t,f]=m.useState("soon"),[x,S]=m.useState("all"),o=j(),D={live:s(o,"live","ok"),soon:s(o,"soon","ok"),done:s(o,"done","ok")},g=k().map(e=>({...e,n:v(o.filter(r=>r.tour===e.id),t,"ok").length})).filter(e=>e.n>0||t==="soon"&&e.state!=="done").sort((e,r)=>+(r.state==="live")-+(e.state==="live")||i(e)-i(r)||e.from.localeCompare(r.from));return c.jsx(T,{games:u,onGames:d,tab:t,counts:D,onTab:f,tours:g,more:0,tour:x,onTour:S,total:s(o,t,"ok")})}const R={title:"Движок/Расписание/Полоса фильтров/ScheduleBar v4",parameters:{layout:"fullscreen"}},a={name:"Dota 2",render:()=>c.jsx(l,{})},n={name:"Все игры",render:()=>c.jsx(l,{g0:[]})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  name: 'Dota 2',
+  render: () => <Demo />
+}`,...a.parameters?.docs?.source}}};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
+  name: 'Все игры',
+  render: () => <Demo g0={[]} />
+}`,...n.parameters?.docs?.source}}};const V=["Dota2","ВсеИгры"];export{a as Dota2,V as __namedExportsOrder,R as default,n as ВсеИгры};

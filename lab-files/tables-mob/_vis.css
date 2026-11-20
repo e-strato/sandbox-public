@@ -1,0 +1,322 @@
+/* Варианты вида таблицы (дирижёр 17.11). Общее — сверху, отличия — по .vt--clean / --zebra / --dense / --cards. Токены — как ui (--w-*). */
+.vt{--row:44px;--pad:16px;--div:color-mix(in srgb,var(--w-border) 70%,transparent);--sortbg:color-mix(in srgb,var(--w-fg) 5%,transparent);
+  position:relative;background:var(--w-bg);border:1px solid var(--w-border);border-radius:var(--w-r);font-variant-numeric:tabular-nums}
+.vt .up{color:var(--w-up-fg)}.vt .down{color:var(--w-down-fg)}.vt .mu3{color:#6b6b73}
+/* шапка виджета */
+.vt-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px var(--pad) 12px}
+.vt-tt{display:flex;align-items:baseline;gap:10px;min-width:0}
+.vt-tt h3{margin:0;font:600 16px/22px var(--w-font)}
+.vt-tt small{color:var(--w-muted-fg);font-size:12px}
+.vfbtn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid var(--w-border);border-radius:8px;background:transparent;color:var(--w-fg);font:500 12px/1 var(--w-font);cursor:pointer}
+.vfbtn:hover,.vfbtn.open{background:var(--w-muted)}
+.vfbtn svg{width:12px;height:12px;fill:currentColor;stroke:none}
+.vfbtn em{font-style:normal;display:inline-grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:99px;background:var(--w-fg);color:var(--w-bg);font:600 10px/1 var(--w-font)}
+/* фильтр попапом */
+.vf-anchor{position:relative}
+.vf-pop{position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:380px;max-height:520px;overflow:auto;background:var(--w-surface-2);border:1px solid var(--w-hover);border-radius:12px;box-shadow:0 16px 40px rgb(0 0 0 / .55),0 2px 8px rgb(0 0 0 / .4);animation:vfin .14s ease}
+@keyframes vfin{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+.vf-in{display:flex;flex-direction:column;padding:12px 14px 14px}
+.vf-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;font:600 14px/20px var(--w-font)}
+.vic{width:26px;height:26px;border:0;border-radius:6px;background:transparent;color:var(--w-muted-fg);cursor:pointer}.vic:hover{background:var(--w-muted);color:var(--w-fg)}
+.vf-l{margin:12px 0 6px;color:var(--w-muted-fg);font-size:11px}
+.vf-q{height:32px;padding:0 10px;border:1px solid var(--w-border);border-radius:8px;background:var(--w-bg);color:var(--w-fg);font:400 13px var(--w-font);outline:0}
+.vf-q:focus{border-color:#52525b}
+.vf-row{display:flex;flex-wrap:wrap;gap:6px}
+.vf-teams{max-height:132px;overflow:auto}
+.vchip{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px;border:1px solid var(--w-border);border-radius:99px;background:transparent;color:var(--w-muted-fg);font:500 12px/1 var(--w-font);cursor:pointer;white-space:nowrap}
+.vchip:hover{color:var(--w-fg)}
+.vchip.on{background:var(--w-muted);border-color:transparent;color:var(--w-fg)}
+.vchip img{width:14px;height:14px;object-fit:contain}
+.vchip span{opacity:.6;font-size:10px}
+.vf-seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:2px;border-radius:8px;background:var(--w-bg)}
+.vf-seg button{height:28px;border:0;border-radius:6px;background:transparent;color:var(--w-muted-fg);font:500 12px var(--w-font);cursor:pointer}
+.vf-seg button.on{background:var(--w-muted);color:var(--w-fg)}
+.vf-ft{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:16px}
+.vbtn{height:34px;border:1px solid var(--w-border);border-radius:8px;background:transparent;color:var(--w-fg);font:600 12px/1 var(--w-font);cursor:pointer}
+.vbtn:hover:not(:disabled){background:var(--w-muted)}.vbtn:disabled{opacity:.4;cursor:default}
+.vbtn.pri{background:var(--w-fg);color:var(--w-bg);border-color:var(--w-fg)}
+.vbtn.wide{width:100%;height:36px;background:var(--w-surface-2);border-color:transparent}
+.vlink{border:0;background:none;color:var(--w-muted-fg);font:500 12px var(--w-font);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.vact{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:0 var(--pad) 12px}
+/* шторка (телефон) */
+.vf-sheet{position:fixed;inset:0;z-index:50}
+.vf-ov{position:absolute;inset:0;background:rgb(0 0 0 / .6)}
+.vf-sh{position:absolute;left:0;right:0;bottom:0;max-height:85%;overflow:auto;background:var(--w-bg);border-top:1px solid var(--w-border);border-radius:14px 14px 0 0}
+.vf-grab{width:40px;height:4px;margin:8px auto 0;border-radius:2px;background:var(--w-muted)}
+.vf-sh .vf-teams{max-height:none}
+.vt-tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;margin:0 12px 8px;padding:2px;border-radius:8px;background:var(--w-surface-2)}
+.vt-tabs button{height:28px;border:0;border-radius:6px;background:transparent;color:var(--w-muted-fg);font:500 12px var(--w-font);cursor:pointer}
+.vt-tabs button.on{background:var(--w-muted);color:var(--w-fg)}
+/* таблица */
+.vt-box{overflow:auto;max-height:600px;scrollbar-width:thin}
+.vt table{width:100%;min-width:900px;table-layout:fixed;border-collapse:separate;border-spacing:0;font:400 13px/18px var(--w-font)}
+.vt thead{position:sticky;top:0;z-index:3;background:var(--w-bg)}
+/* шапка прилипает каждой ячейкой (надёжнее, чем thead целиком): группы — сверху, подписи — под ними; над шапкой — заливка, чтобы при прокрутке строки не просвечивали (дирижёр 17.11) */
+.vt-box thead th{position:sticky;top:0;z-index:3}
+.vt-box thead tr.grp th{box-shadow:0 -12px 0 var(--w-bg)}
+.vt-box thead tr.grp + tr th{top:26px}
+.vt-box thead th.pin{z-index:5}
+.vt th{height:32px;padding:0 8px;background:var(--w-bg);border-bottom:1px solid var(--w-border);color:var(--w-muted-fg);font:500 11px/1 var(--w-font);text-align:right;white-space:nowrap}
+.vt th button{all:unset;cursor:pointer;display:inline-flex;align-items:center}
+.vt th button i{font-style:normal;font-size:10px;width:10px;margin-left:2px;visibility:hidden}
+.vt th:hover button{color:var(--w-fg)}.vt th:hover button i{visibility:visible;opacity:.4}
+.vt th.on{color:var(--w-fg)}.vt th.on button i{visibility:visible;opacity:1}
+.vt tr.grp th{height:26px;border-bottom:0;color:var(--w-fg);font:600 11px/1 var(--w-font);text-align:center}
+.vt td{height:var(--row);padding:0 8px;background:var(--w-bg);border-bottom:1px solid var(--div);text-align:right;color:var(--w-muted-fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .12s}
+.vt td.on{color:var(--w-fg);font-weight:600}
+.vt .lead{text-align:left;padding-left:var(--pad)}
+.vt tr>:last-child{padding-right:var(--pad)}
+.vt .pin{position:sticky;left:0;z-index:1}
+.vt thead .pin{z-index:4}
+.vt-box.scrolled .pin{box-shadow:8px 0 8px -6px rgb(0 0 0 / .6),inset -1px 0 0 var(--w-border)}
+.vt tbody tr:hover td{background:color-mix(in srgb,var(--w-fg) 4%,var(--w-bg))}
+.vt td.empty{height:120px;text-align:center}
+.vt-ft{padding:12px var(--pad) 16px}
+/* первая колонка */
+.vlead{display:flex;align-items:center;gap:10px;min-width:0}
+.vplace{width:18px;flex:none;text-align:right;color:#6b6b73;font:600 12px/1 var(--w-font)}
+.vlogo{width:22px;height:22px;object-fit:contain;flex:none}
+.vphoto{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:none;background:var(--w-surface-2)}
+.vwho{display:flex;flex-direction:column;min-width:0}
+.vwho b{color:var(--w-fg);font:500 13px/17px var(--w-font);overflow:hidden;text-overflow:ellipsis}
+.vwho small{display:flex;align-items:center;gap:4px;color:var(--w-muted-fg);font-size:11px;line-height:15px;overflow:hidden;text-overflow:ellipsis}
+.vwho small img{width:12px;height:12px;object-fit:contain}
+.vpos{width:16px;height:16px;flex:none;margin-left:auto}
+.vchip .vpos{margin:0}
+.vmain{color:var(--w-fg);font-weight:600}
+.vp{display:inline-block;min-width:38px;padding:2px 5px;border-radius:99px;font:600 11px/14px var(--w-font);text-align:center;color:var(--w-fg)}
+.vp.up{background:color-mix(in srgb,var(--w-up) 20%,transparent);color:var(--w-up-fg)}
+.vp.down{background:color-mix(in srgb,var(--w-down) 20%,transparent);color:var(--w-down-fg)}
+.vw{display:inline-flex;align-items:center;gap:8px;justify-content:flex-end;width:100%}
+.vw b{min-width:30px;font-weight:500;color:var(--w-fg)}
+.vb{flex:1;max-width:52px;height:4px;border-radius:2px;background:var(--w-muted);overflow:hidden}
+.vb i{display:block;height:100%;background:#a1a1aa;border-radius:2px}
+.vb.up i{background:var(--w-up)}.vb.down i{background:var(--w-down)}
+
+/* A · Чистая: без линий групп, колонка сортировки — фоном, главная цифра крупнее, остальные тише */
+.vt--clean{--row:48px}
+.vt--clean td{border-bottom-color:color-mix(in srgb,var(--w-border) 45%,transparent)}
+.vt--clean td.on,.vt--clean th.on{background:color-mix(in srgb,var(--w-fg) 5%,var(--w-bg))}
+.vt--clean tbody tr:hover td.on{background:color-mix(in srgb,var(--w-fg) 8%,var(--w-bg))}
+.vt--clean .vmain{font:700 15px/1 var(--w-font)}
+.vt--clean td.on:not(.main){font-weight:600}
+.vt--clean .vplace.top{color:var(--w-fg)}
+
+/* B · Полосы: чередование строк, линии между группами, WR и GPM — с полоской */
+.vt--zebra{--row:44px}
+.vt--zebra td{border-bottom:0}
+.vt--zebra tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--w-fg) 2.5%,var(--w-bg))}
+.vt--zebra .gs{border-left:1px solid var(--w-border)}
+.vt--zebra tr.grp th{background:var(--w-surface)}
+.vt--zebra th.on{box-shadow:inset 0 -2px 0 var(--w-fg)}
+.vt--zebra .vplace.top{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--w-muted);color:var(--w-fg)}
+
+/* C · Плотная, как биржа: строка 34, мелкий шрифт, без групп-плашек, подсветка колонки сортировки, тихие подписи */
+.vt--dense{--row:34px;--pad:12px}
+.vt--dense table{font-size:12px}
+.vt--dense td{border-bottom-color:color-mix(in srgb,var(--w-border) 40%,transparent)}
+.vt--dense tr.grp th{height:22px;color:#6b6b73;font-weight:500;text-align:left;padding-left:8px}
+.vt--dense .gs{box-shadow:inset 1px 0 0 color-mix(in srgb,var(--w-border) 60%,transparent)}
+.vt--dense th.on{color:var(--w-fg)}
+.vt--dense td.on{background:color-mix(in srgb,var(--w-fg) 4%,var(--w-bg))}
+.vt--dense .vwho small{display:none}
+.vt--dense .vlogo{width:18px;height:18px}
+.vt--dense .vp{background:none;padding:0;min-width:0;text-align:right}
+.vt--dense .vmain{font-weight:700}
+
+/* D · Карточная: строки отдельными плашками с воздухом, фото игрока крупно, главная цифра крупно */
+.vt--cards{--row:60px;background:var(--w-page);border-color:transparent}
+.vt--cards .vt-hd,.vt--cards .vact{padding-left:4px;padding-right:4px}
+.vt--cards table{border-spacing:0 6px;margin-top:-6px}
+.vt--cards th{background:var(--w-page);border-bottom:0}
+.vt--cards td{background:var(--w-bg);border-bottom:0;border-top:1px solid var(--w-border);border-bottom:1px solid var(--w-border)}
+.vt--cards td.lead{border-left:1px solid var(--w-border);border-radius:12px 0 0 12px}
+.vt--cards td:last-child{border-right:1px solid var(--w-border);border-radius:0 12px 12px 0}
+.vt--cards tbody tr:hover td{background:var(--w-surface-2)}
+.vt--cards .vmain{font:700 18px/1 var(--w-font)}
+.vt--cards td.on{color:var(--w-fg)}
+.vt--cards th.on{color:var(--w-fg)}
+.vt--cards .vplace.top{color:var(--w-fg);font-size:14px}
+.vt--cards .vt-ft{padding:8px 0 0}
+
+/* E · Чистая + полосы (дирижёр 17.11): от чистой — тонкие линии, колонка сортировки фоном; от полос — чередование, линии групп, мини-полоски.
+   Главная цифра — того же кегля, что остальные, только ярче и жирнее. */
+.vt--mix{--row:44px}
+.vt--mix .vmain{font:700 13px/18px var(--w-font);color:var(--w-fg)}
+.vt--mix tbody tr:nth-child(even) td.on{background:color-mix(in srgb,var(--w-fg) 7%,var(--w-bg))}
+.vt--mix th.on{box-shadow:none}
+
+/* v15 — без вертикальных линий между группами (дирижёр 17.11): полосы только горизонтальные, через одну */
+.vt--nov .gs{border-left:0}
+
+/* v16 (дирижёр 17.11): места — одной ширины, топ-3 в кружке без сдвига; наведение видно и на светлых, и на тёмных строках; WR — плашкой, без полосок */
+.vt--v16 .vplace{display:inline-grid;place-items:center;width:22px;height:22px;text-align:center}
+.vt--v16 .vplace.top{width:22px;height:22px;border-radius:50%;background:var(--w-muted);color:var(--w-fg)}
+.vt--v16 tbody tr:hover td,.vt--v16 tbody tr:nth-child(even):hover td{background:color-mix(in srgb,var(--w-fg) 8%,var(--w-bg))}
+.vt--v16 tbody tr:hover td.on{background:color-mix(in srgb,var(--w-fg) 11%,var(--w-bg))}
+
+/* v17 (дирижёр 17.11): заголовки и данные — по центру колонки (кроме «Игрок»); стрелка сортировки не сдвигает подпись —
+   её место заложено справа от подписи (вынесена за подпись, видна при наведении и у активной) */
+.vt--ctr th,.vt--ctr td{text-align:center}
+.vt--ctr .lead{text-align:left}
+.vt--ctr th button{position:relative}
+.vt--ctr th button i{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:2px}
+.vt--ctr .vw{justify-content:center}
+
+/* v18 (дирижёр 17.11): наведение крестом — строка и колонка, ячейка на пересечении ярче */
+.vt--cross tbody tr td.hc,.vt--cross tbody tr:nth-child(even) td.hc{background:color-mix(in srgb,var(--w-fg) 6%,var(--w-bg))}
+.vt--cross tbody tr:hover td.hc{background:color-mix(in srgb,var(--w-fg) 8%,var(--w-bg))}
+.vt--cross tbody tr td.hx,.vt--cross tbody tr:nth-child(even) td.hx{background:color-mix(in srgb,var(--w-fg) 14%,var(--w-bg));color:var(--w-fg)}
+.vt--cross thead th.hc{color:var(--w-fg);background:color-mix(in srgb,var(--w-fg) 6%,var(--w-bg))}
+
+/* v19–v22 (дирижёр 17.11): как показать, что колонки — одна группа («Урон» → Герои, Здания) */
+/* v19 · короткие разделители только в шапке — не во всю высоту */
+.vt--g-tick thead th.gs{position:relative}
+.vt--g-tick thead th.gs::before{content:"";position:absolute;left:0;top:30%;bottom:30%;width:1px;background:#3f3f46}
+.vt--g-tick tr.grp th.gs::before{top:35%;bottom:0}
+/* v20 · линия под названием группы над её колонками, между группами — зазор */
+.vt--g-under tr.grp th{height:30px;vertical-align:bottom;padding:0}
+.vt--g-under tr.grp th.gs span{display:block;margin:0 8px;padding-bottom:6px;border-bottom:1px solid #52525b}
+.vt--g-under thead tr:not(.grp) th{height:30px}
+/* v21 · навёл на любую ячейку или название группы — вся группа подсвечена; название группы — плашкой */
+.vt--g-hover tr.grp th.gs span{display:inline-block;padding:3px 10px;border-radius:99px;background:var(--w-surface-2);transition:background .12s,color .12s}
+.vt--g-hover tr.grp th.hg span{background:var(--w-muted);color:var(--w-fg)}
+.vt--g-hover thead tr:not(.grp) th.hg{color:var(--w-fg)}
+.vt--g-hover tbody tr td.hg:not(.hc),.vt--g-hover tbody tr:nth-child(even) td.hg:not(.hc){background:color-mix(in srgb,var(--w-fg) 3.5%,var(--w-bg))}
+/* v22 · группы через одну — чуть светлее фоном (Бой, Урон), во всю высоту, без линий */
+.vt--g-band thead th.gb1{background:color-mix(in srgb,var(--w-fg) 3%,var(--w-bg))}
+.vt--g-band tbody tr td.gb1{background:color-mix(in srgb,var(--w-fg) 2.5%,var(--w-bg))}
+.vt--g-band tbody tr:nth-child(even) td.gb1{background:color-mix(in srgb,var(--w-fg) 5%,var(--w-bg))}
+.vt--g-band tr.grp th.gb1{border-radius:8px 8px 0 0}
+
+/* v23–v26 (дирижёр 17.11): «подсветка группы как v21, но сильнее и по-другому» */
+/* v23 · группа обведена рамкой: навёл — вокруг заголовка и колонок группы рамка со скруглением сверху */
+.vt--g-box tr.grp th.gs span{display:inline-block;padding:3px 10px;border-radius:99px;background:var(--w-surface-2)}
+.vt--g-box tr.grp th.hg span{background:var(--w-fg);color:var(--w-bg)}
+.vt--g-box .hg.gs{box-shadow:inset 1px 0 0 #71717a}
+.vt--g-box .hg.ge{box-shadow:inset -1px 0 0 #71717a}
+.vt--g-box .hg.gs.ge{box-shadow:inset 1px 0 0 #71717a,inset -1px 0 0 #71717a}
+.vt--g-box tr.grp th.hg{box-shadow:inset 1px 0 0 #71717a,inset -1px 0 0 #71717a,inset 0 1px 0 #71717a;border-radius:10px 10px 0 0}
+.vt--g-box tbody tr td.hg:not(.hc),.vt--g-box tbody tr:nth-child(even) td.hg:not(.hc){background:color-mix(in srgb,var(--w-fg) 4%,var(--w-bg))}
+.vt--g-box thead tr:not(.grp) th.hg{color:var(--w-fg)}
+/* v24 · фокус на группе: навёл — группа яркая, все остальные колонки (кроме «Игрок») тише */
+.vt--g-focus tr.grp th.gs span{display:inline-block;padding:3px 10px;border-radius:99px;background:var(--w-surface-2);transition:all .15s}
+.vt--g-focus tr.grp th.hg span{background:var(--w-muted);color:var(--w-fg)}
+.vt--g-focus td,.vt--g-focus th{transition:opacity .15s,background .12s}
+/* тише — только ячейки данных; шапка остаётся непрозрачной (иначе при прокрутке сквозь неё видны строки), в ней тише только текст */
+.vt--g-focus.is-hg tbody td:not(.hg):not(.lead){opacity:.3}
+.vt--g-focus.is-hg thead th:not(.hg):not(.lead):not(.pin){color:#3f3f46}
+.vt--g-focus.is-hg tr.grp th:not(.hg) span{color:#3f3f46}
+.vt--g-focus thead tr:not(.grp) th.hg,.vt--g-focus tbody td.hg{color:var(--w-fg)}
+/* v25 · группа — плашкой на всю ширину своих колонок (всегда видно, где начало и конец); навёл — плашка светлеет, колонки подсвечены */
+.vt--g-band2 tr.grp th{padding:4px 3px 0}
+.vt--g-band2 tr.grp th.gs span{display:block;height:22px;line-height:22px;border-radius:6px;background:var(--w-surface-2);transition:background .12s,color .12s}
+.vt--g-band2 tr.grp th.hg span{background:#3f3f46;color:var(--w-fg)}
+.vt--g-band2 tbody tr td.hg:not(.hc),.vt--g-band2 tbody tr:nth-child(even) td.hg:not(.hc){background:color-mix(in srgb,var(--w-fg) 5%,var(--w-bg))}
+.vt--g-band2 thead tr:not(.grp) th.hg{color:var(--w-fg);background:color-mix(in srgb,var(--w-fg) 5%,var(--w-bg))}
+/* v26 · у группы свой оттенок: точка цвета у названия, навёл — колонки группы этим оттенком (не фиолетовым) */
+.vt--g-hue [data-g="0"]{--gh:#a1a1aa}.vt--g-hue [data-g="1"]{--gh:#f87171}.vt--g-hue [data-g="2"]{--gh:#fbbf24}.vt--g-hue [data-g="3"]{--gh:#38bdf8}
+.vt--g-hue tr.grp th.gs span{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;transition:background .12s}
+.vt--g-hue tr.grp th.gs span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gh)}
+.vt--g-hue tr.grp th.hg span{background:color-mix(in srgb,var(--gh) 18%,var(--w-bg));color:var(--w-fg)}
+.vt--g-hue tbody tr td.hg:not(.hx),.vt--g-hue tbody tr:nth-child(even) td.hg:not(.hx){background:color-mix(in srgb,var(--gh) 7%,var(--w-bg))}
+.vt--g-hue thead tr:not(.grp) th.hg{color:var(--w-fg);box-shadow:inset 0 -2px 0 var(--gh)}
+
+/* v27–v31 (дирижёр 17.11): открытый фильтр на компьютере — разные попапы */
+.vf-sr{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border:1px solid var(--w-border);border-radius:8px;background:var(--w-bg);color:var(--w-muted-fg)}
+.vf-sr:focus-within{border-color:#52525b}
+.vf-sr svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
+.vf-sr input{all:unset;flex:1;min-width:0;font:400 13px var(--w-font);color:var(--w-fg)}
+.vf-sr input::placeholder{color:#6b6b73}
+.vf-list{display:flex;flex-direction:column;gap:1px;max-height:240px;overflow:auto;margin:0 -6px;scrollbar-width:thin}
+.vf-li{display:flex;align-items:center;gap:10px;height:32px;padding:0 6px;border:0;border-radius:6px;background:transparent;color:var(--w-muted-fg);font:500 13px var(--w-font);text-align:left;cursor:pointer}
+.vf-li:hover{background:var(--w-muted);color:var(--w-fg)}
+.vf-li.on{color:var(--w-fg)}
+.vf-li img{width:18px;height:18px;object-fit:contain}
+.vf-li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vf-li small{color:#6b6b73;font-size:11px}
+.vf-cb{width:16px;height:16px;flex:none;border:1.5px solid #52525b;border-radius:4px;display:grid;place-items:center}
+.vf-li.on .vf-cb{background:var(--w-fg);border-color:var(--w-fg)}
+.vf-li.on .vf-cb::after{content:"";width:8px;height:4px;border:solid var(--w-bg);border-width:0 0 2px 2px;transform:translateY(-1px) rotate(-45deg)}
+.vf-s{display:flex;flex-direction:column;gap:8px}
+.vf-s>b{color:var(--w-muted-fg);font:500 11px/14px var(--w-font)}
+.vf-col{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.vf-col .vchip{justify-content:flex-start;border-radius:8px}
+.vf-foot{display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--w-border);background:var(--w-surface-2);position:sticky;bottom:0}
+.vf-foot span{flex:1;color:var(--w-muted-fg);font-size:12px}
+.vf-foot .vbtn{height:30px;padding:0 14px}
+.vf-foot .vlink:disabled{opacity:.4;cursor:default}
+.vf-top{padding:12px 14px;border-bottom:1px solid var(--w-border)}
+/* v27 · разделами: поиск сверху, разделы с подписями, команды списком с галочками, низ «Найдено · Сбросить · Готово» */
+.vf-pop--sec{width:400px;padding:0;max-height:none;overflow:hidden;display:flex;flex-direction:column}
+.vf-pop--sec .vf-sc{display:flex;flex-direction:column;gap:18px;padding:14px;max-height:420px;overflow:auto}
+/* v28 · широкий, колонками: слева позиция и карты, справа команды */
+.vf-pop--mega{width:620px;padding:0;max-height:none;overflow:hidden}
+.vf-cols{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:14px}
+.vf-cols .vf-b2{margin-top:10px}
+.vf-pop--mega .vf-list{display:grid;grid-template-columns:1fr 1fr;max-height:300px}
+/* v29 · по шагам, как в Linear: список полей с текущим значением → нажал — внутри поле, «‹» назад */
+.vf-pop--steps{width:300px;padding:6px;max-height:none}
+.vf-menu{display:flex;flex-direction:column}
+.vf-mi{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;border:0;border-radius:8px;background:transparent;color:var(--w-fg);font:500 13px var(--w-font);text-align:left;cursor:pointer}
+.vf-mi:hover{background:var(--w-muted)}
+.vf-mi span{flex:1}
+.vf-mi small{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6b6b73;font-size:12px}
+.vf-mi small.on{color:var(--w-fg)}
+.vf-mi i{font-style:normal;color:#6b6b73}
+.vf-sthd{display:flex;align-items:center;gap:6px;height:36px;padding:0 4px;border-bottom:1px solid var(--w-border);margin:-6px -6px 8px;padding:0 10px}
+.vf-sthd b{flex:1;font:600 13px var(--w-font)}
+.vf-stb{padding:4px 8px 8px}
+.vf-stb .vf-list{max-height:280px}
+.vf-foot--s{margin:6px -6px -6px;padding:8px 14px;justify-content:flex-end}
+/* v30 · отдельные кнопки в строке над таблицей: поиск, «Позиция ▾», «Сыграно карт ▾», «Команда ▾» — у каждой свой попап */
+.vf-bar{display:flex;align-items:center;gap:8px;padding:0 var(--pad) 12px}
+.vf-bar .vf-sr{width:240px;height:30px}
+.vf-pill{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1px dashed #3f3f46;border-radius:8px;background:transparent;color:var(--w-muted-fg);font:500 12px var(--w-font);cursor:pointer;white-space:nowrap}
+.vf-pill:hover,.vf-pill.open{color:var(--w-fg);background:var(--w-muted)}
+.vf-pill.has{border-style:solid;border-color:#52525b;color:var(--w-fg)}
+.vf-pill em{font-style:normal;padding-left:6px;border-left:1px solid #3f3f46;color:var(--w-fg)}
+.vf-pill i{font-style:normal;font-size:9px;opacity:.6}
+.vf-pop--pill{left:0;right:auto;padding:10px}
+/* v31 · панель справа поверх страницы */
+.vf-drawer{position:fixed;inset:0;z-index:60}
+.vf-drawer .vf-ov{background:rgb(0 0 0 / .5)}
+.vf-dr{position:absolute;top:0;right:0;bottom:0;width:380px;display:flex;flex-direction:column;background:var(--w-bg);border-left:1px solid var(--w-border);box-shadow:-20px 0 40px rgb(0 0 0 / .5);animation:vfdr .18s ease}
+@keyframes vfdr{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.vf-drhd{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 16px;border-bottom:1px solid var(--w-border);font:600 16px var(--w-font)}
+.vf-drb{flex:1;overflow:auto;display:flex;flex-direction:column;gap:20px;padding:16px}
+.vf-drb .vf-list{max-height:none}
+
+/* v32 · простой фильтр над таблицей */
+.vf-simple{display:flex;align-items:center;gap:8px;padding:0 var(--pad) 12px}
+.vf-simple .vf-sr{width:240px;height:32px}
+.vf-seg--pos{display:inline-grid;grid-auto-flow:column;grid-auto-columns:auto;background:var(--w-surface-2)}
+.vf-seg--pos button{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px}
+.vf-seg--pos .vpos{margin:0}
+.vt:has(.vt-tabs) .vf-simple{flex-direction:column;align-items:stretch}
+.vt:has(.vt-tabs) .vf-simple .vf-sr{width:auto}
+.vt:has(.vt-tabs) .vf-seg--pos{grid-auto-columns:1fr}
+
+/* v33 · спрятанный фильтр попроще: только позиция и команда */
+.vf-hide{display:none}
+
+/* v34–v37 (дирижёр 17.11): высота таблицы не прыгает, когда строк мало */
+/* v34 · высота всегда как у 10 строк; низ «Показаны все · N из 80» */
+.vt--h-fix .vt-box{min-height:calc(58px + 10 * var(--row))}
+/* v35 · пустые строки-заглушки до 10 */
+.vt tr.ghost td{background:transparent !important;border-bottom-color:color-mix(in srgb,var(--w-border) 30%,transparent)}
+.gh-l,.gh-c{display:inline-block;height:8px;border-radius:4px;background:color-mix(in srgb,var(--w-fg) 4%,transparent)}
+.gh-l{width:120px;margin-left:30px}.gh-c{width:22px}
+/* v36 · высота меняется плавно (анимация), низ всегда на месте */
+/* v37 · окно постоянной высоты (10 строк) с прокруткой внутри, без «Показать ещё» */
+.vt--h-win .vt-box{height:calc(58px + 10 * var(--row));max-height:none}
+.vt--h-win2 .vt-box{height:calc(58px + 10 * var(--row));max-height:none}
+.vt--h-win2:has(.vt-tabs) .vt-box{height:auto}
+.vt-ft--n{color:var(--w-muted-fg);font-size:12px;text-align:center}
+
+/* телефон: без мин. ширины, поля 12 */
+body.is-phone .vt,.vt:has(.vt-tabs){--pad:12px}
+.vt:has(.vt-tabs) table{min-width:0}
+.vt:has(.vt-tabs) .vt-box{max-height:none;overflow:visible}
+.vt:has(.vt-tabs) thead,.vt:has(.vt-tabs) thead th{position:static}
+.vt--cards:has(.vt-tabs) .vphoto{width:30px;height:30px}

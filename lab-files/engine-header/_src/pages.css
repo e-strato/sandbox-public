@@ -1,0 +1,13 @@
+/* Лаба engine-header v1: шапка страницы — блок в главной колонке, правая колонка — с самого верха (65-4) */
+.eh-col { display: flex; flex-direction: column; gap: var(--space-16); min-width: 0; }
+.eh-page.mpage .mpage__body { padding-top: var(--space-16); }
+.eh-page.etpage .etpage__main { padding-top: var(--space-20); }
+.eh-page .etpage__r { top: 72px; }   /* под шапкой сайта 52 + 20 — шапка турнира больше не липнет */
+
+@media (max-width: 799px) {
+  .eh-page.mpage .mpage__body { padding-top: 0; }
+  .eh-page.etpage .etpage__main { padding-top: 0; }
+  .eh-page.mpage .eh { margin: 0 calc(-1 * var(--space-12)); }
+  .eh-page.etpage .eh { margin: 0 calc(-1 * var(--space-12)); }
+}
+@media (max-width: 799px) { .eh-page.etpage .etpage__l > .eh-wrap { max-width: none; overflow: visible; } }

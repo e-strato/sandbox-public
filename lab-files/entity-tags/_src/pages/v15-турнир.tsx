@@ -1,0 +1,15 @@
+/** v15 · Турнир: при наведении на героя своя подложка картинки пропадает — одна плашка на картинку и имя (дирижёр 20.11). Основа — v14: скос героя — скруглённые углы, иконка как в других формах (дирижёр 20.11). Основа — v13: пачка 20.11-5 — сетка тегами (наведение как везде), счёт вправо, лого в «Участниках» размером тега, ось «Герой» (круг / скос / срез углов). Основа — v12 (дирижёр 20.11: «в турнире куча багов, в таблице не вставляется»): лого в «Участниках», названия в групповом этапе, раскрытый состав; герои — тегом. */
+import { TournamentPage } from '@/engine/pages/Tournament'
+import type { TourKey } from '@/tournament/state'
+import { setTagVer } from '../Tag'
+import { start, withLook, setDefaultLook, useBright, useAxis } from '../lab'
+import '../lab.css'
+import '../over.css'
+
+setTagVer(9)
+setDefaultLook('hover')
+useBright('10')
+document.documentElement.dataset.herohov = '1'
+useAxis('hero', 'Герой', [{ v: 'round', label: 'Круг — как игрок' }, { v: 'skewr', label: 'Скос, углы скруглены' }, { v: 'bevel', label: 'Срез углов' }], 'round')
+const tour = (new URLSearchParams(location.search).get('tour') as TourKey) || 'ti'
+start(() => <TournamentPage tour={tour} who="fan" matchHref={() => withLook('v10-матч.html')} />)

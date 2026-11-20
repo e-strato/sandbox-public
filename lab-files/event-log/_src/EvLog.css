@@ -1,0 +1,58 @@
+/* Лаба event-log v1: поверх ui/src/engine/match/EventLog/v3/EventLog.css */
+/* 73-12: компактно — шапка 30, строка 26, время мельче и тише */
+.evl .evlog__hd { min-height: 30px; padding: 0 var(--space-4) 0 var(--space-10); font: var(--type-caption-2); font-weight: 500; }
+.evl__gh { margin-left: auto; color: var(--c-text-3); }
+.evl .evlog__hide { width: 24px; height: 24px; margin-left: var(--space-8); }
+.evl__r.evlog__r { grid-template-columns: 30px 12px minmax(0, 1fr) 36px; gap: var(--space-6); min-height: 26px; padding: 0 var(--space-10); font: var(--type-caption-2); }
+.evl__t { font: var(--num-caption-2, var(--type-caption-2)); font-size: 10px; color: var(--c-text-3); }
+.evl__x { display: inline-flex; align-items: center; gap: var(--space-4); }
+.evl__x .evlog__hs { margin-left: var(--space-4); }
+/* 76-15: иконка героя — перед ником */
+.evl__hero { flex: none; width: 14px; height: 14px; border-radius: var(--radius-2); box-shadow: 0 1.5px 0 var(--c-radiant); }
+.evl__hero.is-d { box-shadow: 0 1.5px 0 var(--c-dire); }
+/* 74-13: перевес золота в момент события — цветом стороны, что впереди */
+.evl__g { text-align: right; color: var(--c-text-3); font-variant-numeric: tabular-nums; }
+.evl__g.is-r { color: var(--c-radiant); } .evl__g.is-d { color: var(--c-dire); }
+.evl { width: 280px; }
+
+/* v2 (дирижёр 20.11): шире; строка — в две строки, ничего не налезает; «Gold» ровно над колонкой; герои — тегами */
+.evl { width: 320px; }
+.evl__hd.evlog__hd { display: grid; grid-template-columns: minmax(0, 1fr) 44px; gap: var(--space-6); padding: 0 var(--space-10); }
+.evl__ht span { color: var(--c-text-3); }
+.evl__gh { margin: 0; text-align: right; }
+.evl__r.evlog__r { grid-template-columns: 34px 12px minmax(0, 1fr) 44px; align-items: start; padding: 5px var(--space-10); line-height: 18px; }
+.evl__r .evlog__ic { height: 18px; align-items: center; }
+.evl__t, .evl__g { line-height: 18px; }
+.evl__x { display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow: visible; white-space: normal; }
+.evl__l1 { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-4); row-gap: 2px; min-width: 0; }
+.evl__l1 > .etag { flex: none; }
+.evl__l2 { display: flex; flex-wrap: wrap; gap: 2px; }
+/* герой только картинкой — без поля под название; полоска снизу цветом стороны */
+.etag.evl__htag { padding-right: 4px; padding-left: 4px; }
+.evl__htag .etag__name { display: none; }
+.evl__htag .etag__pic { box-shadow: 0 1.5px 0 var(--c-radiant); border-radius: 2px; }
+.evl__htag.is-d .etag__pic { box-shadow: 0 1.5px 0 var(--c-dire); }
+
+/* v3 (дирижёр 20.11: «центроваться начала, криво»): всё влево; строка — обычным текстом в потоке: тег, слова и перенос по словам, без лишних зазоров */
+.evl__r.evlog__r { justify-items: start; text-align: left; }
+.evl__r .evl__g { justify-self: end; }
+.evl__x { justify-self: stretch; align-items: flex-start; text-align: left; }
+.evl__l1 { display: block; }
+.evl__l1 > .etag { vertical-align: top; margin-right: 1px; }
+.evl__l1 > .etag--player { padding-right: 5px; }
+.evl__l1 > span { white-space: normal; }
+.evl__l2 { justify-content: flex-start; }
+
+/* v4 (дирижёр 20.11: «на телефоне — на всю ширину»): лог под графиком во всю ширину, без рамки слева */
+@media (max-width: 799px) {
+  .evl { width: 100%; }
+  .evlab .map__row.has-side > .evlog { border-left: 0; border-top: 1px solid var(--c-border); }
+}
+
+/* v5 (дирижёр 20.11: «уберите дивайдеры и лишние отступы — пусть просто раскрывается»): на телефоне без рамок со всех сторон,
+   без своих полей (край — как у страницы) и без окна с прокруткой — лог раскрывается на всю длину */
+@media (max-width: 799px) {
+  .evlab .map__row.has-side > .evlog.evl { border: 0; max-height: none; margin: 0; }
+  .evl .evlog__list { overflow: visible; }
+  .evl__hd.evlog__hd, .evl__r.evlog__r { padding-left: 0; padding-right: 0; }
+}

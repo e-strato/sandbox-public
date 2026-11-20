@@ -1,0 +1,1 @@
+import{j as s}from"./story-yz4g-5RP.js";function f({variant:a="secondary",size:r="md",pressed:e,forceState:c,className:i,children:o,...t}){const n={className:["btn","btn--"+a,"btn--"+r,i].filter(Boolean).join(" "),"data-force":c,"aria-pressed":e};return t.href!==void 0?s.jsx("a",{...t,...n,children:o}):s.jsx("button",{type:"button",...t,...n,children:o})}export{f as B};

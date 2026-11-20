@@ -1,0 +1,1 @@
+import{b as t,a,u as o,s as r,j as s,w as e}from"./lab-DJH9sY4E.js";import{T as m}from"./TournamentPage-OGbsTCB4.js";import"./over-Yx1n5tyf.js";import"./PosIcon-DIB1Eo_L.js";t(7);a("hover");o("10");const i=new URLSearchParams(location.search).get("tour")||"ti";r(()=>s.jsx(m,{tour:i,who:"fan",matchHref:()=>e("v10-матч.html")}));

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- fonts v1 — голосовое начальника 16.11, карточка 7 (19-5): «Inter — для мелких чисел, данных в таблицах; Bebas — для заголовков-названий: турниров, ключевых метрик на промокарточках —
+     очень аккуратно, ненавязчиво. Текущий шрифт приятный для текста, но числа читаются хуже». Дирижёр 18.11: «сделай эту задачу».
+     Снимки — настоящие страницы из компонентов ui/ (lab/ui-pages: турнир движка TI, матч), шрифты подменены CSS поверх:
+     А — как сейчас (Google Sans + JetBrains Mono в цифрах) · Б — Inter в цифрах и таблицах (tabular-nums) · В — Б + Bebas Neue в названиях (турнир в шапке турнира и матча) · Г — В + Bebas в ключевых метриках (счёт, золото, перевес, шанс). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Шрифты — Inter и Bebas</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --ac:#AF52DE; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --ac:#BF5AF2; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1440px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.bar{ position:sticky; top:0; z-index:3; background:var(--bg); padding:14px 0 10px; display:flex; gap:10px; align-items:stretch; flex-wrap:wrap; }
+.v{ flex:1 1 220px; text-align:left; border:2px solid transparent; border-radius:12px; background:var(--card); color:var(--tx); padding:10px 12px; font:inherit; cursor:pointer; }
+.v.on{ border-color:var(--ac); }
+.v b{ display:block; font-size:15px; } .v small{ display:block; font-size:12px; color:var(--tx2); }
+.v kbd{ float:right; font:600 11px/1 ui-monospace, monospace; color:var(--tx2); background:var(--chip); padding:3px 5px; border-radius:4px; }
+.pick{ flex:none; align-self:center; height:40px; padding:0 16px; border:0; border-radius:10px; background:var(--tx); color:var(--bg); font:600 14px/1 inherit; font-family:inherit; cursor:pointer; }
+.blk{ margin-top:22px; }
+.blk h3{ margin:0 0 6px; font-size:15px; } .blk h3 small{ font-weight:400; color:var(--tx2); font-size:13px; margin-left:6px; }
+figure{ margin:0; background:#09090b; border-radius:12px; padding:8px; }
+figure img{ display:block; max-width:100%; height:auto; margin:0 auto; border-radius:6px; }
+.cp{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .wrap{ padding:20px 16px 64px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Шрифты: Inter для цифр, Bebas для названий</h1>
+      <p class="sub">Начальник 16.11: «текст воспринимается хорошо, а числовые значения — хуже; Inter — для мелких чисел и таблиц, Bebas — для названий турниров и ключевых метрик, очень аккуратно». Ниже — настоящие блоки турнира и матча из компонентов; переключай вариант сверху (или клавишами 1–4) — блоки меняются на месте, удобно сравнивать.</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+  <div class="bar" id="bar"></div>
+  <div id="blocks"></div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>
+const VARS = [
+  { k: 'a', n: 'А · Как сейчас', d: 'Google Sans, цифры — JetBrains Mono' },
+  { k: 'b', n: 'Б · Inter в цифрах', d: 'числа, таблицы, K/D/A — Inter, цифры одной ширины' },
+  { k: 'c', n: 'В · + Bebas в названиях', d: 'Б + название турнира (шапка турнира и матча) — Bebas Neue' },
+  { k: 'd', n: 'Г · + Bebas в метриках', d: 'В + счёт, золото, перевес, крупные % — Bebas Neue' },
+]
+const BLOCKS = [
+  ['thd', 'Шапка турнира', 'турнир движка · TI 2026'],
+  ['group', 'Групповой этап', 'турнир движка · общая таблица'],
+  ['heroes', 'Статистика героев', 'турнир движка · общая таблица'],
+  ['mhead', 'Шапка матча', 'матч · Live'],
+  ['teams', 'Блок команд', 'матч · Live — золото, перевес, счёт, K/D/A'],
+  ['about', '«О матче»', 'матч · до матча — шансы крупно, плитки'],
+  ['draft', 'Шанс по драфту', 'матч · пики готовы'],
+]
+let cur = 'a'
+try { cur = localStorage.getItem('fn-v') || 'a' } catch {}
+function render() {
+  document.getElementById('bar').innerHTML = VARS.map((v, i) => `<button class="v${cur === v.k ? ' on' : ''}" data-v="${v.k}"><kbd>${i + 1}</kbd><b>${v.n}</b><small>${v.d}</small></button>`).join('') + '<button class="pick" id="pick">Скопировать выбор</button>'
+  document.getElementById('blocks').innerHTML = BLOCKS.map(([k, t, d]) => `<div class="blk"><h3>${t}<small>${d}</small></h3><figure><img src="img/v1/${k}-${cur}.png" alt="${t}"></figure></div>`).join('')
+  try { localStorage.setItem('fn-v', cur) } catch {}
+}
+render()
+const toast = (t) => { const c = document.getElementById('cp'); c.textContent = t; c.classList.add('on'); setTimeout(() => c.classList.remove('on'), 1400) }
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-v]'); if (b) { cur = b.dataset.v; render(); return }
+  if (e.target.id === 'pick') { const v = VARS.find((x) => x.k === cur); const t = `Шрифты (fonts v1): ${v.n} — ${v.d}`; navigator.clipboard?.writeText(t).then(() => toast('Скопировано'), () => toast(t)) }
+})
+addEventListener('keydown', (e) => { const i = +e.key - 1; if (VARS[i]) { cur = VARS[i].k; render() } })
+// картинки всех вариантов — заранее, чтобы переключение было мгновенным
+VARS.forEach((v) => BLOCKS.forEach(([k]) => { new Image().src = `img/v1/${k}-${v.k}.png` }))
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- page-header v4 (дирижёр 18.11: «ради интереса версию ещё более сжатую — посмотреть») = v3 + вид «Сжатая»: шапка в одну строку ≈44 px — крошки серым перед названием, лого 44×24, факты короче, трансляции — только логотип и точка (язык — в подсказке).
+     Было v3 (дирижёр 18.11 по v2: «трансляции логотипами»; «не карта, а Map; всё с большой буквы»; «версия, где больше иконок — Bo3, Map 1 · 8′, нет данных, нет трансляции, отменён — иконкой»; «начало — вправо; стадию и начало не подписывать — просто «Плей-офф», «Сегодня, 20:00»; подписывать только где надо»).
+     Было v2 (дирижёр 18.11: «А нормальный; сделай следующую версию — как показываем турнир и матч во всех случаях: до начала, во время, после; турнир — не начался, идёт; перепроверь по памяти»).
+     Вариант А из v1 во всех состояниях. Состояния — как договорено: матч — 6 шагов (До матча · Драфт · Пики готовы · Первые 12′ · Live · После) + особые случаи
+     (Анонс · Нет данных · Нет данных и трансляции · Перенос · Отмена) — DECISIONS 06.11; турнир — до старта · идёт · завершён — DECISIONS 30.10 §1.1.
+     Трансляции: 28.10 начальник убирал блок трансляций со страницы турнира, 16.11 (#17, задача 29-15) попросил 2–4 тега в шапке — в силе последнее слово. Каналы — пример. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Общая шапка — v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,0,0&display=block" />
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1320px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; } .sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.tasks{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; } .tasks span{ font-size:12px; padding:3px 8px; border-radius:7px; background:var(--chip); color:var(--tx2); }
+h2{ margin:34px 0 4px; font-size:20px; font-weight:700; display:flex; gap:10px; align-items:baseline; } h2 .n{ font-size:13px; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.why{ margin:0 0 12px; color:var(--tx2); font-size:14px; max-width:900px; }
+.lbl{ font-size:12px; font-weight:600; color:var(--tx2); margin:14px 0 6px; }
+/* сцена — продукт, тёмный, как движок */
+.stage{ background:#000; border-radius:14px; overflow:visible; color:#fafafa; font:400 13px/18px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+.site{ display:flex; align-items:center; gap:18px; height:52px; padding:0 32px; border-bottom:1px solid #18181b; }
+.site .logo{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:15px; } .site .logo i{ width:28px; height:28px; border-radius:7px; background:#fff; }
+.site nav{ display:flex; gap:4px; } .site nav a{ padding:6px 12px; border-radius:8px; color:#a1a1aa; } .site nav a.on{ background:#27272a; color:#fff; }
+.site .srch{ margin-left:auto; width:420px; height:34px; border-radius:9px; background:#18181b; color:#71717a; display:flex; align-items:center; padding:0 12px; }
+.hd{ position:relative; padding:12px 32px 12px; border-bottom:1px solid #27272a; }
+.mut{ color:#a1a1aa; } .num{ font-variant-numeric:tabular-nums; }
+.crumbs{ display:flex; align-items:center; gap:6px; font-size:12px; line-height:16px; color:#a1a1aa; white-space:nowrap; overflow:hidden; }
+.crumbs a{ color:#a1a1aa; text-decoration:none; } .crumbs a:hover{ color:#fff; } .crumbs i{ font-style:normal; color:#52525b; } .crumbs b{ color:#e4e4e7; font-weight:500; overflow:hidden; text-overflow:ellipsis; }
+.ttl{ font:600 20px/26px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; }
+.kv{ display:flex; gap:24px; margin:0; } .kv div{ min-width:0; } .kv dt{ font-size:11px; line-height:14px; color:#a1a1aa; } .kv dd{ margin:0; font-weight:600; white-space:nowrap; }
+.tv{ display:inline-flex; align-items:center; gap:5px; height:24px; padding:0 8px; border-radius:7px; background:#18181b; border:1px solid #27272a; color:#e4e4e7; font-size:12px; text-decoration:none; white-space:nowrap; }
+.tv svg{ width:14px; height:14px; flex:none; color:#a1a1aa; } .tv:hover{ border-color:#52525b; } .tv .lv{ width:6px; height:6px; border-radius:50%; background:#ef4444; }
+.tvs{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.info{ position:relative; display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 7px; border-radius:6px; background:#27272a; color:#d4d4d8; font-size:12px; font-weight:500; border:0; cursor:pointer; font-family:inherit; vertical-align:middle; }
+.info:hover{ background:#3f3f46; } .info svg{ width:13px; height:13px; }
+.pop{ position:absolute; z-index:20; top:calc(100% + 8px); left:0; width:380px; padding:12px 14px; border-radius:12px; background:#18181b; border:1px solid #3f3f46; box-shadow:0 16px 40px #000c; text-align:left; font-weight:400; color:#e4e4e7; cursor:default; white-space:normal; }
+.pop b{ display:block; font-weight:600; margin:8px 0 2px; } .pop b:first-child{ margin-top:0; } .pop small{ color:#a1a1aa; font-weight:400; margin-left:6px; } .pop p{ margin:0; color:#a1a1aa; font-size:12px; line-height:17px; }
+.op{ font-size:12px; color:#a1a1aa; } .op b{ color:#e4e4e7; font-weight:500; }
+.tlogo{ flex:none; object-fit:contain; } .team{ display:inline-flex; align-items:center; gap:8px; } .team img{ width:28px; height:28px; object-fit:contain; }
+.sc{ font:700 22px/26px "Google Sans Flex", system-ui, sans-serif; padding:0 10px; } .live{ display:inline-flex; align-items:center; gap:5px; color:#c4b5fd; font-weight:500; } .live::before{ content:""; width:6px; height:6px; border-radius:50%; background:#8b5cf6; }
+.body{ display:grid; grid-template-columns:1fr 340px; gap:16px; padding:16px 32px 20px; } .body i{ display:block; height:60px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; }
+/* A — одна строка, крошки сверху */
+.a .row{ display:flex; align-items:center; gap:16px; margin-top:8px; } .a .tt{ min-width:0; } .a .tt small{ display:block; color:#a1a1aa; font-size:12px; margin-top:2px; }
+.a .rt{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+/* B — компакт: крошки + трансляции в одной строке, ниже лого и всё строкой */
+.b .l1{ display:flex; align-items:center; gap:12px; } .b .l1 .tvs{ margin-left:auto; }
+.b .l2{ display:flex; align-items:center; gap:12px; margin-top:8px; } .b .l2 .ttl{ font-size:18px; } .b .chips{ display:flex; gap:6px; flex-wrap:wrap; margin-left:6px; }
+.b .chips span{ height:24px; display:inline-flex; align-items:center; padding:0 8px; border-radius:7px; background:#18181b; color:#d4d4d8; font-size:12px; } .b .op{ margin-left:auto; }
+/* C — большое лого слева на всю высоту, справа три строки */
+.c .grid{ display:grid; grid-template-columns:auto 1fr auto; gap:4px 16px; align-items:center; }
+.c .lg{ grid-row:1 / 4; } .c .crumbs{ grid-column:2; } .c .tline{ grid-column:2; display:flex; align-items:center; gap:10px; }
+.c .meta{ grid-column:2; font-size:12px; color:#a1a1aa; } .c .meta b{ color:#e4e4e7; font-weight:500; } .c .tvs{ grid-column:3; grid-row:1 / 4; flex-direction:column; align-items:stretch; }
+@media (max-width:1100px){ .body{ display:none; } }
+
+.st{ display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start; margin-bottom:12px; }
+.st .cap b{ display:block; font-size:15px; } .st .cap ul{ margin:6px 0 0; padding-left:16px; color:var(--tx2); font-size:13px; } .st .cap li{ margin:2px 0; }
+.st .stage .hd{ border-bottom:0; border-radius:14px; }
+.box{ background:var(--card); border-radius:14px; padding:14px 18px; margin:14px 0; font-size:14px; } .box b{ font-weight:600; } .box p{ margin:4px 0; color:var(--tx2); }
+.tm{ font:700 22px/26px "Google Sans Flex", system-ui, sans-serif; padding:0 10px; color:#e4e4e7; } .lose{ color:#71717a; }
+.strike{ text-decoration:line-through; color:#71717a; } .warn{ color:#fbbf24; } .gray{ color:#a1a1aa; }
+.notv{ font-size:12px; color:#71717a; }
+@media (max-width:1100px){ .st{ grid-template-columns:1fr; } }
+.ms{ font-family:"Material Symbols Rounded"; font-weight:normal; font-style:normal; font-size:16px; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; -webkit-font-smoothing:antialiased; vertical-align:-3px; }
+.facts{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:4px; }
+.fact{ display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 7px; border-radius:6px; background:#18181b; color:#d4d4d8; font-size:12px; white-space:nowrap; }
+.fact .ms{ font-size:15px; color:#a1a1aa; vertical-align:0; } .fact.live{ color:#c4b5fd; background:rgba(139,92,246,.14); } .fact.live .ms{ color:#a78bfa; } .fact.warn{ color:#fbbf24; background:rgba(251,191,36,.1); } .fact.warn .ms{ color:#fbbf24; }
+.fact.off{ color:#a1a1aa; } .fact.ok .ms{ color:#4ade80; }
+.side{ display:flex; gap:14px; align-items:center; font-size:13px; font-weight:600; color:#e4e4e7; white-space:nowrap; } .side span{ display:inline-flex; align-items:center; gap:5px; } .side .ms{ color:#a1a1aa; font-size:16px; vertical-align:0; }
+.tv{ gap:6px; padding:0 9px 0 6px; } .tv .pl{ width:16px; height:16px; flex:none; display:block; }
+.mode{ display:inline-flex; gap:2px; padding:2px; border-radius:9px; background:var(--chip); margin-top:12px; } .mode button{ height:30px; padding:0 12px; border:0; border-radius:7px; background:none; color:var(--tx2); font:inherit; font-size:14px; cursor:pointer; } .mode button.on{ background:var(--card); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.hd.tight{ padding:0 32px; height:44px; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+.tight .cr{ color:#71717a; font-size:12px; } .tight .cr i{ font-style:normal; color:#52525b; margin:0 4px; } .tight .ttl{ font-size:15px; line-height:20px; }
+.tight .tlogo{ width:44px !important; height:24px !important; } .tight .team img{ width:20px; height:20px; } .tight .tm{ font-size:15px; padding:0 6px; }
+.st > .stage{ min-width:0; } .hd.tight{ min-width:0; overflow:hidden; } .tight .ttl{ flex:none; } .tight .side, .tight .tvs, .tight .tlogo, .tight .cr, .tight .info{ flex:none; }
+.tight .facts{ margin:0; flex-wrap:nowrap; min-width:0; flex:0 1 auto; overflow:hidden; } .tight .fact{ min-width:0; overflow:hidden; text-overflow:ellipsis; } .tight .sp{ min-width:8px; } .tight .fact{ height:20px; padding:0 6px; } .tight .fact.plain{ background:none; padding:0 2px; color:#a1a1aa; }
+.tight .sp{ flex:1; } .tight .side{ gap:10px; font-size:12px; font-weight:500; color:#d4d4d8; } .tight .tvs{ flex-wrap:nowrap; gap:4px; }
+.tight .tv{ height:22px; padding:0 5px; gap:4px; } .tight .notv{ font-size:11px; } .tight .info{ height:20px; padding:0 5px; }
+.tight .info .tx{ display:none; }
+</style></head><body>
+<div class="wrap">
+<div class="top"><div><h1>(A) Общая шапка — все состояния, v4</h1>
+<p class="sub">Вариант А из v1, разложен по всем случаям: турнир — не начался · идёт · прошёл; матч — 6 шагов хода и 5 особых случаев. Слева — что меняется. Клик по «Формат» — всплывашка. Трансляции — логотипами площадок, подписи с большой буквы, «Map N».</p>
+<div class="mode" id="mode"><button data-v="tight">Сжатая</button><button data-v="icons">Больше иконок</button><button data-v="text">Текстом</button></div></div>
+<button class="th" id="th">Тема</button></div>
+<div class="box"><b>Почему в шапке турнира трансляции.</b>
+<p>28.10 начальник убирал со страницы турнира целый блок трансляций — вместе с призовыми, матчами по дням и т. п. 16.11 (голосовое, блок 17, задача 29-15) сам попросил вернуть их иначе: «вверху в карточке турнира в навигации надо добавить трансляции… тег с телевизором… турниры ведут от 2 до 4 трансляций». В силе последнее слово — 2–4 маленьких тега в шапке, не блок.</p>
+<p>Правило в шапке: тег = логотип площадки + язык канала. Красная точка — канал сейчас в эфире. До старта — теги, если каналы объявлены; после — тегов нет. ‼️ Каналы в лабе придуманы — в базе их нет.</p></div>
+<h2>Турнир <span class="n">3 состояния</span></h2><div id="tours"></div>
+<h2>Матч <span class="n">6 шагов хода</span></h2><div id="match"></div>
+<h2>Матч — особые случаи <span class="n">5</span></h2><div id="cases"></div>
+</div>
+<script>
+const R=document.documentElement;const g=(k,d)=>{try{return localStorage.getItem(k)??d}catch(e){return d}},s=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+R.dataset.theme=g('page-header-theme','light');document.getElementById('th').onclick=()=>{R.dataset.theme=R.dataset.theme==='light'?'dark':'light';s('page-header-theme',R.dataset.theme)};
+const TVI='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="M5.5 14.5h5M6 1.5l2 2 2-2"/></svg>';
+const INF='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7.2v3.8M8 5h.01"/></svg>';
+const PL={Twitch:'<svg class="pl" viewBox="0 0 24 24"><path fill="#9146FF" d="M4.3 2 2.5 6.2v13.3h4.6V22h2.6l2.5-2.5h3.7l5.1-5.1V2H4.3zm15.1 11.5-2.9 2.9h-4.6l-2.5 2.5v-2.5H5.6V3.8h13.8v9.7z"/><path fill="#9146FF" d="M15.5 6.8h1.8v5.1h-1.8zm-5 0h1.8v5.1h-1.8z"/></svg>',
+ YouTube:'<svg class="pl" viewBox="0 0 24 24"><rect x="1.5" y="5" width="21" height="14" rx="4" fill="#FF0033"/><path fill="#fff" d="M10 9v6l5.2-3z"/></svg>',
+ Kick:'<svg class="pl" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" fill="#53FC18"/><path fill="#000" d="M7 6h3.2v3.2h1.6V7.6h1.6V6h3.2v4.8h-1.6v1.6h-1.6v1.6h1.6v1.6h1.6V18h-3.2v-1.6h-1.6v-1.6h-1.6V18H7z"/></svg>'};
+const CH=[['Twitch','RU'],['Twitch','EN'],['YouTube','EN'],['Kick','RU']];
+const tvs=(mode)=>mode==='none'?'':`<div class="tvs">${CH.map(([p,l],i)=>`<a class="tv" href="#" title="${p} · официальная трансляция · пример">${PL[p]}${l}${mode==='live'&&i<2?'<span class="lv"></span>':''}</a>`).join('')}</div>`;
+const pop=(steps)=>`<div class="pop" hidden>${steps.map(([n,d,t])=>`<b>${n}<small>${d}</small></b><p>${t}</p>`).join('')}</div>`;
+const info=(steps)=>`<button class="info" type="button" title="Формат">${INF}<span class="tx">Формат</span>${pop(steps)}</button>`;
+const FMT={
+ dl:[['Формат объявят позже','',''+'В базе формата ещё нет — во всплывашке так и пишем.']],
+ ti:[['Групповой этап','13 – 16.08','Швейцарская система, 16 команд, Bo3; 1–3 — в плей-офф, 14–16 — вылет'],['Раунд на вылет','16.08','10 команд, Bo3 на вылет, 5 победителей — в плей-офф'],['Плей-офф','20 – 23.08','8 команд, double elimination, Bo3; гранд-финал — Bo5']],
+ ep7:[['Групповой этап','05 – 08.10.2025','Две группы по 5, каждый с каждым, Bo2; 2 лучших — в плей-офф'],['Плей-офф','09 – 12.10.2025','8 команд, double elimination, Bo3; гранд-финал — Bo5']]};
+const kv=(L)=>`<dl class="kv">${L.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+const crumbs=(L)=>`<div class="crumbs">${L.map((x,i)=>i<L.length-1?`<a href="#">${x}</a><i>›</i>`:`<b>${x}</b>`).join('')}</div>`;
+const tourHd=(t)=>`<div class="hd">${crumbs(['Турниры','Dota 2',t.name])}<div class="row"><img class="tlogo" src="../${t.logo}" style="width:88px;height:48px" alt=""><div class="tt"><span class="ttl">${t.name}</span> ${info(FMT[t.f])}${facts(t.f2)}</div><div class="rt">${side(t.side)}${t.tv==='none'?'':tvs(t.tv)}${t.tvNote?`<span class="notv">${t.tvNote}</span>`:''}</div></div></div>`;
+const T=[
+ {cap:'Не начался',li:['«Начнётся 02.12 · Через 14 дней»','Формат — что есть в базе; нет — «объявят позже»','трансляций в базе нет — «Трансляции объявят ближе к старту»','оператора в базе нет — не показываем'],
+  name:'DreamLeague Season 30',logo:'widget-tournament-4/logos/dreamleague-s30.png',f:'dl',f2:[['sports_esports','Dota 2'],['event_upcoming','Начнётся 02.12 · Через 14 дней','off']],side:[['military_tech','Tier 1'],['calendar_today','02.12 – 13.12.2026']],tv:'none',tvNote:'Трансляции объявят ближе к старту'},
+ {cap:'Идёт',li:['«Идёт · Плей-офф · День 2» — фиолетовым','трансляции — красная точка у каналов в эфире','оператор — с иконкой'],
+  name:'The International 2026',logo:'gs-match/img/items/aegis.png',f:'ti',f2:[['sports_esports','Dota 2'],['play_circle','Идёт · Плей-офф · День 2','live'],['apartment','Valve (производство PGL)']],side:[['military_tech','Tier 1'],['calendar_today','13.08 – 23.08.2026'],['groups','16 команд']],tv:'live'},
+ {cap:'Прошёл',li:['«Прошёл»','победителя в шапке нет (27-13)','трансляций нет — турнир кончился'],
+  name:'FISSURE Universe Episode 7',logo:'widget-tournament-4/logos/pari-universe.png',f:'ep7',f2:[['sports_esports','Dota 2'],['sports_score','Прошёл','off'],['apartment','FISSURE (Белград)']],side:[['military_tech','Tier 1'],['calendar_today','05.10 – 12.10.2025'],['groups','14 команд'],['language','Онлайн · Europe West']],tv:'none'},
+];
+const A='<span class="team"><img src="../gs-match/img/teams/9572001.png" alt="">Team Spirit</span>',B='<span class="team">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt=""></span>';
+const mid=(x)=>`<span class="tm num">${x}</span>`;
+
+const ic=(n)=>`<span class="ms">${n}</span>`;
+let MODE=g('page-header-mode4','tight');
+const fact=(i,t,cls)=>MODE==='icons'?`<span class="fact ${cls||''}">${i?ic(i):''}${t}</span>`:`<span${cls==='live'?' class="live"':cls==='warn'?' class="warn"':''}>${t}</span>`;
+const facts=(L)=>MODE==='icons'?`<div class="facts">${L.map(x=>fact(...x)).join('')}</div>`:`<small>${L.map(x=>x[2]==='live'||x[2]==='warn'?fact(...x):x[1]).join(' · ')}</small>`;
+const side=(L)=>`<div class="side">${L.map(([i,t])=>`<span>${MODE==='icons'&&i?ic(i):''}${t}</span>`).join('')}</div>`;
+const mHd=(m)=>`<div class="hd">${crumbs(['Матчи','The International 2026','Плей-офф','Team Spirit — PARIVISION'])}<div class="row"><div class="tt"><span class="ttl" style="display:flex;align-items:center">${m.title||A+mid(m.c)+B}</span>${facts(m.f)}</div><div class="rt">${side(m.side)}${m.tv==='none'?'':tvs(m.tv)}${m.tvNote?`<span class="notv">${m.tvNote}</span>`:''}</div></div></div>`;
+const SB=[['account_tree','Плей-офф'],['schedule','Сегодня, 17:12']];
+const M=[
+ {cap:'До матча',li:['вместо счёта — время начала','«Bo3 · Через 2 ч»','трансляции — без точки'],c:'17:12',f:[['stacks','Bo3'],['hourglass_top','Через 2 ч']],side:SB,tv:'on'},
+ {cap:'Драфт',li:['счёт 0 : 0','«Map 1 · Драфт» — фиолетовым, идёт','трансляции — в эфире'],c:'0 : 0',f:[['stacks','Bo3'],['how_to_vote','Map 1 · Драфт','live']],side:SB,tv:'live'},
+ {cap:'Пики готовы',li:['«Map 1 · Пики готовы · Старт через минуту»'],c:'0 : 0',f:[['stacks','Bo3'],['check_circle','Map 1 · Пики готовы · Старт через минуту','live']],side:SB,tv:'live'},
+ {cap:'Первые 12′',li:['«Map 1 · 8′»'],c:'0 : 0',f:[['stacks','Bo3'],['play_circle','Map 1 · 8′','live']],side:SB,tv:'live'},
+ {cap:'Live',li:['счёт по мапам 1 : 1','«Map 3 · 33′»'],c:'1 : 1',f:[['stacks','Bo3'],['play_circle','Map 3 · 33′','live']],side:SB,tv:'live'},
+ {cap:'После',li:['итоговый счёт, проигравший — серым','«Завершён · 1 ч 52 мин»','трансляций нет'],title:A+mid('2 : 1')+'<span class="team lose">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt="" style="opacity:.6"></span>',f:[['stacks','Bo3'],['sports_score','Завершён · 1 ч 52 мин','off']],side:SB,tv:'none'},
+];
+const C=[
+ {cap:'Анонс',li:['матч объявлен, время не назначено','вместо счёта — «—», «Время уточняется»'],c:'—',f:[['stacks','Bo3'],['event_upcoming','Время уточняется','off']],side:[['account_tree','Плей-офф']],tv:'none',tvNote:'Трансляции — когда назначат время'},
+ {cap:'Нет данных',li:['матч идёт, данных нет — жёлтым','трансляции есть — можно смотреть'],c:'? : ?',f:[['stacks','Bo3'],['cloud_off','Идёт · Нет данных','warn']],side:SB,tv:'live'},
+ {cap:'Нет данных и трансляции',li:['ни данных, ни трансляции — две иконки','тегов нет'],c:'? : ?',f:[['stacks','Bo3'],['cloud_off','Нет данных','warn'],['tv_off','Нет трансляции','warn']],side:SB,tv:'none'},
+ {cap:'Перенос',li:['старое время зачёркнуто, рядом новое','«Перенесён на 20:00»'],c:'<span class="strike" style="font-size:16px">17:12</span> 20:00',f:[['stacks','Bo3'],['update','Перенесён на 20:00','warn']],side:[['account_tree','Плей-офф'],['schedule','Сегодня, 20:00']],tv:'on'},
+ {cap:'Отмена',li:['всё серым, вместо счёта — «Отменён»','трансляций нет'],title:'<span class="team gray" style="opacity:.6"><img src="../gs-match/img/teams/9572001.png" alt="">Team Spirit</span><span class="tm gray">Отменён</span><span class="team gray" style="opacity:.6">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt=""></span>',f:[['stacks','Bo3'],['block','Матч отменён','off']],side:[['account_tree','Плей-офф']],tv:'none'},
+];
+
+const tvsT=(mode)=>mode==='none'?'':`<div class="tvs">${CH.map(([p,l],i)=>`<a class="tv" href="#" title="${p} · ${l} · официальная трансляция · пример">${PL[p]}${mode==='live'&&i<2?'<span class="lv"></span>':''}</a>`).join('')}</div>`;
+const factsT=(L)=>`<div class="facts">${L.map(([i,t,c])=>c?`<span class="fact ${c}">${ic(i)}${t}</span>`:`<span class="fact plain">${t}</span>`).join('')}</div>`;
+const crT=(L)=>`<span class="cr">${L.map(x=>x+'<i>›</i>').join('')}</span>`;
+const tourT=(t)=>`<div class="hd tight">${crT(['Турниры','Dota 2'])}<img class="tlogo" src="../${t.logo}" alt=""><span class="ttl">${t.name}</span>${info(FMT[t.f])}${factsT(t.f2.filter(x=>x[1]!=='Dota 2'))}<span class="sp"></span>${side(t.side)}${t.tv==='none'?(t.tvNote?`<span class="notv">${t.tvNote}</span>`:''):tvsT(t.tv)}</div>`;
+const mT=(m)=>`<div class="hd tight">${crT(['Матчи','TI 2026','Плей-офф'])}<span class="ttl" style="display:flex;align-items:center">${m.title||A+mid(m.c)+B}</span>${factsT(m.f)}<span class="sp"></span>${side(m.side)}${m.tv==='none'?(m.tvNote?`<span class="notv">${m.tvNote}</span>`:''):tvsT(m.tv)}</div>`;
+const row=(x,h)=>`<div class="st"><div class="cap"><b>${x.cap}</b><ul>${x.li.map(l=>`<li>${l}</li>`).join('')}</ul></div><div class="stage a">${h}</div></div>`;
+function draw(){document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.v===MODE));
+document.getElementById('tours').innerHTML=T.map(t=>row(t,MODE==='tight'?tourT(t):tourHd(t))).join('');
+document.getElementById('match').innerHTML=M.map(m=>row(m,MODE==='tight'?mT(m):mHd(m))).join('');
+document.getElementById('cases').innerHTML=C.map(m=>row(m,MODE==='tight'?mT(m):mHd(m))).join('');}
+document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{MODE=b.dataset.v;s('page-header-mode4',MODE);draw()});draw();
+document.addEventListener('click',e=>{const b=e.target.closest('.info');document.querySelectorAll('.pop').forEach(p=>{if(!b||!b.contains(p))p.hidden=true});if(b&&!e.target.closest('.pop')){const p=b.querySelector('.pop');p.hidden=!p.hidden}});
+</script></body></html>

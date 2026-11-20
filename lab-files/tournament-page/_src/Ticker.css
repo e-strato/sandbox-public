@@ -1,0 +1,17 @@
+/* 85-24: бегущая строка матчей под верхним меню — во всю ширину, текстом, без плашек (лаба match-bar v5 «как 99damage») */
+.tick { overflow: hidden; height: 40px; border-bottom: 1px solid var(--c-border); background: var(--c-bg);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+@keyframes tick-run { to { transform: translateX(-50%); } }
+.tick__in { display: flex; align-items: center; width: max-content; height: 100%; animation: tick-run var(--d) linear infinite; }
+.tick:hover .tick__in { animation-play-state: paused; }
+.tick__m { display: inline-flex; align-items: center; gap: var(--space-8); height: 100%; padding: 0 var(--space-20); border-right: 1px solid var(--c-border); color: var(--c-text); text-decoration: none; white-space: nowrap; font: var(--type-body-1); }
+a.tick__m:hover { color: var(--c-text); background: var(--c-surface); }
+.tick__m .etag { padding: 0; }
+.tick__w { color: var(--c-text-3); font: var(--type-caption-1); }
+.tick__s { color: var(--c-text-2); font-weight: 600; }
+.tick__m.is-live .tick__s { color: var(--c-text); }
+.tick__lv { display: inline-flex; align-items: center; gap: 5px; color: var(--c-live); font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); }
+.tick__lv i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); animation: tick-p 1.4s infinite; }
+@keyframes tick-p { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .tick__in { animation: none; } .tick { overflow-x: auto; } .tick__lv i { animation: none; } }
+@media (max-width: 799px) { .tick { height: 34px; } .tick__m { padding: 0 var(--space-12); font-size: 12px; } }

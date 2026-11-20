@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- fonts v2 (дирижёр 18.11 по v1: «если Inter — цифры всё равно моноширинные; чуть меньше; подобрать шрифт именно для цифр; Bebas в заголовках норм, может чуть больше —
+     начальник, думаю, имел в виду заголовки виджетов»). Два переключателя: цифры (4 моноширинных: JetBrains Mono — как сейчас, Inter с цифрами одной ширины, IBM Plex Mono, Roboto Mono;
+     все чуть меньше — font-size-adjust 0.5) × заголовки (нет / Bebas Neue / Oswald) — название турнира и заголовки виджетов, крупнее. ‼️ В Bebas Neue нет кириллицы — русские заголовки
+     уходят в запасной шрифт; Oswald — похожий узкий, с кириллицей. Снимки — настоящие страницы из компонентов ui/ (lab/ui-pages), CSS поверх. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Шрифты — v2</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --ac:#AF52DE; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --ac:#BF5AF2; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1440px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.bar{ position:sticky; top:0; z-index:3; background:var(--bg); padding:14px 0 10px; display:flex; gap:10px; align-items:stretch; flex-wrap:wrap; }
+.v{ flex:1 1 160px; text-align:left; border:2px solid transparent; border-radius:12px; background:var(--card); color:var(--tx); padding:10px 12px; font:inherit; cursor:pointer; }
+.v.on{ border-color:var(--ac); }
+.v b{ display:block; font-size:15px; } .v small{ display:block; font-size:12px; color:var(--tx2); }
+.v kbd{ float:right; font:600 11px/1 ui-monospace, monospace; color:var(--tx2); background:var(--chip); padding:3px 5px; border-radius:4px; }
+.grp{ display:flex; gap:8px; flex:1 1 100%; align-items:stretch; flex-wrap:wrap; }
+.grp > span{ flex:none; width:84px; align-self:center; font-weight:600; font-size:13px; color:var(--tx2); }
+.pick{ flex:none; align-self:center; height:40px; padding:0 16px; border:0; border-radius:10px; background:var(--tx); color:var(--bg); font:600 14px/1 inherit; font-family:inherit; cursor:pointer; }
+.blk{ margin-top:22px; }
+.blk h3{ margin:0 0 6px; font-size:15px; } .blk h3 small{ font-weight:400; color:var(--tx2); font-size:13px; margin-left:6px; }
+figure{ margin:0; background:#09090b; border-radius:12px; padding:8px; }
+figure img{ display:block; max-width:100%; height:auto; margin:0 auto; border-radius:6px; }
+.cp{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .wrap{ padding:20px 16px 64px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Шрифты: цифры моноширинные, заголовки узким</h1>
+      <p class="sub">Два переключателя: <b>цифры</b> — все моноширинные и чуть меньше, чем сейчас, на выбор 4 шрифта; <b>заголовки</b> — название турнира и заголовки виджетов узким шрифтом, крупнее. ‼️ В Bebas Neue нет русских букв: «THE INTERNATIONAL» — Bebas, а «Статистика героев» — уже нет; Oswald — похожий узкий, с кириллицей. Клавиши: 1–4 — цифры, Q W E — заголовки.</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+  <div class="bar" id="bar"></div>
+  <div id="blocks"></div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>
+const NUMS = [
+  { k: 'jb', n: 'JetBrains Mono', d: 'как сейчас, но чуть меньше', key: '1' },
+  { k: 'inter', n: 'Inter', d: 'цифры одной ширины (tabular-nums)', key: '2' },
+  { k: 'plex', n: 'IBM Plex Mono', d: 'моноширинный, мягче', key: '3' },
+  { k: 'roboto', n: 'Roboto Mono', d: 'моноширинный, ровный', key: '4' },
+]
+const HEADS = [
+  { k: 'h0', n: 'Заголовки как сейчас', d: 'Google Sans', key: 'q' },
+  { k: 'h1', n: 'Bebas Neue', d: '‼️ без кириллицы — русские не им', key: 'w' },
+  { k: 'h2', n: 'Oswald', d: 'узкий, как Bebas, с кириллицей', key: 'e' },
+]
+const BLOCKS = [
+  ['thd', 'Шапка турнира', 'турнир движка · TI 2026'],
+  ['group', 'Групповой этап', 'турнир движка · общая таблица'],
+  ['heroes', 'Статистика героев', 'турнир движка · общая таблица'],
+  ['mhead', 'Шапка матча', 'матч · Live'],
+  ['teams', 'Блок команд', 'матч · Live — золото, перевес, счёт, K/D/A'],
+  ['about', '«О матче»', 'матч · до матча — шансы крупно, плитки'],
+  ['draft', 'Шанс по драфту', 'матч · пики готовы'],
+]
+let num = 'jb', head = 'h0'
+try { num = localStorage.getItem('fn2-n') || 'jb'; head = localStorage.getItem('fn2-h') || 'h0' } catch {}
+const btn = (x, on, attr) => `<button class="v${on ? ' on' : ''}" ${attr}="${x.k}"><kbd>${x.key.toUpperCase()}</kbd><b>${x.n}</b><small>${x.d}</small></button>`
+function render() {
+  document.getElementById('bar').innerHTML = '<div class="grp"><span>Цифры</span>' + NUMS.map((x) => btn(x, num === x.k, 'data-n')).join('') + '</div><div class="grp"><span>Заголовки</span>' + HEADS.map((x) => btn(x, head === x.k, 'data-h')).join('') + '<button class="pick" id="pick">Скопировать выбор</button></div>'
+  document.getElementById('blocks').innerHTML = BLOCKS.map(([k, t, d]) => `<div class="blk"><h3>${t}<small>${d}</small></h3><figure><img src="img/v2/${k}-${num}-${head}.png" alt="${t}"></figure></div>`).join('')
+  try { localStorage.setItem('fn2-n', num); localStorage.setItem('fn2-h', head) } catch {}
+}
+render()
+const toast = (t) => { const c = document.getElementById('cp'); c.textContent = t; c.classList.add('on'); setTimeout(() => c.classList.remove('on'), 1400) }
+document.addEventListener('click', (e) => {
+  const n = e.target.closest('[data-n]'); if (n) { num = n.dataset.n; render(); return }
+  const h = e.target.closest('[data-h]'); if (h) { head = h.dataset.h; render(); return }
+  if (e.target.id === 'pick') { const t = `Шрифты (fonts v2): цифры — ${NUMS.find((x) => x.k === num).n}; заголовки — ${HEADS.find((x) => x.k === head).n}`; navigator.clipboard?.writeText(t).then(() => toast('Скопировано'), () => toast(t)) }
+})
+addEventListener('keydown', (e) => { const k = e.key.toLowerCase(); const n = NUMS.find((x) => x.key === k), h = HEADS.find((x) => x.key === k); if (n) num = n.k; if (h) head = h.k; if (n || h) render() })
+NUMS.forEach((n) => HEADS.forEach((h) => BLOCKS.forEach(([k]) => { new Image().src = `img/v2/${k}-${n.k}-${h.k}.png` })))
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

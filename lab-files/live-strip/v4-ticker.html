@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- live-strip v4 (голосовое 16.11, 28-14; дирижёр 18.11: «бери строку live ближайших матчей — в лабу»). Тонкий тикер одной строкой 36 px: live первым, потом ближайшие и последние итоги. Шапка — снимок настоящей страницы турнира движка; данные — единая база; клик по матчу — страница матча движка. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Строка матчей — тикер</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Geist+Mono:wght@500;600;700&display=swap" />
+<link rel="stylesheet" href="_ls.css?v=1" />
+</head><body>
+<div id="app"></div>
+<script src="../_db/_db.js"></script><script src="../_db/db.js"></script>
+<script src="_ls.js?v=1"></script>
+<script>LS.mount({ view: 'ticker' })</script>
+</body></html>

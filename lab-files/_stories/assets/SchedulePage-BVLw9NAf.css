@@ -1,0 +1,1 @@
+.sbar4-sh .tcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6)}.sbar4-sh .tcards__c{min-width:0}.sbar4-sh .tcards__c>:not(img):not(.tcards__l0){min-width:0}.sbar4-sh .tcards__c b,.sbar4-sh .tcards__c span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

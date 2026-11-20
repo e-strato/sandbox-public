@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- rare-cases v6 (дирижёр 18.11 по v5: «выглядит отлично; посмотреть на телефоне; самому проверить — правильно ли отображаем и так ли будет в других матчах, не выдумали ли»).
+     Телефон — та же страница на 390: в швейцарке раундов нет, только форма точками — тех = пустой кружок, матча нет — чёрточка; переигровку на телефоне не видно.
+     Исправлено после проверки: в швейцарке пары следующих раундов назначаются по ходу этапа — у снявшейся команды «тех» только в уже назначенном матче, дальше «—» (в v5 были выдуманные тех у будущих соперников).
+     Блок «Проверка» — что совпадает с Liquipedia и реальными правилами, а что наше решение или требует поля в данных. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Редкие случаи турнира</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --ac:#AF52DE; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --ac:#BF5AF2; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1100px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:860px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.fmt{ margin-top:36px; }
+.fmt h2{ margin:0 0 4px; font-size:20px; }
+.fmt > p{ margin:0 0 12px; color:var(--tx2); font-size:14px; }
+.bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+.seg{ display:inline-flex; gap:2px; padding:2px; background:var(--chip); border-radius:10px; flex-wrap:wrap; }
+.seg button{ height:32px; padding:0 14px; border:0; border-radius:8px; background:none; color:var(--tx2); font:500 14px/1 inherit; font-family:inherit; cursor:pointer; }
+.seg button.on{ background:var(--card); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.sw{ display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--tx2); cursor:pointer; user-select:none; }
+.sw i{ width:30px; height:18px; border-radius:9px; background:var(--chip); position:relative; transition:background .15s; }
+.sw i::after{ content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:#fff; transition:left .15s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+.sw.on i{ background:var(--ac); } .sw.on i::after{ left:14px; }
+.chk{ margin-top:16px; padding:14px 18px; background:var(--card); border-radius:12px; font-size:14px; } .chk h2{ margin:0 0 6px; font-size:16px; } .chk ul{ margin:0; padding-left:18px; } .chk li{ margin:4px 0; color:var(--tx2); } .chk li b{ color:var(--tx); }
+.ph figure{ max-width:420px; }
+.how{ margin:0 0 10px; padding:10px 14px; background:var(--card); border-radius:12px; font-size:14px; }
+.how b{ display:block; margin-bottom:2px; }
+.how ul{ margin:4px 0 0; padding-left:18px; color:var(--tx2); }
+figure{ margin:0; background:#000; border-radius:12px; padding:8px; }
+figure img{ display:block; width:100%; height:auto; border-radius:6px; }
+@media (max-width:760px){ .wrap{ padding:20px 16px 64px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Редкие случаи: снялась, замена, переигровка</h1>
+      <p class="sub">Начальник 17.11: «команда может сняться на третьем матче — следующие соперники получат автоматическую победу, её могут заменить, бывает переигровка; отображение должно само отработать все кейсы на данных Liquipedia». Ниже — настоящие таблицы страницы турнира движка: сначала «Как сейчас», потом каждый случай. Примеры выдуманы — в базе таких случаев нет. Жёлтая рамка — что поменялось (выключается свитчем).</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+  <div class="bar" style="margin-top:20px"><div class="seg" id="dev"></div></div>
+  <section class="chk"><h2>Проверка: что настоящее, а что наше</h2><ul>
+    <li><b>✅ Совпадает с Liquipedia:</b> неявка / снятие записывается как «W» у победителя и «FF» у сдавшего (на матчах — «W : FF»). У нас это «тех» — берём из этих полей, вручную ничего не правим.</li>
+    <li><b>✅ Группы «каждый с каждым»:</b> расписание известно заранее — после снятия все оставшиеся матчи команды становятся тех. Это ровно то, что говорил начальник.</li>
+    <li><b>⚠️ Исправлено — швейцарка:</b> следующие раунды в швейцарке собираются по результатам, заранее соперников нет. Поэтому «тех» — только в уже назначенном матче, дальше у команды «—». В v5 я по ошибке дал тех. победы будущим соперникам.</li>
+    <li><b>✅ Плей-офф:</b> снялась — сопернику «W», он проходит дальше; так и на Liquipedia, и в правилах турниров.</li>
+    <li><b>⚠️ Счёт карт при тех. победе зависит от турнира:</b> где-то 2:0 в зачёт карт, где-то карты не считаются. Итоги «В–П», «Карты», «±» берём из данных турнира, сами не пересчитываем.</li>
+    <li><b>⚠️ Замена — наше решение:</b> как переносятся очки при замене, решает организатор. Мы показываем прежнюю команду внизу с её сыгранными матчами — это удобно читать, но в данных нужно поле «заменена кем и с какого раунда».</li>
+    <li><b>⚠️ Переигровка — нужно поле в данных:</b> на Liquipedia у матча обычно только итоговый счёт и заметка текстом; отдельного признака «переигровка» нет. Значок ↻ появится, только если мы сами заведём такое поле или будем читать заметку.</li>
+    <li><b>Примеры на странице выдуманы</b> — в нашей базе таких случаев нет; таблицы и сетка — настоящие.</li>
+  </ul></section>
+  <div id="fmts"></div>
+</div>
+<script>
+const F = [
+  { k: 'sw', n: 'Швейцарка', d: 'TI 2026 — групповой этап, раунды Р1–Р5', cases: [
+    ['now', 'Как сейчас', 'В клетке раунда — лого соперника и счёт серии; v4: лого одного размера и вплотную к счёту, между раундами отступ больше, плашка не обрезается; «Групповой этап / Плей-офф» — в заголовке.', []],
+    ['out', 'Команда снялась', 'Vici Gaming снялась после Р2 (пример) — строка уходит в самый низ, место «—».', ['Сыгранные матчи остаются как были.', 'Уже назначенный матч (Р3) — «тех» штриховкой, чёрно-белым: у неё — поражение, у соперника — победа. Дальше пар у неё нет — «—»: в швейцарке соперников следующих раундов назначают по ходу, поэтому «авто-побед» у будущих соперников не бывает. Телефон: в форме — пустой кружок.', 'У команды — плашка «Снялась» справа от имени, имя зачёркнуто, строка приглушена; в «Этапе» — «Снялась · после Р2».']],
+    ['rep', 'Замена команды', 'Team Resilience заменили на MOUZ после Р1 (пример).', ['На месте прежней — новая команда и подпись «вместо Team Resilience · с Р2»; Р1 у неё — «—».', 'Прежняя команда — в самом низу: её сыгранный Р1 и плашка «Заменена», в «Этапе» — «Заменена · после Р1».', 'У соперников с Р2 — уже лого новой команды.']],
+    ['re', 'Переигровка', 'Team Spirit — Aurora (Р2) переиграли (пример).', ['В таблице — счёт переигровки.', 'В углу клетки — значок ↻ у обеих команд; по наведению — «Переигровка 15.08 · первый матч 1:2 отменён».']],
+  ] },
+  { k: 'gr', n: 'Группы «каждый с каждым»', d: 'Universe Ep. 7 — две группы по 5, шахматка', cases: [
+    ['now', 'Как сейчас', 'Шахматка: строка — команда, колонки — соперники; v4: строки без цвета; место квадратиком — прошли зелёным, выбыли красным; «Групповой этап / Плей-офф» — в заголовке.', []],
+    ['out', 'Команда снялась', 'OG (Группа A) снялась после двух матчей (пример).', ['Оставшиеся клетки — «тех» штриховкой, чёрно-белым.', 'У OG — «Снялась», строка приглушена.']],
+    ['re', 'Переигровка', 'MOUZ — Virtus.pro (Группа B) переиграли (пример).', ['Новый счёт в обеих клетках, значок ↻ в углу.']],
+  ] },
+  { k: 'po', n: 'Плей-офф', d: 'TI 2026 — сетка', cases: [
+    ['now', 'Как сейчас', 'Сетка v9: буквы матчей, путь победителя.', []],
+    ['out', 'Команда снялась', 'Nigma Galaxy снялась до полуфинала ВС (пример).', ['В матче вместо счёта — «тех» у прошедшей команды, у снявшейся — «Снялась»; в шапке матча — «тех. победа», без Bo.', 'Победитель сразу появляется в следующем матче (финал ВС).']],
+  ] },
+]
+const st = { hl: true, sel: {}, dev: 'pc' }
+try { Object.assign(st, JSON.parse(localStorage.getItem('rc6-st') || '{}')) } catch {}
+function render() {
+  document.getElementById('dev').innerHTML = [['pc', 'Компьютер 1440'], ['ph', 'Телефон 390']].map(([k, n]) => `<button class="${st.dev === k ? 'on' : ''}" data-dev="${k}">${n}</button>`).join('')
+  try { localStorage.setItem('rc6-st', JSON.stringify(st)) } catch {}
+  document.getElementById('fmts').innerHTML = F.map((f) => {
+    const cur = st.sel[f.k] || 'now', c = f.cases.find((x) => x[0] === cur)
+    const phNo = st.dev === 'ph' && f.k === 'sw' && cur === 're'
+    const img = `../../rare-cases/img/${st.dev === 'ph' ? 'v6-ph' : 'v6'}/${f.k}-${phNo ? 'now' : cur}${cur !== 'now' && !phNo && st.hl ? '-hl' : ''}.png`
+    return `<section class="fmt"><h2>${f.n}</h2><p>${f.d}</p>
+      <div class="bar"><div class="seg">${f.cases.map(([k, n]) => `<button class="${k === cur ? 'on' : ''}" data-f="${f.k}" data-c="${k}">${n}</button>`).join('')}</div>
+      ${cur !== 'now' ? `<span class="sw${st.hl ? ' on' : ''}" data-hl="1"><i></i>Подсветить, что поменялось</span>` : ''}</div>
+      <div class="how"><b>${c[2]}</b>${c[3].length ? `<ul>${c[3].map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}</div>
+      ${phNo ? '<div class="how"><b>На телефоне переигровку не видно:</b> раунды свёрнуты в форму точками — значок ↻ есть только на компьютере и на странице матча.</div>' : ''}
+      <figure class="${st.dev}"><img src="${img}" alt="${f.n} — ${c[1]}"></figure></section>`
+  }).join('')
+}
+document.addEventListener('click', (e) => {
+  const d = e.target.closest('[data-dev]'); if (d) { st.dev = d.dataset.dev; render(); return }
+  const b = e.target.closest('[data-f]'); if (b) { st.sel[b.dataset.f] = b.dataset.c; render(); return }
+  if (e.target.closest('[data-hl]')) { st.hl = !st.hl; render() }
+})
+render()
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

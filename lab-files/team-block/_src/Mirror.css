@@ -1,0 +1,217 @@
+/* Лаба team-block v1: блок команд 14 колонок зеркально. Сетка: 5 героев · фраги · перевес | перевес · фраги · 5 героев */
+.map-teams.mtm { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: var(--space-8) var(--space-12); grid-template-areas: none; --mtm-cols: repeat(5, minmax(0, 1fr)) 32px 60px 60px 32px repeat(5, minmax(0, 1fr)); }
+.map-teams.mtm::before { display: none; }
+.mtm__hd { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: var(--space-12); padding-bottom: var(--space-8); }
+.mtm__tm { display: flex; min-width: 0; }
+.mtm__tm--dire { justify-content: flex-end; }
+.mtm .map-teams__tm { grid-area: auto; flex-direction: row; text-align: left; }
+.mtm .map-teams__tn { align-items: flex-start; }
+.mtm__tm--dire .map-teams__tn { align-items: flex-end; text-align: right; }
+.mtm__tm--dire .map-teams__tn small { flex-direction: row-reverse; }
+.mtm__t { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -60%); color: var(--c-text); font: var(--type-caption-1-strong); font-variant-numeric: tabular-nums; }
+.mtm__cols, .mtm__row { display: grid; grid-template-columns: var(--mtm-cols); align-items: center; column-gap: var(--space-4); }
+.mtm__cols { padding: var(--space-6) 0 var(--space-4); border-top: 1px solid var(--c-border); color: var(--c-text-3); font: var(--type-caption-1); }
+.mtm__lb { text-align: center; }
+.mtm__lb--hr { grid-column: 1 / 6; text-align: left; }
+.mtm__lb--hd { grid-column: 10 / 15; text-align: right; }
+.mtm__row { padding: var(--space-4) 0; }
+.mtm__h { display: flex; align-items: center; gap: var(--space-6); min-width: 0; padding: var(--space-4); border-radius: var(--radius-8); transition: background var(--dur-150), box-shadow var(--dur-150); }
+.mtm__h--dire { flex-direction: row-reverse; text-align: right; }
+.mtm__hx { display: flex; flex-direction: column; min-width: 0; }
+.mtm__h--dire .mtm__hx { align-items: flex-end; }
+.mtm__h--dire .map-teams__k { justify-content: flex-end; }
+.mtm .map-teams__k { justify-content: flex-start; }
+.mtm__h.is-dead { background: color-mix(in srgb, var(--c-text) 8%, transparent); box-shadow: inset 0 0 0 1px var(--c-text-2); }
+.mtm__h.is-dead .hero-icon > img { filter: grayscale(.6); }
+/* 78-17: фраги и перевес — один размер; перевес — всегда жёлтым (золото), не цветом стороны */
+.mtm__n { text-align: center; font: var(--type-title-3); font-variant-numeric: tabular-nums; color: var(--c-text); }
+.mtm__adv { color: var(--w-gold); }
+@media (max-width: 800px) {
+  .map-teams.mtm { --mtm-cols: repeat(5, minmax(0, 1fr)) 24px 40px 40px 24px repeat(5, minmax(0, 1fr)); padding: var(--space-6); }
+  .mtm__hx { display: none; }
+  .mtm__h { justify-content: center; padding: 0; }
+  .mtm__n { font: var(--type-body-1-strong); }
+  .mtm .map-teams__tn small { display: none; }
+}
+.mtm__hx .etag { max-width: 100%; }
+.mtm__hx .etag__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mtm .map-teams__k { white-space: nowrap; }
+/* узкие колонки героев: значок сверху, под ним ник и K/D/A — как в прошлом блоке с двумя сторонами */
+.mtm__h, .mtm__h--dire { flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-4) var(--space-2); text-align: center; }
+.mtm__hx, .mtm__h--dire .mtm__hx { align-items: center; max-width: 100%; }
+.mtm .map-teams__k, .mtm__h--dire .map-teams__k { justify-content: center; }
+.mtm__row { column-gap: 0; }
+.mtm__h, .mtm__h--dire { padding-inline: 0; }
+.mtm__hx .etag { padding-right: 4px; }
+
+/* v2 · icons: только значки героев (крупнее) и K/D/A; ник — подсказкой при наведении */
+.mtm--icons .mtm__hx .etag { display: none; }
+.mtm--icons .mtm__h { gap: var(--space-4); padding-block: var(--space-6); }
+
+/* v3 · panel: герои — плашками, середина — одно табло «фраги · перевес | перевес · фраги» */
+.mtm--panel .mtm__row { column-gap: 4px; }
+.mtm--panel .mtm__h { padding: var(--space-6) var(--space-2); background: var(--c-surface-2); }
+.mtm--panel .mtm__n { align-self: stretch; display: grid; place-items: center; margin-inline: -2px; background: #ffffff12; }
+.mtm--panel .mtm__n--r { border-radius: 10px 0 0 10px; }
+.mtm--panel .mtm__n--d { border-radius: 0 10px 10px 0; }
+.mtm--panel .mtm__adv { background: color-mix(in srgb, var(--w-gold) 8%, #ffffff12); }
+
+/* v4 · portrait: портреты героев крупно (66×38), под ними ник и K/D/A */
+.mtm--portrait .hero-icon--portrait > img { border-radius: 6px; }
+.mtm--portrait .mtm__h { gap: var(--space-4); }
+.mtm--portrait .mtm__n { font: var(--type-title-2, var(--type-title-3)); }
+
+/* v5 · past: ближе к прошлому блоку — герои столбиком (значок 34, ник, K/D/A), ось по центру;
+   перевес — один блок в середине, сдвинут к ведущей стороне, стрелка — в её сторону */
+.map-teams.mtm--past { --mtm-cols: repeat(5, minmax(0, 1fr)) 40px 180px 40px repeat(5, minmax(0, 1fr)); }
+.mtm--past .mtm__lb--bar { grid-column: 7; }
+.mtm--past .mtm__lb--hd { grid-column: 9 / 14; }
+.mtm--past .mtm__h { padding-block: var(--space-6); }
+.mtm--past .mtm__row { position: relative; }
+.mtm__bar { position: relative; align-self: stretch; display: flex; align-items: center; justify-content: center; }
+.mtm__bar::before { content: ''; position: absolute; left: 50%; top: 4px; bottom: 4px; width: 1px; background: var(--c-border); }
+.mtm__pill { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 10px; background: color-mix(in srgb, var(--w-gold) 14%, var(--c-surface-2)); color: var(--w-gold); font: var(--type-title-3); font-variant-numeric: tabular-nums; white-space: nowrap; transition: transform .35s var(--ease-spring, ease); }
+.mtm__bar.is-radiant { justify-content: flex-start; }
+.mtm__bar.is-dire { justify-content: flex-end; }
+.mtm__bar.is-dire .mtm__pill { flex-direction: row-reverse; }
+.mtm__bar.is-dire .mtm__pill svg { transform: scaleX(-1); }
+.mtm__bar.is-radiant .mtm__pill { border-radius: 10px 4px 4px 10px; }
+.mtm__bar.is-dire .mtm__pill { border-radius: 4px 10px 10px 4px; }
+.mtm--past .mtm__lb--bar { text-align: center; }
+
+/* v6–v10 — перевес в середине по-разному (структура v5) */
+.mtm__even { color: var(--c-text-3); font: var(--type-caption-1); }
+/* v6 · bar: полоса от оси к ведущей, длина — по перевесу (до 15k — вся половина), число над полосой */
+.mtm__bar--bar { flex-direction: column; justify-content: center; gap: 6px; }
+.mtm__bar--bar .mtm__fill { position: absolute; top: 50%; height: 8px; margin-top: 8px; width: calc(var(--adv) * 50%); border-radius: 4px; background: var(--w-gold); }
+.mtm__bar--bar.is-radiant .mtm__fill { right: 50%; border-radius: 4px 0 0 4px; }
+.mtm__bar--bar.is-dire .mtm__fill { left: 50%; border-radius: 0 4px 4px 0; }
+.mtm__bar--bar .mtm__bn { position: absolute; bottom: 50%; margin-bottom: -2px; color: var(--w-gold); font: var(--type-title-3); white-space: nowrap; }
+.mtm__bar--bar.is-radiant .mtm__bn { right: calc(50% + 6px); }
+.mtm__bar--bar.is-dire .mtm__bn { left: calc(50% + 6px); }
+/* v7 · tri: без блока — число у ведущей, треугольник смотрит в её сторону */
+.mtm__bar--tri.is-radiant { justify-content: flex-start; padding-left: 8px; }
+.mtm__bar--tri.is-dire { justify-content: flex-end; padding-right: 8px; }
+.mtm__tri { display: inline-flex; align-items: center; gap: 6px; color: var(--w-gold); font: var(--type-title-3); white-space: nowrap; }
+.mtm__tri i { width: 0; height: 0; border-block: 6px solid transparent; }
+.mtm__bar--tri.is-radiant .mtm__tri i { border-right: 8px solid var(--w-gold); }
+.mtm__bar--tri.is-dire .mtm__tri { flex-direction: row-reverse; }
+.mtm__bar--tri.is-dire .mtm__tri i { border-left: 8px solid var(--w-gold); }
+/* v8 · scale: шкала во всю середину, метка сдвинута от центра к ведущей по перевесу, число в метке */
+.mtm__bar--scale::before { display: none; }
+.mtm__track { position: absolute; left: 6px; right: 6px; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: linear-gradient(90deg, #ffffff14, #ffffff14) center / 1px 12px no-repeat, #ffffff12; }
+.mtm__mark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: left .35s var(--ease-spring, ease); }
+.mtm__bar--scale.is-radiant .mtm__mark { left: calc(50% - var(--adv) * 42%); }
+.mtm__bar--scale.is-dire .mtm__mark { left: calc(50% + var(--adv) * 42%); }
+.mtm__mark > span { display: block; padding: 4px 8px; border-radius: 8px; background: var(--w-gold); color: #1a1405; font: var(--type-body-1-strong); white-space: nowrap; }
+/* v9 · half: половина середины у ведущей залита, число по её центру */
+.mtm__bar--half { padding-block: 4px; }
+.mtm__half { position: absolute; top: 4px; bottom: 4px; width: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--w-gold) 16%, transparent); color: var(--w-gold); font: var(--type-title-3); white-space: nowrap; }
+.mtm__bar--half.is-radiant .mtm__half { left: 0; border-radius: 10px 0 0 10px; }
+.mtm__bar--half.is-dire .mtm__half { right: 0; border-radius: 0 10px 10px 0; }
+/* v10 · logo: блок как v5, но вместо стрелки — лого ведущей */
+.mtm__pill--logo .team-logo { width: 18px; height: 18px; object-fit: contain; }
+.mtm__bar--logo.is-dire .mtm__pill { flex-direction: row-reverse; }
+.mtm__bar--bar, .mtm__bar--tri, .mtm__bar--scale, .mtm__bar--half, .mtm__bar--logo { justify-content: center; }
+.mtm__bar--tri.is-radiant { justify-content: flex-start; } .mtm__bar--tri.is-dire { justify-content: flex-end; }
+.mtm__bar--logo.is-radiant { justify-content: flex-start; } .mtm__bar--logo.is-dire { justify-content: flex-end; }
+
+/* v11–v15 — от v8: цифры моно (Geist Mono), метка фиксированного размера (не скачет ни шириной, ни высотой), движение плавное */
+.mtm__sc ~ .mtm__n, .mtm__row:has(.mtm__sc) .mtm__n { font: 600 22px/1 var(--font-mono); letter-spacing: -.02em; }
+.mtm__sc .mtm__mark2 { --x: calc(50% + (var(--side, 0) * var(--adv) * 40%)); position: absolute; top: 50%; left: var(--x); transform: translate(-50%, -50%); transition: left .6s cubic-bezier(.22, .8, .3, 1); }
+.mtm__sc.is-radiant { --side: -1; } .mtm__sc.is-dire { --side: 1; }
+.mtm__ml { display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 72px; height: 26px; border-radius: 8px; background: var(--w-gold); color: #1a1405; font: 600 13px/1 var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+.mtm__ml .map-teams__od, .mtm__ml .map-teams__nt { line-height: 1.1em; }
+/* above: метка над шкалой, под ней точка на шкале */
+.mtm__sc--above .mtm__mark2, .mtm__sc--fill .mtm__mark2 { display: flex; flex-direction: column; align-items: center; gap: 6px; transform: translate(-50%, -100%); margin-top: 4px; }
+.mtm__dot { width: 10px; height: 10px; border: 2px solid var(--c-surface-2, #18181b); border-radius: 50%; background: var(--w-gold); box-sizing: border-box; }
+.mtm__sc--above .mtm__ml { position: relative; }
+.mtm__sc--above .mtm__ml::after { content: ''; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; background: var(--w-gold); transform: translateX(-50%) rotate(45deg); border-radius: 1px; z-index: -1; }
+/* fill: заливка от центра до точки; число над — без плашки, золотом */
+.mtm__sfill { position: absolute; top: 50%; height: 4px; margin-top: -2px; background: var(--w-gold); border-radius: 2px; transition: width .6s cubic-bezier(.22, .8, .3, 1); width: calc(var(--adv) * 40%); }
+.mtm__sc--fill.is-radiant .mtm__sfill { right: 50%; } .mtm__sc--fill.is-dire .mtm__sfill { left: 50%; }
+.mtm__sc--fill .mtm__ml { background: none; color: var(--w-gold); font-size: 15px; }
+/* dark: тёмная метка, золотое число и рамка */
+.mtm__sc--dark .mtm__ml { background: var(--c-surface-2, #18181b); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--w-gold) 60%, transparent); color: var(--w-gold); }
+/* ticks: деления 5k / 10k / 15k с каждой стороны */
+.mtm__sc--ticks .mtm__track i { position: absolute; top: -3px; width: 1px; height: 10px; background: #ffffff26; }
+.mtm__sc--above .mtm__ml { overflow: visible; }
+
+/* v16–v20 — от v12: герои своим тегом (скос), ники мельче, K/D/A моно, перевес мельче (60×22) */
+.mtm--g .mtm__hero { --etag-pic: 30px; }
+.mtm--g .mtm__hero .etag__name:empty { display: none; }
+.mtm--g .mtm__hero .etag__end { color: var(--c-text-3); font: var(--num-micro); }
+.mtm--g .mtm__hx .etag { font: var(--type-caption-2); --etag-pic: 14px; }
+.mtm--g .map-teams__k { font: var(--num-caption-2); }
+.mtm__g .mtm__ml { width: 60px; height: 22px; border-radius: 7px; font: 600 12px/1 var(--font-mono); }
+.mtm__g.mtm__sc--above .mtm__mark2 { gap: 5px; }
+.mtm__g .mtm__dot { width: 8px; height: 8px; }
+/* track: шкала градиентом — от центра прозрачная, к краям золотистая */
+.mtm__g--track .mtm__track { height: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--w-gold) 55%, transparent), #ffffff10 45%, #ffffff10 55%, color-mix(in srgb, var(--w-gold) 55%, transparent)); }
+/* fill: от центра до точки — градиент прозрачный → золото, точка светится */
+.mtm__g--fill .mtm__sfill { height: 3px; margin-top: -1.5px; background: linear-gradient(90deg, transparent, var(--w-gold)); }
+.mtm__g--fill.is-radiant .mtm__sfill { background: linear-gradient(270deg, transparent, var(--w-gold)); }
+.mtm__g--fill .mtm__dot { box-shadow: 0 0 0 3px color-mix(in srgb, var(--w-gold) 25%, transparent), 0 0 12px var(--w-gold); }
+.mtm__g--fill .mtm__ml { background: none; color: var(--w-gold); }
+.mtm__g--fill .mtm__ml::after { display: none; }
+/* glass: метка — градиент золота сверху вниз, блик сверху, тень */
+.mtm__g--glass .mtm__ml { background: linear-gradient(180deg, #ffe08a, var(--w-gold) 55%, #d9a520); box-shadow: inset 0 1px 0 #fff8, 0 4px 12px color-mix(in srgb, var(--w-gold) 30%, transparent); }
+.mtm__g--glass .mtm__ml::after { background: #d9a520; }
+/* glow: мягкое золотое свечение со стороны ведущей; метка тёмная с золотым градиентом текста */
+.mtm__gl { position: absolute; top: 50%; height: 36px; margin-top: -18px; width: 50%; pointer-events: none; transition: opacity .6s; }
+.mtm__g--glow.is-radiant .mtm__gl { right: 50%; background: radial-gradient(60% 50% at 100% 50%, color-mix(in srgb, var(--w-gold) calc(var(--adv) * 40%), transparent), transparent); }
+.mtm__g--glow.is-dire .mtm__gl { left: 50%; background: radial-gradient(60% 50% at 0% 50%, color-mix(in srgb, var(--w-gold) calc(var(--adv) * 40%), transparent), transparent); }
+.mtm__g--glow .mtm__ml { background: #141416; box-shadow: inset 0 0 0 1px #ffffff1a; color: var(--w-gold); }
+.mtm__g--glow .mtm__ml::after { background: #141416; box-shadow: 1px 1px 0 #ffffff1a; }
+/* half: тёплый градиент на всей половине ведущей — от оси к краю гаснет */
+.mtm__g--half .mtm__gl { height: 40px; margin-top: -20px; border-radius: 10px; }
+.mtm__g--half.is-radiant .mtm__gl { right: 50%; background: linear-gradient(270deg, color-mix(in srgb, var(--w-gold) 18%, transparent), transparent); }
+.mtm__g--half.is-dire .mtm__gl { left: 50%; background: linear-gradient(90deg, color-mix(in srgb, var(--w-gold) 18%, transparent), transparent); }
+.mtm__g--fill.is-dire .mtm__sfill { left: 50%; } .mtm__g--fill.is-radiant .mtm__sfill { right: 50%; }
+.mtm__g--glow .mtm__gl { height: 44px; margin-top: -22px; }
+.mtm__g--glow.is-radiant .mtm__gl { background: radial-gradient(90% 60% at 100% 50%, color-mix(in srgb, var(--w-gold) calc(20% + var(--adv) * 30%), transparent), transparent 80%); }
+.mtm__g--glow.is-dire .mtm__gl { background: radial-gradient(90% 60% at 0% 50%, color-mix(in srgb, var(--w-gold) calc(20% + var(--adv) * 30%), transparent), transparent 80%); }
+
+/* v21–v22 — блок сайта; перевес — золотая выбитая плашка с монетой (не цветом стороны), моно */
+.map-teams__cd.tbs__cd { gap: 6px; padding: 4px 10px 4px 7px; border-radius: 9px; background: linear-gradient(180deg, #121214, #1b1b1f); box-shadow: inset 0 1px 2px #000c, inset 0 -1px 0 #ffffff14, 0 0 0 1px #ffffff0d; color: var(--w-gold); }
+.map-teams__cd.tbs__cd b { color: var(--w-gold); font: 600 15px/1 var(--font-mono); text-shadow: 0 1px 0 #0009, 0 -1px 0 #fff2; min-width: 6ch; }
+.map-teams__cd.tbs__cd.is-radiant, .map-teams__cd.tbs__cd.is-dire { color: var(--w-gold); }
+.tbs__coin { width: 16px; height: 16px; object-fit: contain; filter: drop-shadow(0 1px 1px #0008); }
+/* v22: маленькая шкала под числом — от центра к ведущей */
+.tbs__cd--scale { flex-wrap: wrap; justify-content: center; row-gap: 5px; padding-bottom: 7px; }
+.tbs__sc { position: relative; flex-basis: 100%; height: 3px; border-radius: 2px; background: #ffffff12; box-shadow: inset 0 1px 1px #0008; }
+.tbs__sc::before { content: ''; position: absolute; left: 50%; top: -2px; width: 1px; height: 7px; background: #ffffff30; }
+.tbs__sc i { position: absolute; top: 0; height: 3px; width: calc(var(--adv) * 50%); border-radius: 2px; background: linear-gradient(90deg, #b8891c, var(--w-gold)); transition: width .6s cubic-bezier(.22, .8, .3, 1); }
+.tbs__sc.is-dire i { left: 50%; }
+.tbs__sc.is-radiant i { right: 50%; background: linear-gradient(270deg, #b8891c, var(--w-gold)); }
+
+/* v23: метка перевеса — как плашка сайта: тёмная вдавленная, число золотом (моно), монета; ширина фиксирована */
+.mtm__ml.mtm__ml--chip { width: 84px; height: 26px; gap: 5px; border-radius: 9px; background: linear-gradient(180deg, #121214, #1b1b1f); box-shadow: inset 0 1px 2px #000c, inset 0 -1px 0 #ffffff14, 0 0 0 1px #ffffff0d; color: var(--w-gold); font: 600 13px/1 var(--font-mono); text-shadow: 0 1px 0 #0009; overflow: visible; }
+.mtm__ml--chip::after { display: none; }
+.mtm__coin { width: 14px; height: 14px; object-fit: contain; filter: drop-shadow(0 1px 1px #0008); }
+
+/* v24: монета вместо точки — едет по шкале к ведущей (до самого края шкалы); плашка над ней — только число,
+   держится внутри середины: у края упирается, на фраги не залезает */
+.mtm__sc--coin { --x: calc(50% + var(--side, 0) * var(--adv) * (50% - 14px)); }
+.mtm__sc--coin .mtm__track { left: 6px; right: 6px; }
+.mtm__cm { position: absolute; top: 50%; left: var(--x); width: 18px; height: 18px; object-fit: contain; transform: translate(-50%, -50%); filter: drop-shadow(0 1px 2px #000c); transition: left .6s cubic-bezier(.22, .8, .3, 1); }
+.mtm__cx { position: absolute; bottom: calc(50% + 12px); left: clamp(36px, var(--x), calc(100% - 36px)); transform: translateX(-50%); transition: left .6s cubic-bezier(.22, .8, .3, 1); }
+.mtm__sc--coin .mtm__ml.mtm__ml--chip { width: 72px; }
+
+/* v25: время в шапке — плашкой, как LIVE на сайте (фикс. ширина, моно, рамка); идёт карта — мигающая точка */
+.mtm__t.mtm__live { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 76px; height: 24px; border-radius: var(--radius-6, 6px); background: var(--mt-chip); box-shadow: 0 0 0 1px var(--mt-chip-bd); color: var(--c-text); font: var(--num-body-1); font-variant-numeric: tabular-nums; transform: translate(-50%, -50%); }
+.mtm__live i { width: 6px; height: 6px; border-radius: 50%; background: var(--wts-violet); animation: map-teams-blink 1.2s ease-in-out infinite; }
+.mtm__live.is-at { color: var(--c-text-2); }
+
+/* v26: плашка времени — ровно по центру шапки по высоте (средняя колонка сетки, не абсолютом) и в стиле плашки перевеса: тёмный градиент, вдавленная, моно */
+.mtm__hd:has(.mtm__live2) { grid-template-columns: 1fr auto 1fr; }
+.mtm__t.mtm__live.mtm__live2 { position: static; transform: none; align-self: center; justify-self: center; width: 84px; height: 26px; border-radius: 9px; background: linear-gradient(180deg, #121214, #1b1b1f); box-shadow: inset 0 1px 2px #000c, inset 0 -1px 0 #ffffff14, 0 0 0 1px #ffffff0d; color: var(--c-text); font: 600 13px/1 var(--font-mono); text-shadow: 0 1px 0 #0009; }
+.mtm__live2 i { box-shadow: 0 0 6px var(--wts-violet); }
+
+/* v27: фраги — того же размера, что перевес в плашке (13 px моно) — числа одного размера (78-17) */
+.mtm--small-k .mtm__row .mtm__n { font: 600 13px/1 var(--font-mono); }
+
+/* v28: фраги и перевес — оба 16 px моно (одного размера, но не мелко); плашка перевеса чуть выше и шире под число */
+.mtm--k16 .mtm__row .mtm__n { font: 600 16px/1 var(--font-mono); }
+.mtm--k16 .mtm__sc--coin .mtm__ml.mtm__ml--chip { width: 80px; height: 28px; font-size: 16px; }
+.mtm--k16 .mtm__sc--coin .mtm__cx { left: clamp(40px, var(--x), calc(100% - 40px)); }

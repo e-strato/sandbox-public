@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v1 · Зоны: выход и вылет</title>
+<link rel="stylesheet" href="_tm.css" />
+<style>
+/* v1 — зоны в общей таблице (A → C 17.11, п. 1, 2, 4): тон строк выходит / вылетает, черта после последнего прошедшего, форма точками на компьютере. Компоненты ui/ из Storybook (:6007), «Общие/Таблица/Зоны». */
+.v1 iframe{display:block;width:100%;border:0;background:var(--w-page)}
+body:not(.is-phone) .v1-phone,body.is-phone .v1-desk{display:none}
+.v1 section{display:flex;flex-direction:column;gap:8px}
+.v1 h2{margin:16px 0 0;font:600 20px/26px var(--w-font)}
+.v1 p{margin:0 0 4px;max-width:760px;color:var(--w-muted-fg);font:400 13px/19px var(--w-font)}
+</style></head>
+<body><main class="tm-page v1 v1-desk"><div class="tm-main">
+  <section><p>Групповой этап TI 2026: 16 команд, выходят в плей-офф — сверху. Форма 5 точками — и на компьютере. Сортировка не по месту — черта пропадает (зоны есть только в порядке мест). Четыре вида — на выбор.</p></section>
+  <section><h2>А · Фон строк + линия</h2><p>Выходящие — зелёный фон строки, вылетающие — красный; между зонами — линия.</p><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D1%84%D0%BE%D0%BD%D0%BB%D0%B8%D0%BD%D0%B8%D1%8F&viewMode=story" style="height:700px" loading="lazy"></iframe></section>
+  <section><h2>Б · Цвет места + пунктир</h2><p>Фон строк обычный, цвет только у кружка места; между зонами — пунктир.</p><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%BF%D1%83%D0%BD%D0%BA%D1%82%D0%B8%D1%80&viewMode=story" style="height:700px" loading="lazy"></iframe></section>
+  <section><h2>В · Слабый фон и место + подпись зоны</h2><p>Фон слабее, кружок места цветной; между зонами — линия с подписью «↑ Плей-офф · ↓ Выбыли».</p><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D0%BE%D0%B1%D0%B0%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C&viewMode=story" style="height:700px" loading="lazy"></iframe></section>
+  <section><h2>Г · Без цвета, только подпись зоны</h2><p>Строки без цвета; зону показывает только подписанная черта.</p><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D1%82%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%D1%87%D0%B5%D1%80%D1%82%D0%B0&viewMode=story" style="height:700px" loading="lazy"></iframe></section>
+</div></main>
+<main class="tm-page v1 v1-phone"><div class="tm-main">
+  <section><h2>А · Телефон</h2><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%D0%B0&viewMode=story" style="height:760px" loading="lazy"></iframe></section>
+  <section><h2>В · Телефон</h2><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%D0%B2&viewMode=story" style="height:760px" loading="lazy"></iframe></section>
+</div></main>
+<script src="_view.js"></script>
+</body></html>

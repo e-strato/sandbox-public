@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- rare-cases v9 (дирижёр 18.11: «настроек в лабе нет — ни состояние, ни виджет не переключить»). Стандартная лаба: страница — только виджет, настройки — в панели песочницы
+     через window.LAB (как gs-home/_home.js, participants-table/_view.js): «Вид» Компьютер 1440 / Телефон 390, «Виджет» швейцарка / группы / плей-офф, «Состояние» как сейчас /
+     снялась / замена / переигровка (недоступные для виджета — выключены), свитч «Что поменялось» (жёлтая рамка). Снимки — настоящие таблицы страницы турнира движка, случаи поверх,
+     примеры выдуманы. Телефон: шахматка без «Карт» и «±» — влезает в 390; переигровку на телефоне не видно (раунды свёрнуты в форму). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Редкие случаи</title>
+<style>
+body { margin: 0; background: #000; }
+main { width: 1032px; max-width: 100%; margin: 0 auto; padding: 16px 0 48px; }
+body.is-phone main { width: 390px; }
+img { display: block; width: 100%; height: auto; }
+</style>
+</head><body><main><img id="im" alt=""></main>
+<script>
+const W = { sw: 'Швейцарка', gr: 'Группы «каждый с каждым»', po: 'Плей-офф' }
+const S = { now: 'Как сейчас', out: 'Команда снялась', rep: 'Замена команды', re: 'Переигровка' }
+const HAS = { sw: ['now', 'out', 'rep', 're'], gr: ['now', 'out', 're'], po: ['now', 'out'] }
+const CAP = {
+  'sw-now': 'TI 2026 — швейцарка: в клетке раунда — лого соперника и счёт серии.',
+  'sw-out': 'Vici Gaming снялась после Р2 (пример): «тех» — только в уже назначенном Р3 (в швейцарке следующие пары собираются по ходу), дальше «—»; строка — в самый низ, «Снялась» справа от имени.',
+  'sw-rep': 'Team Resilience заменили на MOUZ с Р2 (пример): на месте прежней — MOUZ «вместо Team Resilience · с Р2»; прежняя — в самом низу с сыгранным Р1 и «Заменена».',
+  'sw-re': 'Spirit — Aurora (Р2) переиграли (пример): новый счёт и ↻ в углу клетки. ‼️ На Liquipedia признака «переигровка» нет — нужно поле в данных.',
+  'gr-now': 'Universe Ep. 7 — группы, шахматка: места квадратиком (прошли — зелёный, выбыли — красный), строки без цвета.',
+  'gr-out': 'OG снялась после двух матчей (пример): расписание известно заранее — все оставшиеся матчи «тех».',
+  'gr-re': 'MOUZ — Virtus.pro переиграли (пример): ↻ в углу обеих клеток.',
+  'po-now': 'TI 2026 — сетка плей-офф.',
+  'po-out': 'Nigma Galaxy снялась до ПФ ВС (пример): у прошедшей — «тех», без Bo; Team Yandex сразу в финале ВС.',
+}
+const st = { view: 'desk', w: 'sw', s: 'out', hl: true }
+try { Object.assign(st, JSON.parse(localStorage.getItem('rc9') || '{}')) } catch {}
+const ok = (s) => HAS[st.w].includes(s) && !(st.view === 'phone' && st.w === 'sw' && s === 're')
+function render() {
+  if (!ok(st.s)) st.s = 'now'
+  try { localStorage.setItem('rc9', JSON.stringify(st)) } catch {}
+  document.body.classList.toggle('is-phone', st.view === 'phone'); document.body.classList.toggle('is-desk', st.view !== 'phone')
+  const im = document.getElementById('im')
+  im.src = `img/${st.view === 'phone' ? 'v7-ph' : 'v6'}/${st.w}-${st.s}${st.s !== 'now' && st.hl ? '-hl' : ''}.png`
+  im.alt = W[st.w] + ' — ' + S[st.s]
+}
+window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }),
+  axes: () => [
+    { key: 'view', name: 'Вид', value: st.view, options: [{ v: 'desk', label: 'Компьютер 1440' }, { v: 'phone', label: 'Телефон 390' }] },
+    { key: 'w', name: 'Виджет', value: st.w, options: Object.entries(W).map(([v, label]) => ({ v, label })) },
+    { key: 's', name: 'Состояние', value: st.s, options: Object.entries(S).map(([v, label]) => ({ v, label, off: !ok(v) })) },
+  ],
+  set(k, x) { st[k] = x; render() },
+  toggles: () => [{ key: 'hl', name: 'Что поменялось', value: st.hl, off: st.s === 'now' }],
+  toggle(k) { if (k === 'hl') { st.hl = !st.hl; render() } },
+  caption: () => (st.view === 'phone' && st.w === 'sw' && st.s === 'now' ? 'Телефон: раунды свёрнуты в форму точками — тех = пустой кружок, матча нет — чёрточка; переигровку не видно. ' : '') + CAP[st.w + '-' + st.s] + ' Таблицы настоящие, примеры выдуманы.' }
+render()
+</script>
+</body></html>

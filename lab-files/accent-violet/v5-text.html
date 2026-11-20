@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v5 — основа выбрана: #3f238b · oklch(0.364 0.16 288) (дирижёр 16.11); «Новый» и замок 150 в шапке — ярче: у светлого фиолетового (текст, рамки) свои ползунки. Дальше как v4. Было v4 — настройка оттенка самому (дирижёр 16.11: «типа ночного, только чуть ярче — не светлее, а ярче; сделай пресеты, чтобы я мог сам сдвигать»). Цвет в OKLCH: насыщенность, светлота, оттенок — ползунками; «ярче» = насыщенность при той же светлоте. Куски настоящих страниц демо в iframe, цвет подменяется вживую. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Фиолетовый для текста</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --chip:#E5E5EA; --sel:#fff; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --chip:#2C2C2E; --sel:#636366; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1240px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0 0 16px; color:var(--tx2); }
+.btn{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.panel{ position:sticky; top:0; z-index:5; background:var(--card); border-radius:14px; padding:14px 16px; display:grid; grid-template-columns:auto 1fr; gap:10px 20px; align-items:center; box-shadow:0 4px 20px rgba(0,0,0,.08); }
+.big{ grid-row:span 2; width:132px; height:96px; border-radius:12px; display:flex; flex-direction:column; justify-content:flex-end; padding:8px 10px; color:#fff; font-size:12px; line-height:1.3; }
+.big b{ font-size:15px; }
+.pre{ display:flex; flex-wrap:wrap; gap:4px; padding:4px; border-radius:12px; background:var(--chip); width:max-content; max-width:100%; }
+.pre button{ display:flex; align-items:center; gap:8px; height:34px; padding:0 10px; border:0; border-radius:9px; background:none; color:var(--tx); font:500 13px/1 inherit; font-family:inherit; cursor:pointer; }
+.pre button i{ width:16px; height:16px; border-radius:4px; }
+.pre button.on{ background:var(--sel); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.sl{ display:grid; grid-template-columns:repeat(3, 1fr) auto; gap:16px; align-items:end; }
+.sl label{ display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--tx2); }
+.sl label span{ display:flex; justify-content:space-between; } .sl label em{ font-style:normal; color:var(--tx); font-variant-numeric:tabular-nums; }
+.sl input{ width:100%; accent-color:var(--v, #6d4fc2); }
+.grid{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; margin-top:14px; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.view{ position:relative; overflow:hidden; border-radius:4px; }
+.view > div{ position:absolute; left:0; top:0; transform-origin:0 0; overflow:hidden; }
+.view iframe{ position:absolute; width:1440px; height:900px; border:0; pointer-events:none; }
+.view.wait::after{ content:'загружаю…'; position:absolute; inset:0; display:grid; place-items:center; color:rgba(235,235,245,.6); font-size:12px; }
+.cp{ position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; z-index:9; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .panel{ grid-template-columns:1fr; position:static; } .big{ grid-row:auto; } .sl{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div>
+    <h1>Основа выбрана, подбираем светлый</h1>
+    <p class="sub">Основа — твой #3f238b, им залиты тиры и кнопки. Текст и рамки (замок 150, «Новый», светлые тиры) — светлый фиолетовый того же оттенка, у него свои ползунки. В v4 он был тусклым, тут по умолчанию ярче.</p>
+  </div><button class="btn" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button></div>
+
+  <div class="panel">
+    <div class="big" id="big"><b id="hex"></b><span id="ok"></span></div>
+    <div class="pre" id="pre"></div>
+    <div class="big" id="big2" style="color:#000"><b id="hex2"></b><span>текст и рамки</span></div>
+    <div class="pre" id="pre2"></div>
+    <div class="sl">
+      <label><span>Текст — насыщенность, ярче <em id="tcv"></em></span><input id="tc" type="range" min="0.06" max="0.26" step="0.005" /></label>
+      <label><span>Текст — светлота <em id="tlv"></em></span><input id="tl" type="range" min="0.55" max="0.9" step="0.005" /></label>
+      <label></label>
+      <button class="btn" id="copy2">⧉ Скопировать светлый</button>
+    </div>
+    <div class="sl">
+      <label><span>Насыщенность — ярче <em id="cv"></em></span><input id="c" type="range" min="0.04" max="0.26" step="0.005" /></label>
+      <label><span>Светлота <em id="lv"></em></span><input id="l" type="range" min="0.24" max="0.56" step="0.005" /></label>
+      <label><span>Оттенок — синее ↔ сиреневее <em id="hv"></em></span><input id="h" type="range" min="262" max="318" step="1" /></label>
+      <button class="btn" id="copy">⧉ Скопировать основу</button>
+    </div>
+  </div>
+
+  <div class="grid" id="g"></div>
+</div>
+<div class="cp" id="cp"></div>
+<script>
+const PRE = [
+  ['Ночной (v3)', .364, .119, 288],
+  ['Твой выбор #3f238b', .364, .16, 288],
+  ['Ночной сочный', .364, .2, 288],
+  ['Ярче, в синеву', .364, .17, 279],
+  ['Ярче, в сирень', .364, .17, 298],
+  ['Ярче и чуть выше', .4, .18, 288],
+]
+const PAGE = { match: '../ui-pages/match.html', calendar: '../gs-calendar/v8-phone.html', news: '../ui-pages/news.html' }
+// кусок страницы: что, где, по какому элементу кадрировать, запас, ширина показа
+const ITEMS = [
+  ['Теги тиров · турниры', 'calendar', '.sc-tier', 9, 24, 10],
+  ['Теги тиров · новости', 'news', '.tier-tag', 4, 120, 16],
+  ['Замок 150', 'match', '.wallet__in.on', 1, 110, 10],
+  ['«Новый» в прогнозах', 'match', '.pred-card', 1, 8, 8],
+  ['«Применить»', 'calendar', '.cl-go', 1, 16, 16],
+  ['«Новая новость»', 'match', '.news-pill', 1, 60, 30],
+  ['Значок «идёт»', 'calendar', '.is-live', 1, 6, 6],
+]
+const PRE2 = [
+  ['Как в v4, тусклый', .724, .112],
+  ['Ярче', .74, .17],
+  ['Ещё ярче', .7, .21],
+  ['Ярче и светлее', .8, .15],
+]
+const st = { l: .364, c: .16, h: 288, tl: .74, tc: .17 }
+try { Object.assign(st, JSON.parse(localStorage.getItem('av-tune5') || '{}')) } catch (e) {}
+const colT = () => `oklch(${st.tl} ${st.tc} ${st.h})`
+const $ = id => document.getElementById(id)
+const col = () => `oklch(${st.l} ${st.c} ${st.h})`
+const css = () => {
+  const V = col(), VF = colT(), T2 = `color-mix(in srgb, ${V} 55%, transparent)`, T3 = `color-mix(in srgb, ${V} 28%, transparent)`
+  return `.sc-tier--1{background:${V}!important;color:#fff!important}.sc-tier--2{background:${T2}!important;color:${VF}!important}.sc-tier--3{background:${T3}!important;color:${VF}!important}
+.tier-tag--1{--tc:${V}!important}.tier-tag--fill.tier-tag--1{color:#fff!important}.tier-tag--2{--tc:${T2}!important}.tier-tag--3{--tc:${T3}!important}.tier-tag--fill.tier-tag--2,.tier-tag--fill.tier-tag--3{color:${VF}!important}
+.is-live .cl-st{background:${V}!important;color:#fff!important}.cl-go{background:${V}!important;color:#fff!important}
+.wallet__in.on{background:color-mix(in srgb, ${V} 30%, transparent)!important;box-shadow:inset 0 0 0 1px color-mix(in srgb, ${VF} 45%, transparent)!important;color:${VF}!important}.wallet__in.on .wallet__ic{color:${VF}!important}
+.pred,.pred-card,.pred-count,.pred-row{--pred-ac:${VF}!important}
+.news-pill{background:${V}!important;color:#fff!important}.news-pill__lg img{box-shadow:0 0 0 2px ${V}!important}` }
+const hex = c => { const x = document.createElement('canvas').getContext('2d'); x.fillStyle = '#000'; x.fillStyle = c; x.fillRect(0, 0, 1, 1); const d = x.getImageData(0, 0, 1, 1).data; return '#' + [d[0], d[1], d[2]].map(v => v.toString(16).padStart(2, '0')).join('') }
+const frames = []
+function paint() {
+  try { localStorage.setItem('av-tune5', JSON.stringify(st)) } catch (e) {}
+  const V = col(), H = hex(V)
+  $('big').style.background = V; $('hex').textContent = H; $('ok').textContent = `oklch ${st.l} ${st.c} ${st.h}`
+  document.documentElement.style.setProperty('--v', V)
+  $('c').value = st.c; $('l').value = st.l; $('h').value = st.h
+  $('cv').textContent = st.c.toFixed(3); $('lv').textContent = st.l.toFixed(3); $('hv').textContent = st.h + '°'
+  $('pre').querySelectorAll('button').forEach((b, i) => { const p = PRE[i]; b.classList.toggle('on', p[1] === st.l && p[2] === st.c && p[3] === st.h) })
+  const T = colT(); $('big2').style.background = T; $('hex2').textContent = hex(T); $('tc').value = st.tc; $('tl').value = st.tl
+  $('tcv').textContent = st.tc.toFixed(3); $('tlv').textContent = st.tl.toFixed(3)
+  $('pre2').innerHTML = PRE2.map(p => `<button class="${p[1] === st.tl && p[2] === st.tc ? 'on' : ''}"><i style="background:oklch(${p[1]} ${p[2]} ${st.h})"></i>${p[0]}</button>`).join('')
+  $('pre2').querySelectorAll('button').forEach((b, i) => b.onclick = () => { st.tl = PRE2[i][1]; st.tc = PRE2[i][2]; paint() })
+  const s = css(); for (const f of frames) { try { const d = f.contentDocument; let t = d.getElementById('acc'); if (!t) { t = d.createElement('style'); t.id = 'acc'; d.head.appendChild(t) } t.textContent = s } catch (e) {} }
+}
+$('pre').innerHTML = PRE.map(p => `<button><i style="background:oklch(${p[1]} ${p[2]} ${p[3]})"></i>${p[0]}</button>`).join('')
+$('pre').querySelectorAll('button').forEach((b, i) => b.onclick = () => { const p = PRE[i]; st.l = p[1]; st.c = p[2]; st.h = p[3]; paint() })
+for (const k of ['c', 'l', 'h', 'tc', 'tl']) $(k).oninput = e => { st[k] = +e.target.value; paint() }
+$('copy2').onclick = () => { const t = hex(colT()) + ' · ' + colT(); try { navigator.clipboard.writeText(t) } catch (e) {} const c = $('cp'); c.textContent = 'Скопировано ' + t; c.classList.add('on'); setTimeout(() => c.classList.remove('on'), 1400) }
+$('copy').onclick = () => { const t = hex(col()) + ' · ' + col(); try { navigator.clipboard.writeText(t) } catch (e) {} const c = $('cp'); c.textContent = 'Скопировано ' + t; c.classList.add('on'); setTimeout(() => c.classList.remove('on'), 1400) }
+$('g').innerHTML = ITEMS.map(([n], i) => `<div class="sh"><b>${n}</b><div class="view wait" id="v${i}" style="width:160px;height:60px"><div><iframe src="${PAGE[ITEMS[i][1]]}" loading="eager" tabindex="-1"></iframe></div></div></div>`).join('')
+ITEMS.forEach(([n, pg, sel, cnt, px, py], i) => {
+  const v = $('v' + i), box = v.firstElementChild, f = box.firstElementChild; frames.push(f)
+  f.onload = () => setTimeout(() => {
+    try {
+      const d = f.contentDocument, els = [...d.querySelectorAll(sel)].filter(e => { const r = e.getBoundingClientRect(); return r.width > 1 && r.height > 1 }).slice(0, cnt)
+      if (!els.length) { v.classList.remove('wait'); v.textContent = 'не нашёлся'; return }
+      let x1 = 1e9, y1 = 1e9, x2 = 0, y2 = 0
+      for (const e of els) { const r = e.getBoundingClientRect(); x1 = Math.min(x1, r.left); y1 = Math.min(y1, r.top); x2 = Math.max(x2, r.right); y2 = Math.max(y2, r.bottom) }
+      const x = Math.max(0, x1 - px), y = Math.max(0, y1 - py), w = Math.min(1440, x2 + px) - x, h = Math.min(900, y2 + py) - y
+      const s = Math.min(1, 560 / w)
+      box.style.width = w + 'px'; box.style.height = h + 'px'; box.style.transform = `scale(${s})`
+      f.style.left = -x + 'px'; f.style.top = -y + 'px'
+      v.style.width = w * s + 'px'; v.style.height = h * s + 'px'; v.classList.remove('wait'); paint()
+    } catch (e) { v.classList.remove('wait'); v.textContent = 'не открылся' }
+  }, 2500)
+})
+paint()
+</script>
+</body></html>

@@ -1,0 +1,68 @@
+/* v16–v18 — без подложки, на линии шапки матча (как v15); вкладки — атом Tabs, как на странице матча */
+.fa-slot { --ask-h: 400px; margin-top: 20px; }
+.fa.ask { padding: 0; background: none; }
+.fa__tabs { width: 100%; box-sizing: border-box; }
+.fa__tabs .tabs__tab small { color: var(--c-text-3); font: var(--num-tag, 500 11px/1 var(--font-mono)); }
+.fa__tabs .tabs__tab:focus-visible { outline: none; }
+/* итог ответа — на месте «Пропустить», та же высота */
+.fa__ok { display: flex; align-items: center; justify-content: center; gap: 6px; height: 48px; border-radius: var(--radius-10, 10px); background: rgb(0 0 0 / .24); color: var(--c-text-2); font: var(--type-caption-1-medium); animation: ask-in .25s ease both; }
+.fa__ok b { color: var(--w-gold); }
+.fa__ok .icon, .fa__ok svg { color: var(--w-gold); }
+/* «Мои ответы» и «Вопросов нет» — в той же карточке, что вопрос; список листается внутри */
+.fa__mine.ask__card, .fa__empty.ask__card { flex: 1; min-height: 0; padding: 4px 14px; border: 1px solid #ffffff14; border-radius: 12px; background: var(--c-surface-2); }
+.fa__mine { display: flex; flex-direction: column; overflow: auto; }
+.fa__mine .ask__list { overflow: visible; }
+.fa__mine .ask__row:first-child { padding-top: 10px; }
+.ask__rq .etag { vertical-align: middle; margin: -2px -6px 0 -2px; }
+.fa__note { display: flex; align-items: center; gap: 6px; margin: 0; padding: 12px 0 10px; border-bottom: 1px solid var(--c-border); color: var(--c-text-3); font: var(--type-caption-1); }
+.fa__empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; color: var(--c-text-3); font: var(--type-caption-1); }
+.fa__empty b { color: var(--c-text); font: var(--type-body-1-strong); }
+.fa__empty .btn { margin-top: 12px; gap: 6px; }
+.fa__empty .btn small { color: var(--c-text-3); }
+/* v18 · рамка: весь виджет в контейнере */
+.fa--frame { --ask-h: 424px; }
+.fa--frame .fa.ask { padding: 10px; border: 1px solid #ffffff14; border-radius: 14px; background: var(--w-bg); }
+
+/* v19 · стопка сверху: края следующих карточек выглядывают над карточкой, карточка прижата к низу */
+.fa--up .ask--deck .ask__stage { padding: 12px 0 0; }
+.fa--up .ask--deck .ask__stage::before, .fa--up .ask--deck .ask__stage::after { top: 12px; bottom: 0; transform-origin: 50% 0; }
+.fa--up .ask--deck .ask__stage::after { transform: translateY(-6px) scale(.95); }
+.fa--up .ask--deck .ask__stage::before { transform: translateY(-12px) scale(.9); }
+
+/* v20 · clean: вкладки ровно по ширине рамки (не вылезают); «Мои ответы» без своей рамки и подложки — на фоне виджета */
+.fa--clean .fa__tabs { grid-auto-columns: 1fr !important; }
+.fa--clean .fa__mine.ask__card { padding: 0 2px; border: 0; background: none; }
+
+/* v22–v25 — «ответ принят» по-разному */
+.is-picked .dk__skip--above.btn:disabled { opacity: .35; }
+/* short: на месте «Пропустить» только «✓ +11» */
+.fa--ok-short .fa__ok { font: var(--type-body-1-strong); gap: 8px; }
+/* button: на выбранной кнопке — «✓ Принят +11» */
+.dk__yn { position: relative; }
+.fa__bok { position: absolute; left: 0; right: 0; height: calc(50% - 4px); display: flex; align-items: center; gap: 8px; padding: 0 14px; border-radius: var(--radius-10, 10px); background: var(--w-violet); color: #fff; font: var(--type-body-1-strong); animation: fa-pop .3s var(--ease-spring, ease) both; }
+.fa__bok b { margin-left: auto; }
+.fa__bok--0 { top: 0; } .fa__bok--1 { bottom: 0; }
+@keyframes fa-pop { from { transform: scale(.96); opacity: 0; } }
+/* overlay: поверх карточки — галочка, «Ответ принят», крупно +11 */
+.fa__ov { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: 12px; background: color-mix(in srgb, var(--c-surface-2) 88%, transparent); backdrop-filter: blur(6px); color: var(--c-text-2); font: var(--type-caption-1); animation: fa-pop .25s ease both; }
+.fa__ovi { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 6px; border-radius: 50%; background: var(--w-violet); color: #fff; }
+.fa__ov b { color: var(--c-text); font: var(--type-body-1-strong); }
+.fa__ovp { color: var(--w-gold); font: 600 28px/1.2 var(--font-mono, monospace); }
+/* fly: «+11» улетает вверх к вкладке «Мои ответы», её счётчик вспыхивает */
+.fa__fly { position: absolute; right: 16px; z-index: 5; color: var(--w-gold); font: 600 18px/1 var(--font-mono, monospace); pointer-events: none; animation: fa-fly 1s cubic-bezier(.3, .7, .4, 1) both; }
+.fa__fly--0 { top: 14px; } .fa__fly--1 { bottom: 14px; }
+@keyframes fa-fly { 0% { opacity: 0; transform: translateY(0) scale(.8); } 15% { opacity: 1; transform: translateY(-10px) scale(1.1); } 100% { opacity: 0; transform: translate(-40px, -300px) scale(.7); } }
+.fa--ok-fly.is-picked .tabs__tab:last-child small { animation: fa-bump 1s ease .6s both; }
+@keyframes fa-bump { 30% { color: var(--w-gold); transform: scale(1.5); } }
+.fa__tabs .tabs__tab small { display: inline-block; }
+
+/* v26: значок типа события слева от вопроса, как в строках «Моих ответов» */
+.fa__qr { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.fa__qr--no { display: block; }
+.fa__qrow { display: grid; place-items: center; height: 26px; color: var(--c-text-2); }
+
+/* v27: ⓘ в строках «Моих ответов» — всплывашка под строкой, как у прогноза */
+.fa__mrow { position: relative; }
+.fa__mrow .dk__i--q { width: 20px; height: 20px; margin: -2px 0 0 2px; }
+.fa__mrule.dk__rule { top: calc(100% - 4px); left: 0; right: 0; }
+.fa__mine:has(.fa__mrule) { overflow: visible; }

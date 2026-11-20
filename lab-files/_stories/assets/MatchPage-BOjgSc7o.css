@@ -1,0 +1,1 @@
+.dtime{display:inline-flex;align-items:center;gap:6px;font:var(--type-caption-1);color:var(--c-text-3);white-space:nowrap}.dtime .num{font-family:var(--font-mono);font-weight:400}.dtime__dot{width:6px;height:6px;border-radius:50%;background:var(--c-text-3)}.dtime--lag{color:var(--c-text)}.dtime--lag .dtime__t{color:var(--c-text-2)}

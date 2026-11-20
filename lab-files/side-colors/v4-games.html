@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- side-colors v4 (дирижёр 18.11 по v3: «хорошо / плохо у нас уже фиолетовым и штриховкой — значит, стороны — цветами игры; покажи реальные виджеты для LoL и CS:
+     CS — основной клиент, LoL — клиент, история матчей»). Настоящие компоненты ui/ из Storybook (Сайт/Матч), подменены только переменные сторон и подписи сторон.
+     Дота — как сейчас. Цвета — замеры v3: LoL rcp-fe-lol-match-history (CommunityDragon), CS2 panorama/styles/csgostyles.css (SteamDatabase / GameTracking-CS2). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Цвета сторон — три игры</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1500px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.cols{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+.head{ position:sticky; top:0; z-index:2; background:var(--bg); padding:12px 0 8px; margin-top:20px; }
+.g{ background:var(--card); border-radius:12px; padding:10px 12px; }
+.g b{ display:block; font-size:16px; } .g small{ display:block; font-size:12px; color:var(--tx2); }
+.sw{ display:inline-flex; align-items:center; gap:6px; margin:6px 10px 0 0; font:500 13px/18px ui-monospace, "SF Mono", monospace; }
+.sw i{ width:20px; height:20px; border-radius:6px; display:inline-block; }
+.wt{ margin:22px 0 6px; font-weight:600; font-size:15px; }
+.wt small{ font-weight:400; color:var(--tx2); font-size:13px; margin-left:6px; }
+figure{ margin:0; background:#09090b; border-radius:10px; padding:6px; }
+figure img{ display:block; width:100%; height:auto; border-radius:6px; }
+.note{ margin-top:24px; font-size:13px; color:var(--tx2); }
+@media (max-width:900px){ .cols{ grid-template-columns:1fr; } .head .cols{ grid-template-columns:repeat(3, 1fr); } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Цвета сторон в трёх играх — на настоящих виджетах</h1>
+      <p class="sub">«Хорошо / плохо» у нас уже не зелёным и красным, а фиолетовым и штриховкой — поэтому стороны красим цветами самой игры. Ниже — настоящие компоненты страницы матча из Storybook: в колонках LoL и CS подставлены цвета сторон из клиентов и подписи сторон этой игры. Дота — как сейчас.</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+  <div class="head"><div class="cols" id="heads"></div></div>
+  <div id="rows"></div>
+  <p class="note">Виджеты — дотовские (в ui/ пока только Дота): золото и пики в LoL и CS здесь только ради цвета. fyi: точки формы и «easy ▼48%» в блоке команд — ещё зелёные / красные, их перевод на фиолетовый и штриховку — отдельно.</p>
+</div>
+<script>
+const GAMES = [
+  { k: 'dota', n: 'Dota 2', d: 'как сейчас у нас', s: [['Radiant', '#22c55e'], ['Dire', '#ef4444']] },
+  { k: 'lol', n: 'League of Legends', d: 'клиент LoL — история матчей', s: [['Синие', '#0A96AA'], ['Красные', '#BE1E37']] },
+  { k: 'cs', n: 'Counter-Strike 2', d: 'клиент CS2 — основной (ct-color / t-color)', s: [['CT', '#96C8FA'], ['T', '#EABE54']] },
+]
+const WIDGETS = [
+  ['graph', 'График перевеса', 'MapGraph v1, Live · Map 2 — сначала ведут Dire (вниз), потом Radiant (вверх); линия и заливка цветом ведущей стороны'],
+  ['teams', 'Блок команд', 'MapTeams v2 — подпись стороны, перевес'],
+  ['draft', 'Шанс по драфту', 'MapDraft v2 — полоса шанса'],
+  ['series', '«Эта серия»', 'Series v1 — стороны на картах'],
+  ['btn', 'Кнопка исхода — выбрана', 'OutcomeButton v2'],
+  ['btn2', 'Кнопка исхода — команда другой стороны', 'OutcomeButton v2'],
+]
+const sw = ([n, h]) => `<span class="sw"><i style="background:${h}"></i>${n} ${h}</span>`
+document.getElementById('heads').innerHTML = GAMES.map((g) => `<div class="g"><b>${g.n}</b><small>${g.d}</small>${g.s.map(sw).join('')}</div>`).join('')
+document.getElementById('rows').innerHTML = WIDGETS.map(([k, t, d]) => `<div class="wt">${t}<small>${d}</small></div><div class="cols">${GAMES.map((g) => `<figure><img src="img/v4/${k}-${g.k}.png" alt="${t} — ${g.n}"></figure>`).join('')}</div>`).join('')
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

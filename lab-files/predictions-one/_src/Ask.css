@@ -1,0 +1,77 @@
+/* Прогнозы — один вопрос (лаба predictions-one v1). Небольшой виджет: вкладки, карточка вопроса, «Как решается» внизу, «Мои ответы» списком. */
+.ask { display: flex; flex-direction: column; gap: 12px; padding: 12px; border-radius: var(--w-r, 12px); background: var(--w-bg); font: var(--type-body-1); color: var(--c-text); }
+.ask__tl { display: inline-flex; align-items: baseline; gap: 6px; }
+.ask__tabs small { color: var(--c-text-3); font: var(--num-tag, 500 11px/1 var(--font-mono)); }
+.ask__card { display: flex; flex-direction: column; gap: 12px; transition: opacity .25s, transform .25s; }
+.ask__card.is-in { animation: ask-in .4s ease both; }
+.ask__card.is-out { opacity: 0; transform: translateY(-6px); }
+@keyframes ask-in { from { opacity: 0; transform: translateY(8px); } }
+.ask__meta { display: flex; align-items: center; gap: 8px; min-height: 28px; color: var(--c-text-3); font: var(--type-caption-1); }
+.ask__meta .event-icon, .ask__row > .event-icon { flex: none; }
+.ask__skip { margin-left: auto; }
+.ask__q { margin: 0; font: var(--type-subtitle-2); line-height: 26px; text-wrap: pretty; }
+.ask__q .etag { vertical-align: -6px; }
+.ask__ph { display: inline-grid; place-items: center; width: var(--etag-pic); height: var(--etag-pic); border-radius: 50%; overflow: hidden; background: var(--w-muted); }
+.ask__ph img { width: 100%; height: 100%; object-fit: cover; }
+.ask__btns { display: grid; gap: 8px; }
+.ask__out.btn { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; text-align: left; }
+.ask__out.is-off { opacity: .4; }
+.ask__ol { display: inline-flex; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ask__op { display: inline-flex; align-items: baseline; gap: 8px; }
+.ask__op small { color: var(--c-text-3); font-weight: 400; }
+.ask__ok { margin: -4px 0 0; color: var(--c-text-3); font: var(--type-caption-1); }
+.ask__ok b { color: var(--w-gold); }
+.ask__ft { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--c-border); }
+.ask__info { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--c-text-3); font: var(--type-caption-1); cursor: pointer; }
+.ask__info:hover, .ask__info.is-on { color: var(--c-text); }
+.ask__left { color: var(--c-text-3); font: var(--type-caption-1); }
+.ask__rule { margin: -4px 0 0; color: var(--c-text-2); font: var(--type-caption-1); line-height: 18px; }
+.ask__empty { display: grid; justify-items: center; gap: 6px; padding: 28px 12px; color: var(--c-text-3); text-align: center; font: var(--type-caption-1); }
+.ask__empty b { color: var(--c-text); font: var(--type-body-1-strong); }
+.ask__list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.ask__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 10px 0; border-top: 1px solid var(--c-border); }
+.ask__row:first-child { border-top: 0; padding-top: 2px; }
+.ask__rq { display: flex; flex-direction: column; gap: 2px; font: var(--type-caption-1-medium); line-height: 20px; }
+.ask__rq .etag { vertical-align: -4px; }
+.ask__rq small { color: var(--c-text-3); font: var(--type-caption-1); }
+.ask__rs { display: inline-flex; align-items: center; gap: 4px; color: var(--c-text-3); font: var(--type-caption-1-strong); white-space: nowrap; }
+.ask__rs.is-win { color: var(--w-gold); }
+
+/* v3–v5: место фиксировано — виджет одной высоты при любом вопросе, кнопки и низ на месте */
+.ask-slot { --ask-h: 340px; position: relative; }
+.ask-slot:not(.ask-slot--flat) { height: var(--ask-h); }
+.ask-slot:not(.ask-slot--flat) > .ask { height: 100%; box-sizing: border-box; }
+.ask-slot:not(.ask-slot--flat) .ask__stage { position: relative; display: flex; flex: 1; min-height: 0; }
+.ask-slot:not(.ask-slot--flat) .ask__card { flex: 1; min-width: 0; }
+.ask-slot:not(.ask-slot--flat) .ask__ft { margin-top: auto; }
+.ask-slot:not(.ask-slot--flat) .ask__list { flex: 1; min-height: 0; overflow: auto; }
+.ask-slot:not(.ask-slot--flat) .ask__empty { flex: 1; align-content: center; }
+
+/* v3 · Карточка: вопрос — отдельная карточка; новая — рамка акцентом гаснет; «Как решается» — карточка переворачивается */
+.ask--card .ask__card, .ask--deck .ask__card { position: relative; z-index: 1; padding: 12px 14px; border: 1px solid #ffffff14; border-radius: 12px; background: var(--c-surface-2); transform-origin: 50% 100%; }
+.ask--card .ask__card.is-in, .ask--deck .ask__card.is-in { animation: ask-in .4s ease both, ask-new 1.6s ease both; }
+@keyframes ask-new { from { border-color: var(--c-accent); box-shadow: 0 0 0 1px var(--c-accent); } }
+.ask--card .ask__card.is-back { animation: ask-flip .3s ease both; }
+@keyframes ask-flip { from { transform: rotateY(70deg); opacity: .3; } }
+.ask__back { display: flex; flex-direction: column; gap: 8px; }
+.ask__back b { font: var(--type-body-1-strong); }
+.ask__back p { margin: 0; color: var(--c-text-2); font: var(--type-body-1); line-height: 22px; }
+
+/* v4 · Колода: за карточкой видны края следующих — сколько ещё; правило — всплывашкой над низом */
+.ask-slot--deck { --ask-h: 364px; }
+.ask--deck .ask__stage { padding-bottom: 12px; }
+.ask--deck .ask__stage::before, .ask--deck .ask__stage::after { content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 12px; border: 1px solid #ffffff10; border-radius: 12px; background: var(--c-surface-2); transform-origin: 50% 100%; }
+.ask--deck .ask__stage::after { transform: translateY(6px) scale(.95); opacity: .7; }
+.ask--deck .ask__stage::before { transform: translateY(12px) scale(.9); opacity: .4; }
+.ask--deck .ask__stage[data-left="1"]::before, .ask--deck .ask__stage[data-left="0"]::before, .ask--deck .ask__stage[data-left="0"]::after { display: none; }
+.ask--deck .ask__rule, .ask--pop .ask__rule { position: absolute; z-index: 3; left: 8px; right: 8px; bottom: 48px; margin: 0; padding: 12px; border: 1px solid #ffffff1a; border-radius: 10px; background: #1f1f23; box-shadow: 0 12px 32px #000a; color: var(--c-text-2); }
+
+/* v5 · Раскрытие: место в колонке фиксировано; раскрыл «Как решается» — виджет растёт вниз поверх соседних виджетов, колонка не прыгает */
+.ask-slot--pop > .ask { position: absolute; inset: 0 0 auto; height: auto !important; min-height: 100%; z-index: 2; transition: box-shadow .2s; }
+.ask-slot--pop.is-open > .ask { box-shadow: 0 16px 40px #000c, 0 0 0 1px #ffffff1a; }
+.ask-slot--pop .ask__stage, .ask-slot--pop .ask__card { display: flex; flex-direction: column; }
+.ask-slot--pop .ask__rule { position: static; box-shadow: none; border: 0; padding: 0; background: none; margin-top: 4px; }
+.ask-slot--pop .ask__list { max-height: 268px; }
+
+.mpage__side:has(.ask-slot) { display: flex; flex-direction: column; gap: 12px; }
+.mpage__side:has(.ask-slot--pop.is-open) { overflow: visible; }

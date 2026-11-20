@@ -1,0 +1,85 @@
+/* Лаба «Таблицы на телефоне»: 4 наши таблицы двумя подачами — v5 вкладки групп колонок, v7 раскрытие строки.
+   Токены — как в ui/src/tokens/tokens.css (--w-*), шрифт Google Sans Flex. */
+:root{--w-page:#000;--w-bg:#09090b;--w-fg:#fafafa;--w-muted:#27272a;--w-muted-fg:#a1a1aa;--w-border:#27272a;--w-hover:#3f3f46;
+  --w-surface:#111113;--w-surface-2:#18181b;--w-up:#22c55e;--w-down:#ef4444;--w-up-fg:#86efac;--w-down-fg:#fca5a5;--w-violet:#3f238b;
+  --w-r:12px;--w-r-sm:8px;--w-font:"Google Sans Flex","Google Sans",system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--w-page);color:var(--w-fg);font:400 13px/18px var(--w-font);-webkit-font-smoothing:antialiased}
+.tm-page{max-width:1440px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:minmax(0,1040px);justify-content:center;gap:16px;align-items:start}  /* главная колонка страницы — 1040 */
+.tm-main,.tm-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+@media (max-width:900px){.tm-page{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.tm-page{padding:12px;gap:12px}.tm-main,.tm-side{gap:12px}}
+svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* виджет */
+.tm{background:var(--w-bg);border:1px solid var(--w-border);border-radius:var(--w-r);overflow:hidden;display:flex;flex-direction:column;font-variant-numeric:tabular-nums}
+.tm-hd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:14px 14px 0}
+.tm-hd h3{margin:0;font:600 15px/20px var(--w-font)}
+.tm-hd p{margin:2px 0 0;color:var(--w-muted-fg);font-size:12px;line-height:16px}
+.tm-hd .n{color:var(--w-muted-fg);font-size:12px;white-space:nowrap}
+.tm-body{max-height:560px;overflow-y:auto;overscroll-behavior:contain}
+
+/* вкладки (v5) */
+.tm-seg{display:flex;margin:12px 14px 4px;background:var(--w-muted);border-radius:var(--w-r-sm);padding:3px}
+.tm-seg button{flex:1;height:28px;border:0;border-radius:6px;background:transparent;color:var(--w-muted-fg);font:500 12px/16px var(--w-font);cursor:pointer}
+.tm-seg button.on{background:var(--w-bg);color:var(--w-fg)}
+
+/* таблица */
+.tm table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:8px}
+.tm th{height:32px;padding:0 8px;text-align:left;color:var(--w-muted-fg);font:500 11px/16px var(--w-font);border-bottom:1px solid var(--w-border);position:sticky;top:0;background:var(--w-bg);z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;user-select:none}
+.tm th:hover{color:var(--w-fg)}
+.tm th.on{color:var(--w-fg)}
+.tm th .ar{display:inline-block;width:10px;margin-left:2px}
+.tm td{height:48px;padding:6px 8px;border-bottom:1px solid var(--w-border);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm th:first-child,.tm td:first-child{padding-left:14px}
+.tm th:last-child,.tm td:last-child{padding-right:14px}
+.tm .num{text-align:right}
+.tm .mu{color:var(--w-muted-fg)}
+.tm .up{color:var(--w-up-fg)}
+.tm .down{color:var(--w-down-fg)}
+.tm b{font-weight:600}
+
+/* первая колонка — кто/что */
+.tm-lead{display:flex;align-items:center;gap:10px;min-width:0}
+.tm-lead > div{min-width:0}
+.tm-lead b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis}
+.tm-lead small{display:block;color:var(--w-muted-fg);font-size:11px;line-height:14px;overflow:hidden;text-overflow:ellipsis}
+.tm-hero{width:36px;height:20px;border-radius:4px;object-fit:cover;flex:none;background:var(--w-surface-2)}
+.tm-logo{width:22px;height:22px;object-fit:contain;flex:none}
+.tm-place{width:18px;text-align:right;color:var(--w-muted-fg);flex:none}
+.tm-place.in{color:var(--w-up-fg)}
+.tm-tag{display:inline-flex;align-items:center;height:16px;padding:0 5px;border-radius:4px;background:var(--w-violet);color:#fff;font:600 10px/16px var(--w-font);margin-left:6px;vertical-align:1px}
+.tm-st{display:inline-flex;align-items:center;gap:5px;font-size:12px}
+.tm-st i{width:6px;height:6px;border-radius:50%;background:var(--w-muted-fg)}
+.tm-st.live i{background:var(--w-down)}
+.tm-ms{display:flex;gap:4px;justify-content:flex-end}
+.tm-ms span{display:inline-flex;align-items:center;gap:2px;font-size:11px;padding:0 3px;border-radius:4px;background:var(--w-surface-2)}
+.tm-ms span img{width:14px;height:14px;object-fit:contain}
+
+/* раскрытие (v7) */
+.tm tr.row{cursor:pointer}
+.tm tr.row:hover td{background:var(--w-surface)}
+.tm tr.row.open td{border-bottom:0;background:var(--w-surface)}
+.tm .chev{color:var(--w-muted-fg);transition:transform .15s;display:block;margin-left:auto}
+.tm tr.open .chev{transform:rotate(180deg)}
+.tm tr.det td{height:auto;padding:0 14px 12px;background:var(--w-surface);white-space:normal}
+.tm-det{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 12px;padding:10px 12px;border-radius:var(--w-r-sm);background:var(--w-surface-2)}
+.tm-det span{display:block;color:var(--w-muted-fg);font-size:11px;line-height:14px}
+.tm-det b{display:block;font-weight:500;font-size:13px;line-height:18px;overflow:hidden;text-overflow:ellipsis}
+.tm-det .wide{grid-column:1/-1}
+
+.tm-more{display:flex;align-items:center;justify-content:center;width:calc(100% - 28px);height:34px;margin:12px 14px 14px;border:1px solid var(--w-border);border-radius:var(--w-r-sm);background:transparent;color:var(--w-fg);font:500 12px/16px var(--w-font);cursor:pointer}
+.tm-more:hover{background:var(--w-muted)}
+.tm-end{height:6px}
+.tm-det .tm-ms{justify-content:flex-start;flex-wrap:wrap}
+.tm table.desk td{height:40px}
+.tm table.desk .tm-hero{width:32px;height:18px}
+.tm-flag{width:20px;height:14px;border-radius:2px;object-fit:cover;flex:none}
+.tm-hh{display:inline-flex;align-items:center;gap:4px;font-size:12px}
+.tm-hh img{width:28px;height:16px;border-radius:3px;object-fit:cover}
+.tm-hh small{color:var(--w-muted-fg);font-size:11px}
+.tm-ms .tm-hh{background:none;padding:0;margin-left:6px}
+.tm-pos{margin-bottom:0}
+/* вид «Телефон 390» из оболочки лабы */
+body.is-phone .tm-page{max-width:390px;padding:12px;gap:12px;grid-template-columns:minmax(0,1fr)}
+body.is-phone .tm-main{gap:12px}

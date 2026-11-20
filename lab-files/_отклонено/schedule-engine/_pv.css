@@ -1,0 +1,5 @@
+/* Оболочка вариантов лабы: iframe во весь экран; телефон — 390 по центру на сером */
+html, body { margin: 0; height: 100%; background: #000; }
+#pv { display: block; width: 100%; height: 100vh; border: 0; background: #000; }
+body.is-phone { background: #171717; }
+body.is-phone #pv { width: 390px; margin: 0 auto; }

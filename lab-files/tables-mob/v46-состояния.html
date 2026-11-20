@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v46 · Состояния и узкая колонка</title>
+<link rel="stylesheet" href="_tm.css" />
+<style>
+/* v46 — правила таблицы по v38 (дирижёр 17.11): компоненты ui/ из Storybook (:6007), по порядку — правила, ячейка, заголовок, строка, фильтр, таблица, телефон. */
+.v46 iframe{display:block;width:100%;border:0;background:var(--w-page)}
+body:not(.is-phone) .v46-phone,body.is-phone .v46-desk{display:none}
+.v46 section{display:flex;flex-direction:column;gap:8px}
+.v46 h2{margin:16px 0 0;font:600 20px/26px var(--w-font)}
+.v46 p{margin:0 0 4px;max-width:760px;color:var(--w-muted-fg);font:400 13px/19px var(--w-font)}
+.v46 h3{margin:8px 0 -4px;color:var(--w-muted-fg);font:500 12px/16px var(--w-font)}
+</style></head>
+<body><main class="tm-page v46 v46-desk"><div class="tm-main">
+  <section><h2>0 · Правила</h2><p>Коротко всё, что выбрали: из чего собрана таблица, ячейки, заголовок, строка, высота, фильтр. Это страница Docs в Storybook — «Общие/Таблица/Правила».</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0--docs&viewMode=docs" style="height:3000px" loading="lazy"></iframe>
+  </section>
+  <section><h2>1 · Ячейка — три слота</h2><p>Левый · центральный · правый. В каждый слот — одно содержимое из своего списка. Новая ячейка = новая сборка слотов.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%8F%D1%87%D0%B5%D0%B9%D0%BA%D0%B0-cell-v3--%D1%81%D0%BB%D0%BE%D1%82%D1%8B&viewMode=story" style="height:760px" loading="lazy"></iframe>
+  </section>
+  <section><h2>2 · Ячейка — сборки</h2><p>Какие ячейки получаются: игрок, команда, герой, турнир, место, число, главная цифра, процент, счёт, число с изменением, форма, статус. Собрать свою — «Конструктор» в Storybook.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%8F%D1%87%D0%B5%D0%B9%D0%BA%D0%B0-cell-v3--%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B8&viewMode=story" style="height:1000px" loading="lazy"></iframe>
+  </section>
+  <section><h2>2а · Ячейка — состояния</h2><p>Полоса, наведение строки, сортировка, крест, тише вне группы — одинаково для любой сборки.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%8F%D1%87%D0%B5%D0%B9%D0%BA%D0%B0-cell-v3--%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F&viewMode=story" style="height:440px" loading="lazy"></iframe>
+  </section>
+  <section><h2>3 · Заголовок</h2><p>Обычный, сортируемый, наведение, сортирует ↓ ↑, фокус, колонка под крестом, группа плашкой и её состояния.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BE%D0%BA-headcell-v2--%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F&viewMode=story" style="height:620px" loading="lazy"></iframe>
+  </section>
+  <section><h2>4 · Строка</h2><p>Обычная, наведение, выбранная, приглушённая, раскрытая на телефоне.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0-row-v2--%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F&viewMode=story" style="height:640px" loading="lazy"></iframe>
+  </section>
+  <section><h2>5 · Фильтр</h2><p>Спрятан за кнопкой; открыт — попап с позицией и командой.</p>
+    <h3>Кнопка</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8B-tablefilter-v2--%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B0&viewMode=story" style="height:260px" loading="lazy"></iframe>
+    <h3>Открыт</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8B-tablefilter-v2--%D0%BF%D0%BE%D0%BF%D0%B0%D0%BF&viewMode=story" style="height:560px" loading="lazy"></iframe>
+  </section>
+  <section><h2>6 · Таблица целиком</h2><p>Собрана из 1–5: окно в 10 строк с прокруткой, крест, фокус на группе.</p>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-datatable-v4--%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80&viewMode=story" style="height:680px" loading="lazy"></iframe>
+  </section>
+  <section><h2>8 · Перепроверка — ещё три таблицы</h2><p>Те же части и правила, другие данные: групповой этап (место, команда, серии, карты, форма, итог плашкой), статистика героев (пять групп колонок), команды (герой в ячейке — «чаще пикали / банили»).</p>
+    <h3>Групповой этап · TI 2026</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%8B&viewMode=story" style="height:680px" loading="lazy"></iframe>
+    <h3>Статистика героев · TI 2026</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B3%D0%B5%D1%80%D0%BE%D0%B8&viewMode=story" style="height:680px" loading="lazy"></iframe>
+    <h3>Команды · TI 2026</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B&viewMode=story" style="height:680px" loading="lazy"></iframe>
+  </section>
+  <section><h2>9 · Состояния</h2><p>Шапка, высота и низ те же — меняется только тело таблицы.</p>
+    <h3>Загрузка</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0&viewMode=story" style="height:680px" loading="lazy"></iframe>
+    <h3>Ошибка</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BE%D1%88%D0%B8%D0%B1%D0%BA%D0%B0&viewMode=story" style="height:680px" loading="lazy"></iframe>
+    <h3>Нет данных</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BD%D0%B5%D1%82%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85&viewMode=story" style="height:300px" loading="lazy"></iframe>
+    <h3>Ничего не нашли (после фильтра) — «Сбросить» активна</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BD%D0%B8%D1%87%D0%B5%D0%B3%D0%BE%D0%BD%D0%B5%D0%BD%D0%B0%D1%88%D0%BB%D0%B8&viewMode=story" style="height:300px" loading="lazy"></iframe>
+  </section>
+  <section><h2>10 · Узкая правая колонка 320</h2><p>То же правило, что телефон: уже 640 — сегменты групп, таблица растёт вниз, «Показать ещё». Включается само, по ширине.</p>
+    <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+      <div style="width:360px"><h3>Статистика героев</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BA%D0%B0320&viewMode=story" style="height:760px" loading="lazy"></iframe></div>
+      <div style="width:360px"><h3>Групповой этап</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BA%D0%B0320%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%8B&viewMode=story" style="height:760px" loading="lazy"></iframe></div>
+    </div>
+  </section>
+</div></main>
+<main class="tm-page v46 v46-phone"><div class="tm-main">
+  <section><h2>7 · Телефон</h2><p>Группы вкладками, таблица растёт вниз, фильтр шторкой.</p>
+    <h3>Таблица</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-datatable-v4--%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:720px" loading="lazy"></iframe>
+    <h3>Фильтр шторкой</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-datatable-v4--%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80&viewMode=story" style="height:800px" loading="lazy"></iframe>
+  </section>
+  <section><h2>8 · Ещё три таблицы на телефоне</h2><p>Группы колонок — вкладками.</p>
+    <h3>Групповой этап</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%8B%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:720px" loading="lazy"></iframe>
+    <h3>Статистика героев</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B3%D0%B5%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:720px" loading="lazy"></iframe>
+    <h3>Команды</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:720px" loading="lazy"></iframe>
+  </section>
+  <section><h2>9 · Вкладки групп — на основе А</h2><p>На героях: 5 вкладок не влезают — лишнее уезжает вбок, нажатая вкладка сама едет к центру; кликами доходишь до крайней.</p>
+    <h3>А · Ширина по тексту</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B2%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%D0%BE%D1%82%D1%81%D1%82%D1%83%D0%BF&viewMode=story" style="height:720px" loading="lazy"></iframe>
+    <h3>Г · Все одной ширины — по самой длинной подписи («Пик + бан»)</h3>
+    <iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B2%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%D1%80%D0%B0%D0%B2%D0%BD%D1%8B%D0%B5&viewMode=story" style="height:720px" loading="lazy"></iframe>
+  </section>
+  <section><h2>11 · Состояния на телефоне</h2><p>Загрузка и ошибка — шапка и сегменты те же.</p>
+    <h3>Загрузка</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:720px" loading="lazy"></iframe>
+    <h3>Ошибка</h3><iframe src="../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B--%D0%BE%D1%88%D0%B8%D0%B1%D0%BA%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD&viewMode=story" style="height:420px" loading="lazy"></iframe>
+  </section>
+</div></main>
+<script src="_view.js"></script>
+</body></html>

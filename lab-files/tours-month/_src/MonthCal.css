@@ -1,0 +1,45 @@
+/* Лаба tours-month v1 — календарь месяцем, как Apple Calendar (компьютер): шахматка дней, полосы турниров по дням игр */
+.mcal { display: flex; flex-direction: column; color: var(--c-text); font: var(--type-body-2); }
+.mcal__hd { display: flex; align-items: center; gap: var(--space-12); padding-bottom: var(--space-12); }
+.mcal__t { margin: 0; font: var(--type-title-2); }
+.mcal__t span { color: var(--c-text-3); font-weight: 400; }
+.mcal__nav { display: inline-flex; align-items: center; gap: 2px; }
+.mcal__btn { display: inline-grid; place-items: center; height: 28px; min-width: 28px; padding: 0 var(--space-6); border: 0; border-radius: var(--radius-6); background: var(--w-muted); color: var(--c-text); font: var(--type-caption-1-medium); cursor: pointer; }
+.mcal__btn:hover { background: var(--w-hover); }
+.mcal__btn--today { padding: 0 var(--space-10); }
+.mcal__sp { flex: 1; }
+.mcal__wd { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 0 0 var(--space-6); color: var(--c-text-3); font: var(--type-caption-1); text-align: right; }
+.mcal__wd span { padding-right: var(--space-8); }
+.mcal__grid { border-top: 1px solid var(--c-border); border-left: 1px solid var(--c-border); }
+/* неделя: верх — числа, ниже дорожки полос (до 4), остаток — пусто */
+.mcal__wk { position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); grid-template-rows: 28px repeat(4, 22px) minmax(6px, 1fr); row-gap: 2px; min-height: 124px; }
+.mcal__day { grid-row: 1 / -1; position: relative; border-right: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border); }
+.mcal__day.is-out { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.mcal__day.is-out .mcal__n { color: var(--c-text-3); }
+.mcal__n { position: absolute; top: 4px; right: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-width: 22px; height: 22px; padding: 0 4px; border-radius: 11px; font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; }
+.mcal__n small { font: var(--type-caption-2); color: var(--c-text-2); }
+.mcal__day.is-today .mcal__n { background: var(--c-live); color: #fff; }
+.mcal__more { position: absolute; left: 6px; bottom: 2px; color: var(--c-text-2); font: var(--type-caption-2); font-weight: 600; }
+/* полоса турнира: скругление — только у начала и конца дней игр; продолжение через неделю — прямой край */
+.mcal__bar { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--space-6); min-width: 0; height: 22px; margin: 0 1px; padding: 0 var(--space-6); border: 0; border-radius: 0;
+  background: color-mix(in srgb, var(--c-text) 10%, transparent); color: var(--c-text); font: var(--type-caption-1-medium); text-align: left; white-space: nowrap; overflow: hidden; }
+.mcal__bar.is-head { margin-left: 4px; border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.mcal__bar.is-tail { margin-right: 4px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+.mcal__bar.is-t1 { background: color-mix(in srgb, var(--c-brand) 45%, transparent); }
+.mcal__bar img { flex: none; width: 16px; height: 16px; object-fit: contain; }
+.mcal__bar b { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.mcal__bar em { flex: none; margin-left: auto; padding: 0 var(--space-6); border-radius: 4px; background: var(--c-live); color: #fff; font: var(--type-caption-2); font-style: normal; font-weight: 600; line-height: 16px; }
+.mcal__bar.is-link { cursor: pointer; }
+.mcal__bar.is-link:hover { filter: brightness(1.25); }
+/* телефон: в полосе только лого, без названия; число матчей — точкой */
+@media (max-width: 799px) {
+  .mcal__wk { grid-template-rows: 26px repeat(4, 18px) minmax(4px, 1fr); min-height: 104px; }
+  .mcal__n { top: 3px; right: 3px; min-width: 20px; height: 20px; font: var(--type-caption-2); font-weight: 600; }
+  .mcal__n small { display: none; }
+  .mcal__wd span { padding-right: 4px; }
+  .mcal__bar { height: 18px; padding: 0 3px; gap: 3px; }
+  .mcal__bar b { display: none; }
+  .mcal__bar img { width: 14px; height: 14px; }
+  .mcal__bar em { width: 6px; height: 6px; padding: 0; overflow: hidden; color: transparent; border-radius: 50%; }
+  .mcal__hd { flex-wrap: wrap; row-gap: var(--space-8); }
+}

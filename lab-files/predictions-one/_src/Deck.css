@@ -1,0 +1,59 @@
+/* v6–v8 — колода без нижней строки: кнопки прижаты к низу, «Пропустить» — кнопкой рядом с ответами, пояснение — значком ⓘ */
+.dk-slot { --ask-h: 372px; }
+.dk-slot:has(.dk--stack) { --ask-h: 412px; }
+.dk__card { display: flex; flex-direction: column; gap: 10px; }
+.dk__meta { display: flex; align-items: center; gap: 6px; min-height: 24px; color: var(--c-text-3); font: var(--type-caption-1); }
+.dk__t b { color: var(--c-text-2); font-weight: 500; }
+.dk__i { display: grid; place-items: center; width: 24px; height: 24px; margin-left: auto; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--c-text-3); cursor: pointer; }
+.dk__i:hover, .dk__i.is-on { background: #ffffff10; color: var(--c-text); }
+/* вопрос: тег игрока ровно в строке — по центру строки, без лишних полей вокруг */
+.dk__q { line-height: 26px; }
+.dk__q .etag { vertical-align: middle; margin: -2px -6px 0 -2px; }
+.dk__rule { position: absolute; z-index: 3; left: 10px; right: 10px; top: 40px; margin: 0; padding: 12px; border: 1px solid #ffffff1a; border-radius: 10px; background: #1f1f23; box-shadow: 0 12px 32px #000a; color: var(--c-text-2); font: var(--type-caption-1); line-height: 18px; }
+.dk__rule b { display: block; margin-bottom: 4px; color: var(--c-text); font: var(--type-caption-1-strong); }
+.dk__btns { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+.dk__yn { display: grid; gap: 8px; }
+.dk--pair .dk__yn { grid-template-columns: 1fr 1fr; }
+.dk--pair .ask__out.btn { grid-template-columns: 1fr; grid-template-rows: auto auto; justify-items: center; height: auto; padding-block: 10px; gap: 2px; }
+.dk--pair .ask__out .ask__op { gap: 6px; }
+.dk__skip.btn { width: 100%; color: var(--c-text-2); background: #ffffff08; }
+.dk__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.dk__row .dk__skip.btn { width: auto; }
+.dk__row .dk__t { color: var(--c-text-3); font: var(--type-caption-1); }
+.dk__ok { position: absolute; left: 14px; right: 14px; bottom: -22px; margin: 0; color: var(--c-text-3); font: var(--type-caption-1); text-align: center; }
+.dk__ok b { color: var(--w-gold); }
+.dk__card { position: relative; }
+
+/* v9 · quiet: без верхней строки; ⓘ сразу после вопроса; «Live · до 36:30» — внутри «Как решается»; «Пропустить» той же высоты, что ответы, но тише */
+.dk-slot:has(.dk--quiet) { --ask-h: 400px; }
+.dk__i--q { display: inline-grid; vertical-align: middle; margin: -3px 0 0 4px; }
+.dk--quiet .dk__rule { top: 64px; bottom: auto; }
+.dk__when { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: var(--c-text-3); }
+.dk--quiet .dk__skip.btn { background: none; box-shadow: inset 0 0 0 1px #ffffff14; color: var(--c-text-3); font-weight: 500; }
+.dk--quiet .dk__skip.btn:hover { background: #ffffff08; color: var(--c-text-2); }
+.dk__when .dk__t { white-space: nowrap; }
+
+/* v10 · top: «Пропустить» — сверху справа, без рамки, со значком пропуска; внизу только «Да» и «Нет» */
+.dk-slot:has(.dk--top) { --ask-h: 340px; }
+.dk__top { display: flex; justify-content: flex-end; margin: -4px -6px -6px 0; }
+.dk__skip-top.btn { gap: 6px; color: var(--c-text-3); background: none; box-shadow: none; border: 0; }
+.dk__skip-top.btn:hover { color: var(--c-text); background: #ffffff0d; }
+.dk--top .dk__rule { top: 96px; }
+.dk__rule .dk__t b { display: inline; margin: 0; font: inherit; color: var(--c-text-2); }
+
+/* v11 · above: «Пропустить» над «Да» и «Нет» — та же ширина и высота, без рамки, тише, со значком */
+.dk-slot:has(.dk--above) { --ask-h: 400px; }
+.dk__skip--above.btn { gap: 8px; background: none; box-shadow: none; border: 0; color: var(--c-text-3); font-weight: 500; }
+.dk__skip--above.btn:hover { background: #ffffff08; color: var(--c-text-2); }
+
+/* v12: как v11, но «Пропустить» выделяется — заливка чуть темнее фона карточки */
+.dk-dark .dk__skip--above.btn { background: rgb(0 0 0 / .24); }
+.dk-dark .dk__skip--above.btn:hover { background: rgb(0 0 0 / .36); }
+
+/* v13–v14: у виджета нет своей подложки — вкладки и карточка на всю ширину колонки; верх виджета на одной линии с верхом блока графика слева */
+.dk-slot:has(.dk--below) { --ask-h: 400px; }
+.dk-flat .ask.dk { padding: 0; background: none; }
+.dk-flat .dk-slot { margin-top: 88px; }
+
+/* v15: отступ сверху — только высота хлебных крошек: верх виджета на одной линии с шапкой матча (PARIVISION — Team Spirit) */
+.dk-crumbs .dk-slot { margin-top: 20px; }

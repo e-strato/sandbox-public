@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v8 · Внутренний бордер</title>
+<link rel="stylesheet" href="_tm.css" />
+<style>
+/* v8 — дирижёр 17.11 к v7: чёрный отступ 4 не нужен — просто внутренний бордер плашки сверху и снизу. Было v7 — дирижёр 17.11 к v5–v6: линии плашки — как обычные разделители таблицы (1px, цвет линии под шапкой), и внутри плашки — отделены от цветных строк чёрным отступом 4. Обе таблицы, одни переключатели. */
+.v7 iframe{display:block;width:100%;border:0;background:var(--w-page)}
+.v7 section{display:flex;flex-direction:column;gap:10px}
+.v7 h2{margin:12px 0 0;font:600 18px/24px var(--w-font)}
+.v7 p{margin:0;max-width:760px;color:var(--w-muted-fg);font:400 13px/19px var(--w-font)}
+.v2-sw{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.v2-sw b{min-width:64px;font:500 12px/16px var(--w-font);color:var(--w-muted-fg)}
+.v2-sw button{all:unset;cursor:pointer;padding:6px 12px;border-radius:8px;background:var(--w-mid-bg);font:500 13px/18px var(--w-font);color:var(--w-fg)}
+.v2-sw button.on{background:var(--w-violet);color:#fff}
+</style></head>
+<body><main class="tm-page v7"><div class="tm-main"><section>
+  <p>Плашка чёрная, линии — как обычные разделители таблицы, внутренним бордером по краю плашки, без отступа. Настройки — общие для обеих таблиц.</p>
+  <div class="v2-sw" data-k="tone"><b>Цвет</b><button data-v="bg" class="on">Фон строк</button><button data-v="place">Только кружок места</button><button data-v="both">Слабый фон + кружок</button><button data-v="off">Без цвета</button></div>
+  <div class="v2-sw" data-k="zone"><b>Черта</b><button data-v="edge24" class="on">24 · линии 1</button><button data-v="edge32">32 · текст крупнее</button><button data-v="edge24-2">24 · линии 2</button><button data-v="edge28-strong">28 · линии и текст ярче</button></div>
+  <div class="v2-sw" data-k="look"><b>Клетка</b><button data-v="fill" class="on">Плитка</button><button data-v="pill">Плашка</button><button data-v="text">Только цвет цифр</button></div>
+  <div class="v2-sw" data-k="dev"><b>Экран</b><button data-v="desk" class="on">Компьютер</button><button data-v="phone">Телефон</button></div>
+  <h2>Групповой этап · TI 2026</h2><iframe id="a" style="height:720px"></iframe>
+  <h2>Шахматка · Universe Ep. 7</h2><iframe id="b" style="height:420px"></iframe>
+</section></div></main>
+<script>
+const st={tone:'bg',zone:'edge24',look:'fill',dev:'desk'}
+const A=document.getElementById('a'),B=document.getElementById('b')
+function go(){const ph=st.dev==='phone',n=ph?['narrow:!true']:[],t=st.tone==='off'?'tone:!false':'toneLook:'+st.tone
+ for(const f of [A,B])f.style.maxWidth=ph?'420px':''
+ A.style.height=ph?'780px':'720px'
+ A.src='../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80&viewMode=story&args='+[t,'zoneLook:'+st.zone,...n].join(';')
+ B.src='../_stories/story.html?id=%D0%BE%D0%B1%D1%89%D0%B8%D0%B5-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B7%D0%BE%D0%BD%D1%8B--%D1%88%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D0%BA%D0%B0&viewMode=story&args='+['look:'+st.look,'toneLook:'+st.tone,'zoneLook:'+st.zone,...n].join(';')}
+document.querySelectorAll('.v2-sw').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));st[g.dataset.k]=b.dataset.v;go()}))
+go()
+</script>
+</body></html>

@@ -1,0 +1,1 @@
+import{s as t,j as s}from"./lab-CCgtMaQO.js";import{M as a}from"./MatchPage-BMfTH489.js";import{a as r}from"./Engine-ukw280Er.js";r({empty:"switch",frame:!0});t(()=>s.jsx(a,{state:"live",viewer:"in"}));

@@ -1,0 +1,1 @@
+.pred-count{flex:none;display:flex;align-items:center;height:32px;padding:0 3px;border-radius:var(--radius-8);background:var(--c-surface-2);white-space:nowrap}.pred-count .btn{color:var(--c-text)}.pred-count__n{min-width:34px;text-align:center;color:var(--c-text-2);font:var(--num-body-1);font-variant-numeric:tabular-nums}

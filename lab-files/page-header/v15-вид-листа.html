@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- page-header v15 (дирижёр 18.11 по v14: «ссылки на трансляции — на всю ширину; пару версий, как инфа отображается — таблицами кривовато»): лист — 3 вида переключателем: «Плитки + шаги», «Список как в iOS», «Строки с иконками». Трансляции — на всю ширину во всех.
+     Было v14 (дирижёр 18.11 по v13: «то, что уже есть в шапке, в листе не дублировать»): в листе турнира нет лого, названия и статуса — сразу данные, формат, трансляции; в листе матча нет команд, счёта, Bo, статуса, турнира и стадии (они в шапке и крошках) — только начало и трансляции.
+     Было v13 (дирижёр 18.11 по v12/Б: «инфа — просто кнопкой ⓘ возле названия, вся доп. инфа — в нижнем листе (bottom sheet)»; «подумать, как выглядят короткие крошки»; «кнопка свернуть/развернуть не должна прыгать»).
+     Телефон: первая строка шапки — 44 px (крошки + «Свернуть» справа по центру) — ровно там же, где «Развернуть» в сжатой строке. Крошки — 3 вида переключателем. Зоны нажатия 44 — как v12.
+     Было v12 (дирижёр 18.11: «минимальная область нажатия 40–44 соблюдена? визуально нет» → «делай»): вид как v11, у всех нажимаемых на телефоне зона нажатия ≥ 44×44 невидимым полем (::after); крошки — без обрезки зон; строка вбок — поле внутри прокрутки; соседние значки раздвинуты, чтобы зоны не налезали. Свитч «Показать зоны нажатия».
+     Было v11 (дирижёр 18.11 по v10: «на телефоне ужасно, много инфы; и прокрутка, и раскрытие; инфу прятать — либо в одну строку, которая листается вбок; нужны версии»).
+     Телефон — 3 варианта переключателем: А «Строка вбок», Б «Минимум + Подробнее», В «Две строки + значки». В каждом: прокрутил — сжатая строка; «Свернуть / Развернуть» кнопкой. Компьютер — как v9.
+     Было v10 (дирижёр 18.11: «мобильную версию не посмотрели — давай посмотрим») = v9 + вид «Телефон 390»: крошки в строку с многоточием, лого 56×32, название до 2 строк, статус и оператор, данные строкой с переносом + «Формат», трансляции — лентой с прокруткой вбок; сжатая строка — лого / команды, статус, трансляции одними логотипами.
+     Было v9 (дирижёр 18.11 по v8: «четыре строки — компактнее, как раньше»): трансляции — не отдельной полосой, а справа под данными (как v3). Шапка = крошки + название + строка статуса; справа две строки: данные и трансляции.
+     Было v8 (дирижёр 18.11 по v7: «такие гигантские штуки не нужны — ближе к тому, как было раньше»): рамка Тир · Даты · Команд убрана — справа строкой с иконками, как в v3; «Формат» — маленькой кнопкой рядом.
+     Было v7 (дирижёр 18.11 по v6: «криво» — кнопка «Свернуть» налезает на данные, «Формат» не на одной линии с названием; «переформатировать»: трансляции — отдельно, «Dota 2» не нужен, статус — просто «Идёт» и поярче, «Valve» — ок; Tier 1, даты, команд — важное; «Формат» — в правую часть).
+     Было v6 (дирижёр 18.11 по v5: «тег «Идёт» из маленькой версии убрать везде»; «на странице матча прокрутки нет — всегда большая шапка, нужна аккуратная маленькая кнопка «свернуть» справа»; «на странице турнира покажи, чтобы я мог прокрутить»).
+     Было v5 (дирижёр 18.11: «v3 — база, а сжатая появляется при прокрутке; в сжатой только команды, счёт или время, один главный статус чипом и маленькие трансляции; Map, «Плей-офф», «Сегодня, 17:12» — не показываем; у переноса 17:12 зачёркнутым — убрать, старое время — в чип снизу; красные точки с трансляций — убрать»).
+     Было v3 (дирижёр 18.11 по v2: «трансляции логотипами»; «не карта, а Map; всё с большой буквы»; «версия, где больше иконок — Bo3, Map 1 · 8′, нет данных, нет трансляции, отменён — иконкой»; «начало — вправо; стадию и начало не подписывать — просто «Плей-офф», «Сегодня, 20:00»; подписывать только где надо»).
+     Было v2 (дирижёр 18.11: «А нормальный; сделай следующую версию — как показываем турнир и матч во всех случаях: до начала, во время, после; турнир — не начался, идёт; перепроверь по памяти»).
+     Вариант А из v1 во всех состояниях. Состояния — как договорено: матч — 6 шагов (До матча · Драфт · Пики готовы · Первые 12′ · Live · После) + особые случаи
+     (Анонс · Нет данных · Нет данных и трансляции · Перенос · Отмена) — DECISIONS 06.11; турнир — до старта · идёт · завершён — DECISIONS 30.10 §1.1.
+     Трансляции: 28.10 начальник убирал блок трансляций со страницы турнира, 16.11 (#17, задача 29-15) попросил 2–4 тега в шапке — в силе последнее слово. Каналы — пример. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Общая шапка — v15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,0,0&display=block" />
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1320px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; } .sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.tasks{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; } .tasks span{ font-size:12px; padding:3px 8px; border-radius:7px; background:var(--chip); color:var(--tx2); }
+h2{ margin:34px 0 4px; font-size:20px; font-weight:700; display:flex; gap:10px; align-items:baseline; } h2 .n{ font-size:13px; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.why{ margin:0 0 12px; color:var(--tx2); font-size:14px; max-width:900px; }
+.lbl{ font-size:12px; font-weight:600; color:var(--tx2); margin:14px 0 6px; }
+/* сцена — продукт, тёмный, как движок */
+.stage{ background:#000; border-radius:14px; overflow:visible; color:#fafafa; font:400 13px/18px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+.site{ display:flex; align-items:center; gap:18px; height:52px; padding:0 32px; border-bottom:1px solid #18181b; }
+.site .logo{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:15px; } .site .logo i{ width:28px; height:28px; border-radius:7px; background:#fff; }
+.site nav{ display:flex; gap:4px; } .site nav a{ padding:6px 12px; border-radius:8px; color:#a1a1aa; } .site nav a.on{ background:#27272a; color:#fff; }
+.site .srch{ margin-left:auto; width:420px; height:34px; border-radius:9px; background:#18181b; color:#71717a; display:flex; align-items:center; padding:0 12px; }
+.hd{ position:relative; padding:12px 32px 12px; border-bottom:1px solid #27272a; }
+.mut{ color:#a1a1aa; } .num{ font-variant-numeric:tabular-nums; }
+.crumbs{ display:flex; align-items:center; gap:6px; font-size:12px; line-height:16px; color:#a1a1aa; white-space:nowrap; overflow:hidden; }
+.crumbs a{ color:#a1a1aa; text-decoration:none; } .crumbs a:hover{ color:#fff; } .crumbs i{ font-style:normal; color:#52525b; } .crumbs b{ color:#e4e4e7; font-weight:500; overflow:hidden; text-overflow:ellipsis; }
+.ttl{ font:600 20px/26px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; }
+.kv{ display:flex; gap:24px; margin:0; } .kv div{ min-width:0; } .kv dt{ font-size:11px; line-height:14px; color:#a1a1aa; } .kv dd{ margin:0; font-weight:600; white-space:nowrap; }
+.tv{ display:inline-flex; align-items:center; gap:5px; height:24px; padding:0 8px; border-radius:7px; background:#18181b; border:1px solid #27272a; color:#e4e4e7; font-size:12px; text-decoration:none; white-space:nowrap; }
+.tv svg{ width:14px; height:14px; flex:none; color:#a1a1aa; } .tv:hover{ border-color:#52525b; } .tv .lv{ width:6px; height:6px; border-radius:50%; background:#ef4444; }
+.tvs{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.info{ position:relative; display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 7px; border-radius:6px; background:#27272a; color:#d4d4d8; font-size:12px; font-weight:500; border:0; cursor:pointer; font-family:inherit; vertical-align:middle; }
+.info:hover{ background:#3f3f46; } .info svg{ width:13px; height:13px; }
+.pop{ position:absolute; z-index:20; top:calc(100% + 8px); left:0; width:380px; padding:12px 14px; border-radius:12px; background:#18181b; border:1px solid #3f3f46; box-shadow:0 16px 40px #000c; text-align:left; font-weight:400; color:#e4e4e7; cursor:default; white-space:normal; }
+.pop b{ display:block; font-weight:600; margin:8px 0 2px; } .pop b:first-child{ margin-top:0; } .pop small{ color:#a1a1aa; font-weight:400; margin-left:6px; } .pop p{ margin:0; color:#a1a1aa; font-size:12px; line-height:17px; }
+.op{ font-size:12px; color:#a1a1aa; } .op b{ color:#e4e4e7; font-weight:500; }
+.tlogo{ flex:none; object-fit:contain; } .team{ display:inline-flex; align-items:center; gap:8px; } .team img{ width:28px; height:28px; object-fit:contain; }
+.sc{ font:700 22px/26px "Google Sans Flex", system-ui, sans-serif; padding:0 10px; } .live{ display:inline-flex; align-items:center; gap:5px; color:#c4b5fd; font-weight:500; } .live::before{ content:""; width:6px; height:6px; border-radius:50%; background:#8b5cf6; }
+.body{ display:grid; grid-template-columns:1fr 340px; gap:16px; padding:16px 32px 20px; } .body i{ display:block; height:60px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; }
+/* A — одна строка, крошки сверху */
+.a .row{ display:flex; align-items:center; gap:16px; margin-top:8px; } .a .tt{ min-width:0; } .a .tt small{ display:block; color:#a1a1aa; font-size:12px; margin-top:2px; }
+.a .rt{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+/* B — компакт: крошки + трансляции в одной строке, ниже лого и всё строкой */
+.b .l1{ display:flex; align-items:center; gap:12px; } .b .l1 .tvs{ margin-left:auto; }
+.b .l2{ display:flex; align-items:center; gap:12px; margin-top:8px; } .b .l2 .ttl{ font-size:18px; } .b .chips{ display:flex; gap:6px; flex-wrap:wrap; margin-left:6px; }
+.b .chips span{ height:24px; display:inline-flex; align-items:center; padding:0 8px; border-radius:7px; background:#18181b; color:#d4d4d8; font-size:12px; } .b .op{ margin-left:auto; }
+/* C — большое лого слева на всю высоту, справа три строки */
+.c .grid{ display:grid; grid-template-columns:auto 1fr auto; gap:4px 16px; align-items:center; }
+.c .lg{ grid-row:1 / 4; } .c .crumbs{ grid-column:2; } .c .tline{ grid-column:2; display:flex; align-items:center; gap:10px; }
+.c .meta{ grid-column:2; font-size:12px; color:#a1a1aa; } .c .meta b{ color:#e4e4e7; font-weight:500; } .c .tvs{ grid-column:3; grid-row:1 / 4; flex-direction:column; align-items:stretch; }
+@media (max-width:1100px){ .body{ display:none; } }
+
+.st{ display:grid; grid-template-columns:220px 1fr; gap:14px; align-items:start; margin-bottom:12px; }
+.st .cap b{ display:block; font-size:15px; } .st .cap ul{ margin:6px 0 0; padding-left:16px; color:var(--tx2); font-size:13px; } .st .cap li{ margin:2px 0; }
+.st .stage .hd{ border-bottom:0; border-radius:14px; }
+.box{ background:var(--card); border-radius:14px; padding:14px 18px; margin:14px 0; font-size:14px; } .box b{ font-weight:600; } .box p{ margin:4px 0; color:var(--tx2); }
+.tm{ font:700 22px/26px "Google Sans Flex", system-ui, sans-serif; padding:0 10px; color:#e4e4e7; } .lose{ color:#71717a; }
+.strike{ text-decoration:line-through; color:#71717a; } .warn{ color:#fbbf24; } .gray{ color:#a1a1aa; }
+.notv{ font-size:12px; color:#71717a; }
+@media (max-width:1100px){ .st{ grid-template-columns:1fr; } }
+.ms{ font-family:"Material Symbols Rounded"; font-weight:normal; font-style:normal; font-size:16px; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; -webkit-font-smoothing:antialiased; vertical-align:-3px; }
+.facts{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:4px; }
+.fact{ display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 7px; border-radius:6px; background:#18181b; color:#d4d4d8; font-size:12px; white-space:nowrap; }
+.fact .ms{ font-size:15px; color:#a1a1aa; vertical-align:0; } .fact.live{ color:#c4b5fd; background:rgba(139,92,246,.14); } .fact.live .ms{ color:#a78bfa; } .fact.warn{ color:#fbbf24; background:rgba(251,191,36,.1); } .fact.warn .ms{ color:#fbbf24; }
+.fact.off{ color:#a1a1aa; } .fact.ok .ms{ color:#4ade80; }
+.side{ display:flex; gap:14px; align-items:center; font-size:13px; font-weight:600; color:#e4e4e7; white-space:nowrap; } .side span{ display:inline-flex; align-items:center; gap:5px; } .side .ms{ color:#a1a1aa; font-size:16px; vertical-align:0; }
+.tv{ gap:6px; padding:0 9px 0 6px; } .tv .pl{ width:16px; height:16px; flex:none; display:block; }
+.mode{ display:inline-flex; gap:2px; padding:2px; border-radius:9px; background:var(--chip); margin-top:12px; } .mode button{ height:30px; padding:0 12px; border:0; border-radius:7px; background:none; color:var(--tx2); font:inherit; font-size:14px; cursor:pointer; } .mode button.on{ background:var(--card); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.pair{ display:flex; flex-direction:column; gap:6px; min-width:0; } .pair .lb{ font-size:11px; font-weight:600; color:var(--tx2); }
+.cbar{ display:flex; align-items:center; gap:10px; height:44px; padding:0 32px; background:rgba(9,9,11,.92); backdrop-filter:blur(12px); border-bottom:1px solid #27272a; white-space:nowrap; border-radius:14px; }
+.cbar .ttl{ font-size:15px; line-height:20px; display:flex; align-items:center; } .cbar .team img{ width:20px; height:20px; } .cbar .tm{ font-size:15px; padding:0 6px; }
+.cbar .tlogo{ width:44px; height:24px; } .cbar .fact{ height:20px; padding:0 6px; } .cbar .sp{ flex:1; } .cbar .tvs{ flex-wrap:nowrap; gap:4px; } .cbar .tv{ height:22px; padding:0 6px; gap:4px; font-size:11px; } .cbar .tv .pl{ width:14px; height:14px; }
+.demo{ position:relative; height:420px; overflow:auto; border-radius:14px; background:#000; }
+.demo .cbar{ position:sticky; top:52px; z-index:5; border-radius:0; transform:translateY(-8px); opacity:0; pointer-events:none; transition:opacity .18s, transform .18s; margin-bottom:-44px; }
+.demo.scrolled .cbar{ opacity:1; transform:none; pointer-events:auto; }
+.demo .site{ position:sticky; top:0; z-index:6; background:#000; } .demo .hd{ border-bottom:1px solid #27272a; }
+.demo .fill{ display:grid; grid-template-columns:1fr 340px; gap:16px; padding:16px 32px 40px; } .demo .fill i{ display:block; height:180px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; margin-bottom:14px; }
+.fold{ flex:none; display:inline-grid; place-items:center; width:26px; height:26px; border-radius:7px; border:0; background:#18181b; color:#a1a1aa; cursor:pointer; padding:0; }
+.fold:hover{ background:#27272a; color:#fff; } .fold .ms{ font-size:18px; vertical-align:0; }
+.hd .fold{ position:absolute; top:10px; right:12px; }
+.mdemo{ background:#000; border-radius:14px; overflow:hidden; } .mdemo .fill{ display:grid; grid-template-columns:1fr 340px; gap:16px; padding:16px 32px 24px; } .mdemo .fill i{ display:block; height:150px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; }
+.mdemo .cbar{ border-radius:0; } .mdemo[data-f="1"] .hd{ display:none; } .mdemo:not([data-f="1"]) .cbar{ display:none; }
+/* v7: шапка в три слоя — крошки (+ «Свернуть»), главная строка, полоса трансляций */
+.h7{ padding:10px 32px 0; }
+.h7 .top7{ display:flex; align-items:center; gap:12px; min-height:26px; } .h7 .top7 .crumbs{ flex:1; min-width:0; }
+.h7 .main7{ display:flex; align-items:center; gap:16px; padding:10px 0 12px; }
+.h7 .who{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.h7 .who .ttl{ font-size:22px; line-height:28px; display:flex; align-items:center; }
+.h7 .sub7{ display:flex; align-items:center; gap:10px; font-size:13px; color:#a1a1aa; white-space:nowrap; }
+.st7{ display:inline-flex; align-items:center; gap:6px; height:22px; padding:0 9px; border-radius:7px; font-size:12px; font-weight:600; }
+.st7 .ms{ font-size:15px; vertical-align:0; }
+.st7.live{ background:#7c3aed; color:#fff; } .st7.live .ms{ color:#fff; }
+.st7.soon{ background:#1e293b; color:#bfdbfe; } .st7.done{ background:#27272a; color:#d4d4d8; } .st7.warn{ background:rgba(251,191,36,.16); color:#fbbf24; }
+.h7 .facts7{ margin-left:auto; display:flex; align-items:stretch; gap:0; border:1px solid #27272a; border-radius:12px; }
+.h7 .facts7 > div{ display:flex; flex-direction:column; justify-content:center; gap:2px; padding:8px 16px; border-left:1px solid #27272a; min-width:0; }
+.h7 .facts7 > div:first-child{ border-left:0; } .h7 .facts7 small{ font-size:11px; color:#a1a1aa; display:flex; align-items:center; gap:4px; } .h7 .facts7 small .ms{ font-size:14px; vertical-align:0; }
+.h7 .facts7 b{ font-size:15px; font-weight:600; color:#fafafa; white-space:nowrap; }
+.h7 .facts7 .fbtn{ justify-content:center; align-items:center; flex-direction:row; gap:6px; color:#d4d4d8; font-size:13px; font-weight:500; cursor:pointer; background:#111113; position:relative; border-radius:0 11px 11px 0; height:auto; padding:8px 16px; }
+.h7 .facts7 .fbtn:hover{ background:#1c1c1f; color:#fff; } .h7 .facts7 .fbtn .pop{ left:auto; right:0; top:calc(100% + 8px); }
+.h7 .tvrow{ display:flex; align-items:center; gap:8px; padding:8px 0 10px; border-top:1px solid #18181b; font-size:12px; color:#71717a; }
+.h7 .tvrow .tvs{ flex-wrap:wrap; }
+.h7 .fold{ position:static; }
+.mdemo[data-f="1"] .h7{ display:none; } .mdemo:not([data-f="1"]) .cbar{ display:none; }
+.h7 .facts7{ border:0; border-radius:0; gap:14px; align-items:center; }
+.h7 .facts7 > div{ flex-direction:row; align-items:center; gap:5px; padding:0; border:0; }
+.h7 .facts7 b{ font-size:13px; } .h7 .facts7 .ic7{ color:#a1a1aa; } .h7 .facts7 .ic7 .ms{ font-size:16px; vertical-align:0; }
+.h7 .facts7 .fbtn{ height:24px; padding:0 8px; border-radius:7px; background:#27272a; font-size:12px; }
+.h7 .facts7 .fbtn:hover{ background:#3f3f46; }
+.h7 .rt7{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.h7 .rt7 .facts7{ margin-left:0; } .h7 .rt7 .tvs{ flex-wrap:nowrap; } .h7 .rt7 .notv{ font-size:12px; color:#71717a; }
+.h7 .main7{ padding:6px 0 12px; } .h7 .who{ gap:4px; }
+/* v10 — телефон 390 */
+.phones{ display:flex; gap:32px; flex-wrap:wrap; } .lb2{ font-size:13px; font-weight:600; color:var(--tx2); margin-bottom:8px; }
+.phone{ width:390px; height:700px; border-radius:36px; border:8px solid #1c1c1e; background:#000; color:#fafafa; overflow:auto; position:relative; font:400 13px/18px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; scrollbar-width:none; }
+.msite{ position:sticky; top:0; z-index:6; height:52px; display:flex; align-items:center; gap:10px; padding:0 16px; background:#000; border-bottom:1px solid #18181b; }
+.msite i{ width:26px; height:26px; border-radius:7px; background:#fff; } .msite b{ font-weight:600; font-size:15px; } .msite .ms{ margin-left:auto; color:#a1a1aa; font-size:22px; } .msite .ms + .ms{ margin-left:8px; }
+.mh{ position:relative; padding:10px 16px 12px; border-bottom:1px solid #27272a; background:#000; }
+.mh .top7{ display:flex; align-items:center; gap:10px; } .mh .crumbs{ flex:1; min-width:0; }
+.mh .crumbs a, .mh .crumbs i{ flex:none; }
+.mh .m-main{ display:flex; align-items:center; gap:12px; margin-top:8px; } .mh .m-main .tlogo{ width:56px; height:32px; }
+.mh .m-ttl{ font:600 18px/23px "Google Sans Flex", system-ui, sans-serif; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.mh .sub7{ display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; margin-top:6px; font-size:12px; color:#a1a1aa; white-space:normal; }
+.mh .m-teams{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px; font:600 17px/22px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; }
+.mh .m-teams .team{ gap:6px; min-width:0; } .mh .m-teams .team img{ width:24px; height:24px; } .mh .m-teams .tm{ font-size:18px; padding:0 4px; }
+.mh .m-sub{ display:flex; justify-content:center; flex-wrap:wrap; gap:6px 10px; margin-top:8px; font-size:12px; color:#a1a1aa; }
+.mh .m-facts{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; margin-top:10px; font-size:13px; font-weight:600; }
+.mh .m-facts span{ display:inline-flex; align-items:center; gap:5px; } .mh .m-facts .ms{ color:#a1a1aa; font-size:16px; vertical-align:0; }
+.mh .m-facts.c{ justify-content:center; }
+.mh .fbtn{ display:inline-flex; align-items:center; gap:5px; height:24px; padding:0 8px; border-radius:7px; background:#27272a; color:#e4e4e7; font-size:12px; font-weight:500; cursor:pointer; position:static; }
+.mh .fbtn .ms{ color:#d4d4d8 !important; }
+.mh .pop{ left:12px; right:12px; width:auto; top:auto; margin-top:8px; }
+.mh .m-tv{ display:flex; gap:6px; margin:10px -16px 0; padding:0 16px; overflow-x:auto; scrollbar-width:none; } .mh .m-tv .tv{ flex:none; }
+.mh .m-note{ margin-top:10px; font-size:12px; color:#71717a; }
+.mh .fold{ position:static; }
+.mcbar{ display:flex; align-items:center; gap:8px; height:44px; padding:0 16px; background:rgba(9,9,11,.94); backdrop-filter:blur(12px); border-bottom:1px solid #27272a; white-space:nowrap; }
+.mcbar .tlogo{ width:36px; height:20px; flex:none; } .mcbar .nm{ font-weight:600; font-size:14px; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.mcbar .team img, .mcbar span[title] img{ width:20px; height:20px; display:block; } .mcbar .team{ gap:5px; font-weight:600; font-size:13px; } .mcbar .tm{ font-size:14px; padding:0 2px; }
+.mcbar .fact{ height:20px; padding:0 6px; flex:none; } .mcbar .sp{ flex:1; min-width:4px; }
+.mcbar .lg{ display:flex; gap:3px; flex:none; } .mcbar .lg a{ display:grid; place-items:center; width:22px; height:22px; border-radius:6px; background:#18181b; border:1px solid #27272a; } .mcbar .lg .pl{ width:13px; height:13px; }
+.phone.demo .mcbar{ position:sticky; top:52px; z-index:5; margin-bottom:-44px; opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .18s, transform .18s; }
+.phone.demo.scrolled .mcbar{ opacity:1; transform:none; pointer-events:auto; }
+.phone .fill{ padding:12px 16px 40px; } .phone .fill i{ display:block; height:160px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; margin-bottom:12px; }
+.phone.mdemo[data-f="1"] .mh{ display:none; } .phone.mdemo:not([data-f="1"]) .mcbar{ display:none; }
+.grid3{ display:grid; grid-template-columns:repeat(auto-fill, 390px); gap:24px 32px; }
+.mcard .cap b{ display:block; font-size:15px; margin-bottom:4px; } .mcard .cap ul{ margin:0 0 8px; padding-left:16px; color:var(--tx2); font-size:13px; }
+.mcard .scr{ width:390px; border-radius:18px; background:#000; color:#fafafa; overflow:visible; font:400 13px/18px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+.mcard .scr .mh{ border-radius:18px 18px 0 0; } .mcard .scr .mcbar{ border-radius:0 0 18px 18px; border-bottom:0; }
+.mcard .lb{ font-size:11px; font-weight:600; color:var(--tx2); margin:8px 0 4px; display:block; }
+/* v11 — варианты телефона */
+.lb2 select{ margin-left:6px; font:inherit; font-size:13px; padding:2px 6px; border-radius:7px; border:1px solid var(--line); background:var(--card); color:var(--tx); }
+.ph11 .x{ position:relative; padding:8px 16px 12px; border-bottom:1px solid #27272a; background:#000; }
+.ph11[data-f="1"] .x{ display:none; }
+.ph11 .bar{ position:sticky; top:52px; z-index:5; display:flex; align-items:center; gap:8px; height:44px; padding:0 12px 0 16px; background:rgba(9,9,11,.94); backdrop-filter:blur(12px); border-bottom:1px solid #27272a; white-space:nowrap; margin-bottom:-44px; opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .18s, transform .18s; }
+.ph11.scrolled .bar, .ph11[data-f="1"] .bar{ opacity:1; transform:none; pointer-events:auto; } .ph11[data-f="1"] .bar{ margin-bottom:0; }
+.ph11 .bar .tlogo{ width:36px; height:20px; flex:none; } .ph11 .bar .nm{ font-weight:600; font-size:14px; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.ph11 .bar .lg img{ width:20px; height:20px; display:block; } .ph11 .bar .lg{ display:flex; align-items:center; gap:6px; font-weight:700; font-size:15px; } .ph11 .bar .sp{ flex:1; min-width:4px; } .ph11 .bar .fact{ flex:none; height:20px; padding:0 6px; }
+.ph11 .crow{ display:flex; align-items:center; gap:8px; } .ph11 .crow .crumbs{ flex:1; min-width:0; } .ph11 .fold{ position:static; width:28px; height:28px; }
+.ph11 .t1{ display:flex; align-items:center; gap:10px; margin-top:8px; min-width:0; } .ph11 .t1 .tlogo{ width:44px; height:24px; flex:none; }
+.ph11 .t1 .nm{ font:600 17px/22px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:1; }
+.ph11 .tm1{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; font:600 16px/22px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; } .ph11 .tm1 img{ width:22px; height:22px; } .ph11 .tm1 .team{ gap:6px; } .ph11 .tm1 .tm{ font-size:18px; padding:0 2px; }
+/* А — строка вбок */
+.ph11 .rail{ display:flex; gap:6px; margin:10px -16px 0; padding:0 16px; overflow-x:auto; scrollbar-width:none; }
+.ph11 .rail > *{ flex:none; } .ph11 .rail .ch{ display:inline-flex; align-items:center; gap:5px; height:26px; padding:0 9px; border-radius:8px; background:#18181b; color:#e4e4e7; font-size:12px; font-weight:500; white-space:nowrap; border:0; font-family:inherit; }
+.ph11 .rail .ch .ms{ font-size:15px; color:#a1a1aa; vertical-align:0; } .ph11 .rail .st7{ height:26px; border-radius:8px; } .ph11 .rail .sep{ width:1px; height:18px; background:#27272a; align-self:center; }
+.ph11 .rail .tv{ height:26px; border-radius:8px; }
+/* Б — минимум + подробнее */
+.ph11 .l2{ display:flex; align-items:center; gap:8px; margin-top:8px; font-size:12px; color:#a1a1aa; } .ph11 .l2 .more{ margin-left:auto; }
+.ph11 .more{ display:inline-flex; align-items:center; gap:2px; height:26px; padding:0 6px 0 10px; border:0; border-radius:8px; background:#18181b; color:#d4d4d8; font:500 12px/1 "Google Sans Flex", system-ui, sans-serif; cursor:pointer; } .ph11 .more .ms{ font-size:18px; vertical-align:0; transition:transform .2s; } .ph11 .more[aria-expanded="true"] .ms{ transform:rotate(180deg); }
+.ph11 .det{ margin-top:10px; border-top:1px solid #18181b; padding-top:8px; } .ph11 .det dl{ margin:0; display:grid; grid-template-columns:96px 1fr; gap:6px 10px; font-size:13px; } .ph11 .det dt{ color:#a1a1aa; } .ph11 .det dd{ margin:0; font-weight:500; }
+.ph11 .det .fs b{ display:block; font-weight:600; } .ph11 .det .fs p{ margin:0 0 6px; color:#a1a1aa; font-size:12px; line-height:16px; font-weight:400; }
+.ph11 .det .tvs{ flex-wrap:wrap; }
+/* В — две строки + значки */
+.ph11 .ib{ flex:none; display:inline-flex; align-items:center; gap:4px; height:28px; padding:0 8px; border:0; border-radius:8px; background:#18181b; color:#d4d4d8; font:600 12px/1 "Google Sans Flex", system-ui, sans-serif; cursor:pointer; } .ph11 .ib .ms{ font-size:17px; vertical-align:0; }
+.ph11 .ln{ margin-top:6px; font-size:12px; color:#a1a1aa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .ph11 .ln b{ color:#e4e4e7; font-weight:500; } .ph11 .ln .lv{ color:#c4b5fd; font-weight:600; } .ph11 .ln .wr{ color:#fbbf24; font-weight:600; } .ph11 .ln .dn{ color:#a1a1aa; font-weight:600; } .ph11 .ln .sn{ color:#93c5fd; font-weight:600; }
+.ph11 .pane{ margin-top:10px; padding:10px 12px; border-radius:12px; background:#111113; border:1px solid #27272a; } .ph11 .pane .tvs{ flex-wrap:wrap; } .ph11 .pane .fs b{ display:block; font-weight:600; } .ph11 .pane .fs p{ margin:0 0 6px; color:#a1a1aa; font-size:12px; line-height:16px; }
+.ph11 .dim{ opacity:.55; }
+/* v12 — зоны нажатия ≥ 44×44: видимый размер тот же, поле вокруг невидимое */
+.ph11 :is(.fold,.ib,.more,.rail .ch,.tv,.crumbs a){ position:relative; }
+.ph11 :is(.fold,.ib,.more,.rail .ch,.tv,.crumbs a)::after{ content:""; position:absolute; top:min(0px, calc(50% - 22px)); bottom:min(0px, calc(50% - 22px)); left:min(0px, calc(50% - 22px)); right:min(0px, calc(50% - 22px)); }
+body.hits .ph11 :is(.fold,.ib,.more,.rail .ch,.tv,.crumbs a)::after{ background:rgba(239,68,68,.28); outline:1px solid rgba(239,68,68,.7); }
+.ph11 .crumbs{ overflow:visible; } .ph11 .crumbs b{ flex:1 1 auto; min-width:0; }
+.ph11 .crumbs a{ display:inline-block; }
+.ph11 .rail{ padding-top:9px; padding-bottom:9px; margin-top:1px; margin-bottom:-9px; }
+.ph11 .ib + .ib{ margin-left:6px; }
+.ph11 .tvs{ row-gap:20px; }
+.hitsw{ display:inline-flex; gap:8px; align-items:center; font-size:14px; color:var(--tx2); margin:0 0 12px; cursor:pointer; }
+/* v13 — ⓘ + нижний лист; кнопка «Свернуть» не прыгает */
+.ph13{ overflow:hidden !important; } .ph13 .scr{ height:100%; overflow:auto; scrollbar-width:none; }
+.ph13 .x{ padding:0 16px 12px; } .ph13 .crow{ height:44px; } .ph13 .bar{ padding:0 16px; }
+.ph13 .t1{ margin-top:0; } .ph13 .t1 .nm{ flex:0 1 auto; }
+.ph13 .ib{ width:28px; padding:0; justify-content:center; border-radius:50%; } .ph13 .ib .ms{ font-size:18px; }
+.ph13 .tmrow{ display:flex; align-items:center; justify-content:center; gap:8px; } .ph13 .tmrow .tm1{ margin-top:0; }
+.ph13 .l2{ margin-top:8px; }
+.ph13 .crumbs .more3{ border:0; background:none; color:#a1a1aa; font:inherit; padding:0; cursor:pointer; position:relative; } .ph13 .crumbs .more3::after{ content:""; position:absolute; inset:-14px -14px; }
+body.hits .ph13 .crumbs .more3::after{ background:rgba(239,68,68,.28); outline:1px solid rgba(239,68,68,.7); }
+.sheetbg{ position:absolute; inset:0; z-index:20; background:rgba(0,0,0,.55); opacity:0; pointer-events:none; transition:opacity .2s; border-radius:28px; }
+.sheet{ position:absolute; left:0; right:0; bottom:0; z-index:21; max-height:78%; overflow:auto; background:#18181b; border-radius:20px 20px 28px 28px; padding:8px 16px 24px; transform:translateY(105%); transition:transform .25s cubic-bezier(.2,.8,.2,1); scrollbar-width:none; }
+.ph13.open .sheetbg{ opacity:1; pointer-events:auto; } .ph13.open .sheet{ transform:none; }
+.sheet .grab{ width:36px; height:5px; border-radius:3px; background:#3f3f46; margin:0 auto 10px; }
+.sheet .sh{ display:flex; align-items:center; gap:10px; } .sheet .sh .tlogo{ width:44px; height:24px; } .sheet .sh b{ font-size:16px; font-weight:600; flex:1; min-width:0; }
+.sheet .sh .cls{ position:relative; width:30px; height:30px; border-radius:50%; border:0; background:#27272a; color:#d4d4d8; cursor:pointer; display:grid; place-items:center; } .sheet .sh .cls::after{ content:""; position:absolute; inset:-7px; }
+.sheet .stl{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:10px 0 4px; font-size:12px; color:#a1a1aa; }
+.sheet h4{ margin:16px 0 8px; font-size:12px; font-weight:600; color:#a1a1aa; }
+.sheet dl{ margin:0; display:grid; grid-template-columns:110px 1fr; gap:8px 10px; font-size:14px; } .sheet dt{ color:#a1a1aa; } .sheet dd{ margin:0; font-weight:500; }
+.sheet .fs b{ display:block; font-weight:600; font-size:14px; } .sheet .fs p{ margin:2px 0 10px; color:#a1a1aa; font-size:13px; line-height:18px; }
+.sheet .tvs{ flex-wrap:wrap; gap:20px 8px; } .sheet .tv{ height:36px; padding:0 12px 0 10px; font-size:13px; border-radius:10px; } .sheet .tv .pl{ width:18px; height:18px; }
+.sheet .note{ color:#71717a; font-size:13px; }
+/* v15 — виды листа */
+.sheet .stream{ display:flex; align-items:center; gap:12px; width:100%; height:48px; padding:0 14px; border-radius:12px; background:#27272a; color:#fafafa; text-decoration:none; font-size:15px; font-weight:500; box-sizing:border-box; }
+.sheet .stream .pl{ width:22px; height:22px; } .sheet .stream small{ color:#a1a1aa; font-size:13px; font-weight:400; } .sheet .stream .ms{ margin-left:auto; color:#71717a; font-size:20px; vertical-align:0; }
+.sheet .streams{ display:flex; flex-direction:column; gap:8px; } .sheet .streams.g2{ display:grid; grid-template-columns:1fr 1fr; }
+.sheet .streams.g2 .stream{ height:52px; justify-content:center; } .sheet .streams.g2 .stream .ms{ display:none; }
+.sheet .tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; } .sheet .tile{ background:#27272a; border-radius:12px; padding:10px 12px; } .sheet .tile small{ display:block; color:#a1a1aa; font-size:12px; } .sheet .tile b{ font-size:15px; font-weight:600; }
+.sheet .opl{ margin-top:10px; font-size:13px; color:#a1a1aa; } .sheet .opl b{ color:#fafafa; font-weight:500; }
+.sheet .steps{ position:relative; margin:0; padding:0; list-style:none; } .sheet .steps li{ position:relative; padding:0 0 12px 22px; } .sheet .steps li::before{ content:""; position:absolute; left:4px; top:6px; width:8px; height:8px; border-radius:50%; background:#a78bfa; } .sheet .steps li:not(:last-child)::after{ content:""; position:absolute; left:7.5px; top:18px; bottom:2px; width:1px; background:#3f3f46; }
+.sheet .steps b{ font-size:14px; font-weight:600; } .sheet .steps small{ color:#a1a1aa; margin-left:6px; font-size:12px; } .sheet .steps p{ margin:2px 0 0; color:#a1a1aa; font-size:13px; line-height:18px; }
+.sheet .grp{ background:#27272a; border-radius:12px; overflow:hidden; } .sheet .grp .r{ display:flex; align-items:center; gap:10px; min-height:44px; padding:0 14px; font-size:15px; } .sheet .grp .r + .r{ border-top:1px solid #3f3f46; }
+.sheet .grp .r span{ color:#a1a1aa; } .sheet .grp .r b{ margin-left:auto; font-weight:500; text-align:right; } .sheet .grp .r.fm{ display:block; padding:10px 14px; } .sheet .grp .r.fm b{ display:block; margin:0; text-align:left; font-weight:600; } .sheet .grp .r.fm p{ margin:2px 0 0; color:#a1a1aa; font-size:13px; line-height:18px; }
+.sheet .grp .stream{ border-radius:0; background:none; } .sheet .grp .stream + .stream{ border-top:1px solid #3f3f46; }
+.sheet .il{ display:flex; flex-direction:column; gap:12px; margin-top:12px; } .sheet .il div{ display:flex; align-items:center; gap:12px; font-size:15px; font-weight:500; } .sheet .il .ms{ width:32px; height:32px; border-radius:9px; background:#27272a; display:grid; place-items:center; color:#a1a1aa; font-size:18px; vertical-align:0; } .sheet .il small{ display:block; color:#a1a1aa; font-size:12px; font-weight:400; }
+.sheet .fsteps{ display:flex; flex-direction:column; gap:8px; } .sheet .fsteps div{ display:flex; gap:10px; } .sheet .fsteps i{ flex:none; width:22px; height:22px; border-radius:50%; background:#27272a; color:#d4d4d8; font-style:normal; font-size:12px; font-weight:600; display:grid; place-items:center; margin-top:1px; } .sheet .fsteps b{ font-size:14px; font-weight:600; } .sheet .fsteps small{ color:#a1a1aa; margin-left:6px; } .sheet .fsteps p{ margin:2px 0 0; color:#a1a1aa; font-size:13px; line-height:18px; }
+</style></head><body>
+<div class="wrap">
+<div class="top"><div><h1>(A) Общая шапка — v15: вид нижнего листа</h1>
+<p class="sub">Вариант А из v1, разложен по всем случаям: турнир — не начался · идёт · прошёл; матч — 6 шагов хода и 5 особых случаев. Турнир: наверху — полная шапка, прокрутил — прилипает сжатая строка. Матч: прокрутки на странице нет — шапка всегда полная, справа маленькая кнопка «Свернуть» (и «Развернуть» в строке). В сжатой строке статуса «Идёт» нет — только то, что важно: Через 2 ч, Завершён, Нет данных, Перенесён, Отменён.</p>
+</div>
+<button class="th" id="th">Тема</button></div>
+<div class="box"><b>Почему в шапке турнира трансляции.</b>
+<p>28.10 начальник убирал со страницы турнира целый блок трансляций — вместе с призовыми, матчами по дням и т. п. 16.11 (голосовое, блок 17, задача 29-15) сам попросил вернуть их иначе: «вверху в карточке турнира в навигации надо добавить трансляции… тег с телевизором… турниры ведут от 2 до 4 трансляций». В силе последнее слово — 2–4 маленьких тега в шапке, не блок.</p>
+<p>Правило в шапке: тег = логотип площадки + язык канала. До старта — теги, если каналы объявлены; после — тегов нет. ‼️ Каналы в лабе придуманы — в базе их нет.</p></div>
+<div class="mode" id="dev"><button data-v="desk">Компьютер 1440</button><button data-v="mob">Телефон 390</button></div>
+<div id="desk">
+<h2>Турнир — попробуй прокрутить <span class="n">TI 2026 · Идёт</span></h2><div class="demo stage a" id="demo"></div>
+<h2>Матч — прокрутки нет, кнопка «Свернуть» справа <span class="n">Live</span></h2><div class="mdemo stage a" id="mdemo"></div>
+<h2>Турнир <span class="n">3 состояния</span></h2><div id="tours"></div>
+<h2>Матч <span class="n">6 шагов хода</span></h2><div id="match"></div>
+<h2>Матч — особые случаи <span class="n">5</span></h2><div id="cases"></div>
+</div>
+<div id="mob" hidden>
+<div class="mode" id="mv"><button data-v="k1">Крошки · Без текущей</button><button data-v="k2">Крошки · Только раздел</button><button data-v="k3">Крошки · Свёрнутые «…»</button></div>
+<p class="why" id="mvwhy"></p>
+<div class="mode" id="lv"><button data-v="l1">Лист · Плитки + шаги</button><button data-v="l2">Лист · Список как в iOS</button><button data-v="l3">Лист · Строки с иконками</button></div>
+<p class="why" id="lvwhy"></p>
+<label class="hitsw"><input type="checkbox" id="hits"> Показать зоны нажатия (красным — 44×44 и больше)</label>
+<div class="phones">
+ <div><div class="lb2">Турнир <select id="selT"></select></div><div class="phone ph11" id="pT"></div></div>
+ <div><div class="lb2">Матч <select id="selM"></select></div><div class="phone ph11" id="pM"></div></div>
+</div>
+<p class="why" style="margin-top:14px">ⓘ возле названия — нижний лист: только то, чего нет в шапке и крошках. Прокрути — прилипнет сжатая строка. «Свернуть» — справа в первой строке (44 px), «Развернуть» в сжатой строке — на том же месте, кнопка не прыгает. Состояние — выбором над телефоном.</p>
+</div>
+</div>
+<script>
+const R=document.documentElement;const g=(k,d)=>{try{return localStorage.getItem(k)??d}catch(e){return d}},s=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+R.dataset.theme=g('page-header-theme','light');document.getElementById('th').onclick=()=>{R.dataset.theme=R.dataset.theme==='light'?'dark':'light';s('page-header-theme',R.dataset.theme)};
+const TVI='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="M5.5 14.5h5M6 1.5l2 2 2-2"/></svg>';
+const INF='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7.2v3.8M8 5h.01"/></svg>';
+const PL={Twitch:'<svg class="pl" viewBox="0 0 24 24"><path fill="#9146FF" d="M4.3 2 2.5 6.2v13.3h4.6V22h2.6l2.5-2.5h3.7l5.1-5.1V2H4.3zm15.1 11.5-2.9 2.9h-4.6l-2.5 2.5v-2.5H5.6V3.8h13.8v9.7z"/><path fill="#9146FF" d="M15.5 6.8h1.8v5.1h-1.8zm-5 0h1.8v5.1h-1.8z"/></svg>',
+ YouTube:'<svg class="pl" viewBox="0 0 24 24"><rect x="1.5" y="5" width="21" height="14" rx="4" fill="#FF0033"/><path fill="#fff" d="M10 9v6l5.2-3z"/></svg>',
+ Kick:'<svg class="pl" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" fill="#53FC18"/><path fill="#000" d="M7 6h3.2v3.2h1.6V7.6h1.6V6h3.2v4.8h-1.6v1.6h-1.6v1.6h1.6v1.6h1.6V18h-3.2v-1.6h-1.6v-1.6h-1.6V18H7z"/></svg>'};
+const CH=[['Twitch','RU'],['Twitch','EN'],['YouTube','EN'],['Kick','RU']];
+const tvs=(mode)=>mode==='none'?'':`<div class="tvs">${CH.map(([p,l],i)=>`<a class="tv" href="#" title="${p} · официальная трансляция · пример">${PL[p]}${l}</a>`).join('')}</div>`;
+const pop=(steps)=>`<div class="pop" hidden>${steps.map(([n,d,t])=>`<b>${n}<small>${d}</small></b><p>${t}</p>`).join('')}</div>`;
+const info=(steps)=>`<button class="info" type="button">${INF}Формат${pop(steps)}</button>`;
+const FMT={
+ dl:[['Формат объявят позже','',''+'В базе формата ещё нет — во всплывашке так и пишем.']],
+ ti:[['Групповой этап','13 – 16.08','Швейцарская система, 16 команд, Bo3; 1–3 — в плей-офф, 14–16 — вылет'],['Раунд на вылет','16.08','10 команд, Bo3 на вылет, 5 победителей — в плей-офф'],['Плей-офф','20 – 23.08','8 команд, double elimination, Bo3; гранд-финал — Bo5']],
+ ep7:[['Групповой этап','05 – 08.10.2025','Две группы по 5, каждый с каждым, Bo2; 2 лучших — в плей-офф'],['Плей-офф','09 – 12.10.2025','8 команд, double elimination, Bo3; гранд-финал — Bo5']]};
+const kv=(L)=>`<dl class="kv">${L.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+const crumbs=(L)=>`<div class="crumbs">${L.map((x,i)=>i<L.length-1?`<a href="#">${x}</a><i>›</i>`:`<b>${x}</b>`).join('')}</div>`;
+const tv9=(t)=>t.tv==='none'?(t.tvNote?`<span class="notv">${t.tvNote}</span>`:''):tvs('on');
+const tv7=(t)=>t.tv==='none'?(t.tvNote?`<div class="tvrow">${ic('live_tv')}<span>${t.tvNote}</span></div>`:''):`<div class="tvrow">${ic('live_tv')}<span>Трансляции</span>${tvs('on')}</div>`;
+const fmtBtn=(f)=>`<div class="fbtn info" role="button" tabindex="0">${ic('info')}Формат${pop(FMT[f])}</div>`;
+const tourHd=(t)=>`<div class="hd h7"><div class="top7">${crumbs(['Турниры','Dota 2',t.name])}</div><div class="main7"><img class="tlogo" src="../${t.logo}" style="width:88px;height:48px" alt=""><div class="who"><span class="ttl">${t.name}</span><div class="sub7">${st7(t.main7)}${t.op?`<span>${t.op}</span>`:''}</div></div><div class="rt7"><div class="facts7">${t.side.map(([i,v,l])=>`<div title="${l}"><span class="ic7">${ic(i)}</span><b>${v}${l==='Команд'&&v!=='—'?' команд':''}</b></div>`).join('')}${fmtBtn(t.f)}</div>${tv9(t)}</div></div></div>`;
+const T=[
+ {cap:'Не начался',main:['event_upcoming','Начнётся 02.12','off'],li:['«Начнётся 02.12 · Через 14 дней» — синим','Формат — что есть в базе; нет — «объявят позже»','трансляций в базе нет — «Трансляции объявят ближе к старту»','оператора в базе нет — не показываем'],
+  name:'DreamLeague Season 30',logo:'widget-tournament-4/logos/dreamleague-s30.png',f:'dl',main7:['event_upcoming','Начнётся 02.12 · Через 14 дней','soon'],op:'',side:[['military_tech','Tier 1','Тир'],['calendar_today','02.12 – 13.12.2026','Даты'],['groups','—','Команд']],tv:'none',tvNote:'Трансляции объявят ближе к старту'},
+ {cap:'Идёт',main:null,li:['статус — просто «Идёт», ярко','Valve — оператор, рядом со статусом','Тир, даты, команд — справа строкой с иконками, рядом «Формат»','трансляции — справа под данными'],
+  name:'The International 2026',logo:'gs-match/img/items/aegis.png',f:'ti',main7:['play_circle','Идёт','live'],op:'Valve · производство PGL',side:[['military_tech','Tier 1','Тир'],['calendar_today','13.08 – 23.08.2026','Даты'],['groups','16','Команд']],tv:'live'},
+ {cap:'Прошёл',main:['sports_score','Прошёл','off'],li:['«Прошёл»','победителя в шапке нет (27-13)','трансляций нет — турнир кончился'],
+  name:'FISSURE Universe Episode 7',logo:'widget-tournament-4/logos/pari-universe.png',f:'ep7',main7:['sports_score','Прошёл','done'],op:'FISSURE (Белград) · Онлайн · Europe West',side:[['military_tech','Tier 1','Тир'],['calendar_today','05.10 – 12.10.2025','Даты'],['groups','14','Команд']],tv:'none'},
+];
+const A='<span class="team"><img src="../gs-match/img/teams/9572001.png" alt="">Team Spirit</span>',B='<span class="team">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt=""></span>';
+const mid=(x)=>`<span class="tm num">${x}</span>`;
+
+const ic=(n)=>`<span class="ms">${n}</span>`;
+let MODE='icons';
+const fact=(i,t,cls)=>MODE==='icons'?`<span class="fact ${cls||''}">${i?ic(i):''}${t}</span>`:`<span${cls==='live'?' class="live"':cls==='warn'?' class="warn"':''}>${t}</span>`;
+const facts=(L)=>MODE==='icons'?`<div class="facts">${L.map(x=>fact(...x)).join('')}</div>`:`<small>${L.map(x=>x[2]==='live'||x[2]==='warn'?fact(...x):x[1]).join(' · ')}</small>`;
+const st7=(x)=>x?`<span class="st7 ${x[2]}">${ic(x[0])}${x[1]}</span>`:'';
+const side=(L)=>`<div class="side">${L.map(([i,t])=>`<span>${MODE==='icons'&&i?ic(i):''}${t}</span>`).join('')}</div>`;
+const mHd=(m)=>`<div class="hd h7"><div class="top7">${crumbs(['Матчи','The International 2026','Плей-офф','Team Spirit — PARIVISION'])}${FOLD(1)}</div><div class="main7"><div class="who"><span class="ttl">${m.title||A+mid(m.c)+B}</span><div class="sub7">${m.f.map(([i,t,c])=>c?st7([i,t,c==='live'?'live':c==='warn'?'warn':'done']):`<span>${t}</span>`).join('')}</div></div><div class="rt7"><div class="facts7">${m.side.map(([i,v])=>`<div><span class="ic7">${ic(i)}</span><b>${v}</b></div>`).join('')}</div>${tv9(m)}</div></div></div>`;
+const SB=[['account_tree','Плей-офф'],['schedule','Сегодня, 17:12']];
+const M=[
+ {cap:'До матча',main:['hourglass_top','Через 2 ч',''],li:['вместо счёта — время начала','«Bo3 · Через 2 ч»','трансляции — чипами'],c:'17:12',f:[['stacks','Bo3'],['hourglass_top','Через 2 ч']],side:SB,tv:'on'},
+ {cap:'Драфт',main:null,li:['счёт 0 : 0','«Map 1 · Драфт» — фиолетовым, идёт'],c:'0 : 0',f:[['stacks','Bo3'],['how_to_vote','Map 1 · Драфт','live']],side:SB,tv:'live'},
+ {cap:'Пики готовы',main:null,li:['«Map 1 · Пики готовы · Старт через минуту»'],c:'0 : 0',f:[['stacks','Bo3'],['check_circle','Map 1 · Пики готовы · Старт через минуту','live']],side:SB,tv:'live'},
+ {cap:'Первые 12′',main:null,li:['«Map 1 · 8′»'],c:'0 : 0',f:[['stacks','Bo3'],['play_circle','Map 1 · 8′','live']],side:SB,tv:'live'},
+ {cap:'Live',main:null,li:['счёт по мапам 1 : 1','«Map 3 · 33′»'],c:'1 : 1',f:[['stacks','Bo3'],['play_circle','Map 3 · 33′','live']],side:SB,tv:'live'},
+ {cap:'После',main:['sports_score','Завершён','off'],li:['итоговый счёт, проигравший — серым','«Завершён · 1 ч 52 мин»','трансляций нет'],title:A+mid('2 : 1')+'<span class="team lose">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt="" style="opacity:.6"></span>',f:[['stacks','Bo3'],['sports_score','Завершён · 1 ч 52 мин','off']],side:SB,tv:'none'},
+];
+const C=[
+ {cap:'Анонс',main:['event_upcoming','Время уточняется','off'],li:['матч объявлен, время не назначено','вместо счёта — «—», «Время уточняется»'],c:'—',f:[['stacks','Bo3'],['event_upcoming','Время уточняется','off']],side:[['account_tree','Плей-офф']],tv:'none',tvNote:'Трансляции — когда назначат время'},
+ {cap:'Нет данных',main:['cloud_off','Нет данных','warn'],li:['матч идёт, данных нет — жёлтым','трансляции есть — можно смотреть'],c:'? : ?',f:[['stacks','Bo3'],['cloud_off','Идёт · Нет данных','warn']],side:SB,tv:'live'},
+ {cap:'Нет данных и трансляции',main:['cloud_off','Нет данных','warn'],li:['ни данных, ни трансляции — две иконки','тегов нет'],c:'? : ?',f:[['stacks','Bo3'],['cloud_off','Нет данных','warn'],['tv_off','Нет трансляции','warn']],side:SB,tv:'none'},
+ {cap:'Перенос',main:['update','Перенесён','warn'],li:['в центре — новое время','старое — в чипе: «Перенесён · Было 17:12»'],c:'20:00',f:[['stacks','Bo3'],['update','Перенесён · Было 17:12','warn']],side:[['account_tree','Плей-офф'],['schedule','Сегодня, 20:00']],tv:'on'},
+ {cap:'Отмена',main:['block','Отменён','off'],li:['всё серым, вместо счёта — «Отменён»','трансляций нет'],title:'<span class="team gray" style="opacity:.6"><img src="../gs-match/img/teams/9572001.png" alt="">Team Spirit</span><span class="tm gray">Отменён</span><span class="team gray" style="opacity:.6">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt=""></span>',f:[['stacks','Bo3'],['block','Матч отменён','off']],side:[['account_tree','Плей-офф']],tv:'none'},
+];
+
+const tvsC=(mode)=>mode==='none'?'':`<div class="tvs">${CH.map(([p,l])=>`<a class="tv" href="#" title="${p} · ${l} · пример">${PL[p]}${l}</a>`).join('')}</div>`;
+const chip=(x)=>x?`<span class="fact ${x[2]||''}">${ic(x[0])}${x[1]}</span>`:'';
+const tourC=(t)=>`<div class="cbar"><img class="tlogo" src="../${t.logo}" alt=""><span class="ttl">${t.name}</span>${chip(t.main)}<span class="sp"></span>${tvsC(t.tv)}</div>`;
+const FOLD=(u)=>`<button class="fold" type="button" data-fold="${u}" title="${u?'Свернуть':'Развернуть'}">${ic(u?'unfold_less':'unfold_more')}</button>`;
+const mC=(m)=>`<div class="cbar"><span class="ttl">${m.title||A+mid(m.c)+B}</span>${chip(m.main)}<span class="sp"></span>${tvsC(m.tv)}${FOLD(0)}</div>`;
+const row2=(x,full,comp)=>`<div class="st"><div class="cap"><b>${x.cap}</b><ul>${x.li.map(l=>`<li>${l}</li>`).join('')}</ul></div><div class="pair"><span class="lb">Наверху страницы</span><div class="stage a">${full}</div><span class="lb">${x.kind==='t'?'При прокрутке':'Свёрнута кнопкой'}</span><div class="stage a">${comp}</div></div></div>`;
+const row=(x,h)=>`<div class="st"><div class="cap"><b>${x.cap}</b><ul>${x.li.map(l=>`<li>${l}</li>`).join('')}</ul></div><div class="stage a">${h}</div></div>`;
+function draw(){document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.v===MODE));
+T.forEach(t=>t.kind='t');document.getElementById('tours').innerHTML=T.map(t=>row2(t,tourHd(t),tourC(t))).join('');
+document.getElementById('match').innerHTML=M.map(m=>row2(m,mHd(m),mC(m))).join('');
+document.getElementById('cases').innerHTML=C.map(m=>row2(m,mHd(m),mC(m))).join('');
+ const TI=T[1];document.getElementById('demo').innerHTML=`<div class="site"><span class="logo"><i></i>GoatScout</span><nav><a>Матчи</a><a class="on">Турниры</a></nav><span class="srch">Матчи, команды, игроки</span></div>${tourC(TI)}${tourHd(TI)}<div class="fill"><div><i></i><i></i><i></i><i></i><i></i></div><div><i></i><i></i></div></div>`;
+ const D=document.getElementById('demo'),H=D.querySelector('.hd');D.scrollTop=0;D.classList.remove('scrolled');D.onscroll=()=>D.classList.toggle('scrolled',D.scrollTop>H.offsetTop+H.offsetHeight-52);
+ const L=M[4];document.getElementById('mdemo').innerHTML=`<div class="site"><span class="logo"><i></i>GoatScout</span><nav><a class="on">Матчи</a><a>Турниры</a></nav><span class="srch">Матчи, команды, игроки</span></div>${mC(L)}${mHd(L)}<div class="fill"><i></i><i></i></div>`;}
+document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{MODE=b.dataset.v;s('page-header-mode',MODE);draw()});draw();
+
+/* ——— телефон ——— */
+const msite='<div class="msite"><i></i><b>GoatScout</b><span class="ms">search</span><span class="ms">menu</span></div>';
+const mtv=(mode)=>`<div class="m-tv">${CH.map(([p,l])=>`<a class="tv" href="#" title="${p} · ${l} · пример">${PL[p]}${l}</a>`).join('')}</div>`;
+const mtvBlock=(x)=>x.tv==='none'?(x.tvNote?`<div class="m-note">${x.tvNote}</div>`:''):mtv();
+const mlg=(x)=>x.tv==='none'?'':`<span class="lg">${CH.map(([p,l])=>`<a href="#" title="${p} · ${l}">${PL[p]}</a>`).join('')}</span>`;
+const tourM=(t)=>`<div class="mh">${crumbs(['Турниры','Dota 2',t.name])}<div class="m-main"><img class="tlogo" src="../${t.logo}" alt=""><div style="min-width:0"><div class="m-ttl">${t.name}</div><div class="sub7">${st7(t.main7)}${t.op?`<span>${t.op}</span>`:''}</div></div></div><div class="m-facts">${t.side.map(([i,v,l])=>`<span title="${l}">${ic(i)}${v}${l==='Команд'&&v!=='—'?' команд':''}</span>`).join('')}${fmtBtn(t.f)}</div>${mtvBlock(t)}</div>`;
+const tourMC=(t)=>`<div class="mcbar"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span>${chip(t.main)}<span class="sp"></span>${mlg(t)}</div>`;
+const mM=(m)=>`<div class="mh"><div class="top7">${crumbs(['Матчи','TI 2026','Плей-офф','Team Spirit — PARIVISION'])}${FOLD(1)}</div><div class="m-teams">${m.title||A+mid(m.c)+B}</div><div class="m-sub">${m.f.map(([i,t,c])=>c?st7([i,t,c==='live'?'live':c==='warn'?'warn':'done']):`<span>${t}</span>`).join('')}</div><div class="m-facts c">${m.side.map(([i,v])=>`<span>${ic(i)}${v}</span>`).join('')}</div>${mtvBlock(m)}</div>`;
+const mMC=(m)=>`<div class="mcbar">${(m.title||A+mid(m.c)+B).replace(/(<img[^>]*>)(Team Spirit|PARIVISION)|(Team Spirit|PARIVISION)(<img[^>]*>)/g,(x,i1,n1,n2,i2)=>`<span title="${n1||n2}">${i1||i2}</span>`)}${chip(m.main)}<span class="sp"></span>${FOLD(0)}</div>`;
+const mcard=(x,full,comp,lbl)=>`<div class="mcard"><div class="cap"><b>${x.cap}</b><ul>${x.li.map(l=>`<li>${l}</li>`).join('')}</ul></div><span class="lb">Полная</span><div class="scr">${full}</div><span class="lb">${lbl}</span><div class="scr">${comp}</div></div>`;
+const MV={a:'Всё, кроме названия, — одной строкой плашек, она листается пальцем вбок: статус · данные · «Формат» · трансляции. Высота шапки всегда одна.',
+ b:'Видно только название и статус. Остальное — по «Подробнее»: данные списком, формат, трансляции. Самая короткая шапка.',
+ c:'Название и одна строка текстом через точку (обрезается многоточием). Справа два значка: ⓘ — данные и формат, телевизор с числом — трансляции.'};
+let MVV=g('page-header-mv','a');
+document.getElementById('hits').onchange=e=>document.body.classList.toggle('hits',e.target.checked);
+const tvL=(x)=>x.tv==='none'?[]:CH.map(([p,l])=>`<a class="tv" href="#" title="${p} · ${l}">${PL[p]}${l}</a>`);
+const fsHtml=(f)=>`<div class="fs">${FMT[f].map(([n,d,t])=>`<b>${n} <small style="color:#a1a1aa;font-weight:400">${d}</small></b><p>${t}</p>`).join('')}</div>`;
+const tcls={live:'lv',warn:'wr',off:'dn',done:'dn',soon:'sn'};
+const crT=(t)=>`<div class="crow">${crumbs(['Турниры','Dota 2',t.name])}${FOLD(1)}</div>`;
+const crM=()=>`<div class="crow">${crumbs(['Матчи','TI 2026','Плей-офф','Team Spirit — PARIVISION'])}${FOLD(1)}</div>`;
+const teams=(m)=>`<div class="tm1${m.cap==='Отмена'?' dim':''}">${m.title||A+mid(m.c)+B}</div>`;
+const facT=(t)=>t.side.map(([i,v,l])=>[i,v+(l==='Команд'&&v!=='—'?' команд':''),l]);
+const tStat=(t)=>t.main7, mStat=(m)=>{const x=m.f.filter(z=>z[2]);return x};
+const VAR={
+ a:{t:(t)=>`${crT(t)}<div class="t1"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span></div><div class="rail">${st7(t.main7)}${facT(t).map(([i,v,l])=>`<span class="ch" title="${l}">${ic(i)}${v}</span>`).join('')}<button class="ch" type="button" data-tog="fmt">${ic('info')}Формат</button>${t.tv==='none'?'':'<span class="sep"></span>'+tvL(t).join('')}</div><div class="pane" data-pane="fmt" hidden>${fsHtml(t.f)}</div>${t.tv==='none'&&t.tvNote?`<div class="m-note">${t.tvNote}</div>`:''}`,
+    m:(m)=>`${crM()}${teams(m)}<div class="rail">${m.f.map(([i,t,c])=>c?st7([i,t,c==='live'?'live':c==='warn'?'warn':'done']):`<span class="ch">${ic(i)}${t}</span>`).join('')}${m.side.map(([i,v])=>`<span class="ch">${ic(i)}${v}</span>`).join('')}${m.tv==='none'?'':'<span class="sep"></span>'+tvL(m).join('')}</div>`},
+ b:{t:(t)=>`${crT(t)}<div class="t1"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span></div><div class="l2">${st7(t.main7)}<button class="more" type="button" data-tog="det" aria-expanded="false">Подробнее${ic('expand_more')}</button></div><div class="det" data-pane="det" hidden><dl>${facT(t).map(([i,v,l])=>`<dt>${l}</dt><dd>${v}</dd>`).join('')}${t.op?`<dt>Оператор</dt><dd>${t.op}</dd>`:''}<dt>Формат</dt><dd>${fsHtml(t.f)}</dd><dt>Трансляции</dt><dd>${t.tv==='none'?`<span style="color:#71717a">${t.tvNote||'Нет — турнир кончился'}</span>`:`<div class="tvs">${tvL(t).join('')}</div>`}</dd></dl></div>`,
+    m:(m)=>`${crM()}${teams(m)}<div class="l2" style="justify-content:center">${mStat(m).map(x=>st7([x[0],x[1],x[2]==='live'?'live':x[2]==='warn'?'warn':'done'])).join('')||`<span>${m.f[1]?m.f[1][1]:''}</span>`}<button class="more" type="button" data-tog="det" aria-expanded="false" style="margin-left:0">Подробнее${ic('expand_more')}</button></div><div class="det" data-pane="det" hidden><dl><dt>Формат серии</dt><dd>${m.f[0][1]}</dd>${m.side.map(([i,v])=>`<dt>${i==='schedule'?'Начало':'Стадия'}</dt><dd>${v}</dd>`).join('')}<dt>Трансляции</dt><dd>${m.tv==='none'?`<span style="color:#71717a">${m.tvNote||'Нет'}</span>`:`<div class="tvs">${tvL(m).join('')}</div>`}</dd></dl></div>`},
+ c:{t:(t)=>`${crT(t)}<div class="t1"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span><button class="ib" type="button" data-tog="inf" title="Данные и формат">${ic('info')}</button>${t.tv==='none'?'':`<button class="ib" type="button" data-tog="tv" title="Трансляции">${ic('live_tv')}${CH.length}</button>`}</div><div class="ln"><span class="${tcls[t.main7[2]]}">${t.main7[1]}</span> · ${facT(t).map(x=>`<b>${x[1]}</b>`).join(' · ')}${t.op?' · '+t.op:''}</div><div class="pane" data-pane="inf" hidden><dl class="kv" style="flex-wrap:wrap;gap:8px 20px;margin-bottom:8px">${facT(t).map(([i,v,l])=>`<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>${fsHtml(t.f)}</div><div class="pane" data-pane="tv" hidden><div class="tvs">${tvL(t).join('')}</div></div>`,
+    m:(m)=>`${crM()}<div style="display:flex;align-items:center;gap:6px">${teams(m).replace('class="tm1','style="flex:1" class="tm1')}${m.tv==='none'?'':`<button class="ib" type="button" data-tog="tv" title="Трансляции" style="margin-top:8px">${ic('live_tv')}${CH.length}</button>`}</div><div class="ln" style="text-align:center">${m.f.map(([i,t,c])=>c?`<span class="${tcls[c]}">${t}</span>`:t).join(' · ')} · ${m.side.map(x=>x[1]).join(' · ')}</div><div class="pane" data-pane="tv" hidden><div class="tvs">${tvL(m).join('')}</div></div>`},
+};
+const barT=(t)=>`<div class="bar"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span>${chip(t.main)}<span class="sp"></span>${FOLD(0)}</div>`;
+const barM=(m)=>`<div class="bar"><span class="lg${m.cap==='Отмена'?' dim':''}"><img src="../gs-match/img/teams/9572001.png" alt="">${m.c&&!m.title?m.c:(m.cap==='После'?'2 : 1':'Отменён')}<img src="../gs-match/img/teams/7119388.png" alt=""></span>${chip(m.main)}<span class="sp"></span>${FOLD(0)}</div>`;
+const MS=[...M,...C];
+const MV13={k1:'Крошки без текущей страницы — название и так крупно ниже: «Турниры › Dota 2», «Матчи › TI 2026 › Плей-офф». Каждое звено — ссылка.',
+ k2:'Только ближайший раздел — одно звено: у турнира «Dota 2», у матча «TI 2026 · Плей-офф» (ведёт в турнир). Самые короткие.',
+ k3:'Первое звено, «…» и ближайший раздел: «Матчи › … › Плей-офф». Нажал «…» — раскрываются все звенья.'};
+let K13=g('page-header-k13','k1');if(!MV13[K13])K13='k1';
+const CR={t:['Турниры','Dota 2'],m:['Матчи','TI 2026','Плей-офф']};
+const crS=(k,open)=>{const L=CR[k];let parts;
+ if(K13==='k2')parts=k==='t'?['<a href="#">Dota 2</a>']:['<a href="#">TI 2026 · Плей-офф</a>'];
+ else if(K13==='k3'&&!open&&L.length>2)parts=[`<a href="#">${L[0]}</a>`,'<button class="more3" type="button" data-crx>…</button>',`<a href="#">${L[L.length-1]}</a>`];
+ else parts=L.map(x=>`<a href="#">${x}</a>`);
+ return `<div class="crumbs">${parts.join('<i>›</i>')}</div>`};
+const IB='<button class="ib" type="button" data-sheet title="Информация">'+'<span class="ms">info</span></button>';
+const tvBig=(x)=>x.tv==='none'?`<span class="note">${x.tvNote||'Трансляций нет — уже прошёл'}</span>`:`<div class="tvs">${tvL(x).join('')}</div>`;
+const shHead=(t)=>`<div class="grab"></div><div class="sh"><b>${t}</b><button class="cls" type="button" data-shclose title="Закрыть">${ic('close')}</button></div>`;
+const LV={l1:'Тир, даты, команд — тремя плитками, оператор строкой под ними; формат — шагами по линии; трансляции — кнопками на всю ширину.',
+ l2:'Как настройки в iOS: группы со строками «подпись слева — значение справа», формат и трансляции — своими группами; строки 44 px.',
+ l3:'Каждый факт — строка со значком; формат — пронумерованные шаги; трансляции — на всю ширину в две колонки.'};
+let L15=g('page-header-l15','l1');if(!LV[L15])L15='l1';
+const sname={Twitch:'Twitch',YouTube:'YouTube',Kick:'Kick'};
+const strm=(x,two)=>x.tv==='none'?`<span class="note">${x.tvNote||'Трансляций нет — уже прошёл'}</span>`:`<div class="streams${two?' g2':''}">${CH.map(([p,l])=>`<a class="stream" href="#">${PL[p]}${p} <small>${l}</small><span class="ms">open_in_new</span></a>`).join('')}</div>`;
+const strmG=(x)=>x.tv==='none'?`<span class="note">${x.tvNote||'Трансляций нет — уже прошёл'}</span>`:`<div class="grp">${CH.map(([p,l])=>`<a class="stream" href="#">${PL[p]}${p} <small>${l}</small><span class="ms">open_in_new</span></a>`).join('')}</div>`;
+const ICN={Тир:'military_tech',Даты:'calendar_today',Команд:'groups'};
+const sheetT=(t)=>{const F=facT(t),S=FMT[t.f];
+ if(L15==='l1')return `${shHead('О турнире')}<div class="tiles">${F.map(([i,v,l])=>`<div class="tile"><small>${l}</small><b>${v.replace(' команд','')}</b></div>`).join('')}</div>${t.op?`<div class="opl">Оператор · <b>${t.op}</b></div>`:''}<h4>Формат</h4><ul class="steps">${S.map(([n,d,x])=>`<li><b>${n}</b>${d?`<small>${d}</small>`:''}<p>${x}</p></li>`).join('')}</ul><h4>Трансляции</h4>${strm(t)}`;
+ if(L15==='l2')return `${shHead('О турнире')}<div class="grp" style="margin-top:12px">${F.map(([i,v,l])=>`<div class="r"><span>${l}</span><b>${v}</b></div>`).join('')}${t.op?`<div class="r"><span>Оператор</span><b>${t.op}</b></div>`:''}</div><h4>Формат</h4><div class="grp">${S.map(([n,d,x])=>`<div class="r fm"><b>${n}${d?` <small style="color:#a1a1aa;font-weight:400">${d}</small>`:''}</b><p>${x}</p></div>`).join('')}</div><h4>Трансляции</h4>${strmG(t)}`;
+ return `${shHead('О турнире')}<div class="il">${F.map(([i,v,l])=>`<div><span class="ms">${ICN[l]}</span><span>${v}<small>${l}</small></span></div>`).join('')}${t.op?`<div><span class="ms">apartment</span><span>${t.op}<small>Оператор</small></span></div>`:''}</div><h4>Формат</h4><div class="fsteps">${S.map(([n,d,x],k)=>`<div><i>${k+1}</i><span><b>${n}</b>${d?`<small>${d}</small>`:''}<p>${x}</p></span></div>`).join('')}</div><h4>Трансляции</h4>${strm(t,1)}`};
+const sheetM=(m)=>{const st=m.side.find(x=>x[0]==='schedule');
+ if(L15==='l1')return `${shHead('О матче')}${st?`<div class="tiles" style="grid-template-columns:1fr"><div class="tile"><small>Начало</small><b>${st[1]}</b></div></div>`:''}<h4>Трансляции</h4>${strm(m)}`;
+ if(L15==='l2')return `${shHead('О матче')}${st?`<div class="grp" style="margin-top:12px"><div class="r"><span>Начало</span><b>${st[1]}</b></div></div>`:''}<h4>Трансляции</h4>${strmG(m)}`;
+ return `${shHead('О матче')}${st?`<div class="il"><div><span class="ms">schedule</span><span>${st[1]}<small>Начало</small></span></div></div>`:''}<h4>Трансляции</h4>${strm(m,1)}`};
+const FOLD13=(u)=>`<button class="fold" type="button" data-fold="${u}" title="${u?'Свернуть':'Развернуть'}">${ic(u?'unfold_less':'unfold_more')}</button>`;
+const fullT=(t,o)=>`<div class="crow">${crS('t',o)}${FOLD13(1)}</div><div class="t1"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span>${IB}</div><div class="l2">${st7(t.main7)}</div>`;
+const fullM=(m,o)=>{const st=m.f.filter(z=>z[2]);return `<div class="crow">${crS('m',o)}${FOLD13(1)}</div><div class="tmrow"><div class="tm1${m.cap==='Отмена'?' dim':''}">${m.title||A+mid(m.c)+B}</div>${IB}</div><div class="l2" style="justify-content:center"><span>${m.f[0][1]}</span>${st.map(x=>st7([x[0],x[1],x[2]==='live'?'live':x[2]==='warn'?'warn':'done'])).join('')||`<span>${m.f[1]?m.f[1][1]:''}</span>`}</div>`};
+const barT13=(t)=>`<div class="bar"><img class="tlogo" src="../${t.logo}" alt=""><span class="nm">${t.name}</span>${chip(t.main)}<span class="sp"></span>${FOLD13(0)}</div>`;
+const barM13=(m)=>barM(m).replace(/<button class="fold"[\s\S]*?<\/button>/,FOLD13(0));
+function phone13(el,bar,full,sheet){const f=el.dataset.f||'0';el.classList.add('ph13');el.classList.remove('open');
+ el.innerHTML=`<div class="scr">${msite}${bar}<div class="x">${full}</div><div class="fill"><i></i><i></i><i></i><i></i><i></i></div></div><div class="sheetbg" data-shclose></div><div class="sheet">${sheet}</div>`;el.dataset.f=f;el.classList.remove('scrolled');
+ const S=el.querySelector('.scr'),H=el.querySelector('.x');S.onscroll=()=>el.classList.toggle('scrolled',el.dataset.f!=='1'&&S.scrollTop>H.offsetTop+H.offsetHeight-96)}
+function drawMob(o){
+ document.querySelectorAll('#mv button').forEach(b=>b.classList.toggle('on',b.dataset.v===K13));document.querySelectorAll('#lv button').forEach(b=>b.classList.toggle('on',b.dataset.v===L15));document.getElementById('lvwhy').textContent=LV[L15];document.getElementById('mvwhy').textContent=MV13[K13];
+ const sT=document.getElementById('selT'),sM=document.getElementById('selM');
+ if(!sT.options.length){T.forEach((t,i)=>sT.add(new Option(t.cap,i)));sT.value=1;MS.forEach((m,i)=>sM.add(new Option(m.cap,i)));sM.value=4;sT.onchange=sM.onchange=()=>drawMob()}
+ const t=T[+sT.value],m=MS[+sM.value];
+ phone13(document.getElementById('pT'),barT13(t),fullT(t,o==='pT'),sheetT(t));phone13(document.getElementById('pM'),barM13(m),fullM(m,o==='pM'),sheetM(m));
+}
+document.querySelectorAll('#lv button').forEach(b=>b.onclick=()=>{L15=b.dataset.v;s('page-header-l15',L15);drawMob();document.querySelectorAll('.ph13').forEach(p=>p.classList.add('open'))});
+document.querySelectorAll('#mv button').forEach(b=>b.onclick=()=>{K13=b.dataset.v;s('page-header-k13',K13);drawMob()});
+document.addEventListener('click',e=>{const ph=e.target.closest('.ph13');if(!ph)return;
+ if(e.target.closest('[data-sheet]')){ph.classList.add('open');e.stopPropagation();return}
+ if(e.target.closest('[data-shclose]')){ph.classList.remove('open');e.stopPropagation();return}
+ if(e.target.closest('[data-crx]')){const keep=ph.dataset.f;drawMob(ph.id);e.stopPropagation();return}
+ const f=e.target.closest('[data-fold]');if(f){const S=ph.querySelector('.scr');if(f.dataset.fold==='1'){ph.dataset.f='1';ph.classList.remove('scrolled')}else if(ph.dataset.f==='1'){ph.dataset.f='0'}else{S.scrollTo({top:0,behavior:'smooth'})}e.stopPropagation()}
+},true);
+let DEV=g('page-header-dev11','mob');
+function showDev(){document.querySelectorAll('#dev button').forEach(b=>b.classList.toggle('on',b.dataset.v===DEV));document.getElementById('desk').hidden=DEV!=='desk';document.getElementById('mob').hidden=DEV!=='mob';if(DEV==='mob')drawMob()}
+document.querySelectorAll('#dev button').forEach(b=>b.onclick=()=>{DEV=b.dataset.v;s('page-header-dev11',DEV);showDev()});showDev();
+document.addEventListener('click',e=>{const f=e.target.closest('[data-fold]');const tg=e.target.closest('[data-tog]');if(tg){const ph=tg.closest('.phone');const p=ph.querySelector(`[data-pane="${tg.dataset.tog}"]`);ph.querySelectorAll('[data-pane]').forEach(x=>{if(x!==p)x.hidden=true});p.hidden=!p.hidden;ph.querySelectorAll('[data-tog]').forEach(b=>b.setAttribute('aria-expanded',!ph.querySelector(`[data-pane="${b.dataset.tog}"]`).hidden));e.preventDefault();return}
+if(f&&f.closest('.ph11')){const ph=f.closest('.ph11');if(f.dataset.fold==='1'){ph.dataset.f='1';ph.classList.remove('scrolled')}else if(ph.dataset.f==='1'){ph.dataset.f='0'}else{ph.scrollTo({top:0,behavior:'smooth'})}return}
+if(f){const box=f.closest('.mdemo')||f.closest('.mcard');if(box)box.dataset.f=f.dataset.fold;return}const b=e.target.closest('.info');document.querySelectorAll('.pop').forEach(p=>{if(!b||!b.contains(p))p.hidden=true});if(b&&!e.target.closest('.pop')){const p=b.querySelector('.pop');p.hidden=!p.hidden}});
+</script></body></html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v9 — по правкам дирижёра к v8 (16.11): баллы — все фиолетовые, без золота и зелёного; блик карточки «Новый» ярче; итоги прогнозов без зелёного/красного (это цвета Radiant/Dire) — угадал фиолетовым, мимо серым (штрих / сплошной); выбранное у участников и «Все 18» — вариант с фиолетовым. Остальное как v8; «Все 18» серым — правим, Рошан и позиции — оставляем. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Фиолетовый — правки v8</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --ac:#AF52DE; --ok:#34C759; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --ac:#BF5AF2; --ok:#30D158; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 12px; font-size:20px; font-weight:700; }
+h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.n{ border:0; background:var(--chip); color:var(--tx2); font:600 12px/1 inherit; font-family:inherit; padding:5px 8px; border-radius:6px; cursor:pointer; }
+.t{ font-size:17px; font-weight:600; }
+.where{ color:var(--tx2); font-size:13px; }
+.tag{ margin-left:auto; font-size:12px; font-weight:600; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.tag.ok{ color:var(--ok); } .tag.ac{ color:var(--ac); }
+.why{ margin:6px 0 12px; color:var(--tx2); font-size:14px; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pair.one{ grid-template-columns:1fr; }
+.pair.wide{ grid-template-columns:1fr; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.sh.new b{ color:#fff; }
+.sh img{ display:block; max-width:100%; height:auto; align-self:flex-start; }
+.many{ display:grid; grid-template-columns:repeat(3, auto); gap:12px; justify-content:start; align-items:start; }
+.list{ margin:0; padding-left:20px; } .list li{ margin:4px 0; }
+.cp{ position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .pair{ grid-template-columns:1fr; } .many{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 48px; } }
+.sh img{ max-width:100%; }
+.pair.one{ grid-template-columns:1fr; }
+.vars{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+.vars.wide{ grid-template-columns:1fr; }
+.sh{ position:relative; }
+.pick{ position:absolute; top:6px; right:6px; height:24px; padding:0 8px; border:0; border-radius:6px; background:#2c2c2e; color:#fff; font:600 12px/24px "SF Pro Rounded", ui-rounded, system-ui, sans-serif; cursor:pointer; }
+.pick:hover{ background:#3f238b; }
+.pick.ok{ background:#3f238b; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Правки к v8</h1>
+      <p class="sub">Баллы фиолетовые, блик ярче, итоги прогнозов без зелёного и красного, выбранное — вариант с фиолетовым. Жми «⧉ выбрать» в углу варианта — по одному в каждом блоке. В буфер копируется весь список выбранного, его и пришли.</p>
+    </div>
+    <button class="th" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button>
+  </div>
+  <h2>Баллы — фиолетовые <small>без золота и зелёного</small></h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #1</button><span class="t">Кошелёк</span><span class="where">шапка, раскрыт</span></div><p class="why">Монета — #3f238b. Цифры «+80», «+50» были зелёными. А — белые цифры, Б — плашки.</p>
+    <div class="vars wide"><div class="sh"><b>было</b><img src="img/v9/wallet-was.png" width="550" /></div><div class="sh new"><b>А · белые цифры</b><img src="img/v9/wallet-a.png" width="550" /></div><div class="sh new"><b>Б · плашки</b><img src="img/v9/wallet-b.png" width="550" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #2</button><span class="t">Цена в MVP</span><span class="where">матч → MVP</span></div><p class="why">Монета — #3f238b.</p>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/mvp-was.png" width="306" /></div><div class="sh new"><b>стало</b><img src="img/v9/mvp-a.png" width="306" /></div></div>
+  </div>
+  <h2>Прогнозы</h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #3</button><span class="t">Блик карточки «Новый»</span><span class="where">матч → прогнозы</span></div><p class="why">Блик ярче и шире, с лёгким свечением. Блик крутится, на скринах он остановлен в одном месте.</p>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/card-was.png" width="318" /></div><div class="sh new"><b>как в v8</b><img src="img/v9/card-v8.png" width="318" /></div><div class="sh new"><b>ярче</b><img src="img/v9/card-bright.png" width="318" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #4</button><span class="t">Итог прогнозов</span><span class="where">матч → прогнозы, все закрылись</span></div><p class="why">Зелёный и красный убраны: это цвета Radiant и Dire. Угадал — полоса и «✓ +13» фиолетовые. Мимо — серая полоса. А — мимо штрихом, Б — мимо сплошным серым, В — угадал белым, мимо штрихом. «Получено +20» — белым.</p>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/itog-was.png" width="344" /></div><div class="sh new"><b>А · фиолет / штрих</b><img src="img/v9/itog-a.png" width="344" /></div><div class="sh new"><b>Б · фиолет / серый</b><img src="img/v9/itog-b.png" width="344" /></div><div class="sh new"><b>В · белый / штрих</b><img src="img/v9/itog-c.png" width="344" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #5</button><span class="t">Строка: угадал</span><span class="where">матч → прогнозы</span></div><p class="why">Ответ «Да» / «Нет» — серая метка, без зелёного и красного.</p>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/row-ok-was.png" width="318" /></div><div class="sh new"><b>А</b><img src="img/v9/row-ok-a.png" width="318" /></div><div class="sh new"><b>Б</b><img src="img/v9/row-ok-b.png" width="318" /></div><div class="sh new"><b>В</b><img src="img/v9/row-ok-c.png" width="318" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #6</button><span class="t">Строка: мимо</span><span class="where">матч → прогнозы</span></div>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/row-no-was.png" width="318" /></div><div class="sh new"><b>А · штрих</b><img src="img/v9/row-no-a.png" width="318" /></div><div class="sh new"><b>Б · серый</b><img src="img/v9/row-no-b.png" width="318" /></div><div class="sh new"><b>В · штрих</b><img src="img/v9/row-no-c.png" width="318" /></div></div>
+  </div>
+  <h2>Выбранное — серым или фиолетовым</h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #7</button><span class="t">Вид и сортировка у участников</span><span class="where">турнир → участники</span></div>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/part-bar-was.png" width="307" /></div><div class="sh new"><b>серым (v8)</b><img src="img/v9/part-bar-grey.png" width="307" /></div><div class="sh new"><b>фиолетовым</b><img src="img/v9/part-bar-violet.png" width="307" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #8</button><span class="t">Состав / запасные в карточке</span><span class="where">турнир → участники</span></div>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v9/part-main-was.png" width="462" /></div><div class="sh new"><b>серым (v8)</b><img src="img/v9/part-main-grey.png" width="462" /></div><div class="sh new"><b>фиолетовым</b><img src="img/v9/part-main-violet.png" width="462" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #9</button><span class="t">Фильтр игр «Все 18»</span><span class="where">главная (концепт)</span></div>
+    <div class="vars wide"><div class="sh"><b>было</b><img src="img/v9/home-all-was.png" width="1020" /></div><div class="sh new"><b>серым (v8)</b><img src="img/v9/home-all-grey.png" width="1020" /></div><div class="sh new"><b>фиолетовым</b><img src="img/v9/home-all-violet.png" width="1020" /></div></div>
+  </div>
+  <h2>Ещё</h2>
+  <div class="card"><ul class="list">
+    <li>‼️ Кнопки «Да» / «Нет» на карточке прогноза — тоже зелёная и красная, на них баллы «+18», «+7». Перекрашивать? Скажи, сделаю варианты.</li>
+    <li>Решено и не меняется: «Все 18» серым — правим (если не выберешь фиолетовый выше); Рошан и значки позиций — оставляем.</li>
+    <li>Остальные пункты — как в v8.</li>
+  </ul></div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>document.querySelectorAll('.n').forEach(b=>b.onclick=()=>{ const t=b.textContent.replace('⧉','').trim(); try{ navigator.clipboard.writeText(t) }catch(e){} const c=document.getElementById('cp'); c.textContent='Скопировано '+t; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),1200) })</script>
+<script>const PICKS={}; document.querySelectorAll('.card').forEach(c=>{ const n=c.querySelector('.n')?.textContent.replace('⧉','').trim()||'', t=c.querySelector('.t')?.textContent||''
+  c.querySelectorAll('.sh.new').forEach(sh=>{ const b=document.createElement('button'); b.className='pick'; b.textContent='⧉ выбрать'; const lab=sh.querySelector('b').textContent
+    b.onclick=()=>{ PICKS[n]=n+' '+t+' — '+lab; c.querySelectorAll('.pick').forEach(x=>{ x.classList.remove('ok'); x.textContent='⧉ выбрать' }); b.classList.add('ok'); b.textContent='✓ выбрано'
+      const txt=Object.keys(PICKS).sort((x,y)=>+x.slice(1)-+y.slice(1)).map(k=>PICKS[k]).join('\n'); try{ navigator.clipboard.writeText(txt) }catch(e){}
+      const cp=document.getElementById('cp'); cp.textContent='Скопировано выборов: '+Object.keys(PICKS).length; cp.classList.add('on'); setTimeout(()=>cp.classList.remove('on'),1600) }
+    sh.appendChild(b) }) })</script>
+</body></html>

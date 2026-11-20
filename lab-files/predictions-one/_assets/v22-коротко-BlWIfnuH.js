@@ -1,0 +1,1 @@
+import{s as t,j as e,b as r}from"./lab-BAd8La_B.js";import{M as s}from"./MatchPage-CizBBYFD.js";r({empty:"switch",frame:!0,up:!0,clean:!0,bare:!0,ok:"short"});t(()=>e.jsx(s,{state:"live",viewer:"in"}));

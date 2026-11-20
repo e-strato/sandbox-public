@@ -1,0 +1,112 @@
+/* Тег сущности (лаба «Теги», 62-2). Шрифт — от места (заголовок, таблица, текст), размер задаёт только картинку и поля.
+   Свои цвета: плашка — белый 7 %, наведение — 14 % (как упоминание в новостях: mention 10 / 18 %). */
+.etag { --etag-bg: #ffffff12; --etag-bg-h: #ffffff24; --etag-pic: 24px; --etag-r: 6px; --etag-pad: 2px 8px 2px 2px; --etag-gap: 6px;
+  position: relative; display: inline-flex; align-items: center; gap: var(--etag-gap); max-width: 100%; min-width: 0; padding: var(--etag-pad); border-radius: var(--etag-r);
+  color: inherit; font: inherit; text-decoration: none; vertical-align: middle; white-space: nowrap; background: transparent;
+  transition: background var(--dur-150, .15s), color var(--dur-150, .15s); }
+.etag--s { --etag-pic: 20px; --etag-r: 5px; --etag-pad: 2px 6px 2px 2px; --etag-gap: 5px; }
+.etag--l { --etag-pic: 32px; --etag-r: 8px; --etag-pad: 3px 10px 3px 3px; --etag-gap: 8px; }
+.etag__pic { display: inline-grid; place-items: center; flex: none; width: var(--etag-pic); height: var(--etag-pic); border-radius: calc(var(--etag-r) - 2px); overflow: hidden; }
+.etag .etag__pic:not(.etag__pic--own) img { width: 100%; height: 100%; object-fit: contain; }
+.etag .etag__pic img.is-photo, .etag .etag__cpic img.is-photo { object-fit: cover; object-position: 50% 12%; }
+.etag--player .etag__pic { background: var(--w-muted); }
+.etag__pic--none { background: var(--w-muted); color: var(--c-text-3); }
+.etag__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* А · плашка всегда */
+.etag--box { background: var(--etag-bg); }
+/* Б, В · плашка только при наведении */
+a.etag:hover, a.etag.is-hover { background: var(--etag-bg-h); }
+a.etag:focus-visible, a.etag.is-focus { outline: 2px solid var(--c-brand); outline-offset: 1px; background: var(--etag-bg-h); }
+.etag--plain { background: transparent; }
+.etag--muted { opacity: .5; }
+.etag--muted:hover { opacity: 1; }
+
+/* В · карточка при наведении */
+.etag__card { position: absolute; z-index: 50; top: calc(100% + 6px); left: 0; display: grid; grid-template-columns: 40px 1fr; gap: 4px 10px; align-items: center; width: 240px; padding: 10px;
+  border: 1px solid #ffffff1f; border-radius: 10px; background: var(--w-surface-2); box-shadow: 0 12px 32px #000a; white-space: normal; font: var(--type-caption-1); color: var(--w-fg); cursor: pointer; }
+.etag__cpic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 8px; overflow: hidden; background: var(--w-muted); }
+.etag .etag__cpic img { width: 100%; height: 100%; object-fit: contain; }
+.etag__ctx { display: grid; min-width: 0; }
+.etag__ctx b { font: var(--type-body-1-strong); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.etag__ctx small { color: var(--c-text-3); }
+.etag__go { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-top: 6px; padding: 6px 8px; border-radius: 6px; background: #ffffff0d; color: var(--w-fg); }
+.etag__pic--own { width: auto; height: auto; overflow: visible; }
+
+/* ── v2 тега (лаба v4, дирижёр 20.11): как упоминание в новостях — компактно; команда — квадрат, игрок — круг, турнир — квадрат;
+   картинки уравнены на глаз (лого команды — во весь квадрат, кубок турнира и фото игрока — чуть меньше); справа — слот. */
+.etag--v2 { --etag-pic: 18px; --etag-r: 4px; --etag-pad: 1px 6px 1px 1px; --etag-gap: 5px; --etag-bg: #ffffff1a; --etag-bg-h: #ffffff2e; line-height: 20px; }
+.etag--v2.etag--s { --etag-pic: 16px; --etag-pad: 1px 5px 1px 1px; --etag-gap: 4px; line-height: 18px; }
+.etag--v2.etag--l { --etag-pic: 22px; --etag-r: 5px; --etag-pad: 1px 8px 1px 1px; --etag-gap: 6px; line-height: 24px; }
+.etag--v2 .etag__pic { border-radius: 3px; }
+.etag--v2.etag--team .etag__pic img { transform: scale(1.15); }
+.etag--v2.etag--player .etag__pic { width: calc(var(--etag-pic) - 2px); height: calc(var(--etag-pic) - 2px); margin: 1px; border-radius: 50%; }
+.etag--v2.etag--tour .etag__pic { background: var(--w-muted); }
+.etag--v2.etag--tour .etag__pic img { width: 76%; height: 76%; }
+.etag--v2 .etag__pic--none { border-radius: 3px; }
+.etag--v2.etag--player .etag__pic--none { border-radius: 50%; }
+.etag--v2 .etag__pic--none svg { width: 10px; height: 10px; }
+.etag__end { display: inline-flex; align-items: center; gap: 4px; margin-left: 2px; padding-left: 6px; border-left: 1px solid #ffffff1f; color: var(--c-text-3); font-variant-numeric: tabular-nums; }
+
+/* ── v3 тега (лаба v5, пачка 20.11): игрок — весь тег скруглён; турнир — картинка без подложки во всю высоту; команда — подложка в цвет лого */
+.etag--v3.etag--player { --etag-r: 999px; padding-right: 8px; }
+.etag--v3.etag--player .etag__pic { margin: 0; width: var(--etag-pic); height: var(--etag-pic); }
+.etag--v3.etag--tour .etag__pic { background: none; width: auto; min-width: var(--etag-pic); }
+.etag--v3.etag--tour .etag__pic img { width: auto; height: 100%; max-width: calc(var(--etag-pic) * 1.6); }
+.etag--v3.etag--tint { --etag-bg: color-mix(in srgb, var(--etag-tc) 16%, #ffffff0a); --etag-bg-h: color-mix(in srgb, var(--etag-tc) 30%, #ffffff0f); }
+
+/* ── v4 тега (лаба v6, пачка 20.11-2): справа без черты; подложка цвета команды темнее; у лого отступ слева; прозрачные поля лого обрезаны (вписан в квадрат) */
+.etag--v4 .etag__end { padding-left: 0; border-left: 0; margin-left: 0; }
+.etag--v4.etag--tint { --etag-bg: color-mix(in srgb, var(--etag-tc) 8%, #ffffff0d); --etag-bg-h: color-mix(in srgb, var(--etag-tc) 18%, #ffffff12); }
+.etag--v4.etag--team, .etag--v4.etag--tour { --etag-pad: 1px 7px 1px 4px; }
+.etag--v4.etag--team.etag--s, .etag--v4.etag--tour.etag--s { --etag-pad: 1px 6px 1px 3px; }
+.etag--v4.etag--team.etag--l, .etag--v4.etag--tour.etag--l { --etag-pad: 1px 9px 1px 5px; }
+.etag--v4.etag--team .etag__pic img { transform: none; }
+.etag--v4.etag--team .etag__pic { overflow: visible; }
+
+/* ── v5 тега (лаба v7, дирижёр 20.11): вокруг картинки 2 px со всех сторон — сверху, снизу и слева одинаково; справа от названия — 8 */
+.etag--v5, .etag--v5.etag--team, .etag--v5.etag--tour, .etag--v5.etag--player { --etag-pad: 2px 8px 2px 2px; }
+.etag--v5.etag--s, .etag--v5.etag--team.etag--s, .etag--v5.etag--tour.etag--s, .etag--v5.etag--player.etag--s { --etag-pad: 2px 7px 2px 2px; }
+.etag--v5.etag--l, .etag--v5.etag--team.etag--l, .etag--v5.etag--tour.etag--l, .etag--v5.etag--player.etag--l { --etag-pad: 2px 10px 2px 2px; }
+.etag--v5.etag--player { padding-right: 9px; }
+
+/* ── v6 тега (лаба v8, дирижёр 20.11): строка текста = высоте картинки — вокруг картинки ровно 2 со всех сторон (было 3 сверху и снизу из-за строки 20 при картинке 18) */
+.etag--v6 { line-height: var(--etag-pic); }
+.etag--v6 .etag__name, .etag--v6 .etag__end { line-height: var(--etag-pic); }
+
+/* ── v7 тега (лаба v9, пачка 20.11-3): картинки справа (значок позиции и т. п.) мельче — 12, текст справа как был;
+   яркость подложки — ось «Яркость» (--etag-a, % белого; цвет команды — та же доля, наведение — ×1,8) */
+.etag--v7 .etag__end svg, .etag--v7 .etag__end img, .etag--v7 .etag__end > span:has(svg) { width: 12px; height: 12px; }
+.etag--v7 .etag__end :is(svg, img) { flex: none; }
+.etag--v7 { --etag-bg: rgb(255 255 255 / calc(var(--etag-a, 5) * 1%)); --etag-bg-h: rgb(255 255 255 / calc(var(--etag-a, 5) * 1.8%)); }
+.etag--v7.etag--tint { --etag-bg: color-mix(in srgb, var(--etag-tc) calc(var(--etag-a, 5) * 1%), rgb(255 255 255 / calc(var(--etag-a, 5) * .6%)));
+  --etag-bg-h: color-mix(in srgb, var(--etag-tc) calc(var(--etag-a, 5) * 2%), rgb(255 255 255 / calc(var(--etag-a, 5) * 1%))); }
+
+/* ── форма тега героя (лаба v13, ось «Герой»): круг — как игрок; скос — параллелограмм; срез углов — углы срезаны по диагонали (игровой вид) */
+[data-hero="round"] .etag--hero { --etag-r: 999px; padding-right: 9px; }
+[data-hero="round"] .etag--hero .etag__pic { border-radius: 50%; }
+[data-hero="skew"] .etag--hero { --etag-r: 0; padding-left: 5px; padding-right: 11px; clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); }
+[data-hero="skew"] .etag--hero .etag__pic { border-radius: 0; clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%); width: calc(var(--etag-pic) + 4px); }
+[data-hero="skew"] .etag--hero .etag__pic img { object-fit: cover; }
+[data-hero="bevel"] .etag--hero { --etag-r: 0; padding-right: 10px; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px); }
+[data-hero="bevel"] .etag--hero .etag__pic { border-radius: 0; clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px); }
+/* иконка героя — вырезка без фона: даём подложку картинке, чтобы форма была видна и без наведения */
+[data-hero] .etag--hero .etag__pic { background: #ffffff1f; }
+[data-hero] .etag--hero .etag__pic img { width: 86%; height: 86%; }
+[data-hero="skew"] .etag--hero .etag__pic { clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%); width: calc(var(--etag-pic) + 8px); }
+[data-hero="bevel"] .etag--hero .etag__pic { clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px); }
+.etag__logo { display: block; width: var(--etag-pic); height: var(--etag-pic); object-fit: contain; }
+
+/* ── «Скос» v2 (лаба v14, дирижёр 20.11: «персонаж в скосе не так выглядит; углы чуть скруглить»): скос — наклонённой подложкой со скруглением 4,
+   а не обрезкой; иконка героя не растягивается — как в других формах */
+[data-hero="skewr"] .etag--hero { --etag-r: 0; isolation: isolate; padding-left: 6px; padding-right: 11px; background: transparent !important; }
+[data-hero="skewr"] .etag--hero::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 5px; transform: skewX(-14deg); background: transparent; transition: background var(--dur-150, .15s); }
+[data-hero="skewr"] .etag--hero.etag--box::before { background: var(--etag-bg); }
+[data-hero="skewr"] a.etag--hero:hover::before, [data-hero="skewr"] a.etag--hero.is-hover::before { background: var(--etag-bg-h); }
+[data-hero="skewr"] .etag--hero .etag__pic { position: relative; overflow: visible; background: none; width: var(--etag-pic); }
+[data-hero="skewr"] .etag--hero .etag__pic::before { content: ''; position: absolute; inset: 0 -2px; border-radius: 4px; transform: skewX(-14deg); background: #ffffff1f; }
+[data-hero="skewr"] .etag--hero .etag__pic img { position: relative; width: 86%; height: 86%; object-fit: contain; }
+
+/* лаба v15 (дирижёр 20.11): при наведении у героя пропадает своя подложка картинки — остаётся одна плашка тега на картинку и имя */
+[data-herohov] a.etag--hero:is(:hover, .is-hover) .etag__pic { background: none; }
+[data-herohov] a.etag--hero:is(:hover, .is-hover) .etag__pic::before { background: none; }

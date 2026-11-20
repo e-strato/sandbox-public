@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v7 — дочистка (дирижёр 16.11: «все страницы проверили, все компоненты?» → «да»): прогнаны все 333 истории Storybook ui/ тем же поиском жёлтого и белого. Здесь — что нашлось сверх v6, цвет #3f238b. Скрины — истории Storybook. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Дочистка фиолетового</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --ac:#AF52DE; --ok:#34C759; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --ac:#BF5AF2; --ok:#30D158; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 12px; font-size:20px; font-weight:700; }
+h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.n{ border:0; background:var(--chip); color:var(--tx2); font:600 12px/1 inherit; font-family:inherit; padding:5px 8px; border-radius:6px; cursor:pointer; }
+.t{ font-size:17px; font-weight:600; }
+.where{ color:var(--tx2); font-size:13px; }
+.tag{ margin-left:auto; font-size:12px; font-weight:600; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.tag.ok{ color:var(--ok); } .tag.ac{ color:var(--ac); }
+.why{ margin:6px 0 12px; color:var(--tx2); font-size:14px; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pair.one{ grid-template-columns:1fr; }
+.pair.wide{ grid-template-columns:1fr; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.sh.new b{ color:#fff; }
+.sh img{ display:block; max-width:100%; height:auto; align-self:flex-start; }
+.many{ display:grid; grid-template-columns:repeat(3, auto); gap:12px; justify-content:start; align-items:start; }
+.list{ margin:0; padding-left:20px; } .list li{ margin:4px 0; }
+.cp{ position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .pair{ grid-template-columns:1fr; } .many{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Дочистка — что нашлось ещё</h1>
+      <p class="sub">Прогнал все истории Storybook тем же поиском жёлтого и белого. Ниже то, чего не было в v1 и v6. Цвет везде #3f238b.</p>
+    </div>
+    <button class="th" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button>
+  </div>
+  <h2>Нашёл ещё <small>сверх v6, меняю тем же цветом</small></h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #9</button><span class="t">Главная кнопка (primary)</span><span class="where">атом Button: «Добавить» в редакторе турнира и все будущие главные кнопки</span><span class="tag ac">белое → фиолетовый</span></div><p class="why">Меняю сам атом, тогда все главные кнопки станут фиолетовыми. Выбранные кнопки у участников (#5 v1) переведу на «чёрный поднятый», иначе они тоже станут фиолетовыми.</p>
+    <div class="pair wide"><div class="sh"><b>было</b><img src="img/sb-btn-was.png" width="556" /></div><div class="sh new"><b>#3f238b</b><img src="img/sb-btn-new.png" width="556" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #10</button><span class="t">«К матчу ›» в просмотре историй</span><span class="where">новости → история открыта</span><span class="tag ac">белое → фиолетовый</span></div><p class="why">Кнопка-призыв поверх истории.</p>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/sb-kmatch-was.png" width="207" /></div><div class="sh new"><b>#3f238b</b><img src="img/sb-kmatch-new.png" width="207" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #11</button><span class="t">Звезда «Редакция» и счётчик заметок</span><span class="where">турнир → участники, режим редактора</span><span class="tag ac">жёлтое → убрать</span></div><p class="why">Звезда — белая, как соседние значки. Счётчик — плашка #3f238b с белой цифрой. Скрин не снялся: в истории они появляются только после действия.</p>
+    
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #12</button><span class="t">Результат «2-1-1» в подписи команды</span><span class="where">турнир → участники</span><span class="tag ac">жёлтое → серый</span></div><p class="why">Стоит в конце подписи и обрезан троеточием, на экране его почти не видно. Делаю серым, как остальная подпись.</p>
+    
+  </div>
+  <h2>Вопрос <small>жёлтое, но может быть «золотом»</small></h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #13</button><span class="t">Баллы: «Получено +20», монета баланса, цена в MVP</span><span class="where">прогнозы · шапка · MVP</span><span class="tag">вопрос</span></div><p class="why">Всё это баллы портала. Если баллы — тоже «золото», оставляю жёлтыми. Если нет — «+20» белым (на скрине справа), монеты — фиолетовые.</p>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/sb-itog-was.png" width="336" /></div><div class="sh new"><b>+20 белым</b><img src="img/sb-itog-new.png" width="336" /></div></div>
+    <div class="pair one"><div class="sh"><b>сейчас</b><img src="img/sb-mvp-was.png" width="306" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #14</button><span class="t">Значки позиций 1–5</span><span class="where">матч → составы, игроки</span><span class="tag">вопрос</span></div><p class="why">Пять цветов для пяти позиций, как на Cyberscore. Оффлейн (3) — жёлтый, керри (1) — индиго, похож на акцент. Предлагаю оставить: это цвета позиций, не акцент.</p>
+    <div class="pair one"><div class="sh"><b>сейчас</b><img src="img/sb-pos-was.png" width="162" /></div></div>
+  </div>
+  <h2>Охват</h2>
+  <div class="card"><ul class="list">
+    <li>6 страниц демо на 1440 + вкладка «Статистика» на матче (v1).</li>
+    <li>Все 333 истории Storybook <code>ui/</code>: все состояния матча, турнир зритель и редактор, новости, атомы.</li>
+    <li>Не трогаю: белые полосы рейтинга у игроков (это данные, не акцент), скелетон графика, логотип.</li>
+    <li>Не проверял: телефонную ширину и наведение.</li>
+  </ul></div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>document.querySelectorAll('.n').forEach(b=>b.onclick=()=>{ const t=b.textContent.replace('⧉','').trim(); try{ navigator.clipboard.writeText(t) }catch(e){} const c=document.getElementById('cp'); c.textContent='Скопировано '+t; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),1200) })</script>
+</body></html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v11 — по v10 (дирижёр 16.11): плашка «✓ +13» ровная (была кривая); кнопки «Да / Нет» единообразные во всех состояниях — А: «Да/Нет» серые, команды — в цветах Radiant/Dire («в чью калитку бонус»), нажатая «Да/Нет» — #3f238b; Б: всё серое, нажатая — #3f238b. Остальное — как v10. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Фиолетовый — Да и Нет</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --ac:#AF52DE; --ok:#34C759; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --ac:#BF5AF2; --ok:#30D158; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 12px; font-size:20px; font-weight:700; }
+h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.n{ border:0; background:var(--chip); color:var(--tx2); font:600 12px/1 inherit; font-family:inherit; padding:5px 8px; border-radius:6px; cursor:pointer; }
+.t{ font-size:17px; font-weight:600; }
+.where{ color:var(--tx2); font-size:13px; }
+.tag{ margin-left:auto; font-size:12px; font-weight:600; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.tag.ok{ color:var(--ok); } .tag.ac{ color:var(--ac); }
+.why{ margin:6px 0 12px; color:var(--tx2); font-size:14px; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pair.one{ grid-template-columns:1fr; }
+.pair.wide{ grid-template-columns:1fr; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.sh.new b{ color:#fff; }
+.sh img{ display:block; max-width:100%; height:auto; align-self:flex-start; }
+.many{ display:grid; grid-template-columns:repeat(3, auto); gap:12px; justify-content:start; align-items:start; }
+.list{ margin:0; padding-left:20px; } .list li{ margin:4px 0; }
+.cp{ position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .pair{ grid-template-columns:1fr; } .many{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 48px; } }
+.sh img{ max-width:100%; }
+.pair.one{ grid-template-columns:1fr; }
+.vars{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+.vars.wide{ grid-template-columns:1fr; }
+.sh{ position:relative; }
+.pick{ position:absolute; top:6px; right:6px; height:24px; padding:0 8px; border:0; border-radius:6px; background:#2c2c2e; color:#fff; font:600 12px/24px "SF Pro Rounded", ui-rounded, system-ui, sans-serif; cursor:pointer; }
+.pick:hover{ background:#3f238b; }
+.pick.ok{ background:#3f238b; }
+.states{ display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:10px; }
+.hd .pickv{ margin-left:auto; height:28px; padding:0 10px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:600 13px/28px inherit; font-family:inherit; cursor:pointer; }
+.hd .pickv.ok{ background:#3f238b; color:#fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>«✓ +13» ровно, «Да / Нет» одинаковые</h1>
+      <p class="sub">Плашка выровнена. Кнопки «Да / Нет» — два варианта, в каждом все состояния подряд. Выбери вариант кнопкой «⧉ выбрать».</p>
+    </div>
+    <button class="th" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button>
+  </div>
+  <h2>Плашка «✓ +13»</h2>
+  <div class="card"><div class="hd"><button class="n">⧉ #1</button><span class="t">Итог прогнозов</span></div>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v11/itog-was.png" width="344" /></div><div class="sh new"><b>v10 — криво</b><img src="img/v11/itog-v10.png" width="344" /></div><div class="sh new"><b>стало — ровно</b><img src="img/v11/itog-fix.png" width="344" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #2</button><span class="t">Строка: угадал</span></div>
+    <div class="vars"><div class="sh"><b>было</b><img src="img/v11/row-ok-was.png" width="318" /></div><div class="sh new"><b>v10 — криво</b><img src="img/v11/row-ok-v10.png" width="318" /></div><div class="sh new"><b>стало — ровно</b><img src="img/v11/row-ok-fix.png" width="318" /></div></div>
+  </div>
+  <h2>Кнопки «Да / Нет» — одни во всех состояниях</h2>
+  <div class="card" data-pick="А · «Да/Нет» серые, команды — в цветах сторон"><div class="hd"><button class="n">⧉ #3</button><span class="t">А · «Да/Нет» серые, команды — в цветах сторон</span><button class="pickv">⧉ выбрать</button></div><p class="why">«Да» и «Нет» — серые, нажатая — #3f238b. Если выбираешь команду, кнопка в цвете её стороны: Radiant зелёная, Dire красная. Так видно, в чью калитку бонус.</p>
+    <div class="states"><div class="sh"><b>Карточка, не ответил</b><img src="img/v11/card-a.png" width="318" /></div><div class="sh"><b>Карточка, ответил</b><img src="img/v11/card-ans-a.png" width="318" /></div><div class="sh"><b>«Да»</b><img src="img/v11/o-yes-a.png" width="288" /></div><div class="sh"><b>«Нет»</b><img src="img/v11/o-no-a.png" width="288" /></div><div class="sh"><b>Команда</b><img src="img/v11/o-team-a.png" width="288" /></div><div class="sh"><b>Команда нажата</b><img src="img/v11/o-sel-a.png" width="288" /></div><div class="sh"><b>Выбрана другая</b><img src="img/v11/o-other-a.png" width="288" /></div></div>
+  </div>
+  <div class="card" data-pick="Б · всё серое"><div class="hd"><button class="n">⧉ #4</button><span class="t">Б · всё серое</span><button class="pickv">⧉ выбрать</button></div><p class="why">Все кнопки серые, нажатая — #3f238b. Цвета сторон не используем.</p>
+    <div class="states"><div class="sh"><b>Карточка, не ответил</b><img src="img/v11/card-b.png" width="318" /></div><div class="sh"><b>Карточка, ответил</b><img src="img/v11/card-ans-b.png" width="318" /></div><div class="sh"><b>«Да»</b><img src="img/v11/o-yes-b.png" width="288" /></div><div class="sh"><b>«Нет»</b><img src="img/v11/o-no-b.png" width="288" /></div><div class="sh"><b>Команда</b><img src="img/v11/o-team-b.png" width="288" /></div><div class="sh"><b>Команда нажата</b><img src="img/v11/o-sel-b.png" width="288" /></div><div class="sh"><b>Выбрана другая</b><img src="img/v11/o-other-b.png" width="288" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #5</button><span class="t">Было — для сравнения</span></div>
+    <div class="states"><div class="sh"><b>Карточка, не ответил</b><img src="img/v11/card-was.png" width="318" /></div><div class="sh"><b>Карточка, ответил</b><img src="img/v11/card-ans-was.png" width="318" /></div><div class="sh"><b>«Да»</b><img src="img/v11/o-yes-was.png" width="288" /></div><div class="sh"><b>«Нет»</b><img src="img/v11/o-no-was.png" width="288" /></div><div class="sh"><b>Команда</b><img src="img/v11/o-team-was.png" width="288" /></div><div class="sh"><b>Команда нажата</b><img src="img/v11/o-sel-was.png" width="288" /></div><div class="sh"><b>Выбрана другая</b><img src="img/v11/o-other-was.png" width="288" /></div></div>
+  </div>
+  <div class="card"><ul class="list"><li>Всё остальное — как в v10, не менялось.</li></ul></div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>document.querySelectorAll('.n').forEach(b=>b.onclick=()=>{ const t=b.textContent.replace('⧉','').trim(); try{ navigator.clipboard.writeText(t) }catch(e){} const c=document.getElementById('cp'); c.textContent='Скопировано '+t; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),1200) })
+document.querySelectorAll('.pickv').forEach(b=>b.onclick=()=>{ const t='«Да / Нет» — '+b.closest('.card').dataset.pick; try{ navigator.clipboard.writeText(t) }catch(e){} document.querySelectorAll('.pickv').forEach(x=>{ x.classList.remove('ok'); x.textContent='⧉ выбрать' }); b.classList.add('ok'); b.textContent='✓ выбрано'; const c=document.getElementById('cp'); c.textContent='Скопировано: '+t; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),1600) })</script>
+</body></html>

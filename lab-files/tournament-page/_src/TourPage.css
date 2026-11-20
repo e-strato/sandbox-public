@@ -1,0 +1,8 @@
+/* v3 (дирижёр 20.11): правая колонка — с отступами, как у прогнозов на странице матча: ширина 320, зазор с главной колонкой 16,
+   внутри виджета поле 10 со всех сторон, скругление 14 */
+.etpage3 .etpage__main { gap: var(--space-16); }
+.etpage3 .etpage__r { width: 320px; }
+.etpage3 .etpage__r > .widget { padding: 10px; border-radius: 14px; }
+.etpage3 .etpage__r > .widget > .widget__hd { height: auto; min-height: 28px; padding: 0 4px; }
+/* v4 (дирижёр 20.11): правый виджет начинается вровень с шапкой турнира, не выше — над шапкой крошки (20) */
+@media (min-width: 800px) { .etpage3 .etpage__r { margin-top: 20px; } }

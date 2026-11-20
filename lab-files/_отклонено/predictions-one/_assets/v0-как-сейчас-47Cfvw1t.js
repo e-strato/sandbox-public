@@ -1,0 +1,1 @@
+import{s as i,j as s}from"./lab-CCgtMaQO.js";import{E as a}from"./Engine-ukw280Er.js";i(()=>s.jsx("div",{className:"lab-pg",children:s.jsx("div",{className:"lab-col",style:{height:836},children:s.jsx(a,{state:"live"})})}));

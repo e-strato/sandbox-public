@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- side-colors v5 (дирижёр 18.11 по v4: «в принципе нормально, берём; только Counter-Strike не тот — сильно блёклый, должен быть ярче; в первых версиях была нормальная цветная»).
+     Дота и LoL — приняты (v4). Здесь только CS2 на тех же настоящих компонентах ui/ (Storybook), три набора:
+     А — клиент CS2 основной (csgostyles.css ct-color / t-color), Б — как в v1 (#5D79AE / #DE9B35 — не замер, так CS красят HLTV-подобные сайты), В — оттенки клиента, насыщеннее (подобрано). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Цвета сторон — CS ярче</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1500px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.cols{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+.head{ position:sticky; top:0; z-index:2; background:var(--bg); padding:12px 0 8px; margin-top:20px; }
+.g{ background:var(--card); border-radius:12px; padding:10px 12px; }
+.g b{ display:block; font-size:16px; } .g small{ display:block; font-size:12px; color:var(--tx2); }
+.sw{ display:inline-flex; align-items:center; gap:6px; margin:6px 10px 0 0; font:500 13px/18px ui-monospace, "SF Mono", monospace; }
+.sw i{ width:20px; height:20px; border-radius:6px; display:inline-block; }
+.wt{ margin:22px 0 6px; font-weight:600; font-size:15px; }
+.wt small{ font-weight:400; color:var(--tx2); font-size:13px; margin-left:6px; }
+figure{ margin:0; background:#09090b; border-radius:10px; padding:6px; }
+figure img{ display:block; width:100%; height:auto; border-radius:6px; }
+.note{ margin-top:24px; font-size:13px; color:var(--tx2); }
+@media (max-width:900px){ .cols{ grid-template-columns:1fr; } .head .cols{ grid-template-columns:repeat(3, 1fr); } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Counter-Strike — ярче</h1>
+      <p class="sub">Дота и LoL приняты в v4. Клиентские цвета CS2 вышли блёклыми — здесь три набора CS на тех же настоящих виджетах. Подписи сторон — CT / T.</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+  <div class="head"><div class="cols" id="heads"></div></div>
+  <div id="rows"></div>
+  <p class="note">‼️ Жёлтый T в любом наборе рядом с золотом (монеты) — в Б и В он уходит в оранжевый, от золота дальше.</p>
+</div>
+<script>
+const GAMES = [
+  { k: 'csA', n: 'А · Клиент CS2', d: 'csgostyles.css: ct-color / t-color — как в v4', s: [['CT', '#96C8FA'], ['T', '#EABE54']] },
+  { k: 'csB', n: 'Б · Цветной, как в v1', d: 'так CS красят HLTV-подобные сайты (не замер)', s: [['CT', '#5D79AE'], ['T', '#DE9B35']] },
+  { k: 'csC', n: 'В · Клиент, насыщеннее', d: 'те же оттенки клиента, ярче (подобрано)', s: [['CT', '#3D9BF0'], ['T', '#F0A82A']] },
+]
+const WIDGETS = [
+  ['graph', 'График перевеса', 'MapGraph v1, Live · Map 2 — сначала ведут Dire (вниз), потом Radiant (вверх); линия и заливка цветом ведущей стороны'],
+  ['teams', 'Блок команд', 'MapTeams v2 — подпись стороны, перевес'],
+  ['draft', 'Шанс по драфту', 'MapDraft v2 — полоса шанса'],
+  ['series', '«Эта серия»', 'Series v1 — стороны на картах'],
+  ['btn', 'Кнопка исхода — выбрана', 'OutcomeButton v2'],
+  ['btn2', 'Кнопка исхода — команда другой стороны', 'OutcomeButton v2'],
+]
+const sw = ([n, h]) => `<span class="sw"><i style="background:${h}"></i>${n} ${h}</span>`
+document.getElementById('heads').innerHTML = GAMES.map((g) => `<div class="g"><b>${g.n}</b><small>${g.d}</small>${g.s.map(sw).join('')}</div>`).join('')
+document.getElementById('rows').innerHTML = WIDGETS.map(([k, t, d]) => `<div class="wt">${t}<small>${d}</small></div><div class="cols">${GAMES.map((g) => `<figure><img src="img/v5/${k}-${g.k}.png" alt="${t} — ${g.n}"></figure>`).join('')}</div>`).join('')
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

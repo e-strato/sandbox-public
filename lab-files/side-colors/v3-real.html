@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- side-colors v3 (дирижёр 18.11 по v2: «сравни много сайтов именно по цветам, никакой памяти; лишнего не надо; покажи на реальных виджетах, а не на фейк»).
+     Цвета — только замеренные: файлы клиентов (Дота — локализация, CS2 — Panorama CSS: SteamDatabase на GitHub; LoL — CSS клиента: CommunityDragon),
+     сайты — computed style со страницы (headless Chrome), официальный скрин Steam — пиксель. Виджеты — настоящие компоненты ui/ из Storybook
+     (Сайт/Матч: график, команды, драфт, серия, кнопка исхода), подменены только переменные сторон (--mg-up/dn, --mt-rad/dire, --md-rad/dire, --st-r/d, --c-radiant/dire). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Цвета сторон — замеры</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --ac:#AF52DE; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --ac:#BF5AF2; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1240px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); max-width:860px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 12px; font-size:20px; font-weight:700; }
+h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.why{ margin:0 0 12px; color:var(--tx2); font-size:14px; }
+table{ width:100%; border-collapse:collapse; font-size:14px; }
+th{ text-align:left; font-weight:600; color:var(--tx2); font-size:12px; padding:6px 8px; border-bottom:1px solid var(--line); }
+td{ padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+td.g{ font-weight:700; white-space:nowrap; }
+.sw{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; margin-right:10px; font:500 13px/18px ui-monospace, "SF Mono", monospace; }
+.sw i{ width:22px; height:22px; border-radius:6px; display:inline-block; }
+.how{ font-size:13px; color:var(--tx2); }
+.how code{ font-size:12px; background:var(--chip); padding:1px 5px; border-radius:4px; color:var(--tx); }
+.ev{ display:block; max-width:100%; margin-top:8px; border-radius:8px; }
+.cl{ display:inline-block; font-size:12px; font-weight:600; padding:2px 6px; border-radius:5px; margin:2px 4px 0 0; }
+.cl.bad{ background:rgba(255,69,58,.16); color:#d70015; } .cl.warn{ background:rgba(255,149,0,.16); color:#c93400; } .cl.ok{ background:rgba(52,199,89,.16); color:#248a3d; }
+:root[data-theme="dark"] .cl.bad{ color:#FF6961; } :root[data-theme="dark"] .cl.warn{ color:#FFB340; } :root[data-theme="dark"] .cl.ok{ color:#30D158; }
+.no{ font-size:13px; color:var(--tx2); }
+/* виджеты: колонки — наборы цветов */
+.sets{ display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; position:sticky; top:0; z-index:2; background:var(--bg); padding:8px 0; }
+.set{ background:var(--card); border:2px solid transparent; border-radius:12px; padding:8px 10px; cursor:pointer; }
+.set.on{ border-color:var(--ac); }
+.set b{ display:block; font-size:14px; } .set small{ display:block; font-size:12px; color:var(--tx2); }
+.set .sw{ margin:4px 8px 0 0; }
+.row{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:10px; }
+.row figcaption{ color:#a1a1aa; font-size:12px; padding:2px 4px 6px; }
+.row figure{ margin:0; background:#09090b; border-radius:10px; padding:6px; border:2px solid transparent; }
+.row figure.on{ border-color:var(--ac); }
+.row img{ display:block; width:100%; height:auto; border-radius:6px; }
+.wt{ margin:18px 0 6px; font-weight:600; font-size:15px; }
+.wt small{ font-weight:400; color:var(--tx2); font-size:13px; margin-left:6px; }
+.foot{ position:fixed; left:0; right:0; bottom:0; display:flex; justify-content:center; padding:12px; pointer-events:none; }
+.foot button{ pointer-events:auto; height:40px; padding:0 18px; border:0; border-radius:10px; background:var(--tx); color:var(--bg); font:600 14px/1 inherit; font-family:inherit; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.25); }
+.cp{ position:fixed; left:50%; bottom:64px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:900px){ .sets{ grid-template-columns:1fr 1fr; } .row{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 96px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Цвета сторон — замеры и настоящие виджеты</h1>
+      <p class="sub">Только снятое, без памяти: файлы самих клиентов игр, страницы сайтов (цвет элемента), официальный скрин Steam. Ниже — настоящие компоненты страницы матча из Storybook, в них подставлены цвета сторон Доты (интерфейсные зелёный / красный / жёлтый не тронуты). Выбери набор — внизу «Скопировать выбор».</p>
+    </div>
+    <button class="th" id="th">Тёмная</button>
+  </div>
+
+  <h2>1 · Откуда цвета <small>замерено 18.11</small></h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>Игра</th><th>Источник</th><th>Стороны</th><th>Как снято · с чем сталкивается у нас</th></tr></thead>
+      <tbody id="src"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <p class="why" style="margin:0"><b>Не открылись</b> (проверка Cloudflare или лимит — обходить не стали): Dotabuff, STRATZ, datDota, Dota2ProTracker, Spectral, DLTV, CyberScore, Liquipedia (Дота и CS), Dota 2 Wiki, HLTV, csstats, op.gg, u.gg, Mobalytics, Leaguepedia, League of Graphs. Открылись, но стороны цветом не показывают: hawk.live, bo3.gg (Дота и CS — только лого и счёт).</p>
+  </div>
+
+  <h2>2 · Дота на настоящих виджетах <small>компоненты ui/ из Storybook, состояние Live</small></h2>
+  <p class="why">В ui/ пока только Дота — виджетов LoL и CS нет, поэтому их цвета — только в таблице выше. Наборы — колонками; «Сейчас у нас» — Radiant = зелёный «роста», Dire = красный «падения».</p>
+  <div class="sets" id="sets"></div>
+  <div id="rows"></div>
+</div>
+<div class="foot"><button id="copy">Скопировать выбор</button></div>
+<div class="cp" id="cp">Скопировано</div>
+
+<script>
+const UI = [['рост / победа', '#22c55e'], ['падение / поражение', '#ef4444'], ['live', '#e5484d'], ['золото', '#f5c542'], ['акцент', '#3f238b']]
+const SRC = [
+  { g: 'Dota 2', s: 'Клиент Доты — пики и баны', a: ['Radiant', '#009900'], b: ['Dire', '#CC0000'], how: 'файл клиента <code>resource/localization/dota_english.txt</code>: <code>DOTA_Hero_Selection_RADIANT_Phase_Pick</code> — &lt;font color=\'#009900\'&gt;RADIANT&lt;/font&gt; PICK; Dire — #CC0000 (SteamDatabase / GameTracking-Dota2)' },
+  { g: '', s: 'Клиент Доты — заголовок выбора героев', a: ['Radiant', '#006600'], b: ['Dire', '#990000'], how: 'тот же файл: <code>DOTA_Hero_Selection_RADIANT</code> / <code>_DIRE</code>' },
+  { g: '', s: 'Клиент Доты — чат драфта', a: ['Radiant', '#47C5AE'], b: ['Dire', '#FE2142'], how: 'тот же файл: <code>DOTA_Chat_PlayerDraftPick_Radiant</code> — «has drafted … for Radiant» (новые строки клиента)' },
+  { g: '', s: 'OpenDota (сайт)', a: ['Radiant', '#66BB6A'], b: ['Dire', '#FF4C4C'], how: 'цвет элементов страницы матча: счёт убийств и строка победы', img: 'img/v3/src-opendota.png' },
+  { g: 'Counter-Strike 2', s: 'Клиент CS2 — основной', a: ['CT', '#96C8FA'], b: ['T', '#EABE54'], how: 'файл клиента <code>panorama/styles/csgostyles.css</code>: <code>@define ct-color: rgb(150, 200, 250)</code>, <code>@define t-color: #eabe54</code> (SteamDatabase / GameTracking-CS2)' },
+  { g: '', s: 'Клиент CS2 — светлый', a: ['CT', '#B5D4EE'], b: ['T', '#EAD18A'], how: 'тот же файл: <code>@define color-CT</code>, <code>@define color-T</code>' },
+  { g: '', s: 'Официальный скрин CS2 (Steam)', a: ['CT', null], b: ['T', '#ECC053'], how: 'пиксель кнопки «EQUIP T» в снаряжении — совпадает с t-color клиента; у CT кнопка серая', img: 'img/v3/src-cs2.png' },
+  { g: 'League of Legends', s: 'Клиент LoL — история матчей', a: ['Синие', '#0A96AA'], b: ['Красные', '#BE1E37'], how: 'CSS клиента <code>rcp-fe-lol-match-history</code>: <code>.match_details_blue{color:#0a96aa}</code>, <code>.match_details_red{color:#be1e37}</code> (CommunityDragon)' },
+  { g: '', s: 'gol.gg (сайт)', a: ['Синие', '#6194BC'], b: ['Красные', '#EE3233'], how: 'цвет заголовков команд на странице игры (финал Worlds 2026)', img: 'img/v3/src-golgg.png' },
+]
+// OKLab-расстояние: «сталкивается» с интерфейсным цветом или нет
+const lin = (c) => { c /= 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4 }
+const ok = (hex) => { const n = parseInt(hex.slice(1), 16), r = lin(n >> 16), g = lin(n >> 8 & 255), b = lin(n & 255)
+  const l = Math.cbrt(.4122214708 * r + .5363325363 * g + .0514459929 * b), m = Math.cbrt(.2119034982 * r + .6806995451 * g + .1073969566 * b), s = Math.cbrt(.0883024619 * r + .2817188376 * g + .6299787005 * b)
+  return [.2104542553 * l + .793617785 * m - .0040720468 * s, 1.9779984951 * l - 2.428592205 * m + .4505937099 * s, .0259040371 * l + .7827717662 * m - .808675766 * s] }
+const hue = (hex) => { const [, a, b] = ok(hex); return (Math.atan2(b, a) * 180 / Math.PI + 360) % 360 }
+const clash = (x, y) => { const p = ok(x), q = ok(y), d = Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]), h = Math.min(Math.abs(hue(x) - hue(y)) % 360, 360 - Math.abs(hue(x) - hue(y)) % 360)
+  return d < .12 || h < 14 ? 'bad' : d < .2 || h < 30 ? 'warn' : '' }
+const sw = ([n, h]) => h ? `<span class="sw"><i style="background:${h}"></i>${n} ${h}</span>` : `<span class="sw" style="color:var(--tx2)">${n} — нет цвета</span>`
+document.getElementById('src').innerHTML = SRC.map((r) => {
+  const cl = [r.a, r.b].filter((s) => s[1]).flatMap((s) => UI.map(([n, h]) => [s[0], n, clash(s[1], h)]).filter((x) => x[2]))
+  const chips = cl.length ? cl.map(([s, n, k]) => `<span class="cl ${k}">${s} ↔ ${n}: ${k === 'bad' ? 'сталкивается' : 'близко'}</span>`).join('') : '<span class="cl ok">с интерфейсом не путается</span>'
+  return `<tr><td class="g">${r.g}</td><td>${r.s}</td><td>${sw(r.a)}<br>${sw(r.b)}</td><td class="how">${r.how}<div>${chips}</div>${r.img ? `<img class="ev" src="${r.img}" alt="">` : ''}</td></tr>`
+}).join('')
+
+// наборы для Доты — колонки; виджеты — строки (снимки настоящих компонентов, img/v3/<виджет>-<набор>.png)
+const SETS = [
+  { k: 'now', n: 'Сейчас у нас', d: '= рост / падение', c: ['#22c55e', '#ef4444'] },
+  { k: 'client', n: 'Клиент · пики и баны', d: 'dota_english.txt', c: ['#009900', '#CC0000'] },
+  { k: 'chat', n: 'Клиент · чат драфта', d: 'dota_english.txt', c: ['#47C5AE', '#FE2142'] },
+  { k: 'opendota', n: 'OpenDota', d: 'сайт', c: ['#66BB6A', '#FF4C4C'] },
+]
+const WIDGETS = [
+  ['graph', 'График перевеса', 'Матч / Карта / График · MapGraph v1 — линия и заливка цветом ведущей стороны'],
+  ['teams', 'Блок команд', 'Матч / Карта / Команды · MapTeams v2 — подпись стороны, перевес; точки формы — интерфейсные'],
+  ['draft', 'Драфт — шанс по драфту', 'Матч / Карта / Драфт · MapDraft v2 — полоса шанса'],
+  ['series', '«Эта серия»', 'Матч / Статистика / Эта серия · Series v1 — стороны карт'],
+  ['btn', 'Кнопка исхода — выбрана', 'Матч / Прогнозы / Кнопка исхода · OutcomeButton v2'],
+  ['btn2', 'Кнопка исхода — команда другой стороны', 'OutcomeButton v2'],
+]
+let pick = null
+function render() {
+  document.getElementById('sets').innerHTML = SETS.map((s) => `<div class="set${pick === s.k ? ' on' : ''}" data-s="${s.k}"><b>${s.n}</b><small>${s.d}</small>${sw(['Radiant', s.c[0]])}${sw(['Dire', s.c[1]])}</div>`).join('')
+  document.getElementById('rows').innerHTML = WIDGETS.map(([k, t, d]) => `<div class="wt">${t}<small>${d}</small></div><div class="row">${SETS.map((s) => `<figure class="${pick === s.k ? 'on' : ''}" data-s="${s.k}"><figcaption>${s.n} · Radiant ${s.c[0]} / Dire ${s.c[1]}</figcaption><img src="img/v3/${k}-${s.k}.png" alt="${t} — ${s.n}" loading="lazy"></figure>`).join('')}</div>`).join('')
+}
+document.addEventListener('click', (e) => { const c = e.target.closest('[data-s]'); if (c) { pick = pick === c.dataset.s ? null : c.dataset.s; render() } })
+render()
+const toast = (t) => { const c = document.getElementById('cp'); c.textContent = t; c.classList.add('on'); setTimeout(() => c.classList.remove('on'), 1400) }
+document.getElementById('copy').onclick = () => { const s = SETS.find((x) => x.k === pick)
+  const t = 'Цвета сторон (side-colors v3): Дота — ' + (s ? `${s.n} (Radiant ${s.c[0]} / Dire ${s.c[1]})` : 'не выбрано')
+  navigator.clipboard?.writeText(t).then(() => toast('Скопировано'), () => toast(t)) }
+const th = document.getElementById('th')
+const setTh = (d) => { document.documentElement.dataset.theme = d ? 'dark' : 'light'; th.textContent = d ? 'Светлая' : 'Тёмная'; try { localStorage.setItem('sc-th', d ? '1' : '') } catch {} }
+let dark = false; try { dark = !!localStorage.getItem('sc-th') } catch {}
+setTh(dark); th.onclick = () => { dark = !dark; setTh(dark) }
+</script>
+</body></html>

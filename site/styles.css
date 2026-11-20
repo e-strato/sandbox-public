@@ -4906,3 +4906,7 @@ body.bm-open { overflow: hidden; }
   .trn-br--mini .trn-br__col { flex: 0 0 120px; }
   .trn-groups, .trn-cols2 { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* 18.11 (задача 20-6): герои — иконками мини-карты (img/heroes/icon/*.png, квадрат) вместо портретов 16:9 — во всех местах сайта */
+img[src*="img/heroes/icon/"], img[src*="dota_react/heroes/icons/"] { aspect-ratio: 1 !important; height: auto; object-fit: contain !important; border-radius: 0; background: none; }
+

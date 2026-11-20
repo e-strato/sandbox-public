@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>v0 · Как сейчас</title>
+<link rel="stylesheet" href="../../../tables-mob/_tm.css" />
+<style>
+/* v0 — таблицы как сейчас: сами компоненты ui/ из Storybook (:6007), один в один. Высота — по компоненту (замер 16.11). */
+.v0 iframe{display:block;width:100%;border:0;background:var(--w-page)}
+body:not(.is-phone) .v0-phone,body.is-phone .v0-desk{display:none}
+.v0 h2{margin:8px 0 -8px;color:var(--w-muted-fg);font:500 12px/16px var(--w-font)}
+</style></head>
+<body><main class="tm-page v0 v0-desk"><div class="tm-main">
+  <h2>Групповой этап — турнир TI (GroupStage)</h2>
+  <iframe src="../../_stories/story.html?id=%D1%82%D1%83%D1%80%D0%BD%D0%B8%D1%80-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%BE%D0%B2%D0%BE%D0%B9-%D1%8D%D1%82%D0%B0%D0%BF-groupstage-v1--ti&viewMode=story" style="height:786px" loading="lazy"></iframe>
+  <h2>Статистика героев — турнир TI (HeroStats)</h2>
+  <iframe src="../../_stories/story.html?id=%D1%82%D1%83%D1%80%D0%BD%D0%B8%D1%80-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B3%D0%B5%D1%80%D0%BE%D0%B5%D0%B2-herostats-v1--ti&viewMode=story" style="height:622px" loading="lazy"></iframe>
+  <h2>Игроки по позициям — турнир TI (Positions)</h2>
+  <iframe src="../../_stories/story.html?id=%D1%82%D1%83%D1%80%D0%BD%D0%B8%D1%80-%D0%B8%D0%B3%D1%80%D0%BE%D0%BA%D0%B8-%D0%BF%D0%BE-%D0%BF%D0%BE%D0%B7%D0%B8%D1%86%D0%B8%D1%8F%D0%BC-positions-v1--ti&viewMode=story" style="height:1074px" loading="lazy"></iframe>
+  <h2>Участники списком — турнир TI (Participants)</h2>
+  <iframe src="../../_stories/story.html?id=%D1%82%D1%83%D1%80%D0%BD%D0%B8%D1%80-%D1%83%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%D0%B8-participants-v1--%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA&viewMode=story" style="height:966px" loading="lazy"></iframe>
+</div></main>
+<!-- Телефон: у компонентов ui/ своего телефона нет — телефон сейчас живёт в лабе страницы турнира (gs-tournament v46, TI). Она целиком, как есть -->
+<main class="tm-page v0 v0-phone"><div class="tm-main">
+  <h2>Страница турнира TI на телефоне — как сейчас (лаба gs-tournament v46)</h2>
+  <iframe id="v0ph" data-src="../../gs-tournament/v46-hs.html?fit=1&amp;tour=ti" style="height:2400px"></iframe>
+</div></main>
+<script>
+/* телефон: грузим страницу турнира, когда включили «Телефон 390»; высота кадра — по содержимому (тот же origin) */
+(() => { const f = document.getElementById('v0ph')
+  const fit = () => { try { const d = f.contentDocument; if (d && d.body) f.style.height = d.documentElement.scrollHeight + 'px' } catch (e) {} }
+  f.addEventListener('load', () => { fit(); try { new ResizeObserver(fit).observe(f.contentDocument.body) } catch (e) {} })
+  const on = () => { if (document.body.classList.contains('is-phone') && !f.src) f.src = f.dataset.src }
+  new MutationObserver(on).observe(document.body, { attributes: true, attributeFilter: ['class'] }); on() })()
+</script><script src="../../../tables-mob/_view.js"></script>
+</body></html>

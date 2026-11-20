@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- hero-icons v2 (дирижёр 18.11: «сайт надо посмотреть и найти, на сайте тоже заменить») = v1 + раздел «Сайт» — 9 мест в website/.
+     Было v1 — задача 20-6 (голосовое начальника 16.11, блок 8; дирижёр 18.11: «давай сделаем»).
+     Все места ui/, где герой показан портретом → как будет иконкой мини-карты. Иконок было 70 из 127 — докачал 57 с CDN Valve
+     (cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/<ключ>.png — те же файлы, что лежали, совпадают попиксельно). -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Герои иконками — v2</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; --ok:#34C759; --warn:#FF9500; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; --ok:#30D158; --warn:#FF9F0A; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1240px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; } .sub{ margin:0; color:var(--tx2); max-width:860px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 6px; font-size:20px; font-weight:700; } h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.hint{ color:var(--tx2); font-size:14px; margin:0 0 12px; }
+.ctl{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:12px 0 4px; }
+.lbl{ font-size:13px; color:var(--tx2); }
+.seg{ display:inline-flex; gap:2px; padding:2px; border-radius:9px; background:var(--chip); }
+.seg button{ height:30px; padding:0 12px; border:0; border-radius:7px; background:none; color:var(--tx2); font:inherit; font-size:14px; cursor:pointer; }
+.seg button.on{ background:var(--card); color:var(--tx); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; } .hd .t{ font-size:17px; font-weight:600; }
+.n{ border:0; background:var(--chip); color:var(--tx2); font:600 12px/1 inherit; font-family:inherit; padding:5px 8px; border-radius:6px; }
+.src{ font:500 12px/16px ui-monospace,"SF Mono",monospace; color:var(--tx2); }
+.why{ margin:4px 0 12px; color:var(--tx2); font-size:14px; }
+.ba{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.side > small{ display:block; font-size:12px; font-weight:600; color:var(--tx2); margin-bottom:6px; } .side.now > small{ color:var(--ok); }
+/* сцена — как продукт (тёмная) */
+.stage{ background:#09090b; border-radius:12px; padding:12px; color:#fafafa; font:400 13px/18px Inter,-apple-system,system-ui,sans-serif; }
+.wd{ background:#141416; border:1px solid #27272a; border-radius:10px; padding:10px 12px; }
+.mut{ color:#a1a1aa; } .num{ font-variant-numeric:tabular-nums; }
+.row{ display:flex; align-items:center; gap:8px; padding:6px 0; border-top:1px solid #27272a; } .row:first-child{ border-top:0; }
+.row .nm{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .row .v{ width:52px; text-align:right; }
+.por{ display:inline-block; flex:none; background:#27272a center/cover no-repeat; border-radius:4px; }
+.ico{ display:inline-grid; place-items:center; flex:none; }
+.ico img{ display:block; width:100%; height:100%; image-rendering:auto; }
+.v-b .ico{ background:#1f1f23; border-radius:6px; padding:2px; }                     /* Б — в плашке */
+.v-c .ico{ background:#1f1f23; border-radius:50%; padding:2px; box-shadow:0 0 0 1px #3f3f46; } /* В — в круге */
+.ban{ filter:grayscale(1); opacity:.55; }
+.line{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; } .line .k{ width:44px; font-size:12px; color:#a1a1aa; }
+.slots{ display:flex; gap:6px; } .slot{ display:flex; flex-direction:column; align-items:center; gap:4px; width:56px; font-size:11px; color:#a1a1aa; }
+.mvp{ display:flex; align-items:center; gap:10px; } .mvp b{ font-size:15px; }
+.done{ display:flex; flex-wrap:wrap; gap:8px; } .done span{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:9px; background:var(--chip); font-size:13px; }
+.done span::before{ content:"✓"; color:var(--ok); font-weight:700; }
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:6px; }
+.hc{ display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:9px; background:#09090b; color:#e4e4e7; font:12px/14px Inter,system-ui,sans-serif; position:relative; overflow:hidden; }
+.hc img{ width:24px; height:24px; flex:none; } .hc span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hc.new::after{ content:""; position:absolute; right:6px; top:6px; width:6px; height:6px; border-radius:50%; background:#FFB340; }
+.leg{ display:flex; gap:16px; font-size:13px; color:var(--tx2); margin:6px 0 10px; } .leg b{ color:var(--tx); }
+.srow{ display:grid; grid-template-columns:auto 1fr auto auto auto; gap:12px; align-items:center; padding:10px 0; border-top:1px solid var(--line); } .srow:first-child{ border-top:0; }
+.srow .sw{ font-size:14px; } .sx{ display:flex; gap:6px; align-items:center; padding:8px 10px; min-width:140px; } .arr{ color:var(--tx2); }
+@media (max-width:820px){ .ba{ grid-template-columns:1fr; } }
+</style></head><body>
+<div class="wrap">
+<div class="top"><div><h1>(A) Герои — иконками мини-карты</h1>
+<p class="sub">Задача 20-6, голосовое начальника 16.11: «портреты занимают больше места, у героя 2–3 вариации облика — путаются; иконка с мини-карты компактнее и узнаваемее». На STRATZ, Dotabuff, D2PT герои почти везде иконками (Figma стр. 16). Ниже — все места в компонентах <b>ui/</b>, где герой ещё портретом: слева как сейчас, справа — иконкой.</p></div>
+<button class="th" id="th">Тема</button></div>
+
+<div class="ctl"><span class="lbl">Как показать иконку</span>
+<div class="seg" id="look"><button data-v="a">А · как на мини-карте</button><button data-v="b">Б · в плашке</button><button data-v="c">В · в круге</button></div>
+<span class="lbl" style="margin-left:12px">Размер в строках</span>
+<div class="seg" id="sz"><button data-v="20">20</button><button data-v="24">24</button><button data-v="28">28</button></div></div>
+
+<h2>Где герой портретом <small>6 мест</small></h2>
+<p class="hint">Номер места — чтобы ответить коротко: «1 — да, 4 — оставить портрет».</p>
+<div id="places"></div>
+
+
+<h2>Сайт решений <small>website/ · 9 мест · герои с картинок img/heroes/*.webp (портрет 256×144)</small></h2>
+<p class="hint">На сайте 9 героев, у всех иконка мини-карты есть. Заменить — путь картинки на иконку, рамку под квадрат. Номер — чтобы ответить коротко («С3 — оставить»).</p>
+<div class="card"><div id="site"></div></div>
+<h2>Уже иконками <small>ничего делать не надо</small></h2>
+<div class="done"><span>Общая таблица — ячейка «герой»</span><span>Матч · блок команд во время карты</span><span>Матч · «Составы»</span><span>Матч · «Серия» — пики и баны</span><span>Матч · карта линий</span><span>Турнир движка · статистика героев</span><span>Турнир · «Игроки по позициям» v2</span></div>
+
+<h2>Все иконки <small id="cnt"></small></h2>
+<div class="leg" id="leg"></div>
+<div class="grid" id="grid"></div>
+</div>
+<script>
+const H=[{"k": "abaddon", "n": "Abaddon", "new": true}, {"k": "abyssal_underlord", "n": "Underlord", "new": false}, {"k": "alchemist", "n": "Alchemist", "new": false}, {"k": "ancient_apparition", "n": "Ancient Apparition", "new": true}, {"k": "antimage", "n": "Anti-Mage", "new": true}, {"k": "arc_warden", "n": "Arc Warden", "new": true}, {"k": "axe", "n": "Axe", "new": false}, {"k": "bane", "n": "Bane", "new": false}, {"k": "batrider", "n": "Batrider", "new": true}, {"k": "beastmaster", "n": "Beastmaster", "new": true}, {"k": "bloodseeker", "n": "Bloodseeker", "new": true}, {"k": "bounty_hunter", "n": "Bounty Hunter", "new": false}, {"k": "brewmaster", "n": "Brewmaster", "new": true}, {"k": "bristleback", "n": "Bristleback", "new": true}, {"k": "broodmother", "n": "Broodmother", "new": true}, {"k": "centaur", "n": "Centaur Warrunner", "new": false}, {"k": "chaos_knight", "n": "Chaos Knight", "new": false}, {"k": "chen", "n": "Chen", "new": true}, {"k": "clinkz", "n": "Clinkz", "new": false}, {"k": "crystal_maiden", "n": "Crystal Maiden", "new": false}, {"k": "dark_seer", "n": "Dark Seer", "new": false}, {"k": "dark_willow", "n": "Dark Willow", "new": false}, {"k": "dawnbreaker", "n": "Dawnbreaker", "new": false}, {"k": "dazzle", "n": "Dazzle", "new": false}, {"k": "death_prophet", "n": "Death Prophet", "new": true}, {"k": "disruptor", "n": "Disruptor", "new": true}, {"k": "doom_bringer", "n": "Doom", "new": false}, {"k": "dragon_knight", "n": "Dragon Knight", "new": false}, {"k": "drow_ranger", "n": "Drow Ranger", "new": false}, {"k": "earth_spirit", "n": "Earth Spirit", "new": false}, {"k": "earthshaker", "n": "Earthshaker", "new": false}, {"k": "elder_titan", "n": "Elder Titan", "new": false}, {"k": "ember_spirit", "n": "Ember Spirit", "new": false}, {"k": "enchantress", "n": "Enchantress", "new": false}, {"k": "enigma", "n": "Enigma", "new": false}, {"k": "faceless_void", "n": "Faceless Void", "new": false}, {"k": "furion", "n": "Nature's Prophet", "new": false}, {"k": "grimstroke", "n": "Grimstroke", "new": false}, {"k": "gyrocopter", "n": "Gyrocopter", "new": true}, {"k": "hoodwink", "n": "Hoodwink", "new": false}, {"k": "huskar", "n": "Huskar", "new": false}, {"k": "invoker", "n": "Invoker", "new": false}, {"k": "jakiro", "n": "Jakiro", "new": true}, {"k": "juggernaut", "n": "Juggernaut", "new": true}, {"k": "keeper_of_the_light", "n": "Keeper of the Light", "new": false}, {"k": "kez", "n": "Kez", "new": false}, {"k": "kunkka", "n": "Kunkka", "new": true}, {"k": "largo", "n": "Largo", "new": false}, {"k": "legion_commander", "n": "Legion Commander", "new": true}, {"k": "leshrac", "n": "Leshrac", "new": true}, {"k": "lich", "n": "Lich", "new": true}, {"k": "life_stealer", "n": "Lifestealer", "new": false}, {"k": "lina", "n": "Lina", "new": false}, {"k": "lion", "n": "Lion", "new": false}, {"k": "lone_druid", "n": "Lone Druid", "new": false}, {"k": "luna", "n": "Luna", "new": true}, {"k": "lycan", "n": "Lycan", "new": false}, {"k": "magnataur", "n": "Magnus", "new": true}, {"k": "marci", "n": "Marci", "new": true}, {"k": "mars", "n": "Mars", "new": true}, {"k": "medusa", "n": "Medusa", "new": true}, {"k": "meepo", "n": "Meepo", "new": true}, {"k": "mirana", "n": "Mirana", "new": false}, {"k": "monkey_king", "n": "Monkey King", "new": false}, {"k": "morphling", "n": "Morphling", "new": true}, {"k": "muerta", "n": "Muerta", "new": true}, {"k": "naga_siren", "n": "Naga Siren", "new": true}, {"k": "necrolyte", "n": "Necrophos", "new": false}, {"k": "nevermore", "n": "Shadow Fiend", "new": false}, {"k": "night_stalker", "n": "Night Stalker", "new": false}, {"k": "nyx_assassin", "n": "Nyx Assassin", "new": true}, {"k": "obsidian_destroyer", "n": "Outworld Devourer", "new": true}, {"k": "ogre_magi", "n": "Ogre Magi", "new": false}, {"k": "omniknight", "n": "Omniknight", "new": true}, {"k": "oracle", "n": "Oracle", "new": true}, {"k": "pangolier", "n": "Pangolier", "new": false}, {"k": "phantom_assassin", "n": "Phantom Assassin", "new": true}, {"k": "phantom_lancer", "n": "Phantom Lancer", "new": false}, {"k": "phoenix", "n": "Phoenix", "new": true}, {"k": "primal_beast", "n": "Primal Beast", "new": false}, {"k": "puck", "n": "Puck", "new": false}, {"k": "pudge", "n": "Pudge", "new": true}, {"k": "pugna", "n": "Pugna", "new": true}, {"k": "queenofpain", "n": "Queen of Pain", "new": true}, {"k": "rattletrap", "n": "Clockwerk", "new": false}, {"k": "razor", "n": "Razor", "new": false}, {"k": "riki", "n": "Riki", "new": true}, {"k": "ringmaster", "n": "Ring Master", "new": false}, {"k": "rubick", "n": "Rubick", "new": false}, {"k": "sand_king", "n": "Sand King", "new": false}, {"k": "shadow_demon", "n": "Shadow Demon", "new": false}, {"k": "shadow_shaman", "n": "Shadow Shaman", "new": true}, {"k": "shredder", "n": "Timbersaw", "new": false}, {"k": "silencer", "n": "Silencer", "new": true}, {"k": "skeleton_king", "n": "Wraith King", "new": true}, {"k": "skywrath_mage", "n": "Skywrath Mage", "new": true}, {"k": "slardar", "n": "Slardar", "new": false}, {"k": "slark", "n": "Slark", "new": false}, {"k": "snapfire", "n": "Snapfire", "new": false}, {"k": "sniper", "n": "Sniper", "new": true}, {"k": "spectre", "n": "Spectre", "new": true}, {"k": "spirit_breaker", "n": "Spirit Breaker", "new": false}, {"k": "storm_spirit", "n": "Storm Spirit", "new": false}, {"k": "sven", "n": "Sven", "new": false}, {"k": "techies", "n": "Techies", "new": true}, {"k": "templar_assassin", "n": "Templar Assassin", "new": false}, {"k": "terrorblade", "n": "Terrorblade", "new": false}, {"k": "tidehunter", "n": "Tidehunter", "new": false}, {"k": "tinker", "n": "Tinker", "new": true}, {"k": "tiny", "n": "Tiny", "new": true}, {"k": "treant", "n": "Treant Protector", "new": false}, {"k": "troll_warlord", "n": "Troll Warlord", "new": true}, {"k": "tusk", "n": "Tusk", "new": false}, {"k": "undying", "n": "Undying", "new": false}, {"k": "ursa", "n": "Ursa", "new": true}, {"k": "vengefulspirit", "n": "Vengeful Spirit", "new": true}, {"k": "venomancer", "n": "Venomancer", "new": true}, {"k": "viper", "n": "Viper", "new": false}, {"k": "visage", "n": "Visage", "new": true}, {"k": "void_spirit", "n": "Void Spirit", "new": false}, {"k": "warlock", "n": "Warlock", "new": true}, {"k": "weaver", "n": "Weaver", "new": true}, {"k": "windrunner", "n": "Windranger", "new": false}, {"k": "winter_wyvern", "n": "Winter Wyvern", "new": false}, {"k": "wisp", "n": "Io", "new": false}, {"k": "witch_doctor", "n": "Witch Doctor", "new": true}, {"k": "zuus", "n": "Zeus", "new": true}];
+const NM=Object.fromEntries(H.map(h=>[h.k,h.n]));
+const P=k=>`../gs-match/img/heroes/${k}.png`, I=k=>`../gs-match/img/heroes/icon/${k}.png`;
+const R=document.documentElement;const g=(k,d)=>{try{return localStorage.getItem(k)??d}catch(e){return d}},s=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+R.dataset.theme=g('hero-icons-theme','light');document.getElementById('th').onclick=()=>{R.dataset.theme=R.dataset.theme==='light'?'dark':'light';s('hero-icons-theme',R.dataset.theme)};
+let LOOK=g('hero-icons-look','a'),SZ=+g('hero-icons-sz','24');
+const por=(k,w,h,ban)=>`<span class="por${ban?' ban':''}" style="width:${w}px;height:${h}px;background-image:url(${P(k)})" title="${NM[k]}"></span>`;
+const ico=(k,z,ban)=>`<span class="ico${ban?' ban':''}" style="width:${z}px;height:${z}px" title="${NM[k]}"><img src="${I(k)}" alt=""></span>`;
+const PICK=['pudge','juggernaut','crystal_maiden','mars','invoker'],BAN=['antimage','tinker','kunkka','phoenix'];
+const ROWS=[['pudge',23,'61%'],['juggernaut',19,'58%'],['invoker',17,'47%'],['crystal_maiden',15,'53%'],['mars',12,'50%']];
+const PLACES=[
+ {t:'Турнир · статистика героев',src:'tournament/HeroStats/v1 — сайт',why:'Портрет 28×16 перед именем. В движке уже на общей таблице — иконкой.',
+  a:()=>`<div class="wd">${ROWS.map(([k,p,w])=>`<div class="row">${por(k,28,16)}<span class="nm">${NM[k]}</span><span class="v num mut">${p}</span><span class="v num">${w}</span></div>`).join('')}</div>`,
+  b:z=>`<div class="wd">${ROWS.map(([k,p,w])=>`<div class="row">${ico(k,z)}<span class="nm">${NM[k]}</span><span class="v num mut">${p}</span><span class="v num">${w}</span></div>`).join('')}</div>`},
+ {t:'Турнир · участники — пики и баны команды',src:'tournament/Participants/v1, v2',why:'Пики и баны портретами 28×16; баны серые.',
+  a:()=>`<div class="wd"><div class="line"><span class="k">Пики</span>${PICK.map(k=>por(k,28,16)).join('')}</div><div class="line" style="margin-top:6px"><span class="k">Баны</span>${BAN.map(k=>por(k,28,16,1)).join('')}</div></div>`,
+  b:z=>`<div class="wd"><div class="line"><span class="k">Пики</span>${PICK.map(k=>ico(k,z)).join('')}</div><div class="line" style="margin-top:6px"><span class="k">Баны</span>${BAN.map(k=>ico(k,z,1)).join('')}</div></div>`},
+ {t:'Турнир · игроки по позициям',src:'tournament/Positions/v1 — сайт (v2 уже иконками)',why:'У игрока 3 главных героя — портретом 44×25 с процентом.',
+  a:()=>`<div class="wd">${[['Yatoro',['juggernaut','morphling','luna']],['Collapse',['mars','magnataur','tiny']]].map(([p,hs])=>`<div class="row"><span class="nm" style="flex:0 0 80px">${p}</span>${hs.map((k,i)=>`<span style="display:inline-flex;align-items:center;gap:6px;margin-right:10px">${por(k,44,25)}<span class="num">${[62,55,48][i]}%</span></span>`).join('')}</div>`).join('')}</div>`,
+  b:z=>`<div class="wd">${[['Yatoro',['juggernaut','morphling','luna']],['Collapse',['mars','magnataur','tiny']]].map(([p,hs])=>`<div class="row"><span class="nm" style="flex:0 0 80px">${p}</span>${hs.map((k,i)=>`<span style="display:inline-flex;align-items:center;gap:6px;margin-right:10px">${ico(k,z+4)}<span class="num">${[62,55,48][i]}%</span></span>`).join('')}</div>`).join('')}</div>`},
+ {t:'Матч · блок команд до начала карты',src:'match/MapTeams/v1 — состояние «Пики готовы»',why:'До старта карты слоты игроков — портретом 34 (во время карты уже иконки).',
+  a:()=>`<div class="wd"><div class="slots">${PICK.map((k,i)=>`<span class="slot">${por(k,34,34)}<span>${['Yatoro','Larl','Collapse','Mira','Miposhka'][i]}</span></span>`).join('')}</div></div>`,
+  b:()=>`<div class="wd"><div class="slots">${PICK.map((k,i)=>`<span class="slot">${ico(k,34)}<span>${['Yatoro','Larl','Collapse','Mira','Miposhka'][i]}</span></span>`).join('')}</div></div>`},
+ {t:'Матч · драфт карты',src:'match/MapDraft/v1',why:'Пики и баны портретами. Драфт сейчас убран со страницы (задача 50-36) — заменить, когда вернём.',
+  a:()=>`<div class="wd"><div class="line"><span class="k">Пики</span>${PICK.map(k=>por(k,44,25)).join('')}</div><div class="line" style="margin-top:6px"><span class="k">Баны</span>${BAN.map(k=>por(k,28,16,1)).join('')}</div></div>`,
+  b:z=>`<div class="wd"><div class="line"><span class="k">Пики</span>${PICK.map(k=>ico(k,z+8)).join('')}</div><div class="line" style="margin-top:6px"><span class="k">Баны</span>${BAN.map(k=>ico(k,z,1)).join('')}</div></div>`},
+ {t:'Матч · статистика — MVP',src:'match/Stats/Mvp/v1',why:'Под MVP — его герои портретами.',
+  a:()=>`<div class="wd mvp"><b>Yatoro</b><span class="mut">MVP серии</span><span style="margin-left:auto;display:flex;gap:6px">${['juggernaut','morphling'].map(k=>por(k,40,22)).join('')}</span></div>`,
+  b:z=>`<div class="wd mvp"><b>Yatoro</b><span class="mut">MVP серии</span><span style="margin-left:auto;display:flex;gap:6px">${['juggernaut','morphling'].map(k=>ico(k,z+4)).join('')}</span></div>`},
+];
+function draw(){
+ document.querySelectorAll('#look button').forEach(b=>b.classList.toggle('on',b.dataset.v===LOOK));
+ document.querySelectorAll('#sz button').forEach(b=>b.classList.toggle('on',+b.dataset.v===SZ));
+ document.getElementById('places').innerHTML=PLACES.map((p,i)=>`<div class="card"><div class="hd"><span class="n">${i+1}</span><span class="t">${p.t}</span><span class="src">${p.src}</span></div><p class="why">${p.why}</p>
+  <div class="ba"><div class="side"><small>Сейчас — портрет</small><div class="stage">${p.a()}</div></div><div class="side now"><small>Будет — иконка мини-карты</small><div class="stage v-${LOOK}">${p.b(SZ)}</div></div></div></div>`).join('');
+ const nw=H.filter(h=>h.new).length;
+ document.getElementById('cnt').textContent=H.length+' героев';
+ document.getElementById('leg').innerHTML=`<span>Было иконок: <b>${H.length-nw}</b></span><span>Докачал с CDN Valve: <b>${nw}</b> (оранжевая точка)</span><span>Теперь есть у всех — запасной портрет не нужен</span>`;
+ site();
+ document.getElementById('grid').innerHTML=H.map(h=>`<div class="hc${h.new?' new':''}"><img src="${I(h.k)}" alt=""><span>${h.n}</span></div>`).join('');
+}
+
+const SITE=[
+ ['С1','Главная · матчи','пики команд в строке матча','app/home-matches','index.html',['terrorblade','rubick','hoodwink']],
+ ['С2','Матч-центр','пики в строке матча','screens/match-center','match-center.html',['terrorblade','beastmaster','faceless_void']],
+ ['С3','Экран матча','герой игрока в табло','screens/match','match.html · match-page.html · match-center.html',['faceless_void']],
+ ['С4','Игрок','последние матчи — герой в строке','player/page','player.html',['rubick','hoodwink','beastmaster']],
+ ['С5','Онбординг','герои на карточке игрока','app/onboarding','onboarding.html',['terrorblade','faceless_void']],
+ ['С6','Карточки','«Лучшие герои» на карточке игрока','cards/anatomy · forms · system · shared/card-*','cards.html',['tusk','rubick','faceless_void']],
+ ['С7','Все карточки','герои на 8 видах карточек','cards-all/*','cards-all.html',['tusk','rubick','hoodwink']],
+ ['С8','Сундук','герои на карточке в бустере и сцене','chest/booster · chest/scene','chest.html',['faceless_void','tusk']],
+ ['С9','Конструктор карточки','оборот «Лучшие герои»','app.js (cb2-bk-heroes) · builder-v2','card-builder-v2.html',['tusk','rubick','beastmaster']],
+];
+function site(){document.getElementById('site').innerHTML=SITE.map(([n,pg,what,src,file,hs])=>`<div class="srow"><span class="n">${n}</span><div class="sw"><b>${pg}</b> — ${what}<div class="src">${src} → ${file}</div></div>
+ <div class="stage sx">${hs.map(k=>por(k,40,22)).join('')}</div><span class="arr">→</span><div class="stage sx v-${LOOK}">${hs.map(k=>ico(k,SZ)).join('')}</div></div>`).join('')}
+document.querySelectorAll('#look button').forEach(b=>b.onclick=()=>{LOOK=b.dataset.v;s('hero-icons-look',LOOK);draw()});
+document.querySelectorAll('#sz button').forEach(b=>b.onclick=()=>{SZ=+b.dataset.v;s('hero-icons-sz',SZ);draw()});
+draw();
+</script></body></html>

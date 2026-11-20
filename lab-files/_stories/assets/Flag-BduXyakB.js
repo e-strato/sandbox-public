@@ -1,0 +1,1 @@
+import{j as r}from"./story-yz4g-5RP.js";/* empty css             */const s="data:image/gif;base64,R0lGODlhAQABAAAAACw=";function A({src:a,className:t}){return r.jsx("img",{className:"flag"+(t?" "+t:""),src:a||s,alt:""})}export{A as F};

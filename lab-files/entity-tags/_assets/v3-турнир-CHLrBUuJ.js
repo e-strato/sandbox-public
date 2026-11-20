@@ -1,0 +1,1 @@
+import{s as t,j as o,w as r}from"./lab-DJH9sY4E.js";import{T as a}from"./TournamentPage-OGbsTCB4.js";import"./over-Yx1n5tyf.js";import"./PosIcon-DIB1Eo_L.js";const s=new URLSearchParams(location.search).get("tour")||"ti";t(()=>o.jsx(a,{tour:s,who:"fan",matchHref:()=>r("v2-матч.html")}));

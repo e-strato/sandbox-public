@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- accent-violet v6 — один фиолетовый везде: #3f238b (дирижёр 16.11: «не светлым, а обычным фиолетом, который мы выбрали»). Светлого нет: где был цветной текст («Новый», замок 150) — плашка этим цветом с белым текстом; тиры 2 и 3 — тот же цвет, темнее к чёрному. Было v1 — список «было → предлагаю». Скрины — настоящие страницы демо (песочница, 1440, ×2): «было» как есть, «предлагаю» — та же страница с подменой цвета. Ничего на страницах не менялось. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Один фиолетовый</title>
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --ac:#AF52DE; --ok:#34C759; --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --ac:#BF5AF2; --ok:#30D158; --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1180px; margin:0 auto; padding:28px 24px 64px; }
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; }
+.sub{ margin:0; color:var(--tx2); }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+h2{ margin:36px 0 12px; font-size:20px; font-weight:700; }
+h2 small{ font-size:14px; font-weight:500; color:var(--tx2); margin-left:6px; }
+.card{ background:var(--card); border-radius:14px; padding:16px 18px 18px; margin-bottom:14px; }
+.hd{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.n{ border:0; background:var(--chip); color:var(--tx2); font:600 12px/1 inherit; font-family:inherit; padding:5px 8px; border-radius:6px; cursor:pointer; }
+.t{ font-size:17px; font-weight:600; }
+.where{ color:var(--tx2); font-size:13px; }
+.tag{ margin-left:auto; font-size:12px; font-weight:600; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.tag.ok{ color:var(--ok); } .tag.ac{ color:var(--ac); }
+.why{ margin:6px 0 12px; color:var(--tx2); font-size:14px; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pair.one{ grid-template-columns:1fr; }
+.pair.wide{ grid-template-columns:1fr; }
+.sh{ background:#000; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.sh b{ font-size:12px; font-weight:600; color:rgba(235,235,245,.6); }
+.sh.new b{ color:#fff; }
+.sh img{ display:block; max-width:100%; height:auto; align-self:flex-start; }
+.many{ display:grid; grid-template-columns:repeat(3, auto); gap:12px; justify-content:start; align-items:start; }
+.list{ margin:0; padding-left:20px; } .list li{ margin:4px 0; }
+.cp{ position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--tx); color:var(--bg); padding:8px 14px; border-radius:10px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+.cp.on{ opacity:1; }
+@media (max-width:760px){ .pair{ grid-template-columns:1fr; } .many{ grid-template-columns:1fr; } .wrap{ padding:20px 16px 48px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Один фиолетовый — #3f238b</h1>
+      <p class="sub">Везде твой цвет, светлого нет. Где был цветной текст («Новый», «150») — теперь плашка этим цветом с белым текстом. Скрины — настоящие страницы.</p>
+    </div>
+    <button class="th" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">◐ Тема</button>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #1</button><span class="t">Теги тиров · турниры</span></div><p class="why">Tier 1 — #3f238b, Tier 2 и 3 — тот же цвет, темнее к чёрному, текст белый. Tier 4 серый.</p>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/tier-cal-was.png" width="86" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-tier-cal.png" width="86" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #2</button><span class="t">Теги тиров · новости</span></div>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/tier-news-was.png" width="267" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-tier-news.png" width="267" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #3</button><span class="t">Замок 150 в шапке</span></div><p class="why">Плашка #3f238b, текст и замок белые.</p>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/lock-was.png" width="253" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-lock.png" width="253" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #4</button><span class="t">«Новый» в прогнозах</span></div><p class="why">Плашка #3f238b с белым текстом. Фиолетовый текст на чёрном не читается, поэтому плашка.</p>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/new-was.png" width="310" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-new.png" width="310" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #5</button><span class="t">«Применить»</span></div>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/apply-was.png" width="300" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-apply.png" width="300" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #6</button><span class="t">«Новая новость»</span></div>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/news-pill-was.png" width="276" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-news-pill.png" width="276" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #7</button><span class="t">Значок «идёт»</span></div>
+    <div class="pair wide"><div class="sh"><b>было</b><img src="img/cal-live-was.png" width="1064" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-cal-live.png" width="1064" /></div></div>
+  </div>
+  <div class="card"><div class="hd"><button class="n">⧉ #8</button><span class="t">Кольцо историй</span></div>
+    <div class="pair"><div class="sh"><b>было</b><img src="img/stories-was.png" width="348" /></div><div class="sh new"><b>#3f238b</b><img src="img/s-one-stories.png" width="348" /></div></div>
+  </div>
+</div>
+<div class="cp" id="cp">Скопировано</div>
+<script>document.querySelectorAll('.n').forEach(b=>b.onclick=()=>{ const t=b.textContent.replace('⧉','').trim(); try{ navigator.clipboard.writeText(t) }catch(e){} const c=document.getElementById('cp'); c.textContent='Скопировано '+t; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),1200) })</script>
+</body></html>

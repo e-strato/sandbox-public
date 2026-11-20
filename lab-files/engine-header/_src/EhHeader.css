@@ -1,0 +1,144 @@
+/* Лаба engine-header v2: поверх ui/src/engine/common/PageHeader/v1/PageHeader.css (классы ph-* — оттуда).
+   v5 (дирижёр 20.11: «серой подсветки не видно — чуть светлее»): фон — текст 10 % на фоне (в v3 было 5 %, как у прогноза), без рамки. */
+
+.eh { position: relative; top: auto; z-index: auto; background: color-mix(in srgb, var(--c-text) 10%, transparent); backdrop-filter: none; border: 0; border-radius: var(--radius-10); }
+
+/* v4/v6: команды друг под другом; счёт в квадратиках — в v6 слева от лого (дирижёр 20.11), колонки счёт · лого · имя */
+.eh-stack { display: grid; grid-template-columns: auto auto auto; align-items: center; column-gap: var(--space-8); row-gap: var(--space-6); font: var(--type-subtitle-1); }
+.eh-row { display: contents; }
+.eh-box { display: grid; place-items: center; min-width: 26px; height: 26px; padding: 0 var(--space-4); border-radius: var(--radius-6); background: color-mix(in srgb, var(--c-text) 12%, transparent); font-variant-numeric: tabular-nums; }
+.eh .ph-in { padding: var(--space-14) var(--space-20); }
+.eh .ph-main { padding-top: 0; }
+
+/* крошки — над блоком шапки, мельче (к. 2) */
+.eh-wrap { display: flex; flex-direction: column; gap: var(--space-6); min-width: 0; }
+.eh-crumbs.ph-crumbs { flex: none; font: var(--type-caption-2); }
+.eh-crumbs.ph-crumbs i { margin: 0 var(--space-4); }
+
+/* время слева от названия, под ним дата (70-9) */
+.eh-time { flex: none; display: flex; flex-direction: column; align-items: flex-start; padding-right: var(--space-16); border-right: 1px solid var(--c-border); }
+.eh-time b { font: var(--type-title-2); font-variant-numeric: tabular-nums; }
+.eh-time small { font-size: var(--fs-caption-1); color: var(--c-text-2); }
+
+.eh .ph-sub { gap: var(--space-8); }
+.eh-plain { color: var(--c-text-2); }
+.eh-plain + .eh-plain::before, .eh-st + .eh-plain::before { content: "·"; margin-right: var(--space-8); color: var(--c-text-3); }
+.eh-st { display: inline-flex; align-items: center; gap: var(--space-6); height: 22px; padding: 0 9px; border-radius: var(--radius-6); font: var(--type-caption-1-strong); white-space: nowrap; }
+.eh-st--live { background: var(--w-violet); color: #fff; }
+.eh-st--soon { background: color-mix(in srgb, #3b82f6 22%, transparent); color: #bfdbfe; }
+.eh-st--warn { background: color-mix(in srgb, var(--c-gold) 16%, transparent); color: var(--c-gold); }
+.eh-st--done { background: var(--w-muted); color: var(--c-text-2); }
+
+/* справа: данные строкой, «О турнире» / «Формат», телевизор */
+.eh-rt { margin-left: auto; display: flex; align-items: center; gap: var(--space-12); }
+.eh-btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 var(--space-12); border: 0; border-radius: var(--radius-8, 8px); background: var(--w-muted); color: var(--c-text); font: var(--type-caption-1-medium); cursor: pointer; }
+.eh-btn:hover, .eh-btn[data-state="open"] { background: var(--w-hover); }
+.eh-btn--icon { padding: 0 var(--space-10); }
+.eh-btn--icon small { font-size: var(--fs-caption-1); color: var(--c-text-2); font-variant-numeric: tabular-nums; }
+
+/* всплывашки */
+.eh-pop { padding: var(--space-12) var(--space-14); font: var(--type-body-1); }
+.eh-pop--tv { width: 240px; padding: var(--space-8); }
+.eh-pop--about { width: 380px; max-height: 70vh; overflow: auto; }
+.eh-pop__t { display: block; padding: var(--space-4) var(--space-6) var(--space-8); font: var(--type-caption-1-strong); color: var(--c-text-2); }
+.eh-stream { display: flex; align-items: center; gap: var(--space-10); height: 40px; padding: 0 var(--space-8); border-radius: var(--radius-6); color: var(--c-text); text-decoration: none; font-weight: 500; }
+.eh-stream:hover { background: var(--w-muted); }
+.eh-stream small { color: var(--c-text-2); font-weight: 400; } .eh-stream .ph-ic { margin-left: auto; color: var(--c-text-3); }
+.eh-about__hd { display: flex; align-items: center; gap: var(--space-10); margin-bottom: var(--space-10); } .eh-about__hd img { width: 44px; height: 24px; object-fit: contain; } .eh-about__hd b { font-weight: 600; }
+.eh-about__rows { margin-bottom: var(--space-12); border-radius: var(--radius-8, 8px); background: var(--w-muted); }
+.eh-about__rows > div { display: flex; gap: var(--space-10); padding: var(--space-6) var(--space-10); } .eh-about__rows > div + div { border-top: 1px solid var(--c-border); }
+.eh-about__rows span { color: var(--c-text-2); } .eh-about__rows b { margin-left: auto; font-weight: 500; text-align: right; }
+.eh-about__fmt > div + div { margin-top: var(--space-8); }
+.eh-about__fmt b { display: block; font-weight: 600; } .eh-about__fmt small { margin-left: var(--space-6); color: var(--c-text-2); font-weight: 400; }
+.eh-about__fmt p { margin: 2px 0 0; color: var(--c-text-2); font-size: var(--fs-caption-1); line-height: 17px; }
+
+/* телефон: шапка на всю ширину, без скругления */
+@container ph (max-width: 640px) {
+  .eh .ph-in { padding: var(--space-12) var(--space-16); }
+}
+@media (max-width: 799px) {
+  .eh { border-radius: 0; }
+  .eh-crumbs.ph-crumbs { padding: var(--space-8) 0 0; }
+  .eh-crumbs > span:last-child { display: none; }   /* на телефоне без текущей — название и так ниже */
+}
+.eh-stack--two { grid-template-columns: auto auto; }
+
+/* v7–v8 сжатая (дирижёр 20.11: «поджатые, отступы одинаковые со всех сторон»): поле 12 по кругу, кнопки 28, название на ступень меньше */
+.eh--dense .ph-in { padding: var(--space-12); }
+.eh--dense .ph-main { gap: var(--space-12); }
+.eh--dense .ph-title { font: var(--type-subtitle-1); }
+.eh--dense .eh-time { padding-right: var(--space-12); }
+.eh--dense .eh-time b { font: var(--type-subtitle-1); }
+.eh--dense .eh-rt { gap: var(--space-8); }
+.eh--dense .eh-btn { height: 28px; padding: 0 var(--space-10); }
+.eh--dense .eh-btn--icon { padding: 0 var(--space-8); }
+.eh--dense .ph-sub { margin-top: 0; }
+.eh--dense .eh-stack { row-gap: var(--space-4); column-gap: var(--space-6); font: var(--type-body-1); font-weight: 600; }
+.eh--dense .eh-box { min-width: 22px; height: 22px; }
+.eh--dense .ph-logo { width: 64px; height: 36px; }
+@container ph (max-width: 640px) { .eh--dense .ph-in { padding: var(--space-12); } }
+
+/* v9 (дирижёр 20.11: «чуть-чуть темнее»): фон — текст 8 % (v5–v8 — 10 %), ?tone=8 */
+.eh--t8 { background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+
+/* v10: строка под названием турнира мельче — статус и тир (пачка 20.11-4, к. 1) */
+.eh-sub--s { font-size: var(--fs-caption-1); gap: var(--space-6); }
+.eh-sub--s .eh-st { height: 20px; padding: 0 var(--space-6); gap: var(--space-4); font: var(--type-caption-2); font-weight: 600; }
+.eh-sub--s .eh-st svg { width: 13px; height: 13px; }
+.eh-sub--s .eh-plain + .eh-plain::before, .eh-sub--s .eh-st + .eh-plain::before { margin-right: var(--space-6); }
+
+/* v11 (дирижёр 20.11, турнир): «Идёт» — не плашкой, а как в списке турниров: точка + «Идёт · стадия»; тир — общим тегом TierTag; шапка ниже */
+.eh-live { display: inline-flex; align-items: center; gap: var(--space-4); color: var(--c-text-2); }
+.eh-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); }
+.eh-sub--s .tier-tag + .eh-live::before, .eh-sub--s .eh-live + .tier-tag { margin-left: var(--space-2); }
+.eh--low .ph-logo { width: 44px; height: 26px; }
+.eh--low .ph-who { gap: var(--space-2); }
+
+/* v12–v15 (турнир): нижняя строка и формат */
+.eh-dot { display: inline-flex; align-items: center; color: var(--c-text-2); }
+.eh-dot::before { content: "·"; margin-right: var(--space-6); color: var(--c-text-3); }
+.eh-link { display: inline-flex; align-items: center; gap: var(--space-4); padding: 0; border: 0; background: none; color: var(--c-text); font: inherit; font-weight: 500; cursor: pointer; text-decoration: underline; text-decoration-color: var(--c-text-3); text-underline-offset: 3px; }
+.eh-link:hover { text-decoration-color: currentColor; }
+/* v13: этапы строкой — прошедшие серым, текущий с точкой; вся строка — кнопка «Формат» */
+.eh-steps { display: inline-flex; align-items: center; gap: var(--space-6); padding: 2px var(--space-6); margin-left: calc(-1 * var(--space-2)); border: 0; border-radius: var(--radius-6); background: none; color: var(--c-text-3); font: inherit; cursor: pointer; }
+.eh-steps:hover, .eh-steps[data-state="open"] { background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+.eh-step { display: inline-flex; align-items: center; gap: var(--space-4); white-space: nowrap; }
+.eh-step em { font-style: normal; margin-right: var(--space-2); color: var(--c-text-3); }
+.eh-step small { font-size: inherit; color: var(--c-text-3); }
+.eh-step.is-done { color: var(--c-text-3); }
+.eh-step.is-cur { color: var(--c-text); font-weight: 600; } .eh-step.is-cur small { font-weight: 400; color: var(--c-text-2); }
+.eh-step i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); }
+/* v14: факты справа подписью сверху */
+.eh-stats { display: flex; align-items: center; gap: var(--space-16); margin-right: var(--space-4); }
+.eh-stats > div { display: flex; flex-direction: column; gap: 1px; }
+.eh-stats > div + div { padding-left: var(--space-16); border-left: 1px solid var(--c-border); }
+.eh-stats small { font: var(--type-caption-2); color: var(--c-text-3); }
+.eh-stats b { font: var(--type-caption-1-strong); white-space: nowrap; }
+
+/* v16: шапка турнира в одну строку — лого 36×20, название, тир и «● Идёт» в строке названия */
+.eh--one .ph-logo { width: 36px; height: 20px; }
+.eh--one .ph-main { gap: var(--space-10); }
+.eh--one .ph-title { gap: var(--space-10); }
+.eh-live--t { font: var(--type-caption-1); }
+
+/* v17: «● Идёт» значком справа — между «О турнире» и телевизором, высотой как кнопки */
+.eh-livechip { display: inline-flex; align-items: center; gap: var(--space-6); height: 28px; padding: 0 var(--space-10); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-live) 14%, transparent); color: var(--c-text); font: var(--type-caption-1-medium); white-space: nowrap; }
+.eh-livechip i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); }
+/* v18: «● Идёт» внутри кнопки трансляций, через черту от телевизора */
+.eh-btn--live { gap: var(--space-8); }
+.eh-btn--live .eh-live { padding-right: var(--space-8); border-right: 1px solid color-mix(in srgb, var(--c-text) 18%, transparent); color: var(--c-text); font: var(--type-caption-1-medium); }
+
+/* v19–v20 (пачка 20.11-6): «Идёт» красным, значок эфира 15 */
+.eh-btn--grad .eh-live, .eh-btn--flat .eh-live { color: var(--c-live); }
+.eh-btn--grad, .eh-btn--flat { gap: var(--space-6); }
+.eh-btn--grad .ph-ic, .eh-btn--flat .ph-ic { color: var(--c-text-2); }
+/* v19: красный градиент слева к обычному серому, без черты */
+.eh-btn--grad { background: linear-gradient(90deg, color-mix(in srgb, var(--c-live) 28%, var(--w-muted)) 0%, var(--w-muted) 75%); }
+.eh-btn--grad:hover, .eh-btn--grad[data-state="open"] { background: linear-gradient(90deg, color-mix(in srgb, var(--c-live) 34%, var(--w-hover)) 0%, var(--w-hover) 75%); }
+.eh-btn--grad .eh-live { padding-right: var(--space-4); border-right: 0; }
+
+/* v21 (дирижёр 20.11): градиент плавнее и со скосом посередине — диагональ 115°, переход через середину кнопки; без черты */
+.eh-btn--grad2 { gap: var(--space-6); background: linear-gradient(115deg, color-mix(in srgb, var(--c-live) 30%, var(--w-muted)) 0%, color-mix(in srgb, var(--c-live) 18%, var(--w-muted)) 30%, color-mix(in srgb, var(--c-live) 6%, var(--w-muted)) 50%, var(--w-muted) 64%); }
+.eh-btn--grad2:hover, .eh-btn--grad2[data-state="open"] { background: linear-gradient(115deg, color-mix(in srgb, var(--c-live) 36%, var(--w-hover)) 0%, color-mix(in srgb, var(--c-live) 22%, var(--w-hover)) 30%, color-mix(in srgb, var(--c-live) 8%, var(--w-hover)) 50%, var(--w-hover) 64%); }
+.eh-btn--grad2 .eh-live { color: var(--c-live); padding-right: var(--space-4); border-right: 0; }
+.eh-btn--cast .ph-ic { color: var(--c-text-2); }

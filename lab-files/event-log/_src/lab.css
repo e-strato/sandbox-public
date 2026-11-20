@@ -1,0 +1,8 @@
+/* Лаба event-log v1 — раскладка над графиком и колонка лога */
+/* 72-11: вкладки «О серии · карты» — слева, по ширине текста; кнопки лога и настроек — справа */
+.evlab .match-header__tabs { margin-left: 0; grid-auto-columns: auto !important; }
+.evlab .match-header__tabs .tabs__tab { min-width: 0; padding-left: var(--space-12); padding-right: var(--space-12); }
+.evlab .match-header__set { order: 2; margin-left: auto; }
+/* 71-10: лог — справа от графика, после него */
+.evlab .map__row.has-side > .evlog { order: 1; border-right: 0; border-left: 1px solid var(--c-border); }
+.evlab .map__row.has-side .map__graph { margin-left: 0; }

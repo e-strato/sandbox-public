@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>История</title>
+<!-- Замороженная история Storybook для лабы (ui/tools/freeze-labs.mjs, 20.11). Лежит в lab/_stories/ → база лабы на уровень выше -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800;900&family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=Geist+Mono:wght@400;500;600;700&display=swap" />
+<!-- Единая база данных лабы (данные-опись.md): те же файлы, что у страниц лабы; пути картинок — от ../ -->
+<script src="../_db/_db.js"></script>
+<script src="../_db/_fake.js"></script>
+<script src="../_db/db.js"></script>
+<script>window.DB.setBase("../")</script>
+<script src="../_db/compat.js"></script>
+<!-- Единая база матчей лабы window.GS_DATA (OpenDota: карты, золото, смерти, игроки) — её читает src/match/data/maps.ts -->
+<script src="../gs-match/data/_matches.js"></script>
+
+
+
+<style>
+  html, body { margin: 0; }
+  body.sb-main-padded { padding: 1rem; }
+  body.sb-main-centered { display: flex; align-items: center; min-height: 100vh; }
+  body.sb-main-centered #root { box-sizing: border-box; margin: auto; padding: 1rem; max-height: 100%; }
+  .fz-none { font: 14px/1.4 system-ui; color: #888; padding: 24px; }
+</style>
+  <script type="module" crossorigin src="./assets/story-yz4g-5RP.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/story-CgjSockT.css">
+</head><body><div id="root"></div></body></html>

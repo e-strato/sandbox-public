@@ -333,7 +333,7 @@ window.HOME2 = (() => {
     if (O.es && window.SD && L.length) { const R = [...L].sort((a, b) => (isLive(b) - isLive(a)) || String(a.start).localeCompare(String(b.start)))
       return `<section class="h11-ms"><div class="h11-h"><h2>Матчи</h2>${lv && CFG.day === 'today' ? `<span class="h2-lv"><i class="sc-dot"></i><b class="mono">${lv}</b> ${pl(lv, 'идёт', 'идут', 'идут')}</span>` : ''}
       <div class="h2-seg"><button class="${CFG.day === 'today' ? 'is-on' : ''}" data-day="today">Сегодня</button><button class="${CFG.day === 'tom' ? 'is-on' : ''}" data-day="tom">Завтра</button></div>
-      <a class="h2-ln" href="../gs-schedule/v16-states.html${FIT ? '?fit=1' : ''}">Всё расписание ${ARR}</a></div>${games(A)}<div class="h8-gs sd-bw sd-main--es">${R.map(window.SD.card).join('')}</div></section>` }
+      <a class="h2-ln" href="${window.H2_SCH || '../gs-schedule/v16-states.html'}${FIT ? '?fit=1' : ''}">Всё расписание ${ARR}</a></div>${games(A)}<div class="h8-gs sd-bw sd-main--es">${R.map(window.SD.card).join('')}</div></section>` }
     const body = !L.length ? `<div class="h2-empty"><b>${A.length ? 'Матчей нет' : 'Матчей пока нет'}</b>${A.length ? 'Посмотрите другой день' : 'Расписание обновится, как только турниры объявят пары'}</div>`
       : [...T.entries()].sort((a, b) => (Math.min(...a[1].map((m) => ORD[m.state])) - Math.min(...b[1].map((m) => ORD[m.state]))) || (S.T[a[0]].tier - S.T[b[0]].tier)).map(([t, ms]) => grpT(t, ms, row11)).join('')
     return `<section class="h11-ms"><div class="h11-h"><h2>Матчи</h2>${lv && CFG.day === 'today' ? `<span class="h2-lv"><i class="sc-dot"></i><b class="mono">${lv}</b> ${pl(lv, 'идёт', 'идут', 'идут')}</span>` : ''}

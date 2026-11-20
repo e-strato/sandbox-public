@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru"><head>
+<!-- page-header v1 — «Общая шапка для всех страниц» (дирижёр 18.11: «сделай эти задачи, они все про одно; за основу — шапка турнира; строка для матча; в неё хлебные крошки»).
+     Задачи: 22-8 (один компонент с хлебными крошками, небольшой — голосовое 16.11 #12, #30), 25-11 (лого больше, формат во всплывашке, оператор внизу — #13),
+     29-15 (трансляции — 2–4 тега с телевизором — #17), 47-33 (шапка матча без «‹», тем же компонентом — #37).
+     Основа — шапка турнира движка (ui/src/engine/tournament/Header v1). Три варианта одной шапки, в каждом — строка турнира и строка матча. ‼️ трансляции — пример, каналы придуманы. -->
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Общая шапка — v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" />
+<style>
+:root{ --bg:#F2F2F7; --card:#fff; --tx:#000; --tx2:rgba(60,60,67,.6); --line:rgba(60,60,67,.18); --chip:#E5E5EA; }
+:root[data-theme="dark"]{ --bg:#000; --card:#1C1C1E; --tx:#fff; --tx2:rgba(235,235,245,.6); --line:rgba(84,84,88,.6); --chip:#2C2C2E; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--tx); font:400 15px/1.45 "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif; }
+.wrap{ max-width:1320px; margin:0 auto; padding:28px 24px 96px; }
+.top{ display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+h1{ margin:0 0 6px; font-size:26px; font-weight:700; } .sub{ margin:0; color:var(--tx2); max-width:900px; }
+.th{ flex:none; height:32px; padding:0 12px; border:0; border-radius:8px; background:var(--chip); color:var(--tx); font:inherit; font-size:13px; cursor:pointer; }
+.tasks{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; } .tasks span{ font-size:12px; padding:3px 8px; border-radius:7px; background:var(--chip); color:var(--tx2); }
+h2{ margin:34px 0 4px; font-size:20px; font-weight:700; display:flex; gap:10px; align-items:baseline; } h2 .n{ font-size:13px; padding:3px 8px; border-radius:6px; background:var(--chip); color:var(--tx2); }
+.why{ margin:0 0 12px; color:var(--tx2); font-size:14px; max-width:900px; }
+.lbl{ font-size:12px; font-weight:600; color:var(--tx2); margin:14px 0 6px; }
+/* сцена — продукт, тёмный, как движок */
+.stage{ background:#000; border-radius:14px; overflow:visible; color:#fafafa; font:400 13px/18px "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+.site{ display:flex; align-items:center; gap:18px; height:52px; padding:0 32px; border-bottom:1px solid #18181b; }
+.site .logo{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:15px; } .site .logo i{ width:28px; height:28px; border-radius:7px; background:#fff; }
+.site nav{ display:flex; gap:4px; } .site nav a{ padding:6px 12px; border-radius:8px; color:#a1a1aa; } .site nav a.on{ background:#27272a; color:#fff; }
+.site .srch{ margin-left:auto; width:420px; height:34px; border-radius:9px; background:#18181b; color:#71717a; display:flex; align-items:center; padding:0 12px; }
+.hd{ position:relative; padding:12px 32px 12px; border-bottom:1px solid #27272a; }
+.mut{ color:#a1a1aa; } .num{ font-variant-numeric:tabular-nums; }
+.crumbs{ display:flex; align-items:center; gap:6px; font-size:12px; line-height:16px; color:#a1a1aa; white-space:nowrap; overflow:hidden; }
+.crumbs a{ color:#a1a1aa; text-decoration:none; } .crumbs a:hover{ color:#fff; } .crumbs i{ font-style:normal; color:#52525b; } .crumbs b{ color:#e4e4e7; font-weight:500; overflow:hidden; text-overflow:ellipsis; }
+.ttl{ font:600 20px/26px "Google Sans Flex", system-ui, sans-serif; white-space:nowrap; }
+.kv{ display:flex; gap:24px; margin:0; } .kv div{ min-width:0; } .kv dt{ font-size:11px; line-height:14px; color:#a1a1aa; } .kv dd{ margin:0; font-weight:600; white-space:nowrap; }
+.tv{ display:inline-flex; align-items:center; gap:5px; height:24px; padding:0 8px; border-radius:7px; background:#18181b; border:1px solid #27272a; color:#e4e4e7; font-size:12px; text-decoration:none; white-space:nowrap; }
+.tv svg{ width:14px; height:14px; flex:none; color:#a1a1aa; } .tv:hover{ border-color:#52525b; } .tv .lv{ width:6px; height:6px; border-radius:50%; background:#ef4444; }
+.tvs{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.info{ position:relative; display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 7px; border-radius:6px; background:#27272a; color:#d4d4d8; font-size:12px; font-weight:500; border:0; cursor:pointer; font-family:inherit; vertical-align:middle; }
+.info:hover{ background:#3f3f46; } .info svg{ width:13px; height:13px; }
+.pop{ position:absolute; z-index:20; top:calc(100% + 8px); left:0; width:380px; padding:12px 14px; border-radius:12px; background:#18181b; border:1px solid #3f3f46; box-shadow:0 16px 40px #000c; text-align:left; font-weight:400; color:#e4e4e7; cursor:default; white-space:normal; }
+.pop b{ display:block; font-weight:600; margin:8px 0 2px; } .pop b:first-child{ margin-top:0; } .pop small{ color:#a1a1aa; font-weight:400; margin-left:6px; } .pop p{ margin:0; color:#a1a1aa; font-size:12px; line-height:17px; }
+.op{ font-size:12px; color:#a1a1aa; } .op b{ color:#e4e4e7; font-weight:500; }
+.tlogo{ flex:none; object-fit:contain; } .team{ display:inline-flex; align-items:center; gap:8px; } .team img{ width:28px; height:28px; object-fit:contain; }
+.sc{ font:700 22px/26px "Google Sans Flex", system-ui, sans-serif; padding:0 10px; } .live{ display:inline-flex; align-items:center; gap:5px; color:#c4b5fd; font-weight:500; } .live::before{ content:""; width:6px; height:6px; border-radius:50%; background:#8b5cf6; }
+.body{ display:grid; grid-template-columns:1fr 340px; gap:16px; padding:16px 32px 20px; } .body i{ display:block; height:60px; border-radius:12px; background:#0f0f11; border:1px solid #1f1f23; }
+/* A — одна строка, крошки сверху */
+.a .row{ display:flex; align-items:center; gap:16px; margin-top:8px; } .a .tt{ min-width:0; } .a .tt small{ display:block; color:#a1a1aa; font-size:12px; margin-top:2px; }
+.a .rt{ margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+/* B — компакт: крошки + трансляции в одной строке, ниже лого и всё строкой */
+.b .l1{ display:flex; align-items:center; gap:12px; } .b .l1 .tvs{ margin-left:auto; }
+.b .l2{ display:flex; align-items:center; gap:12px; margin-top:8px; } .b .l2 .ttl{ font-size:18px; } .b .chips{ display:flex; gap:6px; flex-wrap:wrap; margin-left:6px; }
+.b .chips span{ height:24px; display:inline-flex; align-items:center; padding:0 8px; border-radius:7px; background:#18181b; color:#d4d4d8; font-size:12px; } .b .op{ margin-left:auto; }
+/* C — большое лого слева на всю высоту, справа три строки */
+.c .grid{ display:grid; grid-template-columns:auto 1fr auto; gap:4px 16px; align-items:center; }
+.c .lg{ grid-row:1 / 4; } .c .crumbs{ grid-column:2; } .c .tline{ grid-column:2; display:flex; align-items:center; gap:10px; }
+.c .meta{ grid-column:2; font-size:12px; color:#a1a1aa; } .c .meta b{ color:#e4e4e7; font-weight:500; } .c .tvs{ grid-column:3; grid-row:1 / 4; flex-direction:column; align-items:stretch; }
+@media (max-width:1100px){ .body{ display:none; } }
+</style></head><body>
+<div class="wrap">
+<div class="top"><div><h1>(A) Общая шапка страниц</h1>
+<p class="sub">Одна шапка для турнира, матча, игрока, команды — небольшая, с хлебными крошками. За основу — шапка турнира в движке. В каждом варианте сверху строка турнира, ниже строка матча. Клик по «Формат» — всплывашка.</p>
+<div class="tasks"><span>22-8 один компонент + крошки</span><span>25-11 лого больше, формат во всплывашке, оператор внизу</span><span>29-15 трансляции 2–4 тега</span><span>47-33 матч без «‹», тем же компонентом</span></div></div>
+<button class="th" id="th">Тема</button></div>
+<div id="out"></div>
+<h2>Сейчас <span class="n">для сравнения</span></h2>
+<p class="why">Шапка турнира в движке сегодня: лого 72×40, название, подпись, справа строкой тир, даты, команд, организатор, тип. Крошек, формата и трансляций нет. У матча своей шапки нет — турнир и Bo3 строкой внутри виджета карты.</p>
+<div class="stage"><div class="site"><span class="logo"><i></i>GoatScout</span><nav><a>Матчи</a><a class="on">Турниры</a></nav><span class="srch">Матчи, команды, игроки</span></div>
+<div class="hd" style="display:flex;align-items:center;gap:12px"><img class="tlogo" src="../widget-tournament-4/logos/pari-universe.png" style="width:72px;height:40px" alt=""><div><div style="font:700 18px/24px 'Google Sans Flex'">FISSURE Universe Episode 7</div><small class="mut">Dota 2 · прошёл · 5–12.10.2025</small></div>
+<dl class="kv" style="margin-left:auto"><div><dt>Тир</dt><dd>Tier 1</dd></div><div><dt>Даты</dt><dd>05.10 – 12.10.2025</dd></div><div><dt>Команд</dt><dd>14</dd></div><div><dt>Организатор</dt><dd>FISSURE</dd></div><div><dt>Тип</dt><dd>Онлайн · Europe West</dd></div></dl></div></div>
+</div>
+<script>
+const R=document.documentElement;const g=(k,d)=>{try{return localStorage.getItem(k)??d}catch(e){return d}},s=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+R.dataset.theme=g('page-header-theme','light');document.getElementById('th').onclick=()=>{R.dataset.theme=R.dataset.theme==='light'?'dark':'light';s('page-header-theme',R.dataset.theme)};
+const TVI='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="M5.5 14.5h5M6 1.5l2 2 2-2"/></svg>';
+const INF='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7.2v3.8M8 5h.01"/></svg>';
+const TV=(live)=>[['Twitch','RU'],['Twitch','EN'],['YouTube','EN'],['Kick','RU']].map(([p,l],i)=>`<a class="tv" href="#" title="Официальная трансляция · пример">${TVI}${p} · ${l}${live&&i===0?'<span class="lv"></span>':''}</a>`).join('');
+const FMT=`<div class="pop" hidden><b>Групповой этап<small>05 – 08.10.2025</small></b><p>Две группы по 5 команд, каждый с каждым в один круг · все серии Bo2 (бывает ничья 1:1) · 2 лучших — в плей-офф</p><b>Плей-офф<small>09 – 12.10.2025</small></b><p>8 команд: 4 из групп + 4 приглашены · double elimination, Bo3; гранд-финал — Bo5</p></div>`;
+const info=(t)=>`<button class="info" type="button">${INF}${t}${FMT}</button>`;
+const site=(tab)=>`<div class="site"><span class="logo"><i></i>GoatScout</span><nav><a class="${tab==='m'?'on':''}">Матчи</a><a class="${tab==='t'?'on':''}">Турниры</a></nav><span class="srch">Матчи, команды, игроки</span></div>`;
+const cr={t:'<a href="#">Турниры</a><i>›</i><a href="#">Dota 2</a><i>›</i><b>FISSURE Universe Episode 7</b>',m:'<a href="#">Матчи</a><i>›</i><a href="#">The International 2026</a><i>›</i><a href="#">Плей-офф</a><i>›</i><b>Team Spirit — PARIVISION</b>'};
+const TL=(w,h)=>`<img class="tlogo" src="../widget-tournament-4/logos/pari-universe.png" style="width:${w}px;height:${h}px" alt="">`;
+const TEAMS=`<span class="team"><img src="../gs-match/img/teams/9572001.png" alt="">Team Spirit</span><span class="sc num">1 : 1</span><span class="team">PARIVISION<img src="../gs-match/img/teams/7119388.png" alt=""></span>`;
+const KVT='<div><dt>Тир</dt><dd>Tier 1</dd></div><div><dt>Даты</dt><dd>05.10 – 12.10.2025</dd></div><div><dt>Команд</dt><dd>14</dd></div><div><dt>Тип</dt><dd>Онлайн · Europe West</dd></div>';
+const KVM='<div><dt>Карта</dt><dd>3 из 3</dd></div><div><dt>Начало</dt><dd>Сегодня, 17:12</dd></div><div><dt>Стадия</dt><dd>Плей-офф</dd></div>';
+const body='<div class="body"><i></i><i></i></div>';
+const V=[
+ {k:'А',t:'Одна строка, крошки сверху',why:'Крошки мелко над строкой. Лого больше (88×48), рядом название и «Формат» всплывашкой, под названием — подпись и оператор. Справа — данные строкой, под ними трансляции. Матч — та же строка: вместо лого и названия команды и счёт.',cls:'a',
+  t_:()=>`<div class="crumbs">${cr.t}</div><div class="row">${TL(88,48)}<div class="tt"><span class="ttl">FISSURE Universe Episode 7</span> ${info('Формат')}<small>Dota 2 · прошёл · 5–12.10.2025 · <span class="op">оператор <b>FISSURE</b></span></small></div><div class="rt"><dl class="kv">${KVT}</dl><div class="tvs">${TV()}</div></div></div>`,
+  m_:()=>`<div class="crumbs">${cr.m}</div><div class="row"><div class="tt"><span class="ttl" style="display:flex;align-items:center">${TEAMS}</span><small>Bo3 · <span class="live">идёт карта 3 · 33′</span></small></div><div class="rt"><dl class="kv">${KVM}</dl><div class="tvs">${TV(1)}</div></div></div>`},
+ {k:'Б',t:'Компакт: две тонкие строки',why:'Самая низкая (≈64 px). Сверху крошки слева и трансляции справа. Ниже — лого 64×36, название, «Формат», данные плашками; оператор — в конце строки.',cls:'b',
+  t_:()=>`<div class="l1"><div class="crumbs">${cr.t}</div><div class="tvs">${TV()}</div></div><div class="l2">${TL(64,36)}<span class="ttl">FISSURE Universe Episode 7</span>${info('Формат')}<div class="chips"><span>Tier 1</span><span>05.10 – 12.10.2025</span><span>14 команд</span><span>Онлайн · Europe West</span><span>прошёл</span></div><span class="op">оператор <b>FISSURE</b></span></div>`,
+  m_:()=>`<div class="l1"><div class="crumbs">${cr.m}</div><div class="tvs">${TV(1)}</div></div><div class="l2"><span class="ttl" style="display:flex;align-items:center">${TEAMS}</span><div class="chips"><span>Bo3</span><span>Сегодня, 17:12</span><span class="live">идёт карта 3 · 33′</span></div><span class="op">турнир <b>The International 2026</b></span></div>`},
+ {k:'В',t:'Крупное лого, три строки справа',why:'Лого во всю высоту (96×54). Справа три строки: крошки, название с «Формат», данные текстом через точку + оператор. Трансляции — столбиком справа, как кнопки «смотреть».',cls:'c',
+  t_:()=>`<div class="grid"><div class="lg">${TL(96,54)}</div><div class="crumbs">${cr.t}</div><div class="tvs">${TV()}</div><div class="tline"><span class="ttl">FISSURE Universe Episode 7</span>${info('Формат')}</div><div class="meta"><b>Tier 1</b> · 05.10 – 12.10.2025 · 14 команд · Онлайн · Europe West · прошёл · оператор <b>FISSURE</b></div></div>`,
+  m_:()=>`<div class="grid"><div class="lg" style="display:flex;gap:6px"><img src="../gs-match/img/teams/9572001.png" style="width:54px;height:54px;object-fit:contain" alt=""><img src="../gs-match/img/teams/7119388.png" style="width:54px;height:54px;object-fit:contain" alt=""></div><div class="crumbs">${cr.m}</div><div class="tvs">${TV(1)}</div><div class="tline"><span class="ttl">Team Spirit <span class="num" style="padding:0 6px">1 : 1</span> PARIVISION</span><span class="live">идёт карта 3 · 33′</span></div><div class="meta"><b>Bo3</b> · сегодня, 17:12 · плей-офф · The International 2026</div></div>`},
+];
+document.getElementById('out').innerHTML=V.map(v=>`<h2><span class="n">${v.k}</span>${v.t}</h2><p class="why">${v.why}</p>
+ <div class="lbl">Турнир</div><div class="stage ${v.cls}">${site('t')}<div class="hd">${v.t_()}</div>${body}</div>
+ <div class="lbl">Матч</div><div class="stage ${v.cls}">${site('m')}<div class="hd">${v.m_()}</div>${body}</div>`).join('');
+document.addEventListener('click',e=>{const b=e.target.closest('.info');document.querySelectorAll('.pop').forEach(p=>{if(!b||!b.contains(p))p.hidden=true});if(b&&!e.target.closest('.pop')){const p=b.querySelector('.pop');p.hidden=!p.hidden}});
+</script></body></html>
