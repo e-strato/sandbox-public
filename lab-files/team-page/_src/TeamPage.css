@@ -1,0 +1,62 @@
+/* Лаба team-page v1 — страница команды движка. Каркас — турнир v5 + страница игрока (концепт) */
+.tmpage .etpage__main { padding-top: var(--space-20); }
+.tmh-tag { font: 600 var(--fs-caption-1)/1 var(--font-mono); padding: 3px var(--space-6); border-radius: var(--radius-4); background: color-mix(in srgb, var(--c-text) 8%, transparent); color: var(--c-text-2); }
+.tm-bar { display: flex; align-items: center; gap: var(--space-12); }
+.tm-bar__p { display: inline-flex; align-items: center; gap: var(--space-4); font: var(--type-caption-1); color: var(--c-text-2); }
+.tm-side { display: flex; flex-direction: column; gap: var(--space-16); }
+
+/* состав — карточки */
+.tmr { display: grid; gap: var(--space-8); padding: var(--space-12); }
+.tmr-c { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-8); min-width: 0; padding: var(--space-12); border-radius: var(--radius-10); background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.tmr-c__hd { max-width: 100%; }
+.tmr-c__role { display: inline-flex; align-items: center; gap: var(--space-4); font: var(--type-caption-1); color: var(--c-text-2); }
+.tmr-c dl { display: flex; gap: var(--space-16); margin: 0; }
+.tmr-c dt { font: var(--type-caption-2); color: var(--c-text-3); } .tmr-c dd { margin: 0; font: 600 var(--fs-body-2)/var(--lh-body-2) var(--font-mono); }
+.tmr-c__h { display: flex; gap: 4px; }
+.tmr-coach { display: flex; align-items: center; gap: var(--space-8); padding: 0 var(--space-16) var(--space-12); font: var(--type-caption-1); color: var(--c-text-2); }
+
+/* серии */
+.tms { list-style: none; margin: 0; padding: var(--space-6) var(--space-8) var(--space-10); display: flex; flex-direction: column; gap: 2px; }
+.tms li { position: relative; display: grid; grid-template-columns: 150px minmax(140px, 1fr) 72px minmax(0, 1.2fr) 150px; align-items: center; gap: var(--space-12); min-height: 52px; padding: 0 var(--space-10) 0 var(--space-12); border-radius: var(--radius-8); }
+.tms li:hover { background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.tms li.is-live { background: color-mix(in srgb, var(--c-live) 8%, transparent); }
+.tms__d { display: flex; flex-direction: column; min-width: 0; } .tms__d b { font: 500 var(--fs-body-1)/var(--lh-body-1) var(--font-mono); }
+.tms__d small { font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tms__vs { min-width: 0; }
+.tms__sc { display: flex; align-items: baseline; gap: 2px; font: 700 var(--fs-title-3)/1 var(--font-mono); color: var(--c-text-3); }
+.tms__sc b { font-weight: 700; } .tms__sc b.is-me { color: var(--c-text); }
+.tms__sc small { margin-left: var(--space-6); font: 400 var(--fs-caption-2)/1 var(--font-mono); color: var(--c-text-3); }
+.tms__maps { display: flex; gap: 4px; }
+.tms__maps i { min-width: 44px; padding: 4px 0; border-radius: var(--radius-4); text-align: center; font: 500 10px/1 var(--font-mono); font-style: normal; }
+.tms__maps i.is-w { background: color-mix(in srgb, var(--c-success) 22%, transparent); color: var(--c-success); }
+.tms__maps i.is-l { background: color-mix(in srgb, var(--c-danger) 18%, transparent); color: var(--c-danger); }
+.tms__maps i.is-live { background: color-mix(in srgb, var(--c-live) 25%, transparent); color: var(--c-live); }
+.tms__res { justify-self: end; font: var(--type-caption-1-strong); }
+.tms__res.is-w { color: var(--c-success); } .tms__res.is-l { color: var(--c-text-3); } .tms__res.is-live { color: var(--c-live); }
+
+/* герои команды — без колонки WR */
+.tmh-list li { grid-template-columns: 8px 26px minmax(0, 1fr) 48px 48px; }
+
+/* правая колонка */
+.tmt-path { margin: var(--space-6) var(--space-6) var(--space-2); font: var(--type-caption-1); color: var(--c-text-2); }
+.tmf { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-6); padding: var(--space-4); }
+.tmf-c { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--space-6); padding: var(--space-10) 0 var(--space-12); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 4%, transparent); overflow: hidden; }
+.tmf-c b { font: 600 var(--fs-caption-1)/1 var(--font-mono); }
+.tmf-c > i { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; }
+.tmf-c.is-w > i { background: var(--c-success); } .tmf-c.is-l > i { background: var(--c-danger); opacity: .75; }
+.tmn { display: flex; flex-direction: column; gap: var(--space-10); padding: var(--space-10); border-radius: var(--radius-10); background: linear-gradient(120deg, color-mix(in srgb, var(--c-live) 18%, transparent), transparent 70%); text-decoration: none; color: inherit; }
+.tmn__live { display: inline-flex; align-items: center; gap: var(--space-6); font: var(--type-caption-1-strong); color: var(--c-live); }
+.tmn__live i { width: 8px; height: 8px; border-radius: 50%; background: var(--c-live); animation: tmn-p 1.4s infinite; }
+@keyframes tmn-p { 50% { opacity: .3; } }
+.tmn__row { display: flex; align-items: center; gap: var(--space-10); }
+.tmn__row > :first-child { flex: 1; min-width: 0; }
+.tmn__sc { font: 700 var(--fs-title-2)/1 var(--font-mono); }
+.tmn__go { display: inline-flex; align-items: center; gap: 2px; font: var(--type-caption-1-medium); color: var(--c-text-2); }
+.tmn:hover .tmn__go { color: var(--c-text); }
+
+@media (max-width: 799px) {
+  .tmpage .etpage__main { padding-top: var(--space-12); } .tm-bar { flex-wrap: wrap; }
+  .tmr { grid-template-columns: repeat(5, 150px) !important; overflow-x: auto; scrollbar-width: none; }
+  .tms li { grid-template-columns: 1fr auto; row-gap: var(--space-6); padding: var(--space-8) var(--space-10); }
+  .tms__d { grid-column: 1 / -1; } .tms__maps { grid-column: 1 / -1; } .tms__res { grid-column: 1 / -1; justify-self: start; }
+}

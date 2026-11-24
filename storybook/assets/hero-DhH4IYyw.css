@@ -1,0 +1,1 @@
+.hp .is-up{color:var(--c-success)}.hp .is-down{color:var(--c-danger)}.hp-none{margin:0;padding:var(--space-12);font:var(--type-caption-1);color:var(--c-text-3)}.hp-sp__axis{display:flex;justify-content:space-between;font:400 var(--fs-caption-2)/1 var(--font-mono);color:var(--c-text-3);margin-bottom:var(--space-8)}

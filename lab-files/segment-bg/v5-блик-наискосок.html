@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Сегмент · v5 · Surface-2 + блик наискосок</title>
+<style>
+body { margin: 0; padding: 32px 0 64px; background: #000; color: #fafafa; font: 400 13px/18px system-ui, sans-serif; }
+h1 { font: 600 20px/28px system-ui; margin: 0 32px 4px; }
+.lead { color: #a1a1aa; margin: 0 32px 24px; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; box-shadow: 0 0 0 1px #3f3f46; }
+.spot { margin: 0 0 28px; }
+.spot b { display: block; font: 500 12px/16px system-ui; color: #a1a1aa; margin: 0 32px 8px; }
+iframe { display: block; width: 100%; height: 150px; border: 0; border-top: 1px solid #18181b; border-bottom: 1px solid #18181b; background: #000; }
+</style></head><body>
+<h1>v5 · Surface-2 + блик наискосок</h1>
+<p class="lead"><span class="sw" style="background:#18181b"></span>Фон ряда #18181b — как v2; у выбранного — тонкий блик по кромке наискосок: светлее сверху слева и снизу справа, к середине сторон гаснет; тень мягче. Плашка выбранного и всё остальное — как сейчас. Ниже — сегмент на каждой странице продукта, где он стоит.</p>
+<div class="spot"><b>Матч (движок) — вкладки карт в шапке</b><iframe data-i="0" src="../ui-pages/match-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Матч (движок) — «Прогнозы / Мои ответы»</b><iframe data-i="1" src="../ui-pages/match-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Турнир — «Групповой этап / Плей-офф»</b><iframe data-i="0" src="../ui-pages/tournament-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Список турниров — «Календарь / Прошедшие» и «Месяц / Год»</b><iframe data-i="0" src="../ui-pages/tournaments-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Расписание — «Live / Скоро / Итоги»</b><iframe data-i="0" src="../ui-pages/schedule-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Игрок — «Обзор / Матчи / Герои»</b><iframe data-i="0" src="../ui-pages/player-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Игрок — метрика тренда</b><iframe data-i="1" src="../ui-pages/player-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Игрок — «Колесо / Таблица»</b><iframe data-i="2" src="../ui-pages/player-engine.html" loading="lazy" scrolling="no"></iframe></div>
+<div class="spot"><b>Матч (сайт) — вкладки карт</b><iframe data-i="0" src="../ui-pages/match.html" loading="lazy" scrolling="no"></iframe></div>
+<script>
+const BG = "#18181b";
+for (const f of document.querySelectorAll('iframe')) f.addEventListener('load', () => {
+  const d = f.contentDocument, st = d.createElement('style'); st.textContent = '.segment{--seg-bg:' + BG + ' !important}' + ".segment__thumb{box-shadow:0 2px 8px rgba(0,0,0,.35) !important;border:1px solid transparent;box-sizing:border-box;background:linear-gradient(var(--c-surface),var(--c-surface)) padding-box,linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(255,255,255,.07)) border-box !important}"; d.head.appendChild(st)
+  let n = 0; const t = setInterval(() => { const s = d.querySelectorAll('.segment')[+f.dataset.i]; if (s || ++n > 50) { clearInterval(t)
+    if (s) { for (const el of d.querySelectorAll('body *')) { const ps = f.contentWindow.getComputedStyle(el).position; if (ps === 'sticky' || ps === 'fixed') el.style.position = 'relative' }
+      const r = s.getBoundingClientRect(); f.contentWindow.scrollTo(0, Math.max(0, r.top + f.contentWindow.scrollY - 50)) } } }, 100)
+})
+</script>
+</body></html>

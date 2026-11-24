@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Кнопки · как было</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" />
+<style>
+/* Токены продукта — один источник цвета, текста, радиусов и отступов.
+   Перенесены из лабы: widget-tournament/_w.css (палитра shadcn/ui dark, zinc) + widgets-unified/_type.css (текст), дирижёр 20–22.10.
+   Правило: в компонентах цвет и шрифт — только var(--…); новое значение — сначала сюда. */
+:root {
+  color-scheme: dark;
+  /* цвет */
+  --w-page: #000; --w-bg: #09090b; --w-fg: #fafafa; --w-muted: #27272a; --w-muted-fg: #a1a1aa; --w-border: #27272a; --w-ring: #52525b;
+  --w-hover: #3f3f46; --w-skel: #3f3f46;
+  --w-primary: #fafafa; --w-primary-fg: #18181b;
+  --w-up: #22c55e; --w-up-bg: rgba(34, 197, 94, .12); --w-up-fg: #86efac;
+  --w-down: #ef4444; --w-down-bg: rgba(239, 68, 68, .14); --w-down-fg: #fca5a5; --w-mid-bg: #18181b;
+  --w-star: #facc15; --w-a: #60a5fa; --w-a-bg: rgba(96, 165, 250, .26); --w-a-fg: #bfdbfe; --w-b: #f59e0b;
+  /* сведено 12.11 из локальных переменных компонентов (повторялись в 3+ местах) */
+  --w-zinc-200: #e4e4e7; --w-zinc-300: #d4d4d8; --w-zinc-500: #71717a;   /* светлый текст · текст в подсказке · «нет данных», счётчики */
+  --w-surface: #111113; --w-surface-2: #18181b;                          /* фон всплывашек и подложек */
+  --w-red: #e5484d;                                                       /* live, Dire, поражение, падение */
+  --w-green: #2fbf71; --w-green-2: #30a46c;                               /* Radiant, победа, «угадал» */
+  --w-gold: #f5c542;                                                      /* золото (на матче); баллы с 16.11 — фиолетовые (--c-brand) */
+  --w-violet: #3f238b; --w-violet-glow: oklch(0.66 0.26 288);             /* акцент портала (голосовое начальника 16.11, лаба accent-violet) · блик «Новый» */
+  /* радиусы */
+  --w-r: 12px; --w-r-sm: 8px;
+  /* ── Шрифт и текст (лаба fonts, дирижёр 18.11): роли как во Fluent 2, размеры — из нашего кода (частые сочетания размер / строка), интерфейс плотный — крупнее 26 нет.
+        Цифры — Geist Mono (лаба fonts v4); названия — пока основной (решить с начальником) ── */
+  /* семейства */
+  --font-sans: "Google Sans", "Google Sans Flex", "Google Sans Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;   /* цифры, счёт, рейтинг, время, маленькие плашки */
+  --font-display: var(--font-sans);                                       /* названия турниров, ключевые метрики промокарточек — пока = основной */
+  /* размер / высота строки по ролям (в скобках — сколько раз было в коде до токенов) */
+  --fs-micro: 9px;        --lh-micro: 12px;        /* 8–9 (58): метки на аватарах, оси графиков */
+  --fs-tag: 10px;         --lh-tag: 14px;          /* 10 (139 с --t-tag): плашки */
+  --fs-caption-2: 11px;   --lh-caption-2: 14px;    /* 11 (96): заголовки колонок, подписи */
+  --fs-caption-1: 12px;   --lh-caption-1: 16px;    /* 12 (59): вторые строки, ссылки */
+  --fs-body-1: 13px;      --lh-body-1: 18px;       /* 13 (104): текст таблиц и списков */
+  --fs-body-2: 14px;      --lh-body-2: 20px;       /* 14 (73): текст страницы; Strong — заголовок виджета */
+  --fs-subtitle-2: 15px;  --lh-subtitle-2: 20px;   /* 15 (17): заголовки карточек */
+  --fs-subtitle-1: 16px;  --lh-subtitle-1: 22px;   /* 16 (10) */
+  --fs-title-3: 18px;     --lh-title-3: 24px;      /* 18 (10) */
+  --fs-title-2: 20px;     --lh-title-2: 26px;      /* 20 (4) */
+  --fs-title-1: 22px;     --lh-title-1: 28px;      /* 22 (12): заголовок страницы */
+  --fs-large-title: 26px; --lh-large-title: 32px;  /* 24–34 (13): крупный счёт, промо — потолок шкалы */
+  /* роли — font целиком, вес входит в токен (дирижёр 18.11: как в Figma — один токен = один стиль, font-weight отдельно не ставим): Regular 400 · Medium 500 · Strong 600 */
+  --type-micro: 600 var(--fs-micro)/var(--lh-micro) var(--font-sans);
+  --type-tag: 600 var(--fs-tag)/var(--lh-tag) var(--font-sans);
+  --type-caption-2: 400 var(--fs-caption-2)/var(--lh-caption-2) var(--font-sans);
+  --type-caption-2-medium: 500 var(--fs-caption-2)/var(--lh-caption-2) var(--font-sans);
+  --type-caption-2-strong: 600 var(--fs-caption-2)/var(--lh-caption-2) var(--font-sans);
+  --type-caption-1: 400 var(--fs-caption-1)/var(--lh-caption-1) var(--font-sans);
+  --type-caption-1-medium: 500 var(--fs-caption-1)/var(--lh-caption-1) var(--font-sans);
+  --type-caption-1-strong: 600 var(--fs-caption-1)/var(--lh-caption-1) var(--font-sans);
+  --type-body-1: 400 var(--fs-body-1)/var(--lh-body-1) var(--font-sans);
+  --type-body-1-medium: 500 var(--fs-body-1)/var(--lh-body-1) var(--font-sans);
+  --type-body-1-strong: 600 var(--fs-body-1)/var(--lh-body-1) var(--font-sans);
+  --type-body-2: 400 var(--fs-body-2)/var(--lh-body-2) var(--font-sans);
+  --type-body-2-strong: 600 var(--fs-body-2)/var(--lh-body-2) var(--font-sans);
+  --type-subtitle-2: 600 var(--fs-subtitle-2)/var(--lh-subtitle-2) var(--font-sans);
+  --type-subtitle-1: 600 var(--fs-subtitle-1)/var(--lh-subtitle-1) var(--font-sans);
+  --type-title-3: 600 var(--fs-title-3)/var(--lh-title-3) var(--font-sans);
+  --type-title-2: 600 var(--fs-title-2)/var(--lh-title-2) var(--font-sans);
+  --type-title-1: 600 var(--fs-title-1)/var(--lh-title-1) var(--font-display);
+  --type-large-title: 600 var(--fs-large-title)/var(--lh-large-title) var(--font-display);
+  /* цифры в тексте — та же роль, что у текста рядом, моноширинным (Figma: Numeric/…) */
+  --num-micro: 600 var(--fs-micro)/var(--lh-micro) var(--font-mono);
+  --num-tag: 600 var(--fs-tag)/var(--lh-tag) var(--font-mono);
+  --num-caption-2: 500 var(--fs-caption-2)/var(--lh-caption-2) var(--font-mono);
+  --num-caption-2-strong: 600 var(--fs-caption-2)/var(--lh-caption-2) var(--font-mono);
+  --num-caption-1: 500 var(--fs-caption-1)/var(--lh-caption-1) var(--font-mono);
+  --num-caption-1-strong: 600 var(--fs-caption-1)/var(--lh-caption-1) var(--font-mono);
+  --num-body-1: 500 var(--fs-body-1)/var(--lh-body-1) var(--font-mono);
+  --num-body-1-strong: 600 var(--fs-body-1)/var(--lh-body-1) var(--font-mono);
+  --num-body-2: 500 var(--fs-body-2)/var(--lh-body-2) var(--font-mono);
+  --num-body-2-strong: 600 var(--fs-body-2)/var(--lh-body-2) var(--font-mono);
+  /* крупные числа — не заголовки, а метрики: баллы, шанс %, кошелёк, перевес золота (дирижёр 18.11: имена одинаковые в коде и Figma — Metric/S…XL) */
+  --metric-s: 600 var(--fs-subtitle-2)/var(--lh-subtitle-2) var(--font-mono);    /* 15/20 */
+  --metric-m: 600 var(--fs-title-3)/var(--lh-title-3) var(--font-mono);          /* 18/24 */
+  --metric-l: 600 var(--fs-title-1)/var(--lh-title-1) var(--font-mono);          /* 22/28 */
+  --metric-xl: 600 var(--fs-large-title)/var(--lh-large-title) var(--font-mono); /* 26/32 */
+  /* сетка */
+  --g-hd: 52px; --g-row: 52px; --g-cell: 32px; --g-pad: 12px;
+  /* раскладка страницы (дирижёр 23.11): между главной и боковой колонкой · между виджетами внутри колонки */
+  --layout-col-gap: var(--space-16); --layout-widget-gap: var(--space-16);
+  /* ── Шкалы (12.11, петля улучшений; образец — shadcn/ui + Radix, линейка — IBM Carbon). Имя = значение в px: точное соответствие, вид не меняется ── */
+  /* отступы: padding / margin / gap. Нечётные 1, 3, 5, 7 — оптические подгонки лабы, оставлены числом */
+  --space-2: 2px; --space-4: 4px; --space-6: 6px; --space-8: 8px; --space-10: 10px; --space-12: 12px; --space-14: 14px;
+  --space-16: 16px; --space-20: 20px; --space-24: 24px; --space-28: 28px; --space-32: 32px; --space-40: 40px; --space-64: 64px;
+  /* скругления */
+  --radius-2: 2px; --radius-4: 4px; --radius-6: 6px; --radius-8: 8px; --radius-10: 10px; --radius-12: 12px; --radius-14: 14px; --radius-full: 999px;
+  /* тени */
+  --shadow-ring: inset 0 0 0 1px var(--w-border);                       /* обводка без смены размера */
+  --shadow-pop: 0 0 0 1px var(--w-border), 0 8px 24px #0008;           /* всплывашка, подсказка */
+  /* движение */
+  --dur-120: .12s; --dur-150: .15s; --dur-200: .2s; --dur-250: .25s; --dur-300: .3s; --dur-350: .35s; --dur-400: .4s; --dur-500: .5s;
+  --ease-soft: cubic-bezier(.2, .8, .2, 1);     /* мягкий выезд */
+  --ease-emph: cubic-bezier(.3, .7, .2, 1);     /* выразительный */
+  --ease-spring: cubic-bezier(.3, 1.3, .5, 1);  /* пружина (подложка вкладок) */
+  --ease-back: cubic-bezier(.34, 1.5, .5, 1);   /* с отскоком */
+  /* слои (z-index) — только «глобальные»; 0–5 внутри компонента остаются числом */
+  --z-header: 7; --z-pop: 30; --z-overlay: 100; --z-modal: 1000; --z-top: 9999;
+  /* брейкпоинты — для справки и JS (в @media var() не работает): движок — десктоп */
+  --bp-phone: 390px; --bp-tablet: 800px; --bp-desktop: 1440px;
+
+  /* ── Смысловой слой цвета: компоненты берут смысл, палитра — под ним. Вторая тема = переопределить только этот слой ── */
+  --c-text: var(--w-fg); --c-text-2: var(--w-muted-fg);
+  --c-text-3: #8d8d94;   /* третий уровень текста: ≥ 4,5 : 1 на всех фонах (было #71717a — 4,1 : 1; дирижёр 12.11 «добьём контраст») */
+  --c-border: var(--w-border); --c-surface: var(--w-bg); --c-surface-2: var(--w-mid-bg); --c-page: var(--w-page);
+  --c-danger: var(--w-red); --c-success: var(--w-green); --c-live: var(--w-red); --c-accent: var(--wts-violet); --c-gold: var(--w-gold);
+  --c-on-success: #06210f; --c-on-danger: #2a0708;   /* тёмный текст на залитых «Да» / «Нет» */
+  /* акцент портала (16.11, DECISIONS «акцент и жёлтый»): тиры, главные кнопки, выбранное, баллы, «Новый». Один цвет, без светлого: текстом на чёрном не читается — только заливкой с белым */
+  --c-brand: var(--w-violet); --c-on-brand: #fff; --c-brand-glow: var(--w-violet-glow);
+  --c-brand-2: color-mix(in srgb, var(--c-brand) 60%, #000); --c-brand-3: color-mix(in srgb, var(--c-brand) 35%, #000);   /* Tier 2 · Tier 3 */
+  /* стороны в играх (голосовое 16.11, 16-2; лаба side-colors v4–v5, DECISIONS 18.11): цвета самой игры — «хорошо / плохо» у нас фиолетом и штриховкой, не путаются.
+     Дота — как в клиенте (чистые зелёный / красный, = --w-up / --w-down); LoL — CSS клиента, история матчей; CS — «цветной» (дирижёр 18.11: клиентские #96C8FA / #EABE54 блёклые) */
+  --c-side-dota-radiant: #22c55e; --c-side-dota-dire: #ef4444;
+  --c-side-lol-blue: #0A96AA; --c-side-lol-red: #BE1E37;
+  --c-side-cs-ct: #5D79AE; --c-side-cs-t: #DE9B35;
+  /* стороны Dota — как подписи «Radiant / Dire» под командами (MapTeams): кнопки прогноза на команду */
+  --c-radiant: var(--c-side-dota-radiant); --c-dire: var(--c-side-dota-dire);
+  --c-skeleton: var(--w-skel);
+
+  /* акцент live-вкладок (w-tabs-s) */
+  --wts-violet: #8b5cf6; --wts-violet-fg: #a78bfa;
+}
+html, body { background: var(--c-page); color: var(--c-text); font: var(--type-body-2); margin: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+*, *::before, *::after { box-sizing: border-box; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Системная настройка «уменьшить движение» — анимации и переходы почти мгновенные (WCAG 2.3.3, Carbon/Material) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+/* Видимый фокус с клавиатуры — единый для всех интерактивных (мышью не появляется) */
+:where(button, a, [role="button"], [role="tab"], [tabindex]):focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+
+body { padding: 40px 48px 80px; }
+h1 { font: var(--type-title-2, 600 22px/28px var(--font-sans)); margin: 0 0 6px; }
+h2 { font: var(--type-subtitle-2); margin: 40px 0 6px; }
+.lead { color: var(--c-text-2); font: var(--type-body-1); margin: 0 0 16px; max-width: 820px; }
+.panel { background: var(--c-surface); border-radius: 12px; padding: 20px 24px; overflow-x: auto; }
+.grid { display: grid; align-items: center; gap: 14px 20px; }
+.lbl { color: var(--c-text-2); font: var(--type-caption-1); white-space: nowrap; }
+.ch { color: var(--c-text-3, var(--c-text-2)); font: var(--type-caption-2); white-space: nowrap; }
+table.spec { border-collapse: collapse; font: var(--type-body-1); }
+table.spec th, table.spec td { padding: 8px 16px 8px 0; text-align: left; border-bottom: 1px solid var(--c-border); white-space: nowrap; }
+table.spec th { color: var(--c-text-2); font: var(--type-caption-1-medium); }
+table.spec td.n { font: var(--num-body-1, var(--type-body-1)); }
+.bad { color: var(--c-danger); }
+.ok { color: var(--c-success); }
+.ic { flex: none; display: block; }
+/* Кнопка (12.11, по образцу shadcn/ui). Значения сняты с кнопок компонентов ui/ — таблица «кнопка → вариант» в отчёте петли.
+   Наведение: :hover или data-force="hover" (только для историй). Фокус — общий :focus-visible из tokens.css; data-force="focus" — для историй. */
+.btn { --btn-yes-on: var(--c-on-success); --btn-no-on: var(--c-on-danger);   /* текст на залитых «Да» / «Нет» (pred-out.is-on) — в токенах нет */
+  flex: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-6); margin: 0; padding: 0; border: 0; background: none;
+  color: var(--c-text); text-align: center; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.btn[data-force="focus"] { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .35; cursor: default; }
+
+/* ── размеры ── */
+.btn--xs { height: 20px; padding: 0 var(--space-8); border-radius: 5px; font: var(--num-tag); line-height: 16px; }                    /* t-part__ib--text */
+.btn--sm { height: 28px; padding: 0 var(--space-10); border-radius: var(--radius-6); font: var(--type-caption-1-medium); line-height: 1; } /* t-heroes__reset, filters__chip */
+.btn--md { height: 32px; padding: 0 var(--space-14); border-radius: var(--radius-8); font: var(--type-body-1-medium); } /* «Мои прогнозы» */
+.btn--lg { height: 36px; padding: 0 var(--space-16); border-radius: var(--radius-10); font: var(--type-body-1-strong); line-height: 1; } /* «Войти» */
+.btn--xl { height: 40px; padding: 0 var(--space-20); border-radius: var(--radius-10); font: var(--type-body-1-medium); } /* «Показать ещё» */
+.btn--2xl { height: 50px; padding: 0 var(--space-14); border-radius: var(--radius-10); font: var(--type-subtitle-2); } /* «Да» / «Нет» */
+.btn--icon-xs { width: 22px; height: 22px; border-radius: var(--radius-6); }   /* match/Header назад, поделиться */
+.btn--icon-sm { width: 24px; height: 24px; border-radius: var(--radius-6); }   /* LanePanel свернуть, t-part__add */
+.btn--icon-md { width: 28px; height: 28px; border-radius: var(--radius-8); }   /* t-part__back, tours__ib */
+.btn--icon-lg { width: 32px; height: 32px; border-radius: var(--radius-8); }   /* pred-card__cls */
+
+/* ── виды ── */
+.btn--primary { background: var(--c-brand); color: var(--c-on-brand); }   /* v2 (16.11): акцент портала вместо белого; наведения нет — как у t-part__ib--on */
+
+.btn--secondary { background: var(--c-surface-2); color: var(--c-text); }
+.btn--secondary[class*="btn--icon-"] { color: var(--c-text-2); }                 /* иконка — тусклее (pred-card__cls, t-part__add) */
+.btn--secondary:is(:hover, [data-force="hover"]):not(:disabled) { background: var(--w-muted); color: var(--c-text); }
+
+.btn--tonal { gap: 5px; background: var(--w-muted); color: var(--c-text); }
+.btn--tonal:is(:hover, [data-force="hover"]):not(:disabled) { background: var(--w-ring); }
+
+.btn--outline { border: 1px solid var(--c-border); background: none; color: var(--c-text); }
+.btn--outline:is(:hover, [data-force="hover"]):not(:disabled) { background: var(--c-surface-2); }
+
+.btn--ghost { background: none; color: var(--c-text-2); }
+.btn--ghost:is(:hover, [data-force="hover"]):not(:disabled) { background: var(--w-muted); color: var(--c-text); }
+.btn--ghost[aria-pressed="true"] { background: var(--w-muted); color: var(--c-text); }
+
+.btn--link { gap: var(--space-2); height: auto; padding: 0; border-radius: 0; background: none; color: var(--c-text-2); }
+.btn--link.btn--sm { font: var(--type-caption-2); line-height: 16px; }                                       /* news__all, t-part__reset */
+.btn--link.btn--md { font: var(--type-caption-1-medium); }                                      /* tours__arch, transfers__all */
+.btn--link:is(:hover, [data-force="hover"]):not(:disabled) { color: var(--c-text); }
+
+.btn--chip { border: 1px solid var(--c-border); border-radius: var(--radius-6);   /* v2 (16.11): без «пилюль» — прямоугольная, как кнопка того же размера */
+  background: none; color: var(--c-text-2); }
+.btn--chip:is(:hover, [data-force="hover"]):not(:disabled) { color: var(--c-text); }
+.btn--chip[aria-pressed="true"] { border-color: transparent; background: var(--w-muted); color: var(--c-text); }
+
+/* v2 (16.11): «Да» / «Нет» — серые, нажатая — акцент; исход-команда — цветом её стороны (radiant / dire), как подписи сторон на матче */
+.btn--yes, .btn--no { background: var(--w-muted); color: var(--c-text); }
+.btn--yes[aria-pressed="true"], .btn--no[aria-pressed="true"] { background: var(--c-brand); color: var(--c-on-brand); }
+.btn--radiant { background: color-mix(in srgb, var(--c-radiant) 14%, transparent); color: var(--c-radiant); }
+.btn--radiant[aria-pressed="true"] { background: var(--c-radiant); color: var(--btn-yes-on); }
+.btn--dire { background: color-mix(in srgb, var(--c-dire) 14%, transparent); color: var(--c-dire); }
+.btn--dire[aria-pressed="true"] { background: var(--c-dire); color: var(--btn-no-on); }
+
+</style></head><body>
+<h1>Как было: кнопка v2</h1>
+<p class="lead">Атом собран 12.11 из готовых кнопок продукта один в один: у каждого размера — своя кнопка-источник. Поэтому 6 высот текста и 4 высоты иконок не совпадают, шаг не постоянный, места под иконку нет — иконку кладут прямо в текст, всегда 16.</p>
+<div class="panel"><div class="grid" style="grid-template-columns:100px repeat(6,max-content)"><div></div><div class="ch">xs · 20</div><div class="ch">sm · 28</div><div class="ch">md · 32</div><div class="ch">lg · 36</div><div class="ch">xl · 40</div><div class="ch">2xl · 50</div><div class="lbl">Primary</div><div><button class="btn btn--primary btn--xs">Показать ещё</button></div><div><button class="btn btn--primary btn--sm">Показать ещё</button></div><div><button class="btn btn--primary btn--md">Показать ещё</button></div><div><button class="btn btn--primary btn--lg">Показать ещё</button></div><div><button class="btn btn--primary btn--xl">Показать ещё</button></div><div><button class="btn btn--primary btn--2xl">Показать ещё</button></div><div class="lbl">Secondary</div><div><button class="btn btn--secondary btn--xs">Показать ещё</button></div><div><button class="btn btn--secondary btn--sm">Показать ещё</button></div><div><button class="btn btn--secondary btn--md">Показать ещё</button></div><div><button class="btn btn--secondary btn--lg">Показать ещё</button></div><div><button class="btn btn--secondary btn--xl">Показать ещё</button></div><div><button class="btn btn--secondary btn--2xl">Показать ещё</button></div><div class="lbl">Tonal</div><div><button class="btn btn--tonal btn--xs">Показать ещё</button></div><div><button class="btn btn--tonal btn--sm">Показать ещё</button></div><div><button class="btn btn--tonal btn--md">Показать ещё</button></div><div><button class="btn btn--tonal btn--lg">Показать ещё</button></div><div><button class="btn btn--tonal btn--xl">Показать ещё</button></div><div><button class="btn btn--tonal btn--2xl">Показать ещё</button></div><div class="lbl">Outline</div><div><button class="btn btn--outline btn--xs">Показать ещё</button></div><div><button class="btn btn--outline btn--sm">Показать ещё</button></div><div><button class="btn btn--outline btn--md">Показать ещё</button></div><div><button class="btn btn--outline btn--lg">Показать ещё</button></div><div><button class="btn btn--outline btn--xl">Показать ещё</button></div><div><button class="btn btn--outline btn--2xl">Показать ещё</button></div><div class="lbl">Ghost</div><div><button class="btn btn--ghost btn--xs">Показать ещё</button></div><div><button class="btn btn--ghost btn--sm">Показать ещё</button></div><div><button class="btn btn--ghost btn--md">Показать ещё</button></div><div><button class="btn btn--ghost btn--lg">Показать ещё</button></div><div><button class="btn btn--ghost btn--xl">Показать ещё</button></div><div><button class="btn btn--ghost btn--2xl">Показать ещё</button></div><div class="lbl">Chip</div><div><button class="btn btn--chip btn--xs">Показать ещё</button></div><div><button class="btn btn--chip btn--sm">Показать ещё</button></div><div><button class="btn btn--chip btn--md">Показать ещё</button></div><div><button class="btn btn--chip btn--lg">Показать ещё</button></div><div><button class="btn btn--chip btn--xl">Показать ещё</button></div><div><button class="btn btn--chip btn--2xl">Показать ещё</button></div><div class="lbl">С иконкой</div><div><button class="btn btn--secondary btn--xs"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div><div><button class="btn btn--secondary btn--sm"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div><div><button class="btn btn--secondary btn--md"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div><div><button class="btn btn--secondary btn--lg"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div><div><button class="btn btn--secondary btn--xl"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div><div><button class="btn btn--secondary btn--2xl"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 11.25 12.75 H 5.75 q-0.319 0-0.534-0.217-0.216-0.217-0.216-0.537 0-0.321 0.216-0.533 0.215-0.213 0.534-0.213 h 5.5 v-5.5 q 0-0.319 0.217-0.534 0.217-0.215 0.537-0.215 0.321 0 0.533 0.215 0.213 0.216 0.213 0.534 v 5.5 h 5.5 q 0.319 0 0.534 0.217 0.215 0.217 0.215 0.537 0 0.321-0.215 0.533-0.216 0.213-0.534 0.213 H 12.75 v 5.5 q 0 0.319-0.217 0.534-0.217 0.216-0.537 0.216-0.321 0-0.533-0.216-0.213-0.215-0.213-0.534 v-5.5 Z"/></svg>Добавить</button></div></div>
+<div class="grid" style="grid-template-columns:100px repeat(4,max-content);margin-top:20px"><div class="lbl">Под иконку</div><div><button class="btn btn--secondary btn--icon-xs"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 12 20 q-3.325 0-5.663-2.337 T 4 12 q 0-3.325 2.337-5.663 T 12 4 q 2.125 0 3.725 0.863 T 18.5 7.225 v-2.475 q 0-0.325 0.213-0.537 T 19.25 4 q 0.325 0 0.537 0.213 T 20 4.75 v 4.85 q 0 0.325-0.213 0.537 T 19.25 10.35 H 14.4 q-0.325 0-0.537-0.213 T 13.65 9.6 q 0-0.325 0.213-0.537 T 14.4 8.85 h 3.45 q-0.95-1.5-2.425-2.425 t-3.425-0.925 q-2.725 0-4.612 1.888 T 5.5 12 q 0 2.725 1.888 4.612 T 12 18.5 q 1.875 0 3.5-0.988 T 17.925 14.85 q 0.125-0.275 0.413-0.413 t 0.562-0.013 q 0.3 0.125 0.4 0.413 t-0.025 0.588 q-0.975 2.1-2.938 3.338 T 12 20 Z"/></svg></button> <span class="ch">icon-xs · 22</span></div><div><button class="btn btn--secondary btn--icon-sm"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 12 20 q-3.325 0-5.663-2.337 T 4 12 q 0-3.325 2.337-5.663 T 12 4 q 2.125 0 3.725 0.863 T 18.5 7.225 v-2.475 q 0-0.325 0.213-0.537 T 19.25 4 q 0.325 0 0.537 0.213 T 20 4.75 v 4.85 q 0 0.325-0.213 0.537 T 19.25 10.35 H 14.4 q-0.325 0-0.537-0.213 T 13.65 9.6 q 0-0.325 0.213-0.537 T 14.4 8.85 h 3.45 q-0.95-1.5-2.425-2.425 t-3.425-0.925 q-2.725 0-4.612 1.888 T 5.5 12 q 0 2.725 1.888 4.612 T 12 18.5 q 1.875 0 3.5-0.988 T 17.925 14.85 q 0.125-0.275 0.413-0.413 t 0.562-0.013 q 0.3 0.125 0.4 0.413 t-0.025 0.588 q-0.975 2.1-2.938 3.338 T 12 20 Z"/></svg></button> <span class="ch">icon-sm · 24</span></div><div><button class="btn btn--secondary btn--icon-md"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 12 20 q-3.325 0-5.663-2.337 T 4 12 q 0-3.325 2.337-5.663 T 12 4 q 2.125 0 3.725 0.863 T 18.5 7.225 v-2.475 q 0-0.325 0.213-0.537 T 19.25 4 q 0.325 0 0.537 0.213 T 20 4.75 v 4.85 q 0 0.325-0.213 0.537 T 19.25 10.35 H 14.4 q-0.325 0-0.537-0.213 T 13.65 9.6 q 0-0.325 0.213-0.537 T 14.4 8.85 h 3.45 q-0.95-1.5-2.425-2.425 t-3.425-0.925 q-2.725 0-4.612 1.888 T 5.5 12 q 0 2.725 1.888 4.612 T 12 18.5 q 1.875 0 3.5-0.988 T 17.925 14.85 q 0.125-0.275 0.413-0.413 t 0.562-0.013 q 0.3 0.125 0.4 0.413 t-0.025 0.588 q-0.975 2.1-2.938 3.338 T 12 20 Z"/></svg></button> <span class="ch">icon-md · 28</span></div><div><button class="btn btn--secondary btn--icon-lg"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M 12 20 q-3.325 0-5.663-2.337 T 4 12 q 0-3.325 2.337-5.663 T 12 4 q 2.125 0 3.725 0.863 T 18.5 7.225 v-2.475 q 0-0.325 0.213-0.537 T 19.25 4 q 0.325 0 0.537 0.213 T 20 4.75 v 4.85 q 0 0.325-0.213 0.537 T 19.25 10.35 H 14.4 q-0.325 0-0.537-0.213 T 13.65 9.6 q 0-0.325 0.213-0.537 T 14.4 8.85 h 3.45 q-0.95-1.5-2.425-2.425 t-3.425-0.925 q-2.725 0-4.612 1.888 T 5.5 12 q 0 2.725 1.888 4.612 T 12 18.5 q 1.875 0 3.5-0.988 T 17.925 14.85 q 0.125-0.275 0.413-0.413 t 0.562-0.013 q 0.3 0.125 0.4 0.413 t-0.025 0.588 q-0.975 2.1-2.938 3.338 T 12 20 Z"/></svg></button> <span class="ch">icon-lg · 32</span></div></div></div>
+<h2>Размеры сейчас</h2>
+<p class="lead"><span class="bad">Высоты 20 · 28 · 32 · 36 · 40 · 50 и 22 · 24 · 28 · 32</span> — текстовая и квадратная кнопка одной высоты не стоят рядом ровно (28 и 28 есть, 36 и 40 — нет). Отступы и скругления — свои у каждой.</p>
+<div class="panel"><table class="spec"><tr><th>Размер</th><th>Высота</th><th>Отступ по бокам</th><th>Скругление</th><th>Текст</th><th>Иконка</th><th>Откуда</th></tr><tr><td>xs</td><td class="n">20</td><td class="n">8</td><td class="n">5</td><td>Tag · моно</td><td class="n">16 всегда</td><td class="lbl">t-part__ib--text</td></tr><tr><td>sm</td><td class="n">28</td><td class="n">10</td><td class="n">6</td><td>Caption 1 Medium</td><td class="n">16 всегда</td><td class="lbl">фильтры, «Сбросить»</td></tr><tr><td>md</td><td class="n">32</td><td class="n">14</td><td class="n">8</td><td>Body 1 Medium</td><td class="n">16 всегда</td><td class="lbl">«Мои прогнозы»</td></tr><tr><td>lg</td><td class="n">36</td><td class="n">16</td><td class="n">10</td><td>Body 1 Strong</td><td class="n">16 всегда</td><td class="lbl">«Войти»</td></tr><tr><td>xl</td><td class="n">40</td><td class="n">20</td><td class="n">10</td><td>Body 1 Medium</td><td class="n">16 всегда</td><td class="lbl">«Показать ещё»</td></tr><tr><td>2xl</td><td class="n">50</td><td class="n">14</td><td class="n">10</td><td>Subtitle 2</td><td class="n">16 всегда</td><td class="lbl">«Да» / «Нет»</td></tr><tr><td>icon-xs</td><td class="n">22×22</td><td class="n">—</td><td class="n">6</td><td>—</td><td class="n">16 всегда</td><td class="lbl">шапка матча: назад</td></tr><tr><td>icon-sm</td><td class="n">24×24</td><td class="n">—</td><td class="n">6</td><td>—</td><td class="n">16 всегда</td><td class="lbl">свернуть панель</td></tr><tr><td>icon-md</td><td class="n">28×28</td><td class="n">—</td><td class="n">8</td><td>—</td><td class="n">16 всегда</td><td class="lbl">турнир: назад</td></tr><tr><td>icon-lg</td><td class="n">32×32</td><td class="n">—</td><td class="n">8</td><td>—</td><td class="n">16 всегда</td><td class="lbl">закрыть прогноз</td></tr></table></div>
+</body></html>

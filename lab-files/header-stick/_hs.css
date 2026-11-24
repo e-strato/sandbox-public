@@ -1,0 +1,174 @@
+/* Шапка при прокрутке — способы прилипания поверх готовой страницы движка. <html data-hs="vN">.
+   --hs-crumb (крошки с зазором), --hs-start (где шапка прилипает) — пишет _hs.js. */
+
+/* плашка продукта (PageHeader v4, перенесён v19) — в лабе прячем: варианты рисуют своё поверх готовой страницы */
+[data-hs] .ph-pill { display: none; }
+
+/* ——— v1–v3: шапка липнет под шапкой сайта; крошки уходят под неё, блок встаёт ровно на 52 ——— */
+:is([data-hs="v1"], [data-hs="v2"], [data-hs="v3"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"]) .ph2-wrap { position: sticky; top: calc(52px - var(--hs-crumb, 20px)); z-index: 6; container-type: scroll-state; }
+:is([data-hs="v1"], [data-hs="v2"], [data-hs="v6"], [data-hs="v7"]) .ph2 { background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); transition: box-shadow .2s; }   /* непрозрачный — страница под ним не просвечивает */
+@container scroll-state(stuck: top) {
+  :is([data-hs="v1"], [data-hs="v2"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"]) .ph2 { box-shadow: 0 10px 24px -6px rgb(0 0 0 / .6); }
+}
+
+/* ——— v6: как v1, прилипла — плашка шире на 8 влево и вправо, содержимое стоит на месте ——— */
+[data-hs="v6"] .ph2 { transition: box-shadow .2s, margin .2s; }
+[data-hs="v6"] .ph2 .ph-in { transition: padding .2s; }
+@container scroll-state(stuck: top) {
+  [data-hs="v6"] .ph2 { margin-inline: -8px; }
+  [data-hs="v6"] .ph2 .ph-in { padding-inline: calc(var(--space-12) + 8px); }
+}
+
+/* ——— v7: как v6, но шире на 4; правая колонка липнет вровень с шапкой (_hs.js) ——— */
+[data-hs="v7"] .ph2 { transition: box-shadow .2s, margin .2s; }
+[data-hs="v7"] .ph2 .ph-in { transition: padding .2s; }
+@container scroll-state(stuck: top) {
+  [data-hs="v7"] .ph2 { margin-inline: -4px; }
+  [data-hs="v7"] .ph2 .ph-in { padding-inline: calc(var(--space-12) + 4px); }
+}
+
+/* ——— v20: как v7, но пока не прилипла — фон как у всего (#0F0F0F виджетов движка, без своей заливки); прилипла — светлее, как v7 ——— */
+[data-hs="v20"] .ph2 { transition: box-shadow .2s, margin .2s, background-color .2s; }
+[data-hs="v20"] .ph2 .ph-in { transition: padding .2s; }
+@container scroll-state(stuck: top) {
+  [data-hs="v20"] .ph2 { margin-inline: -4px; background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); }
+  [data-hs="v20"] .ph2 .ph-in { padding-inline: calc(var(--space-12) + 4px); }
+}
+
+/* ——— v2: пока листаешь — шапка плавно тоньше (прокрутка ведёт анимацию, без JS на кадр) ——— */
+[data-hs="v2"] .ph2 :is(.ph-in, .ph-title, .ph-logo, .ph2-btn, .ph2-time b, .ph2-time small) {
+  animation: linear both; animation-timeline: scroll(root);
+  animation-range: var(--hs-start, 0px) calc(var(--hs-start, 0px) + 120px);
+}
+[data-hs="v2"] .ph2 .ph-in { animation-name: hs-in; }
+[data-hs="v2"] .ph2 .ph-title { animation-name: hs-title; }
+[data-hs="v2"] .ph2 .ph-logo { animation-name: hs-logo; }
+[data-hs="v2"] .ph2 .ph2-btn { animation-name: hs-btn; }
+[data-hs="v2"] .ph2 .ph2-time b { animation-name: hs-title; }
+[data-hs="v2"] .ph2 .ph2-time small { animation-name: hs-small; }
+@keyframes hs-in { to { padding-top: 6px; padding-bottom: 6px; } }
+@keyframes hs-title { to { font-size: 14px; } }
+@keyframes hs-logo { to { width: 28px; height: 16px; } }
+@keyframes hs-btn { to { height: 24px; } }
+@keyframes hs-small { to { font-size: 0; opacity: 0; } }
+
+/* ——— v3: прилипла — блок становится полосой во всю ширину страницы: фон страницы, черта снизу, строка ниже ——— */
+[data-hs="v3"], [data-hs="v3"] body { overflow-x: clip; }   /* полоса шире окна — без горизонтальной прокрутки */
+[data-hs="v3"] .ph2 { transition: background .2s, border-radius .2s; }
+[data-hs="v3"] .ph2 .ph-in { transition: padding .2s; }
+[data-hs="v3"] .ph2::before { content: ""; position: absolute; z-index: -1; inset: 0 -100vw; background: var(--w-page); box-shadow: inset 0 -1px 0 var(--c-border); opacity: 0; transition: opacity .2s; pointer-events: none; }
+@container scroll-state(stuck: top) {
+  [data-hs="v3"] .ph2 { border-radius: 0; background: transparent; }
+  [data-hs="v3"] .ph2 .ph-in { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+  [data-hs="v3"] .ph2::before { opacity: 1; }
+}
+
+/* ——— v4: шапка уезжает как обычно; ушла — снизу по центру плашка (как панель в Figma) ——— */
+.hs-pill { position: fixed; z-index: 20; left: 50%; bottom: 16px; box-sizing: border-box; display: flex; align-items: center; gap: var(--space-10); max-width: calc(100vw - 32px); height: 48px; padding: 0 var(--space-8) 0 var(--space-14);
+  border-radius: 14px; background: color-mix(in srgb, var(--w-page) 78%, transparent); backdrop-filter: blur(16px); box-shadow: 0 0 0 1px var(--c-border), 0 12px 32px rgb(0 0 0 / .5);
+  color: var(--c-text); font: var(--type-body-1); white-space: nowrap; -webkit-font-smoothing: antialiased;
+  translate: -50% calc(100% + 24px); opacity: 0; pointer-events: none; transition: translate .3s cubic-bezier(.2, .8, .2, 1), opacity .2s; }
+.hs-off .hs-pill { translate: -50% 0; opacity: 1; pointer-events: auto; }
+.hs-pill .ph-logo { flex: none; width: 28px; height: 16px; object-fit: contain; }
+.hs-pill__who { display: flex; align-items: center; gap: var(--space-10); min-width: 0; }
+.hs-pill__txt { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.hs-pill__crumbs { display: none; }
+.hs-pill__acts { flex: none; display: flex; align-items: center; gap: var(--space-8); }
+.hs-pill__t { display: flex; align-items: center; gap: var(--space-8); min-width: 0; overflow: hidden; font: var(--type-subtitle-2); }
+.hs-pill__t img { flex: none; width: 19px; height: 16px; object-fit: contain; }
+.hs-pill .ph2-btn { flex: none; }
+.hs-pill__up { justify-content: center; width: 28px; padding: 0; font-size: 15px; }
+@media (max-width: 640px) { .hs-pill__acts { display: none; } }
+/* v5 — плашка сверху: под шапкой сайта (52 + 8), выезжает из-под неё */
+:is([data-hs="v5"], [data-hs="v8"], [data-hs="v9"], [data-hs="v10"], [data-hs="v11"], [data-hs="v12"], [data-hs="v13"], [data-hs="v14"], [data-hs="v15"], [data-hs="v16"], [data-hs="v17"], [data-hs="v18"], [data-hs="v19"], [data-hs="v21"], [data-hs="v22"], [data-hs="v23"], [data-hs="v24"], [data-hs="v25"], [data-hs="v26"]) .hs-pill { z-index: 6; top: 60px; bottom: auto; translate: -50% calc(-100% - 70px); }
+:is([data-hs="v5"], [data-hs="v8"], [data-hs="v9"], [data-hs="v10"], [data-hs="v11"], [data-hs="v12"], [data-hs="v13"], [data-hs="v14"], [data-hs="v15"], [data-hs="v16"], [data-hs="v17"], [data-hs="v18"], [data-hs="v19"], [data-hs="v21"], [data-hs="v22"], [data-hs="v23"], [data-hs="v24"], [data-hs="v25"], [data-hs="v26"]).hs-off .hs-pill { translate: -50% 0; }
+
+/* v8 — стекло: прозрачнее и сильнее размытие, светлая обводка, ниже (40) */
+[data-hs="v8"] .hs-pill { height: 40px; padding: 0 var(--space-6) 0 var(--space-12); border-radius: 12px; background: color-mix(in srgb, var(--c-text) 6%, transparent); backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-text) 16%, transparent), 0 8px 24px rgb(0 0 0 / .35); }
+[data-hs="v8"] .hs-pill .ph2-btn { height: 28px; background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+
+/* v9 — как сама шапка страницы: тот же фон (текст 10 % на странице), скругление 10, без обводки и размытия */
+[data-hs="v9"] .hs-pill { height: 44px; padding: 0 var(--space-8) 0 var(--space-12); border-radius: var(--radius-10); background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); backdrop-filter: none; box-shadow: 0 10px 24px -6px rgb(0 0 0 / .6); }
+
+/* v10 — язычок: вплотную к шапке сайта, её фон, скруглён только снизу, черта по краю */
+[data-hs="v10"] .hs-pill { top: 52px; height: 44px; padding: 0 var(--space-8) 0 var(--space-16); border-radius: 0 0 14px 14px; background: var(--w-page); backdrop-filter: none;
+  box-shadow: inset 0 -1px 0 var(--c-border), inset 1px 0 0 var(--c-border), inset -1px 0 0 var(--c-border), 0 12px 24px -8px rgb(0 0 0 / .6); }
+
+/* ——— v11–v14: как v5 (вид тот же), меняется раскладка внутри плашки ——— */
+/* v11 — в две строки: над названием крошки мелким серым — видно, где ты; кнопки справа */
+[data-hs="v11"] .hs-pill { height: 52px; }
+[data-hs="v11"] .hs-pill__crumbs { display: flex; font: var(--type-caption-2); }
+[data-hs="v11"] .hs-pill__crumbs > span:last-child { display: none; }   /* текущая — это и есть название ниже */
+[data-hs="v11"] .hs-pill__crumbs > span:nth-last-child(2) i { display: none; }
+[data-hs="v11"] .hs-pill .ph-logo { width: 36px; height: 20px; }
+/* v12 — кнопки значками: «О турнире» — только ⓘ, трансляции — значок и число; плашка ниже (40), места названию больше */
+[data-hs="v12"] .hs-pill { height: 40px; padding-left: var(--space-12); gap: var(--space-6); }
+[data-hs="v12"] .hs-pill__acts { gap: var(--space-4); }
+[data-hs="v12"] .hs-pill .ph2-btn { height: 28px; }
+[data-hs="v12"] .hs-pill__acts .ph2-btn:not(.ph2-btn--tv) { justify-content: center; width: 28px; padding: 0; gap: 0; font-size: 0; }
+[data-hs="v12"] .hs-pill__acts { margin-left: var(--space-6); }
+/* v13 — «наверх» первым, слева за чертой; дальше кто, кнопки справа */
+[data-hs="v13"] .hs-pill { padding-left: var(--space-8); }
+[data-hs="v13"] .hs-pill__up { order: -1; }
+[data-hs="v13"] .hs-pill__who { padding-left: var(--space-10); border-left: 1px solid var(--c-border); }
+[data-hs="v13"] .hs-pill__acts { margin-left: var(--space-6); }
+/* v14 — шире (720), название по центру: «наверх» слева, кнопки справа */
+[data-hs="v14"] .hs-pill { display: grid; grid-template-columns: 1fr auto 1fr; width: min(720px, calc(100vw - 32px)); padding: 0 var(--space-8); }
+[data-hs="v14"] .hs-pill__up { order: -1; justify-self: start; }
+[data-hs="v14"] .hs-pill__acts { justify-self: end; }
+
+/* ——— v15–v17: плашка сверху, чёрная (#0F0F0F — как виджеты движка) без обводки; без «наверх», крошек и «Прошёл». Разница — что показываем ——— */
+:is([data-hs="v15"], [data-hs="v16"], [data-hs="v17"]) .hs-pill { height: 44px; padding: 0 var(--space-8) 0 var(--space-14); background: #0f0f0f; backdrop-filter: none; box-shadow: 0 10px 28px rgb(0 0 0 / .7); }
+:is([data-hs="v15"], [data-hs="v16"], [data-hs="v17"]) :is(.hs-pill__up, .ph2-state) { display: none; }
+/* v16 — из кнопок только трансляции; v17 — без кнопок, одно название */
+[data-hs="v16"] .hs-pill__acts .ph2-btn:not(.ph2-btn--tv) { display: none; }
+[data-hs="v17"] .hs-pill { padding-right: var(--space-14); }
+[data-hs="v17"] .hs-pill__acts { display: none; }
+
+/* ——— v18: как v15, но чёрный #000, только самое важное, всплывашка — прямо от плашки (_hs.js) ——— */
+:is([data-hs="v18"], [data-hs="v19"], [data-hs="v21"], [data-hs="v22"], [data-hs="v23"], [data-hs="v24"], [data-hs="v25"], [data-hs="v26"]) .hs-pill { height: 44px; padding: 0 var(--space-8) 0 var(--space-14); background: #000; backdrop-filter: none; box-shadow: 0 10px 28px rgb(0 0 0 / .8); }
+:is([data-hs="v18"], [data-hs="v19"], [data-hs="v21"], [data-hs="v22"], [data-hs="v23"], [data-hs="v24"], [data-hs="v25"], [data-hs="v26"]) :is(.hs-pill__up, .ph2-state, .tier-tag, .plh-flag, .plh-pro, .plh-meta) { display: none; }   /* турнир — лого и имя; матч — команды и счёт; игрок — аватар и ник */
+
+/* v19 — как v18, вокруг плашки светлая мягкая тень, чтобы не сливалась с чёрным */
+[data-hs="v19"] .hs-pill { box-shadow: 0 0 20px rgb(255 255 255 / .12), 0 10px 28px rgb(0 0 0 / .8); }
+
+/* v21–v23 — как v19, другая тень (без обводки) */
+[data-hs="v21"] .hs-pill { box-shadow: inset 0 1px 0 rgb(255 255 255 / .12), 0 12px 32px rgb(0 0 0 / .9); }   /* блик по верхнему краю + тёмная тень вниз */
+[data-hs="v22"] .hs-pill { box-shadow: 0 8px 20px -8px rgb(255 255 255 / .22), 0 10px 28px rgb(0 0 0 / .8); }    /* светлое свечение только снизу */
+[data-hs="v23"] .hs-pill { box-shadow: 0 0 8px rgb(255 255 255 / .1), 0 10px 28px rgb(0 0 0 / .8); }               /* узкий светлый ореол по краю */
+
+/* v24 — как v21, но блик не стоит сверху, а медленно бежит по краю по кругу (8 с на круг): тонкая светлая дуга, тёмная тень вниз */
+@property --hs-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes hs-spin { to { --hs-a: 360deg; } }
+[data-hs="v24"] .hs-pill { box-shadow: 0 12px 32px rgb(0 0 0 / .9); }
+[data-hs="v24"] .hs-pill::before { content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit; pointer-events: none;
+  background: conic-gradient(from var(--hs-a), transparent 0 62%, rgb(255 255 255 / .28) 80%, transparent 98%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: hs-spin 8s linear infinite; }
+@media (prefers-reduced-motion: reduce) { [data-hs="v24"] .hs-pill::before { animation: none; } }
+
+/* v25 — блик с настройками (оси лабы: ход, круг, длина, яркость, бликов). Тёмная тень вниз, как v21.
+   «Ровно по краю» — пятно едет по контуру плашки с постоянной скоростью (offset-path), не тормозит на длинных сторонах, как v24.
+   «По углу» — как v24 (вращение угла: на длинных сторонах в середине медленнее). */
+[data-hs="v25"] .hs-pill, [data-hs="v26"] .hs-pill { box-shadow: 0 12px 32px rgb(0 0 0 / .9); }
+.hs-ring { position: absolute; inset: 0; padding: 1px; border-radius: inherit; pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.hs-dot { position: absolute; top: 0; left: 0; width: var(--gl-size, 120px); height: var(--gl-size, 120px); border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(255 255 255 / var(--gl-a, .35)), transparent);
+  offset-path: border-box; offset-anchor: center; offset-rotate: 0deg; animation: hs-run var(--gl-dur, 8s) linear infinite; }
+.hs-dot--2 { display: none; animation-delay: calc(var(--gl-dur, 8s) / -2); }
+[data-gl-n="2"] .hs-dot--2 { display: block; }
+@keyframes hs-run { to { offset-distance: 100%; } }
+/* по углу — как v24, длина — доля круга */
+[data-gl-mode="angle"] .hs-dot { display: none; }
+[data-gl-mode="angle"] .hs-ring { background: conic-gradient(from var(--hs-a), transparent 0 calc(98% - var(--gl-size, 120px) / 6), rgb(255 255 255 / var(--gl-a, .35)) calc(98% - var(--gl-size, 120px) / 12), transparent 98%);
+  animation: hs-spin var(--gl-dur, 8s) linear infinite; }
+[data-gl-mode="angle"][data-gl-n="2"] .hs-ring { background: repeating-conic-gradient(from var(--hs-a), transparent 0 calc(49% - var(--gl-size, 120px) / 12), rgb(255 255 255 / var(--gl-a, .35)) calc(49% - var(--gl-size, 120px) / 24), transparent 49%, transparent 50%); }
+@media (prefers-reduced-motion: reduce) { .hs-dot, .hs-ring { animation: none; } }
+/* v25 — поверх всего, даже подсказок таблиц (у них --z-modal 1000): окно от низа шапки сайта, плашка внутри */
+.hs-pill-clip { position: fixed; z-index: calc(var(--z-modal, 1000) + 1); top: 52px; left: 0; right: 0; height: 140px; overflow: hidden; pointer-events: none; }
+.hs-pill-clip > .hs-pill { position: absolute; top: 8px; }
+
+/* v26 — v25 с выбранными настройками (дирижёр 23.11): ровно по краю, круг 12 с, средний (120), яркость 35 %, один блик */
+[data-hs="v26"] { --gl-dur: 12s; --gl-size: 120px; --gl-a: .35; }
