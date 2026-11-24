@@ -1,0 +1,6 @@
+import{j as o}from"./iframe-D87XLeni.js";import{P as r}from"./PosIcon-Dw3Z6131.js";import"./preload-helper-PPVm8Dsz.js";const n={title:"Ядро/Атомы/Значок позиции/PosIcon v1",component:r},s={render:()=>o.jsx("div",{style:{display:"flex",gap:8},children:[1,2,3,4,5].map(e=>o.jsx(r,{pos:e},e))})};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    gap: 8
+  }}>{([1, 2, 3, 4, 5] as const).map(p => <PosIcon key={p} pos={p} />)}</div>
+}`,...s.parameters?.docs?.source}}};const c=["Все"];export{c as __namedExportsOrder,n as default,s as Все};

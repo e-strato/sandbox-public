@@ -1,0 +1,11 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8" /><title>О серии · v00 Sentry Bot</title>
+<style>body{margin:0;background:#000}img{display:block;width:100%;max-width:1440px;margin:0 auto}</style></head><body><img id="im" alt="">
+<script>
+function lab(axes, apply) { const cur = Object.fromEntries(axes.map((a) => [a.key, a.options[0].v])); apply(cur)
+  window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }), axes: () => axes.map((a) => ({ ...a, value: cur[a.key] })),
+    set(k, x) { cur[k] = x; apply(cur) }, toggles: () => [], toggle() {}, caption: () => '' } }
+const STATE = (opts) => [{ key: 'state', name: 'Состояние', options: opts }]
+
+const IM = { pre: 'v00-игроки.png', live: 'v00-идёт.png', post: 'v00-закончился.png' }
+lab(STATE([{ v: 'pre', label: 'Не начался' }, { v: 'live', label: 'Идёт' }, { v: 'post', label: 'Закончился' }]), (c) => { document.getElementById('im').src = IM[c.state] })
+</script></body></html>

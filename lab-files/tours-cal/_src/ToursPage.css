@@ -1,0 +1,26 @@
+/* Список турниров движка v8 (лаба tours-month v1–v13): строка идущих турниров вместо больших карточек (93-32) */
+.tmon-live { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-8) var(--space-12); }
+.tmon-live__t { display: inline-flex; align-items: center; gap: var(--space-6); color: var(--c-text-2); font: var(--type-caption-1-medium); }
+.tmon-live__t i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-brand); }   /* v2: без красного */
+.tmon-live__i { display: inline-flex; align-items: center; gap: var(--space-8); height: 36px; padding: 0 var(--space-12) 0 var(--space-6); border: 0; border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 8%, transparent); color: var(--c-text); font: var(--type-body-2); text-align: left; }
+.tmon-live__i.is-link { cursor: pointer; } .tmon-live__i.is-link:hover { background: color-mix(in srgb, var(--c-text) 14%, transparent); }
+.tmon-live__i img { width: 24px; height: 24px; object-fit: contain; }
+.tmon-live__i b { font-weight: 600; }
+.tmon-live__i .num { color: var(--c-text-2); }
+.tmon-live__i em { color: var(--c-brand-glow, var(--c-brand)); font: var(--type-caption-1-medium); font-style: normal; }
+
+/* v9: «Прошедшие» — та же шапка, что у календаря; своя шапка таблицы скрыта */
+.tmon-past .ettbl > .widget__hd, .tmon-past .widget > .widget__hd { display: none; }
+
+/* v11: не прыгает — полоса прокрутки всегда занимает место (в «Прошедших» страница короче, без неё всё сдвигалось вбок); после шапки — один отступ в обоих видах */
+html:has(.tmon) { scrollbar-gutter: stable; }
+.tmon .cal__hd { margin-bottom: var(--space-8); }
+.tmon-past .ettbl, .tmon-past .widget { margin-top: 0; }
+
+/* v12 (дирижёр 20.11: «при переключении скачет на несколько пикселей»): календарь открывается прокрученным к текущему месяцу — шапка прилипала к 52,
+   а в «Прошедших» (без прокрутки) стояла на своём месте 60 → скачок 8 px. Теперь прилипает ровно там, где стоит: 52 (шапка сайта) + 8 (отступ); щель над ней закрыта фоном */
+.tmon .cal__hd { top: 60px; }
+.tmon .cal__hd::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: var(--space-8); background: var(--w-page); }
+
+/* v13 (дирижёр 20.11: «таблица — в высоту экрана»): окно таблицы прошедших — до низа экрана, а не 10 строк: экран − шапка сайта и «Турниры Dota 2» (116) − строка «Всего» и поле снизу (112): страница ровно в экран, без своей прокрутки */
+@media (min-width: 800px) { .tmon-past .tbl2__box { height: calc(100dvh - 228px) !important; } }

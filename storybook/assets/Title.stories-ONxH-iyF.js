@@ -1,0 +1,7 @@
+import{j as s}from"./iframe-D87XLeni.js";import{T as a}from"./Title-CpMxLOBp.js";import{n as o}from"./news-G5j-wl9D.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";const l={title:"Сайт/Новости/Заголовок/Title v1",component:a,decorators:[t=>s.jsx("div",{style:{width:420,font:"500 13px/19px var(--font-sans)"},children:s.jsx(t,{})})],argTypes:{parts:{description:"Заголовок кусками: текст и упоминания (команды и турнир — с лого, игроки — с героем или фото)"},look:{control:"inline-radio",options:["tag","chip"],description:"tag — плашка 17 px (колонки, «Главное») · chip — плашка в строке текста (карточки ленты)"}}},n=()=>o().F.find(t=>/PARIVISION/.test(t.title)&&/Spirit/.test(t.title)),e={name:"Плашки (колонки, «Главное»)",render:()=>s.jsx(a,{parts:o().mark(n().title)})},r={name:"В строке (карточки ленты)",render:()=>s.jsx(a,{look:"chip",parts:o().chips(n())})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  name: 'Плашки (колонки, «Главное»)',
+  render: () => <Title parts={newsData().mark(n().title)} />
+}`,...e.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  name: 'В строке (карточки ленты)',
+  render: () => <Title look="chip" parts={newsData().chips(n())} />
+}`,...r.parameters?.docs?.source}}};const x=["Плашки","ВСтроке"];export{x as __namedExportsOrder,l as default,r as ВСтроке,e as Плашки};

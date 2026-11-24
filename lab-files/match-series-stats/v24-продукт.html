@@ -1,0 +1,17 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8" /><title>О серии · v24 продукт</title>
+<style>html,body{margin:0;background:#000}iframe{display:block;width:100%;height:100vh;border:0}</style></head><body><iframe scrolling="no"></iframe>
+<script>
+function lab(axes, apply) { const cur = Object.fromEntries(axes.map((a) => [a.key, a.options[0].v])); apply(cur)
+  window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }), axes: () => axes.map((a) => ({ ...a, value: cur[a.key] })),
+    set(k, x) { cur[k] = x; apply(cur) }, toggles: () => [], toggle() {}, caption: () => '' } }
+const STATE = (opts) => [{ key: 'state', name: 'Состояние', options: opts }]
+
+const f = document.querySelector('iframe')
+f.addEventListener('load', () => { const d = f.contentDocument, w = f.contentWindow
+  // «О серии» — жмём, пока не станет выбранной (страница может переключиться на карту после первой отрисовки)
+  let n = 0; const t = setInterval(() => { const b = d.querySelector('.mpage__main .segment__btn'); n++
+    if (b && !b.classList.contains('is-on') && n < 60) { b.click(); return } if (!b && n < 60) return; if (n < 6) return; clearInterval(t)
+    for (const el of d.querySelectorAll('body *')) { if (w.getComputedStyle(el).position === 'fixed') el.style.position = 'absolute' }
+    const fit = () => { const s = d.querySelector('.sst'); if (s) f.style.height = Math.ceil(s.getBoundingClientRect().bottom + w.scrollY + 64) + 'px' }; new w.ResizeObserver(fit).observe(d.querySelector('.sst') || d.body); fit() }, 100) })
+lab(STATE([{ v: 'pre0', label: 'Не начался' }, { v: 'live', label: 'Идёт' }, { v: 'post', label: 'Закончился' }]), (c) => { f.src = '../ui-pages/match-engine.html?state=' + c.state })
+</script></body></html>

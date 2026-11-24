@@ -1,0 +1,66 @@
+/* Лаба team-card-foot v1: низ карточки — кнопки и сегмент 34, фон --c-control (как шапка страницы и сегмент) */
+.lab-wrap { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
+.t-part__foot.lab-foot { height: 34px; gap: var(--space-8); }
+.lab-foot__b.btn--tonal { background: var(--c-control); color: var(--c-text-2); }
+.lab-foot__b.btn--tonal:hover:not(:disabled), .lab-foot__b[aria-pressed="true"] { background: var(--w-hover); color: var(--c-text); }
+.lab-foot .segment__btn { position: relative; overflow: visible; }
+.lab-foot .t-part__sup { top: 1px; right: 1px; }
+/* v2 (дирижёр 24.11): мельче — кнопки 26, сегмент 26 (отступ внутри 2, пункты уже), низ ближе к составу */
+.lab-v2 .t-part__foot.lab-foot { height: 26px; margin-top: var(--space-4); gap: var(--space-6); }
+.lab-v2 .lab-foot .segment { min-height: 26px; padding: 2px; border-radius: var(--radius-8); }
+.lab-v2 .lab-foot .segment__thumb { top: 2px; bottom: 2px; border-radius: var(--radius-6); }
+.lab-v2 .lab-foot .segment__btn { min-height: 22px; height: 22px; padding: 0 var(--space-6); border-radius: var(--radius-6); }
+.lab-v2 .lab-foot .segment__btn .icon { width: 16px; height: 16px; }
+.lab-v2 .lab-foot .t-part__sup { top: -2px; right: -2px; }
+/* v3 (дирижёр 24.11): над кнопками и под ними поровну — по 6 (строка состава 40 — текст по центру, ~10 снизу; поднимаем низ на 4) */
+.lab-v3 .t-part__foot.lab-foot { margin-top: -4px; }
+.lab-v3 .t-part__team { padding-bottom: var(--space-6); }
+/* счётчик запасных — заметнее: фиолетовый (акцент портала), чёрный с обводкой, белый; серый — как сейчас */
+.lab-badge--brand .lab-foot .t-part__sup { background: var(--c-brand); color: var(--c-on-brand); }
+.lab-badge--black .lab-foot .t-part__sup { background: #000; color: var(--c-text); box-shadow: 0 0 0 1px var(--w-ring); }
+.lab-badge--white .lab-foot .t-part__sup { background: var(--c-text); color: #000; }
+/* шапка и группа «Свернуть составы» — как на странице турнира (TournamentPage v6) */
+.lab-wrap .widget__hd, .lab-wrap .t-part__w { --widget-hd-h: 48px; --widget-title-font: var(--type-body-2-strong); }
+.lab-wrap .widget__hd { height: 48px; padding: 0 var(--space-16); border-bottom: 0; gap: var(--space-8); }
+.lab-wrap .widget__hd .t-part__ic { padding: 3px; border-radius: var(--radius-10); background: var(--c-control); }
+.lab-wrap .widget__hd .t-part__ib { height: 28px; min-width: 28px; }
+/* v4 (дирижёр 24.11: «снизу всё равно больше — хочу одинаково»): высота списка 268 = шапка MMR · GL2 20 + 6 строк по 40, но шапки в карточке нет — 20 лишних.
+   Список — 6 строк по 40 (240); от текста последней строки до кнопок 6, от кнопок до низа карточки 6 */
+.lab-v4 .t-part__list { height: 240px; }
+/* v5 (дирижёр 24.11: «иконки поменьше»): значки внизу карточки — 14 (было 16) и в кнопках, и в сегменте */
+.lab-v5 .lab-foot .segment__btn .icon, .lab-v5 .lab-foot .btn > .icon { width: 14px; height: 14px; }
+/* v6 (дирижёр 24.11: «карточка из трёх частей — заголовок, таблица, кнопки, между ними одинаковые отступы»): части по высоте содержимого, без запасов,
+   между ними и от краёв карточки сверху и снизу — 12; строки состава 40 — текст по центру, отступ строки сверху и снизу одинаковый */
+.lab-v6 .t-part__team { display: flex; flex-direction: column; gap: var(--space-12); padding-top: var(--space-12); padding-bottom: var(--space-12); }
+.lab-v6 .t-part__th { height: auto; }
+.lab-v6 .t-part__bd { display: flex; flex-direction: column; gap: var(--space-12); }
+.lab-v6 .t-part__list { height: auto; }
+.lab-v6 .t-part__foot.lab-foot { margin: 0; }
+/* v7 (дирижёр 24.11): средняя часть тянется на всю высоту — кнопки всегда внизу карточки, у короткого состава пусто в середине, а не под кнопками;
+   лого команды 18 и сдвиг 4 — как номер игрока (колонка 26, номер 18 по центру): левый край один */
+.lab-v7 .t-part__bd { flex: 1 1 auto; }
+.lab-v7 .t-part__list { flex: 1 1 auto; }
+.lab-v7 .t-part__logo { width: 18px; height: 18px; margin-left: 4px; }
+/* v8 (дирижёр 24.11) */
+/* команда в шапке карточки — тегом (как в таблицах), лого 18 над номерами игроков */
+.lab-v8 .lab-ttag { min-width: 0; }
+.lab-v8 .lab-ttag .t-part__logo { margin-left: 4px; }
+/* счётчик запасных — белый, крупнее, правее и выше */
+.lab-v8 .lab-foot .t-part__sup { min-width: 14px; height: 14px; padding: 0 4px; border-radius: var(--radius-full); background: var(--c-text); color: #000; font: var(--num-tag); line-height: 14px; top: -6px; right: -6px; }
+/* тренер не указан — тусклой строкой (если показываем); значок тренера — на выбор (Material Symbols Rounded) */
+.lab-coach--dim .rr__row--coach:has(.lab-co-none) { opacity: .5; }
+.lab-v8 .rr__co::before { font: 400 16px/1 'Material Symbols Rounded'; font-variation-settings: 'FILL' 1, 'wght' 500, 'opsz' 20; color: var(--c-text-2); }
+.lab-coic--sports .rr__co svg { display: none; } .lab-coic--sports .rr__co::before { content: 'sports'; }
+.lab-coic--headset_mic .rr__co svg { display: none; } .lab-coic--headset_mic .rr__co::before { content: 'headset_mic'; }
+.lab-coic--school .rr__co svg { display: none; } .lab-coic--school .rr__co::before { content: 'school'; }
+.lab-coic--record_voice_over .rr__co svg { display: none; } .lab-coic--record_voice_over .rr__co::before { content: 'record_voice_over'; }
+.lab-coic--psychology .rr__co svg { display: none; } .lab-coic--psychology .rr__co::before { content: 'psychology'; }
+.lab-coic--clinical_notes .rr__co svg { display: none; } .lab-coic--clinical_notes .rr__co::before { content: 'clinical_notes'; }
+/* «Свернуть составы» (v6–v8 не сворачивало: .lab-v6 .t-part__bd { display: flex } перебивал .t-part__team--col .t-part__bd { display: none }) */
+.lab-v6 .t-part__team--col .t-part__bd { display: none; }
+.lab-v6 .t-part__team--col:hover .t-part__bd { display: flex; }
+/* v10 (дирижёр 24.11: «тень криво накладывается»): «Свернуть составы» — одна кнопка 34, как «i»: без подложки-группы и обрезки, нажатая — светлее (#3f3f46), без фиолетового */
+.lab-v10 .widget__hd .t-part__hx-in { overflow: visible; }
+.lab-v10 .widget__hd .t-part__hx .t-part__ic { margin-left: 0; padding: 0; background: none; }
+.lab-v10 .widget__hd .t-part__hx .t-part__ib { width: 34px; height: 34px; border-radius: var(--radius-10); background: var(--c-control); color: var(--c-text); box-shadow: none; }
+.lab-v10 .widget__hd .t-part__hx .t-part__ib:hover, .lab-v10 .widget__hd .t-part__hx .t-part__ib[aria-pressed="true"] { background: var(--w-hover); }

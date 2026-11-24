@@ -1,7 +1,0 @@
-import{j as o}from"./iframe-BTXCYzrT.js";import{a as t}from"./data-BSiqXL3N.js";import{P as a}from"./PlayerHeader-DsM8wOsj.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./TourPageHeader-DUb0LnyA.js";import"./TierTag-DOSYRSKe.js";import"./tour-CFjSTYlq.js";import"./format-CX8-8sml.js";import"./state-DBQC2GVf.js";import"./Popover-Ba8nWsIO.js";import"./index-BcoB-uW2.js";import"./Breadcrumbs-Bjd2jSFI.js";import"./series-C_-vD55g.js";import"./EntityTag-DwmDt4GE.js";import"./Icon-LxMaqtAX.js";import"./PosIcon-CPMfAYiQ.js";/* empty css                     */const R={title:"Движок/Игрок/Шапка/PlayerHeader v1",component:a,tags:["concept"],parameters:{layout:"fullscreen",docs:{description:{component:"Страница игрока движка (концепт) — «Шапка». Стоит на странице игрока v1."}}},decorators:[s=>o.jsx("div",{className:"eng-surface",style:{padding:20,width:1016},children:o.jsx(s,{})})]},r={name:"Про · Yatoro",render:()=>o.jsx(a,{p:t("pro")})},e={name:"Паблик · Rasmus_=",render:()=>o.jsx(a,{p:t("pub")})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  name: 'Про · Yatoro',
-  render: () => <PlayerHeader p={player('pro')} />
-}`,...r.parameters?.docs?.source}}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
-  name: 'Паблик · Rasmus_=',
-  render: () => <PlayerHeader p={player('pub')} />
-}`,...e.parameters?.docs?.source}}};const h=["Pro","Pub"];export{r as Pro,e as Pub,h as __namedExportsOrder,R as default};

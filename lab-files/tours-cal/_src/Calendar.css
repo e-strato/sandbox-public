@@ -1,0 +1,121 @@
+/* Календарь турниров v10 (лаба tours-month v13): лента месяцев, режим «Год», полосы по дням игр; без красного — фиолетовым */
+.cal { color: var(--c-text); font: var(--type-body-2); }
+.cal__hd { position: sticky; top: 52px; z-index: 3; display: flex; align-items: center; gap: var(--space-12); padding: var(--space-10) 0; background: var(--w-page); }
+.cal__t { margin: 0; font: var(--type-title-3, var(--type-subtitle-1)); }
+.cal__sp { flex: 1; }
+.cal__list { display: flex; flex-direction: column; gap: var(--space-32); }
+.cal__m { scroll-margin-top: 110px; }
+.cal__m.is-zoom { animation: cal-zoom .42s cubic-bezier(.2, .8, .2, 1); }
+@keyframes cal-zoom { from { transform: scale(.22); opacity: 0; } 60% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cal__m.is-zoom { animation: none; } }
+.cal__mt { margin: 0 0 var(--space-8); font: var(--type-title-2); }
+.cal__mt span { color: var(--c-text-3); font-weight: 400; }
+.cal__wd { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-4); padding-bottom: var(--space-6); color: var(--c-text-3); font: var(--type-caption-1); }
+.cal__wd span { padding-left: var(--space-8); }
+.cal__grid { display: flex; flex-direction: column; gap: var(--space-4); }
+.cal__wk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-4); }
+/* день — плитка со скруглением 10, как блоки движка */
+.cal__day { position: relative; min-height: 108px; border-radius: var(--radius-10); background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.cal__day.is-none { background: none; }
+.cal__n { position: absolute; top: 6px; left: 6px; display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 5px; border-radius: 12px; color: var(--c-text-2); font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; }
+.cal__day.is-today { box-shadow: inset 0 0 0 1px var(--c-brand); }
+.cal__day.is-today .cal__n { background: var(--c-brand); color: var(--c-on-brand); }
+
+/* v2 — лого турниров в каждом дне */
+.cal__logos { display: flex; flex-wrap: wrap; align-content: flex-start; gap: var(--space-6); padding: 38px var(--space-8) var(--space-8); }
+.cal__lg { position: relative; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 8%, transparent); color: var(--c-text-2); font: var(--type-caption-2); }
+.cal__lg.is-t1 { background: color-mix(in srgb, var(--c-brand) 40%, transparent); }
+.cal__lg img { width: 24px; height: 24px; object-fit: contain; }
+.cal__lg.is-link { cursor: pointer; } .cal__lg.is-link:hover { outline: 1px solid var(--c-text-3); }
+.cal__lg em { position: absolute; top: -5px; right: -5px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--c-brand); color: var(--c-on-brand); font: var(--type-caption-2); font-style: normal; font-weight: 600; line-height: 16px; text-align: center; }
+.cal__logos small { align-self: center; color: var(--c-text-2); font: var(--type-caption-2); font-weight: 600; }
+
+/* v3 — полосы крупнее: 28, лого 20; у начала и конца дней игр скругление 8 с отступом 4, продолжение — до края плитки */
+.cal__wk--bars { grid-template-rows: 36px repeat(4, 28px) minmax(6px, 1fr); row-gap: 3px; }
+.cal__wk--bars .cal__day { grid-row: 1 / -1; min-height: 0; }
+.cal__more { position: absolute; right: 8px; top: 10px; color: var(--c-text-2); font: var(--type-caption-2); font-weight: 600; }
+.cal__bar { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--space-6); min-width: 0; height: 28px; margin: 0 calc(-1 * var(--space-2)); padding: 0 var(--space-8); border: 0; border-radius: 0;
+  background: color-mix(in srgb, var(--c-text) 12%, transparent); color: var(--c-text); font: var(--type-caption-1-medium); text-align: left; white-space: nowrap; overflow: hidden; }
+.cal__bar.is-head { margin-left: var(--space-4); border-top-left-radius: var(--radius-8); border-bottom-left-radius: var(--radius-8); }
+.cal__bar.is-tail { margin-right: var(--space-4); border-top-right-radius: var(--radius-8); border-bottom-right-radius: var(--radius-8); }
+.cal__bar.is-t1 { background: color-mix(in srgb, var(--c-brand) 50%, transparent); }
+.cal__bar img { flex: none; width: 20px; height: 20px; object-fit: contain; }
+.cal__bar b { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.cal__bar em { flex: none; margin-left: auto; padding: 0 var(--space-6); border-radius: var(--radius-4); background: var(--c-brand); color: var(--c-on-brand); font: var(--type-caption-2); font-style: normal; font-weight: 600; line-height: 18px; }
+.cal__bar.is-link { cursor: pointer; } .cal__bar.is-link:hover { filter: brightness(1.2); }
+
+/* «Год» — 12 мини-месяцев, дни с турнирами — фиолетовым по числу турниров, под месяцем — лого турниров месяца */
+.cal__year { display: flex; flex-direction: column; gap: var(--space-24); }
+.cal__yt { margin: 0 0 var(--space-10); font: var(--type-title-2); }
+.cal__ygrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-12); }
+.cal__ym { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12); border: 0; border-radius: var(--radius-10); background: color-mix(in srgb, var(--c-text) 6%, transparent); color: var(--c-text); text-align: left; cursor: pointer; }
+.cal__ym:hover { background: color-mix(in srgb, var(--c-text) 10%, transparent); }
+.cal__ym.is-cur b { color: var(--c-brand); }
+.cal__ym b { font: var(--type-subtitle-2); }
+.cal__ymg { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal__ymg i { display: grid; place-items: center; height: 20px; border-radius: 4px; color: var(--c-text-3); font: var(--type-caption-2); font-style: normal; font-variant-numeric: tabular-nums; }
+.cal__ymg i.has-t1 { background: color-mix(in srgb, var(--c-brand) 22%, transparent); color: var(--c-text); }
+.cal__ymg i.has-t2 { background: color-mix(in srgb, var(--c-brand) 40%, transparent); color: var(--c-text); }
+.cal__ymg i.has-t3 { background: color-mix(in srgb, var(--c-brand) 60%, transparent); color: var(--c-text); }
+.cal__ymg i.is-today { box-shadow: inset 0 0 0 1px var(--c-text); }
+.cal__ylg { display: flex; gap: var(--space-4); min-height: 18px; }
+.cal__ylg img { width: 18px; height: 18px; object-fit: contain; }
+
+@media (max-width: 799px) {
+  .cal__hd { flex-wrap: wrap; row-gap: var(--space-8); }
+  .cal__wk, .cal__wd, .cal__grid { gap: 2px; }
+  .cal__day { min-height: 64px; border-radius: var(--radius-6); }
+  .cal__n { top: 2px; left: 2px; min-width: 20px; height: 20px; font: var(--type-caption-2); font-weight: 600; }
+  .cal__logos { gap: 2px; padding: 24px 3px 3px; }
+  .cal__lg { width: 20px; height: 20px; border-radius: 4px; } .cal__lg img { width: 15px; height: 15px; }
+  .cal__lg em { top: -4px; right: -4px; min-width: 12px; height: 12px; padding: 0 2px; font-size: 9px; line-height: 12px; }
+  .cal__wk--bars { grid-template-rows: 26px repeat(4, 20px) minmax(4px, 1fr); row-gap: 2px; }
+  .cal__bar { height: 20px; padding: 0 3px; } .cal__bar b { display: none; } .cal__bar img { width: 14px; height: 14px; }
+  .cal__bar em { width: 6px; height: 6px; padding: 0; overflow: hidden; color: transparent; border-radius: 50%; }
+  .cal__ygrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* v4 (bars2, дирижёр 20.11 по v3): число дня — в правом нижнем углу; полосы ещё крупнее (34, лого 24), помещаются 3, больше — неделя растёт, без «+N»;
+   прошедшие дни — тише; полоса прошедшего турнира — тише, идущего (TI) — яркая и на прошедших днях */
+.cal--bars2 .cal__day .cal__n { top: auto; left: auto; right: 6px; bottom: 5px; }
+.cal--bars2 .cal__day.is-past { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.cal--bars2 .cal__day.is-past .cal__n { color: var(--c-text-3); }
+.cal--bars2 .cal__bar { height: 34px; gap: var(--space-8); padding: 0 var(--space-10); font: var(--type-body-2); font-weight: 500; }
+.cal--bars2 .cal__bar img { width: 24px; height: 24px; }
+.cal--bars2 .cal__bar.is-head, .cal--bars2 .cal__bar.is-tail { border-radius: var(--radius-8); }
+.cal--bars2 .cal__bar.is-head:not(.is-tail) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.cal--bars2 .cal__bar.is-tail:not(.is-head) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.cal--bars2 .cal__bar.is-done { opacity: .4; }
+.cal--bars2 .cal__bar.is-done:hover { opacity: .7; }
+@media (max-width: 799px) {
+  .cal--bars2:not(.cal--fill) .cal__wk--bars { grid-template-rows: 4px repeat(3, 22px) 22px !important; }
+  .cal--bars2 .cal__day .cal__n { right: 2px; bottom: 1px; }
+  .cal--bars2 .cal__bar { height: 22px; padding: 0 3px; } .cal--bars2 .cal__bar img { width: 16px; height: 16px; }
+}
+
+/* v5 (fill, дирижёр 20.11): полосы тянутся по высоте недели — один турнир на всю высоту, два — пополам и т. д.; полоса числа дня снизу не занята */
+.cal--fill .cal__wk--bars { min-height: 150px; }
+.cal--fill .cal__bar { height: auto; align-self: stretch; align-items: center; }
+@media (max-width: 799px) {
+  .cal--fill .cal__wk--bars { min-height: 96px; }
+  .cal--fill .cal__bar { height: auto; min-height: 18px; }
+}
+
+/* v6 (half): полоса — не выше половины недели: один турнир — половина, два — пополам, больше — делят дальше */
+
+/* v7: карточка дня при наведении (вид — Calendar v9) — под неделей, в последних двух днях — к правому краю */
+.cal__wk.has-card { z-index: 4; }
+.cal__card { top: calc(100% + var(--space-4)); text-align: left; }
+.cal__card.is-r { left: auto; right: 0; }
+.c9__dt-h > img { flex: none; width: 20px; height: 20px; object-fit: contain; }
+
+/* v8: наведённый день в полосе — светлее; карточка — сразу под полосой у этого дня */
+.cal__hl { position: relative; z-index: 2; margin: 0 1px; border-radius: var(--radius-6); background: color-mix(in srgb, var(--c-text) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-text) 30%, transparent); pointer-events: none; }
+.cal__hl .cal__card { top: calc(100% + var(--space-4)); pointer-events: auto; }
+.cal__hl .cal__card > small { margin-top: -2px; }
+
+/* v10: строка «Идут сейчас» — под шапкой календаря */
+.cal__below { margin-bottom: var(--space-16); }
+
+/* v11: «N матча сегодня» на полосе — фиолетовым текстом, как в «Идут сейчас» */
+.cal__bar em.is-text { padding: 0; background: none; color: var(--c-brand-glow, var(--c-brand)); font: var(--type-caption-1-medium); }

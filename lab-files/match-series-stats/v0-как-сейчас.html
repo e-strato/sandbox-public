@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>О серии · v0 · Как сейчас</title>
+<style>html, body { margin: 0; background: #000; } iframe { display: block; width: 100%; height: 100vh; border: 0; }</style>
+</head><body>
+<iframe src="../ui-pages/match-engine.html?state=pre0" scrolling="no"></iframe>
+<script>
+const f = document.querySelector('iframe'), CSS = "", JS = ""
+f.addEventListener('load', () => {
+  const d = f.contentDocument
+  if (CSS) { const s = d.createElement('style'); s.textContent = CSS; d.head.appendChild(s) }
+  if (JS) { const s = d.createElement('script'); s.textContent = JS; d.body.appendChild(s) }
+  for (const el of d.querySelectorAll('body *')) { const p = f.contentWindow.getComputedStyle(el).position; if (p === 'fixed') el.style.position = 'absolute' }
+  const fit = () => { f.style.height = d.documentElement.scrollHeight + 'px' }
+  new f.contentWindow.ResizeObserver(fit).observe(d.body); fit()
+})
+</script>
+</body></html>

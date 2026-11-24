@@ -1,0 +1,114 @@
+/* Лаба tour-chat-24 v1 — правки начальника из чата 24.11 поверх страницы турнира из продукта */
+
+/* 97-2: в таблицах — разделение между строк: линия 1 px сверху у каждой строки, кроме первой */
+.tbl2__t tbody tr.row2 + tr.row2 > td { background-image: linear-gradient(var(--c-border), var(--c-border)); background-size: 100% 1px; background-repeat: no-repeat; }
+
+/* 98-3: роль словом рядом со значком и цифрой */
+.rost--lab .rost__hp { gap: 6px; }
+.rost__role { color: var(--c-text-2); font: var(--type-caption-1); white-space: nowrap; }
+
+/* 99-4: лого 22 (тег L), аватары 24; цифры — Geist Mono 12, как в остальных таблицах (было Google Sans 11 — хуже читалось) */
+.rost--lab .rost__r td { height: 52px; }
+.rost--lab .rost__mmr5 { font: var(--num-caption-1); color: var(--c-text-2); padding-left: 6px; }
+.rost--lab .rost__t1 { font: var(--num-body-1-strong); }
+.rost--lab .rost__k { font: var(--num-caption-1); }
+.rost--lab .rost__t .etag b { font: var(--type-body-1-strong, 600 13px/18px var(--font-sans)); }
+
+/* 101-6: линия между зонами — как между строками (v2, дирижёр 24.11: «не так акцентно — зоны и так видны по подложке»; в v1 была ярче) */
+.dt3--zone-line .dt3-zone > td { border-top-color: var(--c-border); }
+
+/* 102-7: значок «i» вместо тех. строки, текст — подсказкой */
+.gs-info { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-6); color: var(--c-text-3); cursor: default; outline: none; }
+.gs-info:hover, .gs-info:focus-visible { color: var(--c-text); background: var(--c-surface-2); }
+.gs-info__tip { display: flex; flex-direction: column; gap: 2px; }
+
+/* 103-8: время вместо даты, счёт — зелёной плашкой, как в таблицах (Cell .c3__badge--up) */
+.tick__w { font: var(--num-caption-1); }
+.tick__s--b { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: var(--radius-4); background: color-mix(in srgb, var(--w-up) 20%, transparent); color: var(--w-up-fg); font: var(--num-tag); line-height: 16px; }
+.tick__m.is-live .tick__s--b { background: var(--w-muted); color: var(--c-text); }
+
+/* v2–v4: кнопка «i» в шапке таблицы — явная, на подложке, как «О турнире» в шапке страницы (.ph2-btn) */
+.lab-info { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none; height: 28px; padding: 0; border: 0; border-radius: var(--radius-8); background: var(--w-muted); color: var(--c-text); font: var(--type-caption-1-medium); cursor: pointer; }
+.lab-info:hover, .lab-info[data-state="delayed-open"], .lab-info[data-state="instant-open"] { background: var(--w-hover); }
+.lab-info--pill { width: 28px; }
+.lab-info--label { padding: 0 var(--space-10); }
+.lab-info--ring { width: 24px; height: 24px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 0 1px var(--c-text-3); color: var(--c-text-2); }
+.lab-info--ring:hover { box-shadow: inset 0 0 0 1px var(--c-text-2); color: var(--c-text); }
+.lab-info__tip { display: flex; flex-direction: column; gap: 2px; }
+
+/* v3–v5: содержимое подсказки «i» разложено (Info.tsx, ?tip=) */
+.lab-tip { display: flex; flex-direction: column; gap: 8px; min-width: 220px; max-width: 300px; padding: 2px 0; text-align: left; white-space: normal; }
+.lab-tip__h { font: var(--type-body-1-strong, 600 13px/18px var(--font-sans)); color: var(--c-text); }
+.lab-tip dl { margin: 0; }
+.lab-tip dd { margin: 0; }
+.lab-tip hr { width: 100%; height: 1px; margin: 0; border: 0; background: var(--c-border); }
+.lab-tip__lg { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 0; list-style: none; color: var(--c-text-2); font: var(--type-caption-1); }
+.lab-tip__lg li { display: flex; align-items: center; gap: 8px; }
+.lab-tip__sw { flex: none; width: 12px; height: 12px; border-radius: 3px; }
+.lab-tip__sw--up { background: color-mix(in srgb, var(--w-up) 45%, transparent); }
+.lab-tip__sw--down { background: color-mix(in srgb, var(--w-down) 45%, transparent); }
+.lab-tip__sw--mid { background: var(--w-muted); }
+.lab-tip__ic { flex: none; display: inline-grid; place-items: center; width: 12px; color: var(--c-text-3); }
+.lab-tip__ic.is-sw { color: var(--c-brand-glow, var(--c-brand)); }
+/* list: подпись слева тише, значение справа */
+.lab-tip--list dl { display: flex; flex-direction: column; gap: 4px; }
+.lab-tip--list dl > div { display: grid; grid-template-columns: 92px 1fr; gap: 12px; font: var(--type-caption-1); }
+.lab-tip--list dt { color: var(--c-text-3); }
+.lab-tip--list dd { color: var(--c-text); }
+/* tiles: плитки 2 в ряд, подпись мелко сверху, значение крупнее */
+.lab-tip--tiles { max-width: 320px; }
+.lab-tip--tiles dl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.lab-tip--tiles dl > div { display: flex; flex-direction: column; gap: 2px; padding: 6px 8px; border-radius: var(--radius-6); background: var(--w-muted); }
+.lab-tip--tiles dt { color: var(--c-text-3); font: var(--type-caption-2, 11px/14px var(--font-sans)); }
+.lab-tip--tiles dd { color: var(--c-text); font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); }
+/* legend: сначала что значат цвета и значки, факты — одной строкой ниже */
+.lab-tip--legend .lab-tip__lg { color: var(--c-text); }
+.lab-tip__facts { margin: 0; color: var(--c-text); font: var(--type-caption-1); }
+.lab-tip__facts span > span { color: var(--c-text-3); }
+.lab-tip__facts em { font-style: normal; color: var(--c-text-3); }
+
+/* v8 (дирижёр 24.11): «i» — всегда самая правая в шапке таблицы (после «Сбросить»), подписей рядом нет */
+.widget__actions .lab-info { order: 99; }
+.widget__sub:has(.lab-info) { margin-left: auto; overflow: visible; }
+/* v9 (дирижёр 24.11): «i» в правом углу шапки у всех таблиц одинаково — у «Участников» (шапка card) блок кнопок прижат вправо */
+.widget__hd:has(.lab-info) .widget__actions { margin-left: auto; }
+
+/* v10 (дирижёр 24.11): подсказки единообразно — подписи одной колонкой по самой длинной, значения в одну строку, без переносов */
+.lab-tip--list { min-width: 0; max-width: none; }
+.lab-tip--list dl { display: grid; grid-template-columns: max-content max-content; gap: 4px 16px; }
+.lab-tip--list dl > div { display: contents; }
+.lab-tip--list dt, .lab-tip--list dd { white-space: nowrap; font: var(--type-caption-1); }
+.lab-tip--list dd { font-variant-numeric: tabular-nums; }
+.lab-tip__lg li { white-space: nowrap; }
+.lab-tip__note { color: var(--c-text-3); font: var(--type-caption-1); white-space: nowrap; }
+
+/* v11 (дирижёр 24.11): «i» — во всех таблицах и в любом виде; плей-офф — шапка line как у группового этапа, сетке — поля сами */
+.lab-hd { display: flex; align-items: center; gap: var(--space-12); width: 100%; min-width: 0; }
+.lab-hd > .lab-info { margin-left: auto; }
+.widget__title:has(.lab-hd) { overflow: visible; }
+.widget--line > .brk__scroll { padding: var(--space-12) var(--space-16) var(--space-16); }
+/* v12 (дирижёр 24.11): сегмент и кнопки шапки — как segment-bg v15: цвет #202023, блик яркость 40 % · непрозрачность 30 %, ряд не ниже 34, пункт 28, кнопки шапки 34 */
+.segment { --seg-bg: #202023 !important; min-height: 34px; box-sizing: border-box; }
+.segment__thumb { background: linear-gradient(var(--c-surface), var(--c-surface)) padding-box,
+  linear-gradient(135deg, rgba(102, 102, 102, .3), rgba(102, 102, 102, 0) 30%, rgba(102, 102, 102, 0) 70%, rgba(102, 102, 102, .129)) border-box !important; }
+.segment--sm { border-radius: var(--radius-10); }
+.segment--sm .segment__thumb { border-radius: var(--radius-8); }
+.segment .segment__btn { min-height: 28px; height: auto; padding: 0 var(--space-10); border-radius: var(--radius-8); }
+.ph2-btn { min-height: 34px; border-radius: var(--radius-10); }
+.ph2-btn:not(.ph2-btn--live):not(:hover):not([data-state="open"]) { background: #202023; }
+/* v13 (дирижёр 24.11): шапка стадии без нижней линии и у групп, и у сетки — сегмент на одной высоте, при смене стадии не скачет на 1 px */
+.etpage__stage .widget--line > .widget__hd { border-bottom: 0; }
+/* v14 (дирижёр 24.11: «покажи, если сделаем 32»): ряд сегмента 32 (отступ 2, пункт 28 — как был), кнопки шапки 32 */
+.lab-seg32 .segment { min-height: 32px; padding: 2px; }
+.lab-seg32 .segment__thumb { top: 2px; bottom: 2px; }
+.lab-seg32 .ph2-btn { min-height: 32px; }
+/* v17 (дирижёр 24.11): одна шапка у всех виджетов страницы — заголовок слева одного размера, справа сегмент, рядом кнопки, «i» последней; высота 48, без черты снизу —
+   переключение вида и стадии не прыгает. Кнопки шапки — 34, как «О турнире» и сегмент */
+.etpage__l .widget__hd, .etpage__l .t-part__w { --widget-hd-h: 48px; --widget-title-font: var(--type-body-2-strong); }
+.etpage__l .widget__hd { height: 48px; padding: 0 var(--space-16); border-bottom: 0; gap: var(--space-8); }
+.etpage__l .widget__title { font: var(--type-body-2-strong); }
+.lab-hd > .segment { margin-left: auto; }
+.lab-hd > .segment + .lab-info { margin-left: 0; }
+.lab-info--pill { width: 34px; height: 34px; border-radius: var(--radius-10); background: var(--c-control); }
+.etpage__l .widget__hd .t-part__ic { padding: 3px; border-radius: var(--radius-10); background: var(--c-control); }
+.etpage__l .widget__hd .t-part__ib { height: 28px; min-width: 28px; }

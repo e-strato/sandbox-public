@@ -1,0 +1,64 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8" /><title>О серии · v28</title>
+<style>html,body{margin:0;background:#000}iframe{display:block;width:100%;height:100vh;border:0;visibility:hidden}iframe.is-ready{visibility:visible}</style></head><body><iframe id="pg" scrolling="no"></iframe>
+<script>
+function lab(axes, apply) { const cur = Object.fromEntries(axes.map((a) => [a.key, a.options[0].v])); apply(cur)
+  window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }), axes: () => axes.map((a) => ({ ...a, value: cur[a.key] })),
+    set(k, x) { cur[k] = x; apply(cur) }, toggles: () => [], toggle() {}, caption: () => '' } }
+const STATE = (opts) => [{ key: 'state', name: 'Состояние', options: opts }]
+
+
+function kick2(d) {
+  const k = d.querySelector('.sst__kick'); if (!k) return
+  const tags = [...d.querySelectorAll('.ph-d .etag--team')].slice(0, 2), time = k.querySelector('b')?.textContent || '', inn = k.querySelector('em')?.textContent || ''
+  const t = (i) => '<span class="sxsc__t">' + (i ? '<img src="' + tags[i].querySelector('img').getAttribute('src') + '" alt="">' + tags[i].outerHTML : tags[i].outerHTML + '<img src="' + tags[i].querySelector('img').getAttribute('src') + '" alt="">') + '</span>'
+  const el = d.createElement('div'); el.className = 'sxsc'
+  el.innerHTML = '<span class="sxsc__top">Начало матча · <b class="sxsc__in">' + inn + '</b></span><div class="sxsc__vs">' + t(0) + '<span class="sxsc__n">' + time + '</span>' + t(1) + '</div><div class="sxsc__maps"><span class="sxsc__cap">Страница сама откроет карту, как только начнётся драфт</span></div>'
+  k.replaceWith(el)
+}
+
+function score2(d, state) {
+  const sst = d.querySelector('.sst'); if (!sst || state === 'pre0' || sst.querySelector('.sxsc')) return
+  const tags = [...d.querySelectorAll('.ph-d .ph-title .etag--team')].slice(0, 2), sc = d.querySelector('.ph-d .ph-score')?.textContent.trim() || '0 : 0'
+  const [a, b] = sc.split(':').map((x) => +x.trim())
+  const tabs = [...(d.querySelector('.mpage__main .segment')?.querySelectorAll('.segment__btn') ?? [])].slice(1)
+  const live = tabs.find((x) => x.querySelector('.match-header__live')), min = live?.querySelector('.match-header__min')?.textContent || ''
+  const tagOf = (alt) => { const t = tags.find((x) => x.title === alt || x.title.includes(alt) || alt.includes(x.title)); return t ? t.outerHTML.replace('etag--l', 'etag--s') : alt }
+  const done = state === 'post', win = a > b ? 0 : 1
+  const maps = tabs.map((x, i) => { const w = x.querySelector('.match-header__won img'), l = x.querySelector('.match-header__live')
+    return w ? '<span class="sxsc__m"><b>Map ' + (i + 1) + '</b>' + tagOf(w.alt) + '</span>'
+      : l ? '<span class="sxsc__m is-live"><b>Map ' + (i + 1) + '</b><i></i>идёт · ' + min + '</span>'
+      : done ? '' : '<span class="sxsc__m is-next"><b>Map ' + (i + 1) + '</b>если понадобится</span>' }).join('')
+  const top = done ? 'Матч завершён · Bo' + tabs.length : '<i></i>Идёт · Map ' + (tabs.indexOf(live) + 1) + ' · <b>' + min + '</b>'
+  const t = (k) => '<span class="sxsc__t' + (done && k !== win ? ' is-lost' : '') + '">' + (k ? '<img src="' + tags[k].querySelector('img').getAttribute('src') + '" alt="">' + tags[k].outerHTML : tags[k].outerHTML + '<img src="' + tags[k].querySelector('img').getAttribute('src') + '" alt="">') + '</span>'
+  const el = d.createElement('div'); el.className = 'sxsc'
+  el.innerHTML = '<span class="sxsc__top">' + top + '</span><div class="sxsc__vs">' + t(0) + '<span class="sxsc__n">' + a + ' : ' + b + '</span>' + t(1) + '</div><div class="sxsc__maps">' + maps + '</div>'
+  sst.prepend(el)
+}
+// до начала: виджет прогнозов с live-страницы (те же классы и вид), один вопрос «Кто выиграет серию?» с командами этого матча
+function prePredict(d, w) {
+  const side = d.querySelector('.mpage__side'); if (!side || side.querySelector('.epq')) return
+  const hf = document.createElement('iframe'); hf.style.cssText = 'position:absolute;left:-9999px;width:1440px;height:900px'; hf.src = '../ui-pages/match-engine.html?state=live'; document.body.appendChild(hf)
+  hf.addEventListener('load', () => { let n = 0; const t = setInterval(() => { const e = hf.contentDocument.querySelector('.epq'); if (!e && ++n < 60) return; clearInterval(t); if (!e) return
+    const box = d.createElement('div'); box.innerHTML = e.outerHTML; const q = box.firstElementChild; q.classList.add('sx-pre')
+    const tags = [...d.querySelectorAll('.ph-d .ph-title .etag--team')].slice(0, 2)
+    q.querySelector('.epq__tabs .segment__btn small')?.replaceChildren('1')
+    const qq = q.querySelector('.epq__q'); if (qq) { const i = qq.querySelector('.epq__i'); qq.replaceChildren('Кто выиграет серию? '); if (i) qq.append(i) }
+    const ops = [...q.querySelectorAll('.epq__out')], pct = [46, 54]
+    ops.forEach((o, k) => { const tg = tags[k]; if (!tg) return
+      const plain = '<span class="etag etag--m etag--team etag--plain"><span class="etag__pic"><img src="' + tg.querySelector('img').getAttribute('src') + '" alt=""></span><span class="etag__name">' + tg.title + '</span></span>'
+      o.querySelector('.epq__ol').innerHTML = plain; o.querySelector('.epq__op b').textContent = '+' + (k ? 9 : 11); o.querySelector('.epq__op small').textContent = pct[k] + '%' })
+    side.prepend(q); hf.remove() }, 100) })
+}
+
+const f = document.getElementById('pg'), CSS3 = ".sxsc { border: 0 !important; background: none !important; padding: 8px 0 4px !important; } .sst__kick { visibility: hidden; }", CSS2 = "\n.sxsc__t .etag { font: 600 20px/26px var(--font-sans); }\n.sxsc__in { color: var(--c-brand) !important; font-weight: 500; }\n.sxsc__cap { display: inline-flex; align-items: center; height: 28px; font: var(--type-caption-2); color: var(--c-text-3); }\n.sxsc__t .etag--l { --etag-pic: 22px; }\n", CSS = "\n.sxsc { display: flex; flex-direction: column; align-items: center; gap: var(--space-16); padding: 32px var(--space-16) 28px; margin-bottom: 0; border: 1px solid color-mix(in srgb, var(--c-text) 9%, transparent); border-radius: var(--radius-12); background: var(--w-surface); }\n.sxsc__top { display: flex; align-items: center; gap: var(--space-6); font: var(--type-caption-1); color: var(--c-text-2); }\n.sxsc__top i, .sxsc__m.is-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--wts-violet); box-shadow: none; animation: match-header-blink 1.4s ease-in-out infinite; }\n.sxsc__top b { font: 500 12px/16px var(--font-mono); color: var(--c-text); }\n.sxsc__vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; width: 100%; max-width: 760px; }\n.sxsc__t { display: flex; align-items: center; gap: var(--space-16); min-width: 0; }\n.sxsc__t:first-child { justify-content: flex-end; text-align: right; }\n.sxsc__t img { width: 56px; height: 56px; object-fit: contain; flex: none; }\n.sxsc__t b { font: 600 20px/26px var(--font-sans); color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.sxsc__t.is-lost { opacity: .45; }\n.sxsc__n { font: 500 56px/60px var(--font-mono); color: var(--c-text); letter-spacing: .02em; }\n.sxsc__maps { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8); }\n.sxsc__m { display: inline-flex; align-items: center; gap: var(--space-6); height: 28px; padding: 0 var(--space-10) 0 var(--space-8); border-radius: 6px; background: color-mix(in srgb, var(--c-text) 5%, transparent); font: var(--type-caption-2); color: var(--c-text-3); }\n.sxsc__m img { width: 16px; height: 16px; object-fit: contain; }\n.sxsc__m b { font-weight: 500; color: var(--c-text-2); }\n.sxsc__m.is-live { color: var(--c-text); }\n.sxsc__m.is-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--w-down); }\n.sxsc__m.is-next { opacity: .5; }\n.sst > .sxsc + .sst__h3 { margin-top: 32px; }\n\n.sxsc__t .etag { font: 600 20px/26px var(--font-sans); }\n.sxsc__t .etag__pic { display: none; }\n.sxsc__m .etag { font: inherit; color: var(--c-text-2); }\n.mpage__side > :first-child { margin-top: 20px; }\n.sxsc .sxsc__m.is-live i { background: var(--wts-violet); }\n.mpage__side > .epq.sx-pre .epq__q { min-height: 0; }\n"
+let state = 'live'
+f.addEventListener('load', () => { const d = f.contentDocument, w = f.contentWindow
+  const st = d.createElement('style'); st.textContent = CSS + CSS2 + CSS3; d.head.appendChild(st)
+  // «О серии» — жмём, пока не станет выбранной (страница может переключиться на карту после первой отрисовки)
+  let n = 0; const t = setInterval(() => { const b = d.querySelector('.mpage__main .segment__btn'); n++
+    if (b && !b.classList.contains('is-on') && n < 60) { b.click(); return } if (!b && n < 60) return; if (n < 6) return; clearInterval(t)
+    setTimeout(() => { score2(d, state); if (state === 'pre0') { kick2(d); prePredict(d, w) }; f.classList.add('is-ready') }, 50)
+    for (const el of d.querySelectorAll('body *')) { if (w.getComputedStyle(el).position === 'fixed') el.style.position = 'absolute' }
+    const fit = () => { const s = d.querySelector('.sst'); if (s) f.style.height = Math.ceil(s.getBoundingClientRect().bottom + w.scrollY + 64) + 'px' }; new w.ResizeObserver(fit).observe(d.querySelector('.sst') || d.body); fit() }, 100) })
+lab(STATE([{ v: 'live', label: 'Идёт' }, { v: 'post', label: 'Закончился' }, { v: 'pre0', label: 'Не начался' }]), (c) => { state = c.state; f.classList.remove('is-ready'); f.src = '../ui-pages/match-engine.html?state=' + c.state })
+</script></body></html>

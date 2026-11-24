@@ -1,0 +1,12 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8" /><title>О серии · v23 · Закончился</title>
+<style>html,body{margin:0;background:#000}iframe{display:block;width:100%;height:100vh;border:0}</style></head><body>
+<iframe src="../ui-pages/match-engine.html?state=post" scrolling="no"></iframe>
+<script>
+const f = document.querySelector('iframe'); f.addEventListener('load', () => {
+  const d = f.contentDocument, w = f.contentWindow
+  let n = 0; const t = setInterval(() => { const b = d.querySelector('.mpage__main .segment__btn'); if (!b && ++n < 60) return; clearInterval(t)
+    if (b) b.click()
+    for (const el of d.querySelectorAll('body *')) { if (w.getComputedStyle(el).position === 'fixed') el.style.position = 'absolute' }
+    const fit = () => { f.style.height = d.documentElement.scrollHeight + 'px' }; new w.ResizeObserver(fit).observe(d.body); fit() }, 100)
+})
+</script></body></html>

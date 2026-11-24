@@ -1,0 +1,28 @@
+/* Лаба user-profile v3 — поверх v2 */
+/* шапка без крошек; «Настройки» — справа в блоке шапки */
+.up3 .ph2-crumbs { display: none; }
+.up3-hd { position: relative; }
+.up3-hd > .popover, .up3-hd > :last-child:not(.ph2-wrap) { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+.up3-set { display: flex; flex-direction: column; min-width: 240px; }
+.up3-set__r { display: flex; justify-content: space-between; gap: var(--space-16); height: 32px; align-items: center; font: var(--type-caption-1); color: var(--c-text-2); }
+.up3-set__r b { font-weight: 500; color: var(--c-text); }
+
+.up3-cap { display: block; margin: var(--space-12) 4px var(--space-4); font: var(--type-caption-2-medium); color: var(--c-text-3); }
+.up2-type .up3-cap:first-child { margin-top: 0; }
+
+/* кошелёк — последние начисления */
+.up3-op { display: flex; align-items: center; gap: var(--space-8); min-height: 40px; padding: 0 4px; }
+.up3-op + .up3-op { border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.up3-op__m { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; min-width: 0; font: var(--type-caption-2); color: var(--c-text-2); }
+.up3-op__m i { font-style: normal; color: var(--c-text-3); }
+.up3-op__m small { flex-basis: 100%; padding-left: 2px; font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.up3-op > b { margin-left: auto; font: 500 12px/16px var(--font-mono); color: var(--c-text-3); padding: 2px 6px; border-radius: 5px; background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.up3-op > b.is-up { color: var(--c-text); background: color-mix(in srgb, var(--c-brand) 35%, transparent); }
+
+/* ждут итога — когда */
+.up3-when { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font: var(--type-caption-2); color: var(--c-text-3); }
+.up3-when.is-live { color: var(--c-text); }
+.up3-when i { width: 6px; height: 6px; border-radius: 50%; background: var(--wts-violet); }
+.up2-wait__a .num:not(b) { color: var(--c-text-3); }
+.up2-type__r > span:first-child { min-width: 0; overflow: hidden; }
+@media (min-width: 800px) { .up3 .etpage__r { margin-top: 0; } }   /* без крошек шапка выше — колонка вровень с ней */

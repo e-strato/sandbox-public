@@ -1,7 +1,0 @@
-import{j as t}from"./iframe-BTXCYzrT.js";import{h as a}from"./data-CQXhoq5k.js";import{H as o}from"./HeroHeader-DRny5tOn.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./TourPageHeader-DUb0LnyA.js";import"./TierTag-DOSYRSKe.js";import"./tour-CFjSTYlq.js";import"./format-CX8-8sml.js";import"./state-DBQC2GVf.js";import"./Popover-Ba8nWsIO.js";import"./index-BcoB-uW2.js";import"./Breadcrumbs-Bjd2jSFI.js";import"./series-C_-vD55g.js";import"./EntityTag-DwmDt4GE.js";import"./Icon-LxMaqtAX.js";/* empty css                     */const _={title:"Движок/Герой/Шапка/HeroHeader v1",component:o,tags:["concept"],parameters:{layout:"fullscreen",docs:{description:{component:"Страница героя движка (концепт) — «Шапка». Стоит на странице героя v1. Герои — TI 2026 из базы."}}},decorators:[s=>t.jsx("div",{className:"eng-surface hp",style:{padding:20,width:1040},children:t.jsx(s,{})})]},r={name:"Earth Spirit",render:()=>t.jsx(o,{h:a("earth_spirit")})},e={name:"Treant Protector · банят чаще всех",render:()=>t.jsx(o,{h:a("treant")})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  name: 'Earth Spirit',
-  render: () => <HeroHeader h={hero('earth_spirit')} />
-}`,...r.parameters?.docs?.source}}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
-  name: 'Treant Protector · банят чаще всех',
-  render: () => <HeroHeader h={hero('treant')} />
-}`,...e.parameters?.docs?.source}}};const v=["EarthSpirit","Treant"];export{r as EarthSpirit,e as Treant,v as __namedExportsOrder,_ as default};

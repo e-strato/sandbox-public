@@ -1,1 +1,0 @@
-const e=()=>typeof window<"u"&&window.DB?.team("team-spirit")?.name||"Команда 1",a={balance:1240,reserved:150,avatar:"gs-match/img/heroes/snapfire.png"},t=()=>[{q:"Первая кровь до 3′",v:30,ok:!0},{q:"Map 1 — победа "+e(),v:50,ok:!0}];export{a as M,t as m};

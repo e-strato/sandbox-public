@@ -1,0 +1,12 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8" /><title>О серии · v20 в продукте</title>
+<style>html,body{margin:0;background:#000;color:#a1a1aa;font:500 13px/18px system-ui}p{margin:24px 32px 8px;color:#fafafa;font-size:15px}iframe{display:block;width:100%;height:100vh;border:0}</style></head><body>
+<p>До матча</p><iframe data-s="pre0" src="../ui-pages/match-engine.html?state=pre0" scrolling="no"></iframe><p>Драфт</p><iframe data-s="draft" src="../ui-pages/match-engine.html?state=draft" scrolling="no"></iframe><p>Идёт</p><iframe data-s="live" src="../ui-pages/match-engine.html?state=live" scrolling="no"></iframe><p>После</p><iframe data-s="post" src="../ui-pages/match-engine.html?state=post" scrolling="no"></iframe>
+<script>
+for (const f of document.querySelectorAll('iframe')) f.addEventListener('load', () => {
+  const d = f.contentDocument, w = f.contentWindow
+  let n = 0; const t = setInterval(() => { const b = d.querySelector('.mpage__main .segment__btn'); if (!b && ++n < 60) return; clearInterval(t)
+    if (b) b.click()
+    for (const el of d.querySelectorAll('body *')) { const p = w.getComputedStyle(el).position; if (p === 'fixed' || p === 'sticky') el.style.position = 'relative' }
+    const fit = () => { f.style.height = d.documentElement.scrollHeight + 'px' }; new w.ResizeObserver(fit).observe(d.body); fit() }, 100)
+})
+</script></body></html>

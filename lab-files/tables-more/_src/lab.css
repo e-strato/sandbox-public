@@ -1,0 +1,27 @@
+/* Лаба tables-more — показ длинных таблиц */
+tr.more-hide { display: none; }
+/* кнопка под таблицей: по центру, 34, под ней «10 из 96» */
+.more-foot { display: flex; align-items: center; justify-content: center; gap: var(--space-12); padding: var(--space-12) var(--space-16) var(--space-16); }
+.more-btn.btn--tonal { min-width: 200px; background: var(--c-control); }
+.more-btn.btn--tonal:hover { background: var(--w-hover); }
+.more-sub { color: var(--c-text-3); font: var(--type-caption-1); font-variant-numeric: tabular-nums; }
+/* прокрутка внутри: тело таблицы — 10 строк, шапка таблицы липнет */
+.more-scroll .tbl2__box { max-height: calc(36px + 10 * 44px); overflow: auto; }
+.more-scroll thead th { position: sticky; top: 0; z-index: 2; }
+/* затухание: последняя видимая строка уходит в фон, кнопка — поверх неё */
+:is(.more--fade, .more--fade2) .more-cut .tbl2__box { position: relative; }
+:is(.more--fade, .more--fade2) .more-cut .tbl2__box::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 88px; background: linear-gradient(transparent, var(--c-surface)); pointer-events: none; }
+:is(.more--fade, .more--fade2) .more-cut > .more-foot { margin-top: -40px; position: relative; z-index: 3; padding-top: 0; }
+/* v6: две кнопки рядом — по ширине текста */
+.more--fade2 .more-btn.btn--tonal { min-width: 0; }
+/* ‼️ дирижёр 24.11: «ни в какой таблице не должно быть внутренней прокрутки — таблица просто растёт в высоту».
+   В продукте общая таблица (DataTable v4, windowRows = 10) сама задаёт окно на 10 строк и прокрутку внутри + подпись «прокрути таблицу».
+   Во всех вариантах, кроме «как сейчас», окно снято: высота — по строкам, подпись под таблицей убрана (вместо неё — наши кнопки) */
+/* колесо над таблицей крутит страницу: у коробки таблицы overscroll-behavior: none (Table v2, против «резинки») — он не отдаёт прокрутку странице;
+   по вертикали коробке прокрутка не нужна совсем — overflow-y: hidden, а «резинку» гасим только по горизонтали */
+html:not(.more--now) .etpage__l .tbl2__box { height: auto !important; max-height: none !important; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; overscroll-behavior-x: none; }
+html:not(.more--now) .etpage__l .dt3__ft { display: none; }
+/* плавно (дирижёр 24.11): высота таблицы едет 300 мс, новые строки проявляются лесенкой */
+html:not(.more--now) .etpage__l .tbl2__box.more-anim { height: var(--h) !important; overflow: hidden; transition: height .3s cubic-bezier(.2, 0, 0, 1); }
+tr.more-in { animation: more-in .32s cubic-bezier(.2, 0, 0, 1) both; }
+@keyframes more-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }

@@ -1,0 +1,245 @@
+/* Лаба tours-cal v1 — правки начальника 24.11 (104-9). Номера в скобках — пункты задачи */
+
+/* (3) справа — колонка с нашими виджетами, как у страницы турнира */
+.etours__main.tc-main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--layout-col-gap, var(--space-16)); align-items: start; }
+.tc-l { min-width: 0; display: flex; flex-direction: column; gap: var(--layout-widget-gap); }
+.tc-r { position: sticky; top: 60px; }
+@media (max-width: 1100px) { .etours__main.tc-main { grid-template-columns: minmax(0, 1fr); } .tc-r { position: static; } }
+
+/* (2) турниры логотипами в шапке «Турниры Dota 2 · Календарь / Прошедшие»; лента — если не влезают */
+.tc-sw { flex: 1; min-width: 0; display: flex; gap: var(--space-4); overflow-x: auto; scrollbar-width: none; }
+.tc-sw::-webkit-scrollbar { display: none; }
+.tc-sw__i { flex: none; display: inline-flex; align-items: center; gap: var(--space-6); height: 32px; padding: 0 var(--space-10) 0 var(--space-6); border: 0; border-radius: var(--radius-8);
+  background: color-mix(in srgb, var(--c-text) 6%, transparent); color: var(--c-text-2); font: var(--type-caption-1-medium); cursor: pointer; }
+.tc-sw__i:hover { background: color-mix(in srgb, var(--c-text) 12%, transparent); color: var(--c-text); }
+.tc-sw__i img { width: 20px; height: 20px; object-fit: contain; }
+.tc-sw__i.is-on { background: color-mix(in srgb, var(--tc) 45%, var(--w-page)); color: var(--c-text); }
+
+/* (1) свой цвет турнира, (4) лого и короткий тег; без лого — кружок с буквами его цвета */
+.cal .tc-bar { background: color-mix(in srgb, var(--tc) 42%, var(--w-page)); }
+.cal .tc-bar.is-dim { opacity: .25; }
+.cal .tc-bar.is-sel { background: color-mix(in srgb, var(--tc) 70%, var(--w-page)); }
+.tc-ini { flex: none; display: inline-grid; place-items: center; border-radius: 50%; color: #fff; font: 700 9px/1 var(--font-sans, system-ui); font-style: normal; letter-spacing: 0; }
+
+/* v3 (5): низ дня одной строкой на общей линии: слева «N матчей», справа «Сегодня» и число — одинаковым шрифтом, по центру строки */
+.cal--bars2 .cal__day .tc-ft { position: absolute; left: var(--space-8); right: 6px; bottom: 5px; display: flex; align-items: center; gap: var(--space-6); height: 24px; }
+.cal--bars2 .cal__day .tc-ft .cal__n { position: static; margin-left: auto; }
+.tc-ft .tc-cnt { color: var(--c-text-2); font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* (6) прошедшие дни — серой вуалью поверх и дня, и полосы; (7) сегодня — фиолетовым */
+.tc-veil { position: relative; z-index: 2; pointer-events: none; border-radius: var(--radius-10); background: color-mix(in srgb, var(--w-page) 62%, transparent); }
+.cal .cal__hl { z-index: 6; }
+.cal .cal__day.is-past { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.cal .cal__day.is-today { background: color-mix(in srgb, var(--c-brand) 22%, transparent); box-shadow: inset 0 0 0 2px var(--c-brand); }
+.tc-ft .tc-today { margin-left: auto; color: var(--c-brand-glow, var(--c-brand)); font: var(--type-caption-1-medium); }
+.tc-ft .tc-today + .cal__n { margin-left: 0; }
+.cal__day.is-today .tc-cnt { color: var(--c-text); }
+.cal__day.is-past .tc-cnt { color: var(--c-text-3); }
+
+/* v3 (2): турниры сегментом второй строкой шапки — «Все» и логотипы; не влезают — лента листается внутри */
+.cal__hd { flex-wrap: wrap; row-gap: var(--space-8); }
+.tc-swr { flex: 0 0 100%; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tc-swr::-webkit-scrollbar { display: none; }
+.tc-swr .segment { width: max-content; }
+.tc-sg { display: inline-grid; place-items: center; width: 20px; height: 20px; }
+.tc-sg img { width: 20px; height: 20px; object-fit: contain; }
+
+/* «Год» v3 — мини-месяцы цветами турниров */
+.tcy-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-12); }
+.tcy-m { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16); border: 0; border-radius: var(--radius-12); background: color-mix(in srgb, var(--c-text) 5%, transparent); color: var(--c-text); text-align: left; cursor: pointer; }
+.tcy-m:hover { background: color-mix(in srgb, var(--c-text) 9%, transparent); }
+.tcy-m > b { font: var(--type-subtitle-1, var(--type-subtitle-2)); } .tcy-m > b span { color: var(--c-text-3); font-weight: 400; }
+.tcy-m.is-cur > b { color: var(--c-brand-glow, var(--c-brand)); }
+.tcy-wd, .tcy-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.tcy-wd i { color: var(--c-text-3); font: var(--type-caption-2); font-style: normal; text-align: center; }
+.tcy-days i { display: grid; place-items: center; height: 26px; border-radius: 6px; color: var(--c-text-3); font: var(--type-caption-1-medium); font-style: normal; font-variant-numeric: tabular-nums; }
+.tcy-days i.has-t { color: #fff; }
+.tcy-days i.is-past { opacity: .4; }
+.tcy-days i.is-today { box-shadow: 0 0 0 2px var(--c-text); opacity: 1; }
+.tcy-days i.is-none { visibility: hidden; }
+.tcy-tags { display: flex; flex-wrap: wrap; gap: var(--space-4); min-height: 24px; }
+.tcy-tag { display: inline-flex; align-items: center; gap: var(--space-4); height: 24px; padding: 0 var(--space-8) 0 var(--space-4); border-radius: var(--radius-6); background: color-mix(in srgb, var(--tc) 40%, var(--w-page)); font: var(--type-caption-1-medium); }
+.tcy-tag img { width: 16px; height: 16px; object-fit: contain; }
+
+/* «Год» v4 — таймлайн */
+.tcy-gantt { position: relative; display: flex; flex-direction: column; gap: 6px; }
+.tcy-g-hd, .tcy-g-row { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--space-12); align-items: center; }
+.tcy-g-hd { position: sticky; top: 156px; z-index: 2; height: 32px; background: var(--w-page); }
+.tcy-g-ms { position: relative; height: 32px; }
+.tcy-g-ms button { position: absolute; top: 0; height: 32px; padding: 0 var(--space-8); border: 0; border-left: 1px solid color-mix(in srgb, var(--c-text) 14%, transparent); background: none; color: var(--c-text-2); font: var(--type-caption-1-medium); cursor: pointer; }
+.tcy-g-ms button:hover { color: var(--c-text); }
+.tcy-g-row { height: 36px; }
+.tcy-g-name { display: flex; align-items: center; gap: var(--space-8); min-width: 0; }
+.tcy-g-name img { width: 20px; height: 20px; object-fit: contain; }
+.tcy-g-name b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-body-2); font-weight: 500; }
+.tcy-g-name small { margin-left: auto; flex: none; color: var(--c-text-3); font: var(--type-caption-1); }
+.tcy-g-track { position: relative; height: 36px; border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.tcy-g-track::after { content: ''; position: absolute; top: -3px; bottom: -3px; left: var(--tcy-now); width: 2px; background: var(--c-brand); }
+.tcy-g-bar { position: absolute; top: 6px; bottom: 6px; padding: 0; border: 0; border-radius: 6px; background: var(--tc); cursor: pointer; }
+.tcy-g-bar.is-past { opacity: .4; }
+.tcy-g-bar:hover { filter: brightness(1.2); }
+
+/* «Год» v5 — список по месяцам */
+.tcy-list { display: flex; flex-direction: column; }
+.tcy-l-m { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--space-16); padding: var(--space-16) 0; border-top: 1px solid color-mix(in srgb, var(--c-text) 10%, transparent); }
+.tcy-l-t { align-self: start; display: flex; flex-direction: column; padding: 0; border: 0; background: none; color: var(--c-text); text-align: left; cursor: pointer; }
+.tcy-l-t b { font: var(--type-title-3, var(--type-subtitle-1)); } .tcy-l-t span { color: var(--c-text-3); font: var(--type-caption-1); }
+.tcy-l-m.is-cur .tcy-l-t b { color: var(--c-brand-glow, var(--c-brand)); }
+.tcy-l-rows { display: flex; flex-direction: column; gap: 4px; }
+.tcy-l-r { display: grid; grid-template-columns: 220px 120px minmax(0, 1fr); gap: var(--space-12); align-items: center; height: 36px; padding: 0 var(--space-8); border: 0; border-radius: var(--radius-8); background: none; color: var(--c-text); text-align: left; cursor: pointer; }
+.tcy-l-r:hover { background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.tcy-l-n { display: flex; align-items: center; gap: var(--space-8); min-width: 0; }
+.tcy-l-n img { width: 20px; height: 20px; object-fit: contain; }
+.tcy-l-n b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-body-2); font-weight: 500; }
+.tcy-l-r small { color: var(--c-text-3); font: var(--type-caption-1); }
+.tcy-l-strip { display: grid; gap: 2px; height: 14px; }
+.tcy-l-strip i { border-radius: 3px; background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.tcy-l-strip i.on { background: var(--tc); }
+.tcy-l-strip i.is-past.on { opacity: .45; }
+.tcy-l-strip i.is-today { box-shadow: 0 0 0 1.5px var(--c-text); }
+.tcy-l-0 { margin: 0; color: var(--c-text-3); font: var(--type-body-2); line-height: 36px; }
+
+/* v6 (2): бренды сегментом + прыжок к прошлому / следующему турниру бренда */
+.tc-swr { display: flex; align-items: center; gap: var(--space-12); overflow: visible; }
+.tc-swr__seg { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tc-swr__seg::-webkit-scrollbar { display: none; }
+.tc-jump { flex: none; display: inline-flex; align-items: center; gap: var(--space-4); height: 36px; padding: 0 var(--space-4); border-radius: var(--radius-8); background: color-mix(in srgb, var(--tc) 30%, var(--w-page)); }
+.tc-jump button { width: 28px; height: 28px; border: 0; border-radius: var(--radius-6); background: none; color: var(--c-text); font: 600 18px/1 var(--font-sans, system-ui); cursor: pointer; }
+.tc-jump button:hover:not(:disabled) { background: color-mix(in srgb, var(--c-text) 12%, transparent); }
+.tc-jump button:disabled { color: var(--c-text-3); cursor: default; }
+.tc-jump__t { display: inline-flex; align-items: center; gap: var(--space-8); padding: 0 var(--space-4); white-space: nowrap; }
+.tc-jump__t img { width: 20px; height: 20px; object-fit: contain; }
+.tc-jump__t b { font: var(--type-body-2); font-weight: 600; }
+.tc-jump__t small { color: var(--c-text-2); font: var(--type-caption-1); }
+.cal .tc-bar.is-sel { background: color-mix(in srgb, var(--tc) 75%, var(--w-page)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-text) 40%, transparent); }
+
+/* «Год» v6 — как в продукте (мини-месяцы по четыре), докручено */
+.tcp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-12); }
+.tcp-m { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16) var(--space-12) var(--space-12); border: 0; border-radius: var(--radius-12); background: color-mix(in srgb, var(--c-text) 5%, transparent); color: var(--c-text); text-align: left; cursor: pointer; transition: background .15s; }
+.tcp-m:hover { background: color-mix(in srgb, var(--c-text) 9%, transparent); }
+.tcp-hd { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-8); padding: 0 var(--space-4); }
+.tcp-hd b { font: var(--type-subtitle-1, var(--type-subtitle-2)); }
+.tcp-hd small { color: var(--c-text-3); font: var(--type-caption-1); }
+.tcp-m.is-cur .tcp-hd b { color: var(--c-brand-glow, var(--c-brand)); }
+.tcp-wd, .tcp-days { display: grid; grid-template-columns: repeat(7, 1fr); }
+.tcp-wd i { color: var(--c-text-3); font: var(--type-caption-2); font-style: normal; text-align: center; }
+.tcp-days { row-gap: 2px; }
+.tcp-days i { position: relative; display: grid; place-items: center; height: 30px; font-style: normal; }
+.tcp-days i > span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--c-text-3); font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; }
+.tcp-days i.has-t > span { color: var(--c-text); }
+.tcp-days i.is-past { opacity: .45; }
+.tcp-days i.is-today { opacity: 1; } .tcp-days i.is-today > span { background: var(--c-brand); color: var(--c-on-brand); }
+.tcp-days i em { position: absolute; bottom: 0; display: flex; gap: 2px; }
+.tcp-days i u { width: 4px; height: 4px; border-radius: 50%; }
+.tcp-lg { display: flex; align-items: center; min-height: 24px; padding: var(--space-4) var(--space-4) 0; border-top: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); }
+.tcp-lg > span { display: grid; place-items: center; width: 26px; height: 26px; margin-right: -6px; border-radius: 50%; background: color-mix(in srgb, var(--tc) 45%, var(--w-page)); box-shadow: 0 0 0 2px var(--w-page); }
+.tcp-lg img { width: 16px; height: 16px; object-fit: contain; }
+.tcp-lg small { margin-left: var(--space-12); color: var(--c-text-2); font: var(--type-caption-1-medium); }
+
+/* v7: шапка одной строкой — бренды лентой между «Календарь / Прошедшие» и «Месяц / Год», листается вбок; выбранный бренд раскрыт */
+.cal__hd { flex-wrap: nowrap; }
+.tc-br { flex: 0 1 auto; min-width: 0; max-width: 100%; overflow-x: auto; scrollbar-width: none; margin-right: auto; }
+.tc-br::-webkit-scrollbar { display: none; }
+.tc-br > .segment__btn { flex: none; }
+.tc-br > .segment__btn.is-on, .tc-br__on { border: 1px solid transparent; background: linear-gradient(var(--c-surface), var(--c-surface)) padding-box,
+  linear-gradient(135deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, .03)) border-box; box-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
+.tc-br__on { flex: none; display: inline-flex; align-items: center; gap: 2px; height: 24px; padding: 0 var(--space-8); border-radius: var(--radius-6); color: var(--c-text); }
+.tc-br__on:has(.tc-br__ar:first-child) { padding-left: 0; }
+.tc-br__on:has(.tc-br__ar:last-child) { padding-right: 0; }
+.tc-br__ar { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--radius-6); background: none; color: var(--c-text-2); cursor: pointer; }
+.tc-br__ar:hover { background: color-mix(in srgb, var(--c-text) 10%, transparent); color: var(--c-text); }
+.tc-br__t { display: inline-flex; align-items: center; gap: var(--space-6); padding: 0 var(--space-4); white-space: nowrap; }
+.tc-br__t img { width: 20px; height: 20px; object-fit: contain; }
+.tc-br__t b { font: var(--type-caption-1-medium); font-weight: 600; }
+.tc-br__t small { color: var(--c-text-2); font: var(--type-caption-1); }
+
+/* v8: прошедшие дни — серые плашки без вуали; заголовок в одну строку; бренд раскрывается плавно, стрелки на месте всегда, название — многоточием */
+.cal__hd .cal__t { flex: none; white-space: nowrap; }
+.tc-br__on, .tc-br__on:has(.tc-br__ar:first-child), .tc-br__on:has(.tc-br__ar:last-child) { padding: 0; }
+.tc-br__ar:disabled { visibility: hidden; }
+.tc-br__t { overflow: hidden; max-width: 260px; animation: tc-open .35s var(--ease-spring, cubic-bezier(.2, .8, .2, 1)) both; }
+.tc-br__t b { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tc-br__t small { flex: none; }
+@keyframes tc-open { from { max-width: 20px; opacity: .4; } to { max-width: 260px; opacity: 1; } }
+
+/* v9: полоса идущего турнира — полупрозрачная (видно сегодняшний день под ней) */
+.cal .tc-bar.is-now { background: color-mix(in srgb, var(--tc) 45%, transparent); }
+
+/* v10: места под стрелки заранее нет — нет прошлого / следующего, нет и стрелки; стрелки компактные, без отступов; раскрывается плавно весь пункт */
+.tc-br__on { gap: 0; overflow: hidden; animation: tc-open2 .4s var(--ease-spring, cubic-bezier(.2, .8, .2, 1)) both; }
+.tc-br__on:not(:has(.tc-br__ar:not(:disabled):first-child)) { padding-left: var(--space-4); }
+.tc-br__on:not(:has(.tc-br__ar:not(:disabled):last-child)) { padding-right: var(--space-6); }
+.tc-br__ar { width: 18px; height: 24px; border-radius: var(--radius-4, 4px); }
+.tc-br__ar:disabled { display: none; }
+.tc-br__t { padding: 0 var(--space-2, 2px); animation: none; }
+@keyframes tc-open2 { from { max-width: 28px; } to { max-width: 360px; } }
+
+/* v12: стрелки появляются и пропадают плавно — сжимаются по ширине и гаснут, а не исчезают рывком */
+.tc-br__on, .tc-br__on:not(:has(.tc-br__ar:not(:disabled):first-child)), .tc-br__on:not(:has(.tc-br__ar:not(:disabled):last-child)) { padding: 0; }
+.tc-br__t { padding: 0 var(--space-6); }
+.tc-br__ar { flex: none; overflow: hidden; transition: width .25s var(--ease-spring, cubic-bezier(.2, .8, .2, 1)), opacity .2s; }
+.tc-br__ar:disabled { display: grid; width: 0; opacity: 0; pointer-events: none; }
+
+/* v13: выбран турнир — остальные полосы на 50 % */
+.cal .tc-bar { transition: opacity .25s; }
+.cal .tc-bar.is-off { opacity: .5; }
+
+/* v16 (?pin=1): выбранный турнир — закреплённая плашка снизу по центру: лого, название, даты, «2 из 6», стрелки, снять выбор */
+.tc-pin { position: fixed; z-index: 20; left: 50%; bottom: var(--space-24, 24px); display: inline-flex; align-items: center; gap: 2px; height: 40px; padding: 0 var(--space-6);
+  border-radius: var(--radius-12); background: color-mix(in srgb, var(--tc) 22%, var(--c-surface)); box-shadow: 0 8px 24px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .06);
+  transform: translateX(-50%); animation: tc-pin-in .3s var(--ease-spring, cubic-bezier(.2, .8, .2, 1)) both; }
+@keyframes tc-pin-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.tc-pin .tc-br__ar { height: 28px; }
+.tc-pin__t { display: inline-flex; align-items: center; gap: var(--space-8); padding: 0 var(--space-6); white-space: nowrap; }
+.tc-pin__t img { width: 20px; height: 20px; object-fit: contain; }
+.tc-pin__t b { font: var(--type-body-2); font-weight: 600; }
+.tc-pin__t small { color: var(--c-text-2); font: var(--type-caption-1); }
+.tc-pin__x { display: grid; place-items: center; width: 28px; height: 28px; margin-left: var(--space-4); padding: 0; border: 0; border-radius: var(--radius-6); background: none; color: var(--c-text-2); cursor: pointer; }
+.tc-pin__x:hover { background: color-mix(in srgb, var(--c-text) 10%, transparent); color: var(--c-text); }
+
+/* v17: плашка сверху, под прилипшей шапкой (60 + 48), и не прыгает — ширина постоянная, стрелки всегда на своих местах (некуда — тусклая), название — многоточием */
+.tc-pin { top: 116px; bottom: auto; display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px 28px; width: 440px; height: 40px;
+  animation-name: tc-pin-in2; }
+@keyframes tc-pin-in2 { from { opacity: 0; transform: translate(-50%, -12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.tc-pin .tc-br__ar { width: 28px; transition: opacity .2s; }
+.tc-pin .tc-br__ar:disabled { display: grid; width: 28px; opacity: .25; pointer-events: none; }
+.tc-pin__t { min-width: 0; }
+.tc-pin__t b { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tc-pin__t small { flex: none; margin-left: auto; }
+.tc-pin__x { margin-left: 0; }
+
+/* v19 / v20: плашка в липкой обёртке нулевой высоты сразу под шапкой календаря (шапка липнет на 52) — календарь под ней не сдвигается */
+.tc-pinw { position: sticky; top: 102px; z-index: 4; height: 0; }
+.tc-pinw .tc-pin { position: absolute; top: 4px; bottom: auto; }
+.tc-pinw--col .tc-pin { left: 50%; }
+.tc-pinw--strip .tc-pin { left: var(--pin-x); }
+
+/* v21: плашка без крестика, по центру колонки. right — стрелки вместе справа, ширина по содержимому; sides — стрелки по краям, ширина постоянная */
+.tc-pin.tc-pin--right { display: inline-flex; width: auto; gap: var(--space-4); padding: 0 var(--space-4) 0 var(--space-6); }
+.tc-pin--right .tc-pin__t b { overflow: visible; }
+.tc-pin--right .tc-pin__t small { margin-left: var(--space-4); }
+.tc-pin__ars { display: inline-flex; gap: 2px; padding-left: var(--space-4); border-left: 1px solid rgba(255, 255, 255, .08); }
+.tc-pin.tc-pin--sides { grid-template-columns: 28px minmax(0, 1fr) 28px; width: 440px; padding: 0 var(--space-6); }
+.tc-pin--sides .tc-pin__t { justify-content: center; }
+.tc-pin--sides .tc-pin__t small { margin-left: 0; }
+.tc-pin.is-one .tc-br__ar, .tc-pin.is-one .tc-pin__ars { display: none; }
+.tc-pin.tc-pin--sides.is-one { grid-template-columns: minmax(0, 1fr); }
+
+/* v24: ширина плашки меняется плавно; содержимое — своей шириной внутри, лишнее прячем; недоступная стрелка видна тусклой */
+.tc-pin.tc-pin--right { padding: 0; overflow: hidden; transition: width .3s var(--ease-spring, cubic-bezier(.2, .8, .2, 1)), background .3s; }
+.tc-pin__in { flex: none; display: inline-flex; align-items: center; gap: var(--space-4); width: max-content; height: 100%; padding: 0 var(--space-4) 0 var(--space-6); box-sizing: border-box; }
+.tc-pin .tc-br__ar:disabled { opacity: .3; }
+
+/* v25: недоступная стрелка в плашке видна тусклой (раньше её прятало правило ленты v8 — visibility: hidden — и оставалась пустота) */
+.tc-pin .tc-br__ar:disabled { visibility: visible; opacity: .35; }
+
+/* v26: плашка живёт в липкой шапке — под ней на 6 px, по центру колонки; отступ постоянный при любой прокрутке */
+.cal__hd > .tc-pin { position: absolute; top: calc(100% + 6px); bottom: auto; left: 50%; }
+
+/* v27: выбранный бренд в ленте — цветом турнира в плашке (меняется вместе с ним); в «Годе» — обычная подсветка */
+.tc-br > .segment__btn.tc-br__pick[style] { background: color-mix(in srgb, var(--tc) 55%, var(--c-surface)); transition: background .3s; }
+
+/* v28: цвет турнира — только в «Месяце» (класс, а не [style]: React оставлял пустой style, и в «Годе» пропадала обычная подсветка) */
+.tc-br > .segment__btn.tc-br__pick[style] { background: none; }
+.tc-br > .segment__btn.is-on { transition: background .3s; }
+.tc-br > .segment__btn.tc-br__tint { background: color-mix(in srgb, var(--tc) 55%, var(--c-surface)); }

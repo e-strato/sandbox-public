@@ -1,0 +1,84 @@
+/* Лаба user-profile v4 — поверх v2 и v3 */
+/* итоги: смена периода ничего не двигает — подписи в одну строку, высота плиток постоянная */
+.up4 .up2-sum .up-tile { height: 92px; justify-content: flex-start; overflow: hidden; }
+.up4 .up2-sum .up-tile span, .up4 .up2-sum .up-tile small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.up4 .up2-sum .up-tile b { white-space: nowrap; }
+.up4 .up2-sum .up-tile--ring > div { min-width: 0; }
+
+/* настройки */
+.up4-set { display: flex; flex-direction: column; gap: var(--space-12); width: 280px; }
+.up4-set__h { font: var(--type-subtitle-2, 600 14px/20px var(--font-sans)); color: var(--c-text); }
+.up4-f { display: flex; flex-direction: column; gap: var(--space-6); }
+.up4-f > span { font: var(--type-caption-2-medium); color: var(--c-text-3); }
+.up4-f input:not([type=checkbox]) { height: 32px; padding: 0 var(--space-10); border: 0; border-radius: var(--radius-8); background: var(--w-mid-bg, #18181b); color: var(--c-text); font: var(--type-body-1, 400 13px/18px var(--font-sans)); outline: none; }
+.up4-f input:not([type=checkbox]):focus { box-shadow: inset 0 0 0 1px var(--c-brand); }
+.up4-avas { display: flex; gap: var(--space-6); }
+.up4-avas button { width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; overflow: hidden; background: var(--w-mid-bg, #18181b); cursor: pointer; opacity: .6; }
+.up4-avas button img { width: 100%; height: 100%; object-fit: cover; }
+.up4-avas button:hover { opacity: 1; }
+.up4-avas button.is-on { opacity: 1; box-shadow: 0 0 0 2px var(--c-brand); }
+.up4-sw { position: relative; display: flex; align-items: center; justify-content: space-between; height: 28px; font: var(--type-caption-1); color: var(--c-text-2); cursor: pointer; }
+.up4-sw input { position: absolute; opacity: 0; pointer-events: none; }
+.up4-sw i { position: relative; width: 28px; height: 16px; border-radius: 8px; background: color-mix(in srgb, var(--c-text) 14%, transparent); transition: background .15s; }
+.up4-sw i::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--c-text-2); transition: transform .15s, background .15s; }
+.up4-sw input:checked + i { background: var(--c-brand); }
+.up4-sw input:checked + i::after { transform: translateX(12px); background: #fff; }
+
+/* монета */
+.up4-coin { flex: none; width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #8d6cf0, #3f238b 60%, #24134f); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .18); align-self: center; }
+
+/* кошелёк — карта */
+.up4-card { position: relative; display: flex; flex-direction: column; padding: var(--space-16); border-radius: 14px; overflow: hidden; color: #fff;
+  background: radial-gradient(120% 140% at 100% 0%, #6b4bd6 0%, rgba(107, 75, 214, 0) 55%), linear-gradient(135deg, #3f238b 0%, #1d1240 70%, #140c2c 100%); }
+.up4-card::after { content: ''; position: absolute; right: -40px; bottom: -60px; width: 180px; height: 180px; border-radius: 50%; border: 1px solid rgb(255 255 255 / .08); box-shadow: 0 0 0 24px rgb(255 255 255 / .03); }
+.up4-card__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-16); font: var(--type-caption-1); color: rgb(255 255 255 / .7); }
+.up4-card__top .up4-coin { width: 24px; height: 24px; }
+.up4-card > b { font: 600 36px/40px var(--font-mono); letter-spacing: -.01em; }
+.up4-card > small { font: var(--type-caption-1); color: rgb(255 255 255 / .6); }
+.up4-card__row { display: flex; gap: var(--space-16); margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid rgb(255 255 255 / .12); }
+.up4-card__row span { flex: 1; display: flex; flex-direction: column; gap: 2px; font: var(--type-caption-2); color: rgb(255 255 255 / .6); }
+.up4-card__row b { font: 500 15px/20px var(--font-mono); color: #fff; }
+
+/* кошелёк — с графиком */
+.up4 .up2-wal { align-items: center; }
+.up4-chg { margin-left: auto; font: 500 12px/16px var(--font-mono); color: var(--c-text-3); }
+.up4-chg.is-up { color: var(--c-text); }
+.up4-spark { display: block; width: 100%; height: 48px; margin: var(--space-4) 0 var(--space-8); }
+.up4-spark__a { fill: color-mix(in srgb, var(--c-brand) 22%, transparent); }
+.up4-spark__l { fill: none; stroke: var(--c-brand); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
+/* v5: кольцо винрейта стоит на месте — текст занимает всю ширину, кольцо прибито справа (дирижёр 24.11: «кружок прыгает влево-вправо») */
+.up5 .up2-sum .up-tile--ring > div { flex: 1; }
+.up5 .up2-sum .up-tile--ring svg { flex: none; margin-left: var(--space-8); }
+
+/* v6: кошелёк — как v3, с лёгким фиолетовым градиентом с края; «Зарезервировано» плашкой; транзакции; «Смотреть все» */
+.up6-wal { display: flex; flex-direction: column; padding: 10px; border-radius: 14px; background: radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--c-brand) 30%, transparent) 0%, transparent 70%), var(--w-surface); }
+.up6-wal__hd { display: flex; align-items: center; min-height: 28px; padding: 0 4px; font: var(--type-subtitle-2, 600 14px/20px var(--font-sans)); color: var(--c-text); }
+.up6-wal__bal { display: flex; align-items: center; gap: var(--space-6); padding: var(--space-8) 4px var(--space-12); }
+.up6-wal__bal .up4-coin { width: 22px; height: 22px; }
+.up6-wal__bal b { font: 600 32px/38px var(--font-mono); color: var(--c-text); }
+.up6-wal__bal small { align-self: flex-end; padding-bottom: 6px; font: var(--type-caption-1); color: var(--c-text-3); }
+.up6-wal__res { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: var(--space-8); padding: var(--space-8) var(--space-10); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-brand) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-brand) 30%, transparent); }
+.up6-wal__res span { font: 500 13px/18px var(--font-sans); color: var(--c-text); }
+.up6-wal__res small { grid-row: 2; font: var(--type-caption-2); color: var(--c-text-3); }
+.up6-wal__res b { grid-row: 1 / 3; grid-column: 2; font: 600 16px/20px var(--font-mono); color: var(--c-text); }
+.up6-tx { display: flex; align-items: center; gap: var(--space-8); min-height: 44px; padding: 0 4px; }
+.up6-tx + .up6-tx { border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.up6-tx__t { display: flex; flex-direction: column; gap: 2px; min-width: 0; font: 500 13px/18px var(--font-sans); color: var(--c-text); }
+.up6-tx__t small { display: flex; align-items: center; gap: 2px; font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; overflow: hidden; }
+.up6-tx__t i { font-style: normal; } .up6-tx__t em { font-style: normal; margin-left: 2px; }
+.up6-tx__v { margin-left: auto; font: 500 13px/18px var(--font-mono); color: var(--c-text-3); }
+.up6-tx__v.is-win { color: var(--c-text); }
+.up6-wal__all { margin-top: var(--space-8); width: 100%; justify-content: center; }
+
+/* v7: транзакции короче — два лого и что случилось; «Где угадываю лучше» в главной колонке одной строкой */
+.up7-tx { display: flex; align-items: center; gap: var(--space-8); font: 500 13px/18px var(--font-sans); color: var(--c-text); }
+.up7-tx__l { display: inline-flex; gap: 2px; }
+.up7 .up6-tx { min-height: 36px; }
+.up7-best__row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-8); padding: var(--space-4) var(--space-16) var(--space-16); }
+.up7-best__c { display: flex; flex-direction: column; gap: 2px; padding: var(--space-10) var(--space-12); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.up7-best__c small { font: var(--type-caption-2-medium); color: var(--c-text-3); white-space: nowrap; }
+.up7-best__c b { font: 600 20px/26px var(--font-mono); color: var(--c-text); }
+.up7-best__c span { font: 400 11px/14px var(--font-mono); color: var(--c-text-3); }
+.up7-best__c.is-top { background: color-mix(in srgb, var(--c-brand) 22%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-brand) 45%, transparent); }
+@media (max-width: 799px) { .up7-best__row { grid-template-columns: repeat(3, 1fr); } }
