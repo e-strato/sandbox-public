@@ -1,0 +1,30 @@
+/* v10 — значки позиций в цвете (варианты), рейтинги команды столбиком, игроки тегами, крест при наведении */
+.rd__pi { display: inline-grid; width: 16px; height: 16px; }
+.rd__pi .pos-icon { width: 16px; height: 16px; }
+/* знак цветом позиции, без квадрата */
+.rd__pi--glyph .pos-icon rect { fill: none; }
+.rd__pi--glyph .pos-icon [fill="#000"] { fill: var(--pc); }
+.rd__pi--glyph .pos-icon [stroke="#000"] { stroke: var(--pc); }
+.rd__pi--glyph .pos-icon [fill="#f59e0b"]:not(rect) { fill: var(--c-surface); }
+/* тёмный квадрат с обводкой цвета позиции, знак цветом */
+.rd__pi--dark .pos-icon rect { fill: #0b0b0d; stroke: var(--pc); stroke-opacity: .5; }
+.rd__pi--dark .pos-icon [fill="#000"] { fill: var(--pc); }
+.rd__pi--dark .pos-icon [stroke="#000"] { stroke: var(--pc); }
+.rd__pi--dark .pos-icon [fill="#f59e0b"]:not(rect) { fill: #0b0b0d; }
+/* как в Доте — значки ролей (лаба w-lanemap), цветом позиции */
+.rd__dota { display: inline-block; width: 14px; height: 14px; -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; }
+.rd__dota { -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+/* команда: Паб над Про, одного вида */
+.rd__r2 { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1; }
+.rd__r2h { display: inline-block; line-height: 1.15; }
+.rost.rd thead tr:last-child th { height: 36px; }
+/* игрок тегом */
+.rd__tw { display: flex; min-width: 0; outline: none; }
+.rd__tag.etag { max-width: 100%; padding: 2px 6px 2px 2px; --etag-pic: 24px; }
+.rd__tag .etag__pic--own { width: auto; height: auto; }
+.rd__tag .etag__name { min-width: 0; line-height: 1.2; }
+/* крест: перебиваем фон шахматки */
+.rost.rd td.cell2.cell2--col { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 6%, var(--tbl-bg, var(--c-surface))); }
+.rost.rd td.cell2.cell2--col.rb9--alt { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 10%, var(--tbl-bg, var(--c-surface))); }
+.rost.rd td.cell2.cell2--hit { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 14%, var(--c-surface)); color: var(--c-text); }
+.rost.rd th.hcell2.hcell2--col { color: var(--c-text); }

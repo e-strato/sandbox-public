@@ -1,0 +1,56 @@
+/* Общие стили страниц-списков (лабы players-list, teams-list, heroes-list) */
+html:has(.lst) { scrollbar-gutter: stable; }
+/* v3: таблица — общая TableWidget v5 (правила таблиц 25.11, лаба tables-rules v22): 10 строк, «Показать ещё 10 / все N», шестерёнка, на весь экран — своих правок низа и прокрутки нет */
+
+/* колонка справа: виджеты друг под другом */
+.lst__aside { display: flex; flex-direction: column; gap: var(--layout-widget-gap, var(--space-16)); }
+
+/* мини-топ «Лучшие» */
+.lst-top { list-style: none; margin: 0; padding: var(--space-4) var(--space-16) var(--space-12); display: flex; flex-direction: column; }
+.lst-top li { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; align-items: center; gap: var(--space-10, 10px); min-height: 44px; }
+.lst-top li + li { border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.lst-top__n { color: var(--c-text-3, var(--c-text-2)); font: var(--type-caption-1-medium); text-align: center; }
+.lst-top__who { display: flex; align-items: center; gap: var(--space-8); min-width: 0; font: var(--type-body-2); color: var(--c-text); }
+.lst-top__who > span:not([class]) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lst-top__who small { margin-left: auto; color: var(--c-text-2); font: var(--type-caption-1); white-space: nowrap; }
+.lst-top__v { font: var(--type-body-2-medium, var(--type-body-2)); color: var(--c-text); }
+
+/* иконки героев в строке */
+.lst-heroes { display: inline-flex; gap: 4px; align-items: center; }
+.lst-heroes img, .lst-heroes .hero-icon { border-radius: 4px; }
+
+
+/* v5: значок позиции в сегменте — 18, по центру пункта */
+.lst-seg-pos { width: 16px; height: 16px; display: block; }
+
+/* v6: каркас страниц движка (etpage): отступ сверху — как у страницы команды */
+.lst .etpage__main { padding-top: var(--space-20); }
+@media (max-width: 799px) { .lst .etpage__main { padding-top: var(--space-12); } }
+/* v7: страница по размеру экрана — снизу поле 16 (было 64 у etpage: страница прокручивалась, хоть таблица и подогнана) */
+.lst.etpage { padding-bottom: var(--space-16); box-sizing: border-box; }
+/* v9: герои тегами в строке — в одну строку, лишнее обрезается */
+.lst-tags { display: inline-flex; gap: var(--space-4); min-width: 0; overflow: hidden; white-space: nowrap; }
+/* команды v6: иконки-теги без названия, подсказка при наведении */
+.lst-ics { display: inline-flex; gap: 4px; align-items: center; }
+.lst-ics__w { display: inline-flex; outline: 0; }
+.lst-ic.etag { --etag-pad: 0; --etag-gap: 0; background: none; padding: 0; }
+.lst-ic .etag__name { display: none; }
+.lst-ic .hero-icon, .lst-ic img { border-radius: 4px; }
+.lst-ic:hover { filter: brightness(1.2); }
+.lst-tip { display: flex; flex-direction: column; gap: 2px; }
+.lst-tip b { font-weight: 600; }
+.lst-tip small { color: var(--c-text-2); }
+/* v10: значок роли в ячейке «Поз.» — по центру */
+.lst-role { display: inline-flex; justify-content: center; width: 100%; }
+.lst-tip__role { display: inline-flex; align-items: center; gap: 4px; }
+/* команды v8 (дирижёр 25.11: «изначально они не должны быть выделены»): у тега героя без названия нет косой подложки под картинкой — подсветка только при наведении */
+.lst-ic.etag--hero .etag__pic::before { content: none; }
+.lst-ic.etag { padding: 2px; }
+/* команды v10, игроки v13 (дирижёр 25.11: «выделение — наискось; пока не выделены — ничего нет; пусть заезжают друг на друга»): подсветка героя — скосом, как у тега;
+   у ряда иконок поле 4 по бокам — скос не режется краем ячейки; наведённая — поверх соседей */
+.lst-ic.etag--hero { padding: 2px 4px; }
+.lst-ics { padding: 0 4px; gap: 0; }
+.lst-ics__w { position: relative; }
+.lst-ics__w:hover, .lst-ics__w:focus-within { z-index: 1; }
+/* команды v11, игроки v14: картинка героя 24 — своя картинка тега, без фона */
+.lst-ic--hero.etag { --etag-pic: 24px; }

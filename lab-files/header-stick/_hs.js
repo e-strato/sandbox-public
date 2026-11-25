@@ -15,13 +15,19 @@
     // правая колонка липнет в обе стороны (как useDualSticky у игрока), верх — под прилипшей шапкой
     const side = document.querySelector('.etpage__r, .mpage__side')
     const pills = ['v4', 'v5', 'v8', 'v9', 'v10', 'v11', 'v12', 'v13', 'v14', 'v15', 'v16', 'v17', 'v18', 'v19', 'v21', 'v22', 'v23', 'v24', 'v25', 'v26'].includes(V), sticks = V !== 'v0' && !pills
-    const level = V === 'v7' || V === 'v20'   // v7, v20 — правая колонка вровень с прилипшей шапкой, а не под ней
+    const level = V === 'v7' || V === 'v20' || V === 'v27' || V === 'v28' || V === 'v29' || V === 'v30' || V === 'v31'   // v7, v20, v27–v31 — правая колонка вровень с прилипшей шапкой, а не под ней
     if (side && V !== 'v0') {
       const desk = matchMedia('(min-width: 800px)')
       let y = scrollY, t = null
       const apply = () => {
         if (!desk.matches) { side.style.top = ''; return }
         const top = level ? SITE : SITE + (sticks ? block.getBoundingClientRect().height : 0) + (sticks ? GAP : 20)
+        // v31 — верх первого виджета колонки ровно по верху прилипшей шапки (51): у колонки матча отступ у первого виджета (20), у турнира — у самой колонки (20) — вычитаем оба
+        if (V === 'v31') { const c = side.firstElementChild; const off = c ? c.getBoundingClientRect().top - side.getBoundingClientRect().top : 0; return set(51 - off - (parseFloat(getComputedStyle(side).marginTop) || 0)) }   // и свой отступ колонки сверху (турнир — 20): липкая коробка держит его
+
+        set(top)
+      }
+      const set = (top) => {
         const min = Math.min(top, innerHeight - side.offsetHeight - GAP)
         t = t == null ? top : Math.max(min, Math.min(top, t - (scrollY - y)))
         y = scrollY; side.style.position = 'sticky'; side.style.top = t + 'px'
@@ -30,6 +36,8 @@
     }
 
     if (pills) pill(block)
+    // v30 — матч открываем на «О серии» (дирижёр 25.11)
+    if (V === 'v30' || V === 'v31') { const o = [...document.querySelectorAll('.match-header__stat')][0]; o?.closest('button, [role=radio], [role=tab], label')?.click() }
   })
 
   /* v4, v5, v8–v26 — шапка ушла под шапку сайта → снизу (v5, v8–v26 — сверху, под шапкой сайта) по центру выезжает плашка: лого, название, кнопки шапки, «наверх».

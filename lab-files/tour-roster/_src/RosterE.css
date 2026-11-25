@@ -1,0 +1,6 @@
+/* v11 — без шахматки: группы позиций не чередуются фоном; крест — по группам (игрок + Паб + Про, команда + рейтинг) */
+.rost.re td.cell2.rb9--alt { --cell-bg: initial; }
+.rost.re th.hcell2.rb9--alt, .rost.re .rb9__g.rb9--alt { background: var(--c-surface); }
+.rost.re td.cell2.cell2--col, .rost.re td.cell2.cell2--col.rb9--alt { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 6%, var(--tbl-bg, var(--c-surface))); }
+.rost.re td.cell2.cell2--hit, .rost.re td.cell2.cell2--hit.rb9--alt { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 14%, var(--c-surface)); color: var(--c-text); }
+.rost.re th.hcell2--col { color: var(--c-text); }

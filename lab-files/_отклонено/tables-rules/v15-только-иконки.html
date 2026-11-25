@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- v15 · Только иконки (дирижёр 25.11 по v14: «не нужна вся панель, только иконки») — на выбор: значок «На весь экран» и закрытие. Material Symbols Rounded, залитые (как набор ui/ 23.11). Кнопки — как «i» в шапке таблицы: 34, #202023, наведение светлее. -->
+<title>v15 · Иконки: только значки</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,1,0" />
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #000; color: #f2f2f3; font: 500 14px/1.4 'Google Sans Flex', system-ui, sans-serif; }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 24px 64px; }
+  h2 { font-size: 17px; font-weight: 600; margin: 32px 0 4px; }
+  p.lead { color: #8b8b93; margin: 0 0 16px; font-weight: 400; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; }
+  .card { background: #0f0f0f; border-radius: 14px; padding: 12px 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .card .n { align-self: flex-start; }
+  .n { color: #8b8b93; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .name { font-size: 13px; color: #c9c9ce; } .name code { color: #8b8b93; font: 12px 'Geist Mono', ui-monospace, monospace; }
+  /* мини-шапка таблицы, как на странице: заголовок слева, справа сегмент · кнопка · шестерёнка */
+  .hd { display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 8px 0 12px; background: #171717; border-radius: 10px; }
+  .hd b { font-size: 13px; font-weight: 600; margin-right: auto; }
+  .seg { display: flex; padding: 3px; gap: 2px; background: #202023; border-radius: 10px; font-size: 12px; }
+  .seg span { padding: 5px 9px; border-radius: 8px; color: #8b8b93; } .seg span.on { background: #2c2c30; color: #f2f2f3; }
+  .ms { font-family: 'Material Symbols Rounded'; font-variation-settings: 'FILL' 1, 'wght' 400, 'opsz' 20; font-size: 20px; line-height: 1; }
+  .ib { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px; min-width: 34px; padding: 0; border: 0; border-radius: 10px; background: #202023; color: #f2f2f3; cursor: pointer; font: 500 13px 'Google Sans Flex', sans-serif; }
+  .ib:hover { background: #2f2f34; }
+  .ib.txt { padding: 0 12px 0 9px; }
+  .ib.ghost { background: none; color: #c9c9ce; } .ib.ghost:hover { background: #202023; }
+  .esc { font: 11px 'Geist Mono', ui-monospace, monospace; color: #8b8b93; border: 1px solid #2c2c30; border-radius: 6px; padding: 2px 5px; }
+</style></head>
+<body><main>
+  <h2>Открыть на весь экран</h2>
+  <p class="lead">Кнопка 34, как «i» в шапке таблицы. Наведи — подложка светлее.</p>
+  <div class="grid" id="open"></div>
+  <h2>Закрыть</h2>
+  <p class="lead">Кнопка, когда таблица открыта на весь экран. Esc и клик мимо окна закрывают в любом варианте.</p>
+  <div class="grid" id="close"></div>
+</main>
+<script>
+const OPEN = [
+  ['fit_screen', 'Рамка экрана — сейчас в лабе'],
+  ['fullscreen', 'Полный экран — уголки'],
+  ['open_in_full', 'Развернуть — две стрелки наружу'],
+  ['expand_content', 'Развернуть содержимое'],
+  ['zoom_out_map', 'Четыре стрелки наружу'],
+  ['crop_free', 'Уголки рамки'],
+  ['aspect_ratio', 'Пропорции окна'],
+  ['open_in_new', 'Открыть окном'],
+]
+const CLOSE = [
+  ['close', 'Крестик', 'icon'],
+  ['close', 'Крестик + «Закрыть» — сейчас в лабе', 'text'],
+  ['fullscreen_exit', 'Выйти из полного экрана — уголки внутрь', 'icon'],
+  ['close_fullscreen', 'Свернуть — две стрелки внутрь', 'icon'],
+  ['collapse_content', 'Свернуть содержимое', 'icon'],
+  ['zoom_in_map', 'Четыре стрелки внутрь', 'icon'],
+  ['arrow_back', 'Назад + «К турниру»', 'back'],
+  ['close', 'Крестик без подложки + подсказка Esc', 'ghost'],
+]
+const card = (i, btn, name, code) => `<div class="card"><span class="n">${i}</span>${btn}<div class="name">${name}<br><code>${code}</code></div></div>`
+document.getElementById('open').innerHTML = OPEN.map(([ic, name], i) => card(i + 1, `<button class="ib" aria-label="На весь экран" title="На весь экран"><span class="ms">${ic}</span></button>`, name.replace(' — сейчас в лабе', ' (сейчас)'), ic)).join('')
+document.getElementById('close').innerHTML = CLOSE.map(([ic, name, kind], i) => {
+  const b = kind === 'text' ? `<button class="ib txt"><span class="ms">${ic}</span>Закрыть</button>`
+    : kind === 'back' ? `<button class="ib txt"><span class="ms">${ic}</span>К турниру</button>`
+    : kind === 'ghost' ? `<span style="display:flex;gap:6px;align-items:center"><span class="esc">Esc</span><button class="ib ghost" aria-label="Закрыть"><span class="ms">${ic}</span></button></span>`
+    : `<button class="ib" aria-label="Закрыть" title="Закрыть"><span class="ms">${ic}</span></button>`
+  return card(i + 1, b, name.replace(' — сейчас в лабе', ' (сейчас)'), ic)
+}).join('')
+</script>
+</body></html>

@@ -6,7 +6,7 @@
   const b = document.body, f = document.createElement('iframe')
   f.title = document.title; f.style.cssText = 'display:block;border:0;margin:0 auto;height:100vh;background:#000'
   b.style.cssText = 'margin:0;background:#171717'; b.append(f)
-  const PAGES = { match: 'match-engine.html?state=live', tour: 'tournament-engine.html', player: 'player-engine.html?who=pro' }
+  const PAGES = { match: 'match-engine.html?state=live', tour: 'tournament-engine.html', player: 'player-engine.html?who=pro', team: 'team-engine.html', hero: 'hero-engine.html', profile: 'profile-engine.html' }
   let view = 'desk', page = 'tour'
   // настройки блика (вариант с <body data-glint>): ход, скорость, длина, яркость, сколько бликов — без перезагрузки страницы
   const GL = { mode: 'edge', dur: '8', size: '120', a: '.35', n: '1' }
@@ -22,7 +22,7 @@
   })
   window.LAB = { view: 'toolbar', flows: () => [], go() {}, cur: () => ({ f: 0, i: 0 }),
     axes: () => [
-      { key: 'page', name: 'Страница', value: page, options: [{ v: 'match', label: 'Матч' }, { v: 'tour', label: 'Турнир' }, { v: 'player', label: 'Игрок' }] },
+      { key: 'page', name: 'Страница', value: page, options: [{ v: 'match', label: 'Матч' }, { v: 'tour', label: 'Турнир' }, { v: 'player', label: 'Игрок' }, { v: 'team', label: 'Команда' }, { v: 'hero', label: 'Герой' }, { v: 'profile', label: 'Профиль' }] },
       { key: 'view', name: 'Вид', value: view, options: [{ v: 'desk', label: 'Компьютер 1440' }, { v: 'phone', label: 'Телефон 390' }] },
       ...(b.dataset.glint ? [
         { key: 'mode', name: 'Ход блика', value: GL.mode, options: [{ v: 'edge', label: 'Ровно по краю' }, { v: 'angle', label: 'По углу, как v24' }] },

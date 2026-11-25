@@ -1,0 +1,16 @@
+/* v8 (созвон 25.11, 108-1 … 111-4): поверх Roster v3 продукта */
+/* 108-1, 111-4: позиция — номером в шапке, без значка-квадратика; справа — подписи двух колонок рейтинга */
+.rb__hp { display: flex; align-items: center; gap: 6px; width: 100%; }
+.rb__hp b { font: var(--num-caption-1-strong, 600 12px/16px var(--font-mono)); color: var(--c-text-2); }
+.rb__hr { margin-left: auto; display: grid; grid-template-columns: 34px 34px; text-align: right; color: var(--c-text-3); font: var(--type-caption-2); }
+/* игрок: аватар (замена — значок в нижнем углу), ник коротко, «8 дн», два рейтинга колонками — паб и про */
+.rb__p { display: flex; align-items: center; gap: 6px; min-width: 0; outline: none; cursor: default; }
+.rb__av { position: relative; flex: none; width: 24px; height: 24px; }
+.rb__sw { position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; background: var(--c-surface); color: var(--c-text-2); box-shadow: 0 0 0 1.5px var(--c-surface); }
+.rb__sw svg { width: 10px; height: 10px; }
+.rb__nm { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; max-width: 72px; }   /* ник короче: длинный — многоточием */
+.rb__nm b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); color: var(--c-text); }
+.rb__nm small { font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; }
+.rb__r { flex: none; width: 34px; margin-left: auto; text-align: right; font: var(--num-caption-1, 400 12px/16px var(--font-mono)); color: var(--c-text-2); }
+.rb__r + .rb__r { margin-left: 0; }
+.rb__r--pro { color: var(--c-text); font-weight: 600; }

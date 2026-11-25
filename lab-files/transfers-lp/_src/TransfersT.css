@@ -1,0 +1,41 @@
+/* v4 — трансферы по правилам таблиц: полосы через одну, без линий, 44, заголовки 11 серым */
+.tlt__all { display: inline-flex; align-items: center; gap: 2px; color: var(--c-text-2); font: var(--type-caption-1-medium); text-decoration: none; }
+.tlt__all:hover { color: var(--c-text); }
+.tlt__tb { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; }
+.tlt__tb th { height: 32px; padding: 0 var(--space-4); font: var(--type-caption-2); color: var(--c-text-3); text-align: center; font-weight: 400; }
+.tlt__tb td { height: 44px; padding: 0 var(--space-4); text-align: center; background: var(--tbl-bg, transparent); }
+.tlt__tb tr > :first-child { padding-left: var(--space-12); }
+.tlt__tb tr > :last-child { padding-right: var(--space-12); }
+.tlt__tb .tlt__who { text-align: left; }
+.tlt__tb tbody tr:nth-child(even) { --tbl-bg: color-mix(in srgb, var(--w-fg, #fff) 2.5%, var(--c-surface)); }
+@media (hover: hover) { .tlt__tb tbody tr:hover { --tbl-bg: color-mix(in srgb, var(--w-fg, #fff) 8%, var(--c-surface)); } }
+.tlt__d { font: var(--num-caption-1, 400 13px/16px var(--font-mono)); color: var(--c-text-2); font-variant-numeric: tabular-nums; }
+.tlt__who .etag { max-width: 100%; }
+.tlt__fl { width: 14px !important; height: 10px !important; border-radius: 2px; object-fit: cover; }
+.tlt__t { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; vertical-align: middle; }
+.tlt__t .etag { --etag-pad: 2px; }
+.tlt__t .etag__name:empty { display: none; }
+.tlt__t small { font: 400 10px/12px var(--font-sans); color: var(--c-text-3); white-space: nowrap; }
+.tlt__none { color: var(--c-text-3); }
+.tlt__ft { padding: var(--space-8) var(--space-12) var(--space-4); }
+.tlt__more { width: 100%; justify-content: center; }
+
+/* v5 (дирижёр 25.11: «таблицу на всю ширину виджета, без доп. отступов») — таблица от края до края виджета; поля только у шапки виджета; у края строк — 12, как у шапки */
+.tlt--full.widget--card { padding-left: 0; padding-right: 0; }
+.tlt--full.widget--card > .widget__hd { padding-left: var(--g-pad); padding-right: var(--g-pad); }
+.tlt--full .tlt__ft { padding-left: var(--g-pad); padding-right: var(--g-pad); }
+
+/* v6 — кнопка «Все трансферы»: поля 12 со всех сторон (снизу — поле виджета 12) */
+.tlt--full .tlt__ft--all { padding: var(--g-pad) var(--g-pad) 0; }
+
+/* v7 — цвет строки, как у Liquipedia: пришёл (из ниоткуда в команду) — зелёным, ушёл (из команды в никуда) — красным, из команды в команду — как обычно (полосы).
+   Цвета — табличные --w-up / --w-down (как плашки процента), тихо: 12 %, наведение — 20 % */
+.tlt--tint .tlt__tb tbody tr[data-mv="in"] { --tbl-bg: color-mix(in srgb, var(--w-up) 12%, var(--c-surface)); }
+.tlt--tint .tlt__tb tbody tr[data-mv="out"] { --tbl-bg: color-mix(in srgb, var(--w-down) 12%, var(--c-surface)); }
+@media (hover: hover) {
+  .tlt--tint .tlt__tb tbody tr[data-mv="in"]:hover { --tbl-bg: color-mix(in srgb, var(--w-up) 20%, var(--c-surface)); }
+  .tlt--tint .tlt__tb tbody tr[data-mv="out"]:hover { --tbl-bg: color-mix(in srgb, var(--w-down) 20%, var(--c-surface)); }
+}
+
+/* v8 — между датой и игроком зазор 12 (колонка даты 52: поле 12 + дата ≈ 36 + 4; у игрока слева 8) */
+.tlt--gap .tlt__tb .tlt__who { padding-left: var(--space-8); }

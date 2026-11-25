@@ -1,0 +1,98 @@
+/* Лаба site-header v1: шапка как в продукте, разделов больше; профиль — ссылкой, на странице профиля — обведён */
+.sh1 .site-header__prof[aria-current] .avatar { box-shadow: 0 0 0 2px var(--c-text-2); }
+
+/* v2: знак и имя по брендбуку goatscout-design (стр. 07): знак 32, зазор 0,18 × 32 ≈ 6, высота заглавных 0,35 × 32 ≈ 11 → Inter Tight 800, 15 px, капс */
+@font-face { font-family: 'Inter Tight GS'; src: url('../../../../goatscout-design/fonts/InterTight-Variable.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+.sh-brand { gap: 6px; padding: 8px 0; }
+.sh-brand__mark { display: block; height: 32px; width: auto; }
+.sh-brand__name { font-family: 'Inter Tight GS', 'Inter Tight', sans-serif; font-weight: 800; font-size: 15px; line-height: 1; letter-spacing: .02em; text-transform: uppercase; color: #fff; }
+@media (max-width: 799px) { .sh-brand__name { display: none; } .sh-brand__mark { height: 28px; } }
+
+/* v3: live у «Матчей» */
+.sh1 .site-header__nav a { display: inline-flex; align-items: center; gap: 6px; }
+.sh-live { display: inline-flex; align-items: center; gap: 4px; height: 18px; padding: 0 6px; border-radius: 9px; background: color-mix(in srgb, var(--c-live) 18%, transparent); color: var(--c-live); font: var(--type-caption-2-strong, 600 11px/1 sans-serif); font-variant-numeric: tabular-nums; }
+.sh-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); animation: sh-pulse 1.6s ease-in-out infinite; }
+@keyframes sh-pulse { 50% { opacity: .35; } }
+/* v4: выбор игры */
+.sh-game { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 8px 0 10px; border: 0; border-radius: var(--w-r-sm); background: var(--c-control); color: var(--c-text); font: var(--type-caption-1-medium); cursor: pointer; }
+.sh-game:hover, .sh-game[data-state='open'] { background: var(--w-hover); }
+/* меню (v4–v6) */
+.popover.sh-pop { min-width: 240px; padding: 6px; }
+.sh-menu { display: flex; flex-direction: column; gap: 2px; }
+.sh-menu__h { display: flex; align-items: center; gap: 6px; padding: 8px 8px 4px; color: var(--c-text-3); font: var(--type-caption-1); }
+.sh-menu__i { display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 8px; border: 0; border-radius: 8px; background: none; color: var(--c-text); font: var(--type-body-2); text-decoration: none; cursor: pointer; text-align: left; }
+.sh-menu__i span { flex: 1; }
+.sh-menu__i:hover:not(:disabled) { background: var(--w-hover); }
+.sh-menu__i:disabled { color: var(--c-text-3); cursor: default; }
+.sh-menu__i small { color: var(--c-text-3); font: var(--type-caption-1); }
+.sh-menu__i--dim { color: var(--c-text-2); }
+.sh-menu hr { border: 0; border-top: 1px solid var(--c-border); margin: 4px 0; }
+/* v5: колокольчик */
+.sh-bell { position: relative; display: inline-grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: var(--radius-10); background: var(--c-control); color: var(--c-text); cursor: pointer; }
+.sh-bell:hover, .sh-bell[data-state='open'] { background: var(--w-hover); }
+.sh-bell__n { position: absolute; top: -3px; right: -3px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--c-live); color: #fff; font: 600 10px/16px var(--font-sans, sans-serif); font-style: normal; }
+.sh-notes { width: 320px; }
+.sh-note { display: flex; gap: 10px; padding: 8px; border-radius: 8px; color: var(--c-text); text-decoration: none; }
+.sh-note:hover { background: var(--w-hover); }
+.sh-note span { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sh-note b { font: var(--type-body-2-strong); } .sh-note small { color: var(--c-text-2); font: var(--type-caption-1); }
+.sh-note em { color: var(--c-text-3); font: var(--type-caption-1); font-style: normal; white-space: nowrap; }
+.sh-note.is-new b::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--c-live); vertical-align: middle; }
+/* v6 */
+.sh-fav { width: 240px; }
+button.site-header__prof { padding: 0; border: 0; background: none; }
+
+/* v7–v10: выбор игры у поиска; аватар — квадрат 32 со скруглением 8; «2» — ровным кружком 18 на углу, с обводкой цветом шапки */
+.sh1 .sh-game + .site-header__search { margin-left: 0; }
+.sh-ava { position: relative; border-radius: 8px; }
+.sh-ava .avatar { border-radius: 8px; }
+.sh-ava:hover .avatar { box-shadow: 0 0 0 2px var(--w-border); }
+.sh-ava__n { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px;
+  background: var(--c-live); color: #fff; font: 600 11px/1 var(--font-sans, sans-serif); font-style: normal; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--w-page); }
+/* v8: число значком в углу «Матчей» */
+.sh1 .site-header__nav a { position: relative; }
+.sh-corner { position: absolute; top: -4px; right: -4px; display: grid; place-items: center; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; background: var(--c-live); color: #fff; font: 600 10px/1 var(--font-sans, sans-serif); box-shadow: 0 0 0 2px var(--w-page); }
+/* v9: отдельная плашка «Live N» после разделов */
+.sh-chip { display: inline-flex; align-items: center; gap: 6px; align-self: center; height: 26px; padding: 0 10px; border-radius: 13px; background: color-mix(in srgb, var(--c-live) 16%, transparent); color: var(--c-live) !important; font: var(--type-caption-1-medium); line-height: 26px !important; }
+.sh-chip i, .sh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); animation: sh-pulse 1.6s ease-in-out infinite; }
+.sh-chip:hover { background: color-mix(in srgb, var(--c-live) 26%, transparent) !important; }
+/* v10: только точка */
+.sh-dot { display: inline-block; flex: none; }
+
+/* v11–v12: выбор игры справа от поиска — в виде поля поиска (36, фон как у поиска, скругление 10, наведение — кольцо) */
+.sh-game--field { height: 36px; padding: 0 10px 0 12px; border-radius: var(--radius-10); background: #0f0f0f; color: var(--c-text-2); font: var(--type-body-1-medium); line-height: 1; margin-left: calc(-1 * var(--space-8)); }
+.sh-game--field:hover, .sh-game--field[data-state='open'] { background: #0f0f0f; box-shadow: var(--shadow-ring); color: var(--c-text); }
+/* v12: список идущих матчей */
+.sh-live--btn { align-self: center; border: 0; cursor: pointer; margin-left: -10px; }   /* кнопка рядом с «Матчами» — вне ссылки, на месте плашки v7 */
+.sh-live--btn:hover, .sh-live--btn[data-state='open'] { background: color-mix(in srgb, var(--c-live) 30%, transparent); }
+.sh-livelist { width: 320px; }
+.sh-lm { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; height: 36px; padding: 0 8px; border-radius: 8px; color: var(--c-text); text-decoration: none; font: var(--type-caption-1-medium); }
+.sh-lm:hover { background: var(--w-hover); }
+.sh-lm__t { display: flex; align-items: center; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sh-lm__t--r { justify-content: flex-end; }
+.sh-lm__s { color: var(--c-live); font-variant-numeric: tabular-nums; }
+.sh-livelist .sh-menu__h .sh-dot { margin-right: 2px; }
+
+/* v13–v17: раздел — одна плашка (.sh-tab), live внутри неё; подсветка и наведение — у плашки целиком */
+.sh-tab { display: inline-flex; align-items: center; height: 32px; border-radius: var(--w-r-sm); color: var(--c-text-2); }
+.sh1 .site-header__nav .sh-tab > a { height: 32px; line-height: 32px; background: none !important; }
+.sh-tab:hover { background: var(--c-surface-2); color: var(--c-text); }
+.sh-tab.is-cur { background: var(--w-muted); }
+.sh-tab.is-cur > a { color: var(--c-text); }
+.sh-tab.has-live > a { gap: 6px; }
+.sh-tab .sh-live--btn { margin: 0 8px 0 -6px; }
+/* v14: красный текст «● 1» */
+.sh-ltext { display: inline-flex; align-items: center; gap: 4px; color: var(--c-live); font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; }
+/* v15: точка перед «Матчи», число серым после */
+.sh-lnum { color: var(--c-live); font: var(--type-caption-1-medium); font-variant-numeric: tabular-nums; }
+/* v16: верхний индекс */
+.sh-sup { align-self: flex-start; margin: 5px 0 0 -2px; color: var(--c-live); font: 600 10px/1 var(--font-sans, sans-serif); font-variant-numeric: tabular-nums; }
+/* v17: лого команд идущего матча */
+.sh-logos { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 6px; border-radius: 11px; background: color-mix(in srgb, var(--c-live) 16%, transparent); }
+.sh-logos__m { display: inline-flex; gap: 2px; }
+
+/* v18: пульсирует сама плашка — фон дышит и расходится кольцо */
+.sh-logos--pulse { animation: sh-breathe 1.8s ease-in-out infinite; }
+@keyframes sh-breathe { 0%, 100% { background: color-mix(in srgb, var(--c-live) 14%, transparent); box-shadow: 0 0 0 0 color-mix(in srgb, var(--c-live) 45%, transparent); }
+  50% { background: color-mix(in srgb, var(--c-live) 32%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-live) 0%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .sh-logos--pulse { animation: none; background: color-mix(in srgb, var(--c-live) 24%, transparent); } }

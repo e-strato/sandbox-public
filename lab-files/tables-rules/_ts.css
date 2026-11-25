@@ -1,0 +1,15 @@
+/* Лаба tables-rules v23 (дирижёр 25.11): шапка таблицы прилипает при прокрутке и не пропадает, пока таблица не кончилась.
+   Подкладывает _sticky.js в готовую страницу движка (lab/ui-pages) при <html data-ts>. --ts-top — низ прилипшей шапки страницы (пишет _ts.js).
+   Почему не липла: таблица растёт вниз без своей прокрутки (DataTable v5), а у коробки таблицы overflow: auto и у виджета overflow: hidden —
+   шапка липла к коробке, которая сама не прокручивается. Здесь: коробка и виджет не обрезают прокрутку (clip вместо hidden/auto), шапка липнет к окну. */
+[data-ts] .widget:has(.tbl2) { overflow: clip; }
+[data-ts] .tbl2__box { overflow: visible; contain: none; }
+[data-ts] .tbl2__t thead { top: var(--ts-top, 52px); }
+/* телефон: шапка тоже липнет (было — нет) */
+[data-ts] .tbl2--narrow .tbl2__t thead { position: sticky; }
+/* прилипла — тонкая тень снизу, чтобы строки не сливались с шапкой */
+[data-ts] .tbl2__t thead.is-stuck { box-shadow: 0 8px 12px -8px rgb(0 0 0 / .7); }
+/* «На весь экран»: своя прокрутка окна — шапка таблицы под шапкой виджета (48) */
+[data-ts] .tt-full .tbl2__t thead { top: 48px; }
+/* телефон: у колонок страницы прокрутка вбок (Tournament v2: overflow-x auto) — она тоже ломала прилипание; обрезаем без прокрутки */
+@media (max-width: 799px) { [data-ts] .etpage__l > *, [data-ts] .etpage__stage > :not(.segment) { overflow-x: clip; } }

@@ -1,0 +1,14 @@
+/* v9 — группа колонок на позицию (Игрок · Паб · Про), группы через одну светлее: с полосами строк — шахматка */
+.rost td.cell2.rb9--alt { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 4%, var(--tbl-bg, var(--c-surface))); }
+.rost th.hcell2.rb9--alt { background: color-mix(in srgb, var(--w-fg, #fff) 4%, var(--c-surface)); }
+.rost .rb9__g { padding: 0 var(--space-8); text-align: left; }
+.rost .rb9__g.rb9--alt { background: color-mix(in srgb, var(--w-fg, #fff) 4%, var(--c-surface)); }
+.rb9__gt { display: inline-flex; align-items: center; gap: 5px; font: var(--num-caption-1-strong, 600 12px/16px var(--font-mono)); color: var(--c-text-2); }
+/* значок позиции — без цвета и без квадратика: только знак, цветом текста */
+.rb9__pi { width: 14px; height: 14px; }
+.rb9__pi rect { fill: none; }
+.rb9__pi path, .rb9__pi circle, .rb9__pi polygon { fill: currentColor; }
+/* оба рейтинга — одного вида */
+.rost td.cell2.rb9__n { padding: 0 4px; font: var(--num-caption-1, 400 12px/16px var(--font-mono)); color: var(--c-text); text-align: center; }
+.rost td.cell2.rb9__pc { padding-left: var(--space-8); padding-right: 2px; }
+.rb9__pc .rb__nm { max-width: none; }

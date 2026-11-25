@@ -1,0 +1,40 @@
+/* v1 — трансферы: наш вид + строки как у Liquipedia. Узкая колонка (≤ 400) — у команд только лого */
+.tlp { container: tlp / inline-size; }
+.tlp__all { display: inline-flex; align-items: center; gap: 2px; color: var(--c-text-2); font: var(--type-caption-1-medium); text-decoration: none; }
+.tlp__all:hover { color: var(--c-text); }
+.tlp__th, .tlp__r { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 20px minmax(0, 1fr) 52px; align-items: center; column-gap: var(--space-8); padding: 0 var(--space-12); }
+.tlp__th { height: 28px; font: var(--type-caption-2); color: var(--c-text-3); }
+.tlp__th span:last-child { text-align: right; }
+.tlp__r { min-height: 44px; padding-top: var(--space-6); padding-bottom: var(--space-6); border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.tlp__r:hover { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+
+.tlp__ps { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.tlp__p { display: flex; align-items: center; gap: var(--space-6); min-width: 0; font: var(--type-body-1); }
+.tlp__p b { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tlp__av { flex: none; width: 24px; height: 24px; border-radius: var(--radius-6); object-fit: cover; object-position: top; background: var(--w-muted); }
+.tlp__r--many .tlp__av { width: 20px; height: 20px; }
+.tlp__fl { flex: none; width: 14px; height: 10px; border-radius: 2px; object-fit: cover; }
+.tlp__ini { display: inline-grid; place-items: center; font: var(--type-micro); font-style: normal; color: var(--c-text-2); background: var(--w-muted); text-transform: uppercase; }
+
+.tlp__t { display: flex; align-items: center; gap: var(--space-6); min-width: 0; }
+.tlp__t img, .tlp__t > .tlp__ini { flex: none; width: 20px; height: 20px; object-fit: contain; border-radius: var(--radius-4); }
+.tlp__tn { display: flex; flex-direction: column; min-width: 0; }
+.tlp__tn b { font: var(--type-caption-1); color: var(--c-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tlp__tn small { font: var(--type-caption-2); color: var(--c-text-3); }
+.tlp__t--none { font: var(--type-caption-1); color: var(--c-text-3); font-style: italic; }
+
+.tlp__mv { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: var(--c-text-3); }
+.tlp__mv--in { color: #fff; background: color-mix(in srgb, var(--c-brand) 60%, transparent); }
+.tlp__mv--out { background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+
+.tlp__d { display: inline-flex; align-items: center; justify-content: flex-end; gap: var(--space-4); font: var(--num-caption-1, 500 12px/16px var(--font-mono)); color: var(--c-text-2); font-variant-numeric: tabular-nums; }
+.tlp__src { display: inline-flex; color: var(--c-text-3); } .tlp__src:hover { color: var(--c-text); }
+
+/* узко (правая колонка 320): у команд только лого, роль — под лого мелко */
+@container tlp (max-width: 400px) {
+  .tlp__th, .tlp__r { grid-template-columns: minmax(0, 1fr) 28px 20px 28px 44px; column-gap: var(--space-6); }
+  .tlp__tn b { display: none; }
+  .tlp__t { flex-direction: column; gap: 2px; }
+  .tlp__t--none { font-size: 10px; text-align: center; }
+  .tlp__src { display: none; }
+}

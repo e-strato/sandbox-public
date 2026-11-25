@@ -1,0 +1,24 @@
+/* v13 — значки позиций: ещё виды; замена ярче */
+.rg__dw { opacity: 1; }
+.rg__dc { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--pc); }
+.rg__dc i { width: 10px; height: 10px; background: #000; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+.rg__num { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--pc); color: #000; font: 700 10px/1 var(--font-mono); }
+.rd__pi--ring .pos-icon rect { fill: none; stroke: var(--pc); stroke-width: 1.2; rx: 8; }
+.rd__pi--ring .pos-icon [fill="#000"] { fill: var(--c-text); }
+.rd__pi--ring .pos-icon [stroke="#000"] { stroke: var(--c-text); }
+.rd__pi--ring .pos-icon [fill="#f59e0b"]:not(rect) { fill: var(--c-surface); }
+/* замена — ярче: фиолетовое кольцо вокруг аватара, значок — фиолетовый кружок с белыми стрелками, «N дн» — фиолетовым */
+.rg .rb__av.rg__sw { border-radius: 50%; box-shadow: 0 0 0 1.5px var(--c-brand-glow, var(--c-brand)); }
+.rg .rb__av.rg__sw .rb__sw { background: var(--c-brand); color: #fff; box-shadow: 0 0 0 1.5px var(--c-surface); }
+.rg .rg__swd { color: var(--c-brand-glow, var(--c-brand)) !important; font-weight: 600; }
+/* все виды значков рядом */
+.rg__gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8); margin-bottom: var(--layout-widget-gap, 16px); padding: var(--space-12); border-radius: 14px; background: var(--eng-surface, #0f0f0f); }
+.rg__gr { display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-10); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.rg__gr.is-on { box-shadow: inset 0 0 0 1px var(--c-brand); }
+.rg__gn { flex: 1; min-width: 0; font: var(--type-caption-2); color: var(--c-text-2); }
+.rg__gi { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.rg__gi small { font: 400 9px/10px var(--font-mono); color: var(--c-text-3); }
+.rg__gal .rd__pi, .rg__gal .rd__pi .pos-icon { width: 18px; height: 18px; }
+.rg__gal .rd__dota { width: 16px; height: 16px; }
+/* v15 — строка под мышью: яркая и светлее (8 %), даже в погашенных позициях */
+.rost.rh tbody tr.row2:hover > td.cell2:not(.cell2--hit):not(.cell2--col) { --cell-bg: color-mix(in srgb, var(--w-fg, #fff) 8%, var(--c-surface)); }

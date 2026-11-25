@@ -1,0 +1,20 @@
+/* v2 — трансферы для правой колонки 320: столбцы как у Liquipedia (Дата · Игрок · Откуда · тип · Куда · ссылка), наши теги */
+.tl2__th, .tl2__r { display: grid; grid-template-columns: 34px minmax(0, 1fr) 40px 16px 40px 14px; align-items: center; column-gap: var(--space-6); padding: 0 var(--space-4); }
+.tl2__th { height: 24px; font: var(--type-caption-2); color: var(--c-text-3); }
+.tl2__th span:nth-child(3), .tl2__th span:nth-child(5) { text-align: center; }
+.tl2__r { min-height: 36px; padding-top: var(--space-6); padding-bottom: var(--space-6); border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.tl2__d { font: var(--num-caption-2, 400 11px/14px var(--font-mono)); color: var(--c-text-3); font-variant-numeric: tabular-nums; }
+.tl2__ps { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
+.tl2__ps .etag { max-width: 100%; }
+.tl2__fl { width: 14px !important; height: 10px !important; border-radius: 2px; object-fit: cover; }
+.tl2__t { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 0; }
+.tl2__t .etag { --etag-pad: 2px; }
+.tl2__t .etag__name:empty { display: none; }
+.tl2__t small { font: 400 10px/12px var(--font-sans); color: var(--c-text-3); white-space: nowrap; }
+.tl2__none { font: var(--type-caption-2); color: var(--c-text-3); }
+.tl2__mv { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; color: var(--c-text-3); }
+.tl2__mv--in { color: #fff; background: color-mix(in srgb, var(--c-brand) 60%, transparent); }
+.tl2__mv--out { background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+.tl2__src { display: inline-flex; color: var(--c-text-3); } .tl2__src:hover { color: var(--c-text); }
+.tl2__all { display: flex; align-items: center; justify-content: center; gap: 2px; height: 32px; margin-top: var(--space-4); border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); color: var(--c-text-2); font: var(--type-caption-1-medium); text-decoration: none; }
+.tl2__all:hover { color: var(--c-text); }

@@ -5,10 +5,10 @@
 [data-hs] .ph-pill { display: none; }
 
 /* ——— v1–v3: шапка липнет под шапкой сайта; крошки уходят под неё, блок встаёт ровно на 52 ——— */
-:is([data-hs="v1"], [data-hs="v2"], [data-hs="v3"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"]) .ph2-wrap { position: sticky; top: calc(52px - var(--hs-crumb, 20px)); z-index: 6; container-type: scroll-state; }
+:is([data-hs="v1"], [data-hs="v2"], [data-hs="v3"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2-wrap { position: sticky; top: calc(52px - var(--hs-crumb, 20px)); z-index: 6; container-type: scroll-state; }
 :is([data-hs="v1"], [data-hs="v2"], [data-hs="v6"], [data-hs="v7"]) .ph2 { background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); transition: box-shadow .2s; }   /* непрозрачный — страница под ним не просвечивает */
 @container scroll-state(stuck: top) {
-  :is([data-hs="v1"], [data-hs="v2"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"]) .ph2 { box-shadow: 0 10px 24px -6px rgb(0 0 0 / .6); }
+  :is([data-hs="v1"], [data-hs="v2"], [data-hs="v6"], [data-hs="v7"], [data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 { box-shadow: 0 10px 24px -6px rgb(0 0 0 / .6); }
 }
 
 /* ——— v6: как v1, прилипла — плашка шире на 8 влево и вправо, содержимое стоит на месте ——— */
@@ -28,11 +28,12 @@
 }
 
 /* ——— v20: как v7, но пока не прилипла — фон как у всего (#0F0F0F виджетов движка, без своей заливки); прилипла — светлее, как v7 ——— */
-[data-hs="v20"] .ph2 { transition: box-shadow .2s, margin .2s, background-color .2s; }
-[data-hs="v20"] .ph2 .ph-in { transition: padding .2s; }
+/* v27 (созвон 25.11, 112-5) — то же, что v20, на последних страницах движка (шапка v5, турнир v6, матч v32) */
+:is([data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 { transition: box-shadow .2s, margin .2s, background-color .2s; }
+:is([data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 .ph-in { transition: padding .2s; }
 @container scroll-state(stuck: top) {
-  [data-hs="v20"] .ph2 { margin-inline: -4px; background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); }
-  [data-hs="v20"] .ph2 .ph-in { padding-inline: calc(var(--space-12) + 4px); }
+  :is([data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 { margin-inline: -4px; background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); }
+  :is([data-hs="v20"], [data-hs="v27"], [data-hs="v28"], [data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 .ph-in { padding-inline: calc(var(--space-12) + 4px); }
 }
 
 /* ——— v2: пока листаешь — шапка плавно тоньше (прокрутка ведёт анимацию, без JS на кадр) ——— */
@@ -172,3 +173,25 @@
 
 /* v26 — v25 с выбранными настройками (дирижёр 23.11): ровно по краю, круг 12 с, средний (120), яркость 35 %, один блик */
 [data-hs="v26"] { --gl-dur: 12s; --gl-size: 120px; --gl-a: .35; }
+
+/* v28 — как v27, прилипла — на 1 px выше: тот же фон закрывает щель под шапкой сайта (дирижёр 25.11: «не должно просвечивать») */
+@container scroll-state(stuck: top) {
+  [data-hs="v28"] .ph2::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 12px; background: inherit; z-index: -1; pointer-events: none; }
+}
+
+/* v29 — как v27, прилипла — поверх всего (и шапки сайта, и подсказок таблиц), на 1 px выше, углы скруглены (дирижёр 25.11: «почему не скруглённая? должна быть поверх всего»).
+   Блок встаёт на 51 и растёт на 1 px вверх — содержимое на месте; крошки над блоком прячем, чтобы не легли на шапку сайта */
+:is([data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2-wrap { top: calc(51px - var(--hs-crumb, 20px)); z-index: calc(var(--z-modal, 1000) + 1); }
+:is([data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2-crumbs { transition: opacity .2s; }
+@container scroll-state(stuck: top) {
+  :is([data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2-crumbs { opacity: 0; pointer-events: none; }
+  :is([data-hs="v29"], [data-hs="v30"], [data-hs="v31"]) .ph2 .ph-in { padding-top: calc(var(--space-12) + 1px); }
+}
+
+/* v30 — как v29; правая колонка везде ведёт себя одинаково (дирижёр 25.11): на матче без своей прокрутки на вкладке карты — липнет в обе стороны, как на остальных */
+[data-hs="v30"] .mpage__side--lock, [data-hs="v31"] .mpage__side--lock { max-height: none; overflow: visible; }
+
+/* v31 — как v30. Профиль: шапка с кнопкой настроек в своей обёртке (.pfp-hd) — липнет обёртка целиком, как шапка на остальных страницах (дирижёр 25.11) */
+[data-hs="v31"] .pfp-hd { position: sticky; top: 51px; z-index: calc(var(--z-modal, 1000) + 1); container-type: scroll-state; }
+[data-hs="v31"] .pfp-hd .ph2-wrap { position: static; container-type: normal; }
+/* колонка вровень с прилипшей шапкой — отступ первого виджета колонки учитывает _hs.js */
