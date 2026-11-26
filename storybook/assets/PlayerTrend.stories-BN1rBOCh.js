@@ -1,7 +1,0 @@
-import{j as o}from"./iframe-mjJN3hdL.js";import{a as s}from"./data-CoFX91qL.js";import{P as a}from"./PlayerTrend-CQAJTqjP.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./Widget-Duiz7FPW.js";import"./Icon-DreIrXhw.js";import"./Segment-CwrrwYnS.js";import"./HeroIcon-B7hl2MSo.js";import"./Position-B8n_rEUs.js";import"./TeamLogo-BEdUPBKG.js";import"./Button-BDvjVJCQ.js";const j={title:"Движок/Игрок/Динамика/PlayerTrend v2",component:a,tags:["concept"],parameters:{layout:"fullscreen",docs:{description:{component:"Страница игрока движка (концепт) — «Динамика» v2: колонки снизу вверх — высота как сыграл, цвет исход; навёл — карточка карты с «Открыть матч» (лаба player-trend v11). Стоит на странице игрока v1."}}},decorators:[t=>o.jsx("div",{className:"eng-surface",style:{padding:20,width:1016},children:o.jsx(t,{})})]},r={name:"Про · Yatoro",render:()=>o.jsx(a,{p:s("pro")})},e={name:"Паблик · Rasmus_=",render:()=>o.jsx(a,{p:s("pub")})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  name: 'Про · Yatoro',
-  render: () => <PlayerTrend p={player('pro')} />
-}`,...r.parameters?.docs?.source}}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
-  name: 'Паблик · Rasmus_=',
-  render: () => <PlayerTrend p={player('pub')} />
-}`,...e.parameters?.docs?.source}}};const g=["Pro","Pub"];export{r as Pro,e as Pub,g as __namedExportsOrder,j as default};

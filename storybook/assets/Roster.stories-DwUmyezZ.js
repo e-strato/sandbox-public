@@ -1,0 +1,11 @@
+import{j as t}from"./iframe-LlTmsQQT.js";import{t as m}from"./storyArgs-DtbBxQeB.js";import{R as p}from"./Roster-CTXZD0PE.js";import"./preload-helper-PPVm8Dsz.js";import"./WidgetStatus-DV0JZGDy.js";import"./Button-CJhwX6XB.js";import"./Icon-mbIfL-WU.js";import"./EmptyState-f7f2zuj8.js";import"./Skeleton-D1zBz-e_.js";import"./db-C0JPCiI4.js";import"./teams-B3ZcqJAy.js";import"./state-DBQC2GVf.js";import"./Widget-C_owcsdF.js";import"./PlayerPhoto-DqhZCQwI.js";import"./EntityTag-B1GrTTEW.js";import"./Table-ChDrfZ_W.js";/* empty css              */import"./Cell-BIiXT_qn.js";import"./Flag-CyC5-tlX.js";import"./HeroIcon-CT_E8eJC.js";import"./Position-BNbBKQ8b.js";import"./PosIcon-BVKRG-gy.js";import"./TeamLogo-Cs83VDni.js";import"./Tooltip-BPlmq89_.js";import"./index-YZS3ySDu.js";import"./format-CX8-8sml.js";/* empty css             */import"./HeadCell-X0tgALOe.js";import"./Row-CBo8HEqG.js";import"./Segment-D-rT73fe.js";import"./Participants-B2LcSYZX.js";import"./TableFilter-DydL-vHd.js";import"./Popover-Pt0IwVwB.js";import"./RosterRow-CnAVfj2d.js";/* empty css                     */import"./RoleIcon-B30vzFCe.js";import"./TableTools-CTTd_4sH.js";const{tour:i}=m,L={title:"Движок/Турнир/Участники/Roster v5",component:p,parameters:{layout:"fullscreen",docs:{description:{component:"«Участники» движка v5 — у игрока медаль ранга с местом в рейтинге Valve (лаба roster-medals v6). Было v4 — группа «Игрок · Паб · Про» на позицию, значки ролей как в Доте, фокус при наведении (лаба tour-roster v15, созвон 25.11: 108-1 … 111-4). Стоит на странице турнира v6."}}},decorators:[e=>t.jsx("div",{style:{padding:20},children:t.jsx("div",{style:{width:1040},children:t.jsx(e,{})})})],argTypes:{tour:i}},r={name:"TI 2026",args:{tour:"ti"}},o={name:"Universe Ep. 7",args:{tour:"ep7"}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  name: 'TI 2026',
+  args: {
+    tour: 'ti'
+  }
+}`,...r.parameters?.docs?.source}}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  name: 'Universe Ep. 7',
+  args: {
+    tour: 'ep7'
+  }
+}`,...o.parameters?.docs?.source}}};const M=["TI","Universe"];export{r as TI,o as Universe,M as __namedExportsOrder,L as default};
