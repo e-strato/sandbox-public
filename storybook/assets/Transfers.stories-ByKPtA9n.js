@@ -1,5 +1,0 @@
-import{j as e}from"./iframe-CNsLiz2M.js";import{T as o}from"./Transfers-DLbvSTA_.js";/* empty css                */import"./preload-helper-PPVm8Dsz.js";import"./Widget--Q8cOXSB.js";import"./Button-jGK-q_gA.js";import"./Icon-CbAg01k_.js";import"./EntityTag-Bost7bbZ.js";import"./db-C0JPCiI4.js";const f={title:"Движок/Общие/Трансферы/Transfers v1",component:o,decorators:[t=>e.jsx("div",{className:"eng-surface",style:{width:320},children:e.jsx(t,{})})],parameters:{docs:{description:{component:"Трансферы движка v1 — правая колонка 320 (лаба transfers-lp v8, задача 118-11). Страницы: список турниров (все), команда (её переходы)."}}}},r={},s={args:{team:"team-spirit"}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:"{}",...r.parameters?.docs?.source}}};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
-  args: {
-    team: 'team-spirit'
-  }
-}`,...s.parameters?.docs?.source}}};const x=["Все","Команда"];export{x as __namedExportsOrder,f as default,r as Все,s as Команда};

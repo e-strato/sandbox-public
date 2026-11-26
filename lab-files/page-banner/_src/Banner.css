@@ -1,0 +1,75 @@
+.pbn { position: relative; display: grid; grid-template-columns: 156px minmax(0, 1fr) auto; align-items: center; gap: 0 20px; min-height: 156px; padding-right: 20px; border-radius: 14px; overflow: hidden; background: #0f0f0f; }
+.pbn--b { grid-template-columns: minmax(0, 1fr) auto; padding-left: 20px; }
+.pbn-pic { align-self: stretch; display: grid; place-items: center; background: color-mix(in srgb, var(--c-text) 4%, transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 60%, transparent); mask-image: linear-gradient(to right, #000 60%, transparent); }
+.pbn-pic img { width: 96px; height: 96px; object-fit: contain; }
+.pbn--round .pbn-pic img { width: 100%; height: 100%; object-fit: cover; }
+.pbn-bg { position: absolute; right: 120px; top: 50%; width: 300px; height: 300px; object-fit: contain; transform: translateY(-50%); opacity: .07; filter: grayscale(.3); pointer-events: none; }
+.pbn-c { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 18px 0; }
+.pbn-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pbn-logo { width: 44px; height: 44px; object-fit: contain; margin-right: 4px; }
+.pbn--round .pbn-logo { border-radius: 50%; object-fit: cover; }
+.pbn-top h1 { display: flex; align-items: center; gap: 8px; margin: 0 6px 0 0; font: 700 26px/1.1 var(--font-sans); color: var(--c-text); }
+.pbn-sub { margin: 0; font: var(--type-body-2); color: var(--c-text-2); }
+.pbn-nums { display: flex; align-items: flex-end; gap: 22px; margin-top: 8px; flex-wrap: wrap; }
+.pbn-n { display: flex; flex-direction: column; gap: 3px; }
+.pbn-n small { font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; }
+.pbn-n b { font: 600 15px/1 var(--font-mono); color: var(--c-text); white-space: nowrap; }
+.pbn-r { position: relative; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.pbn-r > div { display: flex; flex-direction: column; align-items: flex-end; }
+.pbn-r small { font: var(--type-caption-2); color: var(--c-text-3); }
+.pbn-r b { font: 600 22px/1.1 var(--font-mono); color: var(--c-text); }
+@media (max-width: 800px) { .pbn { grid-template-columns: 96px minmax(0, 1fr); } .pbn--b { grid-template-columns: minmax(0, 1fr); } .pbn-r { display: none; } .pbn-pic img { width: 64px; height: 64px; } .pbn-bg { right: -40px; } }
+/* крошки — вплотную к блоку, как у обычной шапки (одна щель вместо двух вокруг выезжающей строки) */
+.etpage__l > .hbn-bar:has(+ .pbn), .etpage__l > .hbn-bar:has(+ .pbn2) { margin: calc(-1 * var(--layout-widget-gap, 16px)) 0 calc(8px - var(--layout-widget-gap, 16px)); }
+.pbn .plh-flag, .pbn2 .plh-flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
+.pbn .plh-meta, .pbn2 .plh-meta { display: inline-flex; align-items: center; gap: 8px; }
+
+/* v3–v6 */
+.pbn2 { position: relative; border-radius: 14px; overflow: hidden; background: #0f0f0f; }
+.pbn2 .pbn-top h1 { margin: 0 4px 0 0; }
+.pbn2-row { position: relative; display: flex; align-items: center; gap: 16px; }
+.pbn2-id { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.pbn2 .pbn-logo { flex: none; object-fit: contain; }
+.pbn2.pbn--round .pbn-logo { border-radius: 50%; object-fit: cover; }
+/* c — обложка */
+.pbn2--c { display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; min-height: 200px; padding: 20px; isolation: isolate; }
+.pbn2-blur { position: absolute; inset: -40%; width: 180%; height: 180%; object-fit: cover; filter: blur(60px) saturate(1.4); opacity: .45; z-index: -2; }
+.pbn2--c::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, #0f0f0f 10%, rgb(15 15 15 / .35)); }
+.pbn2-c-top { position: absolute; top: 16px; right: 16px; }
+.pbn2-c-main { display: flex; align-items: center; gap: 16px; }
+.pbn2--c .pbn-logo { width: 88px; height: 88px; }
+.pbn2--c h1 { font-size: 32px !important; }
+.pbn2-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pbn2-pill { display: inline-flex; align-items: baseline; gap: 6px; height: 30px; padding: 0 12px; align-items: center; border-radius: 8px; background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+.pbn2-pill small { font: var(--type-caption-2); color: var(--c-text-3); }
+.pbn2-pill b { font: 600 13px/1 var(--font-mono); color: var(--c-text); }
+/* d — плитки */
+.pbn2--d { background: none; overflow: visible; display: flex; flex-direction: column; gap: 12px; }
+.pbn2--d .pbn2-row { padding: 16px 16px; border-radius: 14px; background: #0f0f0f; }
+.pbn2--d .pbn-logo { width: 56px; height: 56px; }
+.pbn2--d h1 { font-size: 28px !important; }
+.pbn2-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.pbn2-tile { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 12px; background: #0f0f0f; }
+.pbn2-tile small { font: var(--type-caption-2); color: var(--c-text-3); }
+.pbn2-tile b { font: 600 18px/1.1 var(--font-mono); color: var(--c-text); white-space: nowrap; }
+.pbn2-tile.is-main b { font-size: 22px; }
+/* e — без блока */
+.pbn2--e { background: none; border-radius: 0; padding: 8px 0 20px; border-bottom: 1px solid color-mix(in srgb, var(--c-text) 10%, transparent); }
+.pbn2--e .pbn-logo { width: 72px; height: 72px; }
+.pbn2--e h1 { font-size: 36px !important; }
+.pbn2-line { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 4px 0; font: var(--type-body-2); color: var(--c-text-3); }
+.pbn2-line > span:not(:last-child)::after { content: '·'; margin: 0 10px; color: var(--c-text-3); }
+.pbn2-line b { font: 600 14px/1 var(--font-mono); color: var(--c-text); margin-left: 2px; }
+.pbn2-line > span:first-child { color: var(--c-text-2); }
+/* f — две полосы */
+.pbn2--f .pbn2-row { padding: 18px 20px; }
+.pbn2--f .pbn-logo { width: 56px; height: 56px; }
+.pbn2--f h1 { font-size: 28px !important; }
+.pbn2-strip { display: flex; border-top: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); }
+.pbn2-s { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 12px 20px 14px; }
+.pbn2-s + .pbn2-s { border-left: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); }
+.pbn2-s small { font: var(--type-caption-2); color: var(--c-text-3); }
+.pbn2-s b { font: 600 16px/1.1 var(--font-mono); color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pbn2-s.is-main b { font-size: 20px; }
+@media (max-width: 800px) { .pbn2-strip { flex-wrap: wrap; } .pbn2-s { flex: 1 1 33%; } .pbn2--e h1, .pbn2--c h1 { font-size: 26px !important; } }

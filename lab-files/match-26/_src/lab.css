@@ -1,0 +1,417 @@
+/* Лаба match-26 v1 — правки созвона 26.11 поверх страницы матча движка (MatchPage v32). v0 — без этих правил (класс .mlab0). */
+
+/* 140-19: шапка матча крупнее, пока страница сверху; прилипла при прокрутке — как в продукте */
+.mlab-big .ph2-wrap > section.ph2 .ph-in { padding-block: var(--space-20); transition: padding .2s; }
+.mlab-big .ph2-wrap .ph-d .ph-title { font: 600 28px/34px var(--font-sans); gap: var(--space-12); transition: font-size .2s; }
+.mlab-big .ph2-wrap .ph-d .ph-title .etag { --etag-pic: 30px; font: inherit; }
+.mlab-big .ph2-wrap .ph-d .ph-score { font: 600 32px/34px var(--font-mono); padding: 0 var(--space-12); }
+.mlab-big .ph2-wrap .ph-d .ph2-time b { font-size: 28px; line-height: 32px; }
+.mlab-st { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-6); color: var(--c-text-3); font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); }
+.mlab-st.is-live { color: var(--c-live); }
+.mlab-st i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); animation: mlab-p 1.4s infinite; }
+@keyframes mlab-p { 50% { opacity: .35; } }
+@container scroll-state(stuck: top) {
+  .mlab-big .ph2-wrap > section.ph2 .ph-in { padding-block: calc(var(--space-12) + 1px) var(--space-12); }
+  .mlab-big .ph2-wrap .ph-d .ph-title { font: var(--type-subtitle-1); gap: var(--space-8); }
+  .mlab-big .ph2-wrap .ph-d .ph-title .etag { --etag-pic: 18px; }
+  .mlab-big .ph2-wrap .ph-d .ph-score { font: inherit; padding: 0 var(--space-4); }
+  .mlab-big .ph2-wrap .ph-d .ph2-time b { font-size: inherit; line-height: inherit; }
+  .mlab-st { display: none; }
+}
+@media (max-width: 799px) { .mlab-big .ph2-wrap .ph-m .ph-title { font: var(--type-title-2); } }
+
+/* 140-19: в «О серии» блока начала матча нет — счёт / время и состояние уже в шапке */
+.mlab1 .sst__top { display: none; }
+
+/* 137-16: у игроков на вкладке карты нет аватарок — ник влезает */
+.mlab1 :is(.mt4__hx, .mtm__hx) .etag__pic { display: none; }
+.mlab1 :is(.mt4__hx, .mtm__hx) .etag { padding-left: 0; }
+
+/* 138-17 (v2): превью серии — отдельный блок главной колонки над статистикой */
+.mlab-pv { display: flex; flex-direction: column; gap: var(--space-8); margin: var(--space-4) 0 var(--space-24); padding: var(--space-16); border-radius: var(--radius-12); background: var(--w-surface); }
+.mlab-pv h3 { margin: 0; font: var(--type-subtitle-1); color: var(--c-text); }
+.mlab-pv p { margin: 0; max-width: 760px; font: 400 15px/24px var(--font-sans); color: var(--c-text-2); }
+.mlab-pv small { font: var(--type-caption-2); color: var(--c-text-3); }
+
+/* 138-17 (v2): медиа — карточки 9:16 медиа-движка (как ролик Марата), в правой колонке лентой вбок */
+.mlab-slot { margin-bottom: 0; }   /* зазор до прогнозов — их собственный отступ сверху */
+.mlab-md { padding: var(--space-12) 0 var(--space-12) var(--space-12); border-radius: var(--radius-12); background: var(--w-surface); }
+.mlab-md__hd { display: flex; align-items: baseline; justify-content: space-between; padding: 0 var(--space-12) var(--space-10) 0; }
+.mlab-md__hd b { font: var(--type-subtitle-2, 600 14px/20px var(--font-sans)); color: var(--c-text); }
+.mlab-md__hd small { font: var(--type-caption-2); color: var(--c-text-3); }
+.mlab-md__row { display: flex; gap: var(--space-8); overflow-x: auto; padding-right: var(--space-12); scrollbar-width: none; scroll-snap-type: x mandatory; }
+.mlab-card { flex: none; width: 150px; aspect-ratio: 9 / 16; border-radius: var(--radius-8); object-fit: cover; background: #000; scroll-snap-align: start; }
+.mlab-card--p { position: relative; overflow: hidden; color: #fff;
+  background: repeating-linear-gradient(118deg, transparent 0 18px, color-mix(in srgb, var(--c2) 22%, transparent) 18px 22px, transparent 22px 46px),
+    linear-gradient(160deg, var(--c1), #050506 75%); }
+.mlab-card__w { position: absolute; top: 8%; left: 0; right: 0; text-align: center; font: 900 46px/0.9 Inter, var(--font-sans); letter-spacing: -.03em; color: #fff; }
+.mlab-card__f { position: absolute; left: 50%; bottom: 26%; width: 92%; transform: translateX(-50%); object-fit: contain; filter: drop-shadow(0 8px 16px rgb(0 0 0 / .6)); -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+.mlab-card__b { position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.mlab-card__b i { padding: 1px 5px; border-radius: 2px; background: #d4a514; color: #111; font: 700 8px/12px Inter, var(--font-sans); font-style: normal; text-transform: uppercase; letter-spacing: .02em; }
+.mlab-card__b b { font: 900 22px/1 Inter, var(--font-sans); letter-spacing: -.02em; }
+.mlab-card__b small { font: 600 8px/11px Inter, var(--font-sans); color: rgb(255 255 255 / .75); letter-spacing: .02em; }
+
+/* ——— v3: виды превью серии и медиа (панель «Превью», «Медиа») ——— */
+/* превью ближе к статистике: у «Игроков» без верхнего отступа (блока начала матча нет) */
+.mlab3 .sst > .sst__top + .sst__h3 { margin-top: var(--space-8); }
+.mlab3 .mlab-pv { margin: var(--space-16) var(--space-16) 0; gap: var(--space-10); }
+.mlab-pv__hd { display: flex; align-items: center; gap: var(--space-8); }
+.mlab-pv__ic { display: grid; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-brand) 35%, transparent); color: var(--c-text); font-size: 12px; }
+/* «Карточка» — подложка с лёгким фиолетовым с края и тонкой обводкой */
+.mlab3 .mlab-pv--card { background: radial-gradient(80% 120% at 0% 0%, color-mix(in srgb, var(--c-brand) 22%, transparent), transparent 70%), var(--w-surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-brand) 30%, transparent); }
+.mlab3 .mlab-pv--card p { color: var(--c-text); }
+/* «Лид» — без карточки: крупный белый текст, подпись сверху */
+.mlab3 .mlab-pv--lead { padding: var(--space-8) 0 0; background: none; }
+.mlab3 .mlab-pv--lead .mlab-pv__hd h3 { font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); color: var(--c-text-3); }
+.mlab3 .mlab-pv--lead .mlab-pv__ic { width: 18px; height: 18px; font-size: 10px; }
+.mlab3 .mlab-pv--lead p { max-width: 820px; font: 500 20px/30px var(--font-sans); color: var(--c-text); letter-spacing: -.005em; }
+/* «Факты» — плитки с числом + вывод одной строкой */
+.mlab3 .mlab-pv--facts { background: var(--w-surface); }
+.mlab-pv__tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-8); }
+.mlab-pv__tiles > div { display: flex; flex-direction: column; gap: 2px; padding: var(--space-10) var(--space-12); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 5%, transparent); }
+.mlab-pv__tiles b { font: 600 22px/28px var(--font-mono); color: var(--c-text); }
+.mlab-pv__tiles span { font: var(--type-caption-2); color: var(--c-text-3); }
+.mlab3 .mlab-pv--facts p { color: var(--c-text); }
+
+/* медиа «Телевизор» — одна карточка во всю колонку, листается сама */
+.mlab-tv { position: relative; margin-right: var(--space-12); }
+.mlab-card--tv { width: 100%; height: auto; display: block; }
+.mlab-tv__bars { position: absolute; z-index: 2; top: 8px; left: 8px; right: 8px; display: flex; gap: 4px; }
+.mlab-tv__bars i { flex: 1; height: 3px; border-radius: 2px; background: rgb(255 255 255 / .3); overflow: hidden; }
+.mlab-tv__bars i.is-done { background: #fff; }
+.mlab-tv__bars i.is-on { background: linear-gradient(90deg, #fff 50%, rgb(255 255 255 / .3) 50%) 100% 0 / 200% 100%; animation: mlab-bar 6s linear forwards; }
+@keyframes mlab-bar { to { background-position: 0 0; } }
+.mlab-tv__nav { position: absolute; z-index: 2; top: 0; bottom: 0; width: 35%; border: 0; background: none; cursor: pointer; }
+.mlab-tv__nav.is-l { left: 0; } .mlab-tv__nav.is-r { right: 0; }
+.mlab-card--tv.mlab-card--p .mlab-card__w { font-size: 84px; }
+.mlab-card--tv .mlab-card__b b { font-size: 40px; } .mlab-card--tv .mlab-card__b i { font-size: 11px; line-height: 16px; } .mlab-card--tv .mlab-card__b small { font-size: 11px; line-height: 14px; }
+/* медиа «Сетка» — 2×2 миниатюры + «Все медиа» */
+.mlab-md__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); margin-right: var(--space-12); }
+.mlab-md__grid .mlab-card { width: 100%; }
+.mlab-md__grid .mlab-card__w { font-size: 40px; }
+.mlab-md__all { display: block; width: calc(100% - var(--space-12)); height: 34px; margin-top: var(--space-8); border: 0; border-radius: var(--radius-8); background: var(--w-muted); color: var(--c-text); font: var(--type-body-1); text-align: center; cursor: pointer; }
+/* медиа «В превью» — лентой внутри блока превью в главной колонке */
+.mlab-md__row--main { padding: var(--space-4) 0 0; }
+.mlab-md__row--main .mlab-card { width: 132px; }
+
+/* ——— v4: карточка превью — шесть видов (панель «Карточка»); медиа — SVG-заглушки ——— */
+.mlab-pc { background: var(--w-surface); }
+.mlab-pc p { color: var(--c-text); }
+.mlab-pv__hd { justify-content: flex-start; }
+/* edge — фиолетовый отсвет с края и обводка (как v3) */
+.mlab-pc--edge { background: radial-gradient(80% 120% at 0% 0%, color-mix(in srgb, var(--c-brand) 22%, transparent), transparent 70%), var(--w-surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-brand) 30%, transparent); }
+/* meta — ровная подложка, справа в шапке — кто собрал и когда */
+.mlab-pc--meta > .mlab-pv__hd { justify-content: space-between; }
+.mlab-pc__meta { font: var(--type-caption-2); color: var(--c-text-3); }
+/* teams — слева лого обеих команд, справа текст */
+.mlab-pc--teams { flex-direction: row; align-items: center; gap: var(--space-20); }
+.mlab-pc__vs { flex: none; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--space-8) var(--space-12); border-radius: var(--radius-12); background: color-mix(in srgb, var(--c-text) 5%, transparent); }
+.mlab-pc__vs i { font: 500 11px/14px var(--font-mono); font-style: normal; color: var(--c-text-3); }
+.mlab-pc__body { display: flex; flex-direction: column; gap: var(--space-8); min-width: 0; }
+/* quote — крупная кавычка цветом бренда, текст крупнее, подпись снизу */
+.mlab-pc--quote { position: relative; padding-left: 56px; background: linear-gradient(90deg, color-mix(in srgb, var(--c-brand) 14%, transparent), transparent 60%), var(--w-surface); }
+.mlab-pc__q { position: absolute; left: 16px; top: 6px; font: 800 56px/1 Georgia, serif; color: var(--c-brand); opacity: .9; }
+.mlab-pc--quote p { font: 500 17px/26px var(--font-sans); }
+.mlab-pc__by { font: var(--type-caption-2); color: var(--c-text-3); }
+/* chips — текст + факты плашками в строку */
+.mlab-pc__chips { display: flex; flex-wrap: wrap; gap: var(--space-6); }
+.mlab-pc__chips span { display: inline-flex; align-items: baseline; gap: 6px; height: 28px; padding: 0 var(--space-10); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 6%, transparent); font: var(--type-caption-1); color: var(--c-text-2); line-height: 28px; }
+.mlab-pc__chips b { font: 600 13px/28px var(--font-mono); color: var(--c-text); }
+/* light — подложка светлее, без обводки, заголовок цветом бренда */
+.mlab-pc--light { background: color-mix(in srgb, var(--c-text) 7%, var(--w-surface)); }
+.mlab-pc--light h3 { color: color-mix(in srgb, var(--c-brand) 55%, var(--c-text)); }
+.mlab-pc--light .mlab-pv__ic { background: none; color: color-mix(in srgb, var(--c-brand) 55%, var(--c-text)); }
+/* SVG-заглушки медиа */
+.mlab-svg { width: 120px; height: auto; background: none; }
+
+/* ——— v11–v13: чёрная карточка, значок как в v10 (без подложки, цветом бренда), факты плашками как в v9, свой лёгкий градиент ——— */
+.mlab-pc--black { background-color: #000; }
+.mlab-pc--black h3 { color: var(--c-text); }
+.mlab-pc--black .mlab-pv__ic { background: none; color: color-mix(in srgb, var(--c-brand) 55%, var(--c-text)); }
+.mlab-pc--black .mlab-pc__chips span { background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+/* v11 — отсвет из левого верхнего угла */
+.mlab-pc--black1 { background-image: radial-gradient(70% 140% at 0% 0%, color-mix(in srgb, var(--c-brand) 20%, transparent), transparent 70%); }
+/* v12 — отсвет справа, из-за края */
+.mlab-pc--black2 { background-image: radial-gradient(60% 160% at 100% 50%, color-mix(in srgb, var(--c-brand) 18%, transparent), transparent 70%); }
+/* v13 — сверху вниз, едва заметно, тонкая обводка */
+.mlab-pc--black3 { background-image: linear-gradient(180deg, color-mix(in srgb, var(--c-brand) 12%, transparent), transparent 75%); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
+
+/* ——— v14: как v12 (отсвет справа, из-за края), сильнее; цвет — как у лучшей цифры в сравнении (StatCompare .is-best: бренд 35 %); без обводки ——— */
+.mlab-pc--black4 { box-shadow: none; background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+
+/* ——— v15–v18 (дирижёр 26.11): значок крупнее; цвет карточки как у карточки прогноза (--c-surface-2), без обводки; лого команд внизу ——— */
+.mlab-pc--big .mlab-pv__hd { gap: var(--space-10); }
+.mlab-pc--big .mlab-pv__ic { width: 28px; height: 28px; font-size: 22px; }
+.mlab-pc--big h3 { font: var(--type-subtitle-1); font-size: 17px; }
+/* v15 — цвет карточки прогноза + отсвет справа, как v14 */
+.mlab-pc--black5 { background-color: var(--c-surface-2); background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+/* v16 — цвет карточки прогноза, ровный, без отсвета */
+.mlab-pc--black6 { background-color: var(--c-surface-2); }
+/* v17 — чёрная + отсвет (v14) + лого обеих команд внизу справа; v18 — то же на цвете карточки прогноза */
+.mlab-pc--black7 { background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+.mlab-pc--black8 { background-color: var(--c-surface-2); background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+.mlab-pc--black7, .mlab-pc--black8 { position: relative; overflow: hidden; }
+.mlab-pc--black7 > :not(.mlab-pc__logos), .mlab-pc--black8 > :not(.mlab-pc__logos) { position: relative; z-index: 1; }
+.mlab-pc__logos { position: absolute; right: -8px; bottom: -34px; display: flex; gap: var(--space-8); opacity: .22; pointer-events: none; }
+.mlab-pc__logos img { width: 120px; height: 120px; object-fit: contain; }
+
+/* ——— v19 (дирижёр 26.11 к v18): отступы одинаковые и меньше — 12 со всех сторон внутри, 12 до вкладок и до «Игроков»; лого втрое крупнее (360), наполовину за нижним краем ——— */
+.mlab-pc--black9 { position: relative; overflow: hidden; margin: var(--space-12) var(--space-16) 0; padding: var(--space-12); gap: var(--space-8);
+  background-color: var(--c-surface-2); background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+.mlab-pc--black9 > :not(.mlab-pc__logos) { position: relative; z-index: 1; }
+.mlab-pc--black9 .mlab-pv__hd { gap: var(--space-8); }
+.mlab-pc--black9 .mlab-pv__ic { width: 22px; height: 22px; }
+.mlab-pc--black9 .mlab-pc__logos { right: -24px; bottom: -180px; gap: 0; opacity: .16; }
+.mlab-pc--black9 .mlab-pc__logos img { width: 360px; height: 360px; }
+.mlab-card-black9 .sst > .sst__top + .sst__h3 { margin-top: 0; }
+.mlab-card-black9 .sst { padding-top: var(--space-12); }
+
+/* ——— v20 (дирижёр 26.11): лого — между v18 и v19 (190), в правом углу, на текст не заезжают; остальное — как v19 ——— */
+.mlab-pc--black10 { position: relative; overflow: hidden; margin: var(--space-12) var(--space-16) 0; padding: var(--space-12); gap: var(--space-8);
+  background-color: var(--c-surface-2); background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+.mlab-pc--black10 > :not(.mlab-pc__logos) { position: relative; z-index: 1; }
+.mlab-pc--black10 .mlab-pv__hd { gap: var(--space-8); }
+.mlab-pc--black10 .mlab-pv__ic { width: 22px; height: 22px; }
+.mlab-pc--black10 p { max-width: 740px; }
+.mlab-pc--black10 .mlab-pc__logos { right: -56px; bottom: -95px; gap: 0; opacity: .18; }
+.mlab-pc--black10 .mlab-pc__logos img { width: 190px; height: 190px; }
+.mlab-pc--black10 .mlab-pc__logos img + img { margin-left: -50px; }
+.mlab-card-black10 .sst > .sst__top + .sst__h3 { margin-top: 0; }
+.mlab-card-black10 .sst { padding-top: var(--space-12); }
+
+/* ——— v21 (дирижёр 26.11): v20 + отступы везде одинаковые — 12 (вкладки → карточка → «Игроки», бока карточки и статистики, внутри карточки); шапка до матча — время вместо «vs» ——— */
+.mlab3 .mlab-pv.mlab-pc--black11 { position: relative; overflow: hidden; margin: var(--space-12) var(--space-12) 0; padding: var(--space-12); gap: var(--space-8);
+  background-color: var(--c-surface-2); background-image: radial-gradient(75% 190% at 100% 50%, color-mix(in srgb, var(--c-brand) 35%, transparent), transparent 72%); }
+.mlab-pc--black11 > :not(.mlab-pc__logos) { position: relative; z-index: 1; }
+.mlab-pc--black11 .mlab-pv__hd { gap: var(--space-8); }
+.mlab-pc--black11 .mlab-pv__ic { width: 22px; height: 22px; }
+.mlab-pc--black11 p { max-width: 740px; }
+.mlab-pc--black11 .mlab-pc__logos { right: -56px; bottom: -95px; gap: 0; opacity: .18; }
+.mlab-pc--black11 .mlab-pc__logos img { width: 190px; height: 190px; }
+.mlab-pc--black11 .mlab-pc__logos img + img { margin-left: -50px; }
+.mlab-card-black11 .sst { padding: var(--space-12) var(--space-12) var(--space-24); }
+.mlab-card-black11 .sst > .sst__top + .sst__h3 { margin-top: 0; }
+/* шапка до матча: время на месте «vs» — крупно, под ним «Сегодня · через N ч»; блока времени слева нет */
+.mlab5 .ph-d .ph2-time { display: none; }
+.mlab-kick { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 var(--space-16); }
+.mlab-kick b { font: 600 32px/34px var(--font-mono); color: var(--c-text); }
+.mlab-kick small { font: var(--type-caption-1); color: var(--c-text-3); white-space: nowrap; }
+@container scroll-state(stuck: top) {
+  .mlab-kick { flex-direction: row; align-items: baseline; gap: var(--space-6); padding: 0 var(--space-8); }
+  .mlab-kick b { font: inherit; }
+}
+
+/* ——— v22–v25 (дирижёр 26.11: «игроки должны начинаться по аватарке»; «нужна версия разных шапок») ——— */
+/* строки статистики — по той же линии 12, что и превью: аватарка, лого команды и значок превью — на одной вертикали */
+.mlab-al :is(.sst__hd, .sst__row, .sst__cap, .sst__hero) { padding-left: var(--space-12); padding-right: var(--space-12); }
+
+/* шапки — только пока страница сверху; прилипла — как в продукте (правила v21 возвращают размеры) */
+@container scroll-state(stuck: none) {
+  /* v22 «Табло»: команды по бокам, лого над названием, счёт / время в центре, состояние под счётом; кнопки справа */
+  .mlab-h-board .ph2-wrap .ph-d .ph-main { position: relative; justify-content: center; }
+  .mlab-h-board .ph2-wrap .ph-d .ph-who { flex: 1; display: flex; flex-direction: column; align-items: center; }
+  .mlab-h-board .ph2-wrap .ph-d .ph-title { gap: var(--space-32); }
+  .mlab-h-board .ph2-wrap .ph-d .ph-title .etag { flex-direction: column; gap: var(--space-8); --etag-pic: 48px; font: 600 20px/24px var(--font-sans); min-width: 180px; }
+  .mlab-h-board .ph2-wrap .ph-d .ph-score { font-size: 44px; line-height: 48px; }
+  .mlab-h-board .ph2-wrap .ph-d .ph-title .etag__pic, .mlab-h-board .ph2-wrap .ph-d .ph-title .etag__pic img { width: 48px; height: 48px; }
+  .mlab-h-board .ph2-wrap .ph-d .ph2-rt { position: absolute; right: 0; top: 0; }
+  .mlab-h-board .ph2-wrap .ph-d .mlab-st { margin-top: var(--space-4); }
+  /* v23 «Счёт плашкой»: счёт / время — в плашке цветом бренда, под командами состояние */
+  .mlab-h-pill .ph2-wrap .ph-d .ph-score, .mlab-h-pill .ph2-wrap .ph-d .mlab-kick { padding: var(--space-6) var(--space-16); margin: 0 var(--space-8); border-radius: var(--radius-12); background: color-mix(in srgb, var(--c-brand) 35%, transparent); }
+  .mlab-h-pill .ph2-wrap .ph-d .ph-title { font-size: 24px; line-height: 30px; }
+  .mlab-h-pill .ph2-wrap .ph-d .ph-score { font-size: 28px; }
+  .mlab-h-pill .ph2-wrap .ph-d .ph-title .etag { --etag-pic: 26px; }
+  /* v24 «Цвета команд»: подсветка цветом команды с каждого края, по центру — тёмное */
+  .mlab-h-colors .ph2-wrap > section.ph2 { background: radial-gradient(40% 160% at 0% 50%, color-mix(in srgb, var(--ha, #7c5cff) 22%, transparent), transparent 70%), radial-gradient(40% 160% at 100% 50%, color-mix(in srgb, var(--hb, #7c5cff) 22%, transparent), transparent 70%), var(--w-surface); }
+  .mlab-h-colors .ph2-wrap .ph-d .ph-main { justify-content: center; position: relative; }
+  .mlab-h-colors .ph2-wrap .ph-d .ph-who { flex: 1; display: flex; flex-direction: column; align-items: center; }
+  .mlab-h-colors .ph2-wrap .ph-d .ph2-rt { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+  /* v25 «Строкой, крупнее»: одна строка, как в продукте, но крупнее (22), состояние — справа от счёта, не под командами */
+  .mlab-h-line .ph2-wrap > section.ph2 .ph-in { padding-block: var(--space-16); }
+  .mlab-h-line .ph2-wrap .ph-d .ph-who { flex: 1; flex-direction: row; align-items: center; gap: var(--space-16); min-width: 0; }
+  .mlab-h-line .ph2-wrap .ph-d .ph-title { flex: none; }
+  .mlab-h-line .ph2-wrap .ph-d .mlab-st { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .mlab-h-line .ph2-wrap .ph-d .ph-title { font: 600 22px/28px var(--font-sans); }
+  .mlab-h-line .ph2-wrap .ph-d .ph-title .etag { --etag-pic: 24px; }
+  .mlab-h-line .ph2-wrap .ph-d .ph-score { font: 600 22px/28px var(--font-mono); }
+  .mlab-h-line .ph2-wrap .ph-d :is(.mlab-st, .ph2-btn) { white-space: nowrap; }
+  .mlab-h-line .ph2-wrap .ph-d .mlab-st { margin: 0; padding-left: var(--space-16); border-left: 1px solid var(--c-border); }
+  .mlab-h-line .ph2-wrap .ph-d .mlab-kick { flex-direction: row; align-items: baseline; gap: var(--space-8); }
+  .mlab-h-line .ph2-wrap .ph-d .mlab-kick b { font-size: 22px; line-height: 28px; }
+}
+
+/* ——— v26 (дирижёр 26.11: «v24 красивый; начальник: такая шапка только до начала матча, когда матч идёт — обычная») ——— */
+/* до начала — v24 (цвета команд, всё по центру, время крупно); идёт и прошёл — шапка как в продукте (класса .mlab-big нет) */
+
+/* ——— время до матча: «Сегодня» и «через N ч» — частями (крупная шапка — через точку) ——— */
+.mlab-kick__in::before { content: ' · '; }
+/* v27–v29 (дирижёр 26.11: «не нравится, как сделано время в сжатой шапке») — только прилипшая шапка */
+@container scroll-state(stuck: top) {
+  /* v27 — только время, как счёт: без подписи */
+  .mlab-k-time .mlab-kick small { display: none; }
+  .mlab-k-time .mlab-kick b { font: 600 15px/20px var(--font-mono); }
+  /* v28 — время и «через N ч» плашкой; «Сегодня» убрано */
+  .mlab-k-pill .mlab-kick { align-items: center; gap: var(--space-8); }
+  .mlab-k-pill .mlab-kick b { font: 600 15px/20px var(--font-mono); }
+  .mlab-k-pill .mlab-kick small { display: inline-flex; align-items: center; height: 20px; padding: 0 var(--space-6); border-radius: var(--radius-4); background: color-mix(in srgb, var(--c-brand) 30%, transparent); color: var(--c-text); font: var(--type-caption-2-medium, 500 11px/14px var(--font-sans)); }
+  .mlab-k-pill .mlab-kick__d { display: none; }
+  .mlab-k-pill .mlab-kick__in::before { content: none; }
+  /* v29 — в две строки, мелко: время сверху, «через N ч» под ним */
+  .mlab-k-stack .mlab-kick { flex-direction: column; align-items: center; gap: 0; }
+  .mlab-k-stack .mlab-kick b { font: 600 14px/16px var(--font-mono); }
+  .mlab-k-stack .mlab-kick small { font: 500 10px/12px var(--font-sans); color: var(--c-text-3); }
+  .mlab-k-stack .mlab-kick__d { display: none; }
+  .mlab-k-stack .mlab-kick__in::before { content: none; }
+}
+
+/* ——— v30–v33: медиа — «телевизор», просмотр как сторис (дирижёр 26.11; основа — widget-disc-2 v17) ——— */
+.mtv { display: flex; flex-direction: column; gap: var(--space-10); padding: var(--space-12); border-radius: var(--radius-12); background: var(--w-surface); }
+.mtv-hd { display: flex; align-items: baseline; justify-content: space-between; }
+.mtv-hd b { font: var(--type-subtitle-2, 600 14px/20px var(--font-sans)); color: var(--c-text); }
+.mtv-hd small { font: var(--num-caption-1, 500 12px/16px var(--font-mono)); color: var(--c-text-3); }
+.mtv-stage { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-8); overflow: hidden; background: #000; }
+.mtv-stage--v { aspect-ratio: 9 / 14; }
+.mtv-art { position: absolute; inset: 0; background: radial-gradient(90% 120% at 0% 0%, color-mix(in srgb, var(--c1) 55%, transparent), transparent 70%), radial-gradient(80% 120% at 100% 100%, color-mix(in srgb, var(--c2) 45%, transparent), transparent 70%), #0b0b0e; }
+.mtv-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mtv-live { position: absolute; top: 14px; left: 10px; display: inline-flex; align-items: center; gap: 4px; padding: 1px 6px; border-radius: 4px; background: var(--c-live); color: #fff; font: 700 10px/16px var(--font-sans); }
+.mtv-live i, .mtv-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; animation: mlab-p 1.4s infinite; }
+.mtv-dot { margin-right: 5px; color: var(--c-live); vertical-align: 1px; }
+.mtv-bars { position: absolute; z-index: 2; top: 6px; left: 8px; right: 8px; display: flex; gap: 3px; }
+.mtv-bars i { flex: 1; height: 2px; border-radius: 1px; background: rgb(255 255 255 / .3); }
+.mtv-bars i.is-done { background: #fff; }
+.mtv-bars i.is-on { background: linear-gradient(90deg, #fff 50%, rgb(255 255 255 / .3) 50%) 100% 0 / 200% 100%; animation: mlab-bar 6s linear forwards; }
+.mtv-count { position: absolute; z-index: 2; top: 12px; right: 10px; font: 500 10px/14px var(--font-mono); color: rgb(255 255 255 / .8); }
+.mtv-over { position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 2px; padding: 28px 12px 10px; background: linear-gradient(transparent, rgb(0 0 0 / .85)); }
+.mtv-over em, .mtv-cap em { font: 600 10px/14px var(--font-sans); font-style: normal; color: rgb(255 255 255 / .7); text-transform: uppercase; letter-spacing: .04em; }
+.mtv-over b { font: 600 15px/20px var(--font-sans); color: #fff; }
+.mtv-over small { font: var(--type-caption-2); color: rgb(255 255 255 / .7); }
+.mtv-over--s b { font-size: 13px; line-height: 18px; }
+.mtv-nav { position: absolute; z-index: 3; top: 0; bottom: 0; width: 40%; border: 0; background: none; cursor: pointer; }
+.mtv-nav.is-l { left: 0; } .mtv-nav.is-r { right: 0; }
+.mtv-btn { height: 34px; padding: 0 var(--space-12); border: 0; border-radius: var(--radius-8); background: var(--w-muted); color: var(--c-text); font: var(--type-body-1); cursor: pointer; white-space: nowrap; }
+.mtv-btn--tw { background: #9146ff; color: #fff; }
+.mtv-btn--full, .mtv-foot--tv .mtv-btn { width: 100%; }
+.mtv--tv .mtv-foot:empty { display: none; }
+/* story: подпись и кнопка поверх кадра */
+.mtv--story { padding: 0; background: none; }
+.mtv--story .mtv-over { gap: 4px; padding: 48px 14px 14px; }
+.mtv--story .mtv-over b { font-size: 18px; line-height: 24px; }
+.mtv--story .mtv-btn { position: relative; z-index: 4; margin-top: var(--space-8); }
+/* list: моменты списком под кадром */
+.mtv-ev { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.mtv-ev li { display: grid; grid-template-columns: 92px 1fr; gap: var(--space-8); align-items: center; min-height: 34px; padding: 0 var(--space-8); border-radius: var(--radius-8); cursor: pointer; }
+.mtv-ev li:hover { background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.mtv-ev li.is-on { background: color-mix(in srgb, var(--c-brand) 25%, transparent); }
+.mtv-ev__t { font: var(--num-caption-1, 500 12px/16px var(--font-mono)); color: var(--c-text-3); white-space: nowrap; }
+.mtv-ev__n { font: var(--type-caption-1); color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* caption: подпись и кнопка под кадром, точки */
+.mtv-cap { display: flex; flex-direction: column; gap: 2px; }
+.mtv-cap em { color: var(--c-text-3); }
+.mtv-cap b { font: 600 15px/20px var(--font-sans); color: var(--c-text); }
+.mtv-cap small { font: var(--type-caption-2); color: var(--c-text-3); }
+.mtv-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); }
+.mtv-dots { display: flex; gap: 6px; }
+.mtv-dots button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 3px; background: color-mix(in srgb, var(--c-text) 25%, transparent); cursor: pointer; transition: width .2s; }
+.mtv-dots button.is-on { width: 18px; background: var(--c-text); }
+
+/* ——— v34–v36: медиа без эфира — только картинки медиа-движка (постеры 4:5) ——— */
+.mtv-post { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius-8); overflow: hidden; background: #000; }
+.mtv-post__w { position: absolute; top: 12%; left: 0; right: 0; text-align: center; font: 900 44px/1 Inter, var(--font-sans); color: #fff; letter-spacing: -.02em; opacity: .92; }
+.mtv-post.is-s .mtv-post__w { font-size: 14px; top: 34%; }
+.mtv-post .mtv-art svg text, .mtv-post .mtv-art svg circle + path { display: none; }   /* крупная метка — текстом, без значков SVG */
+.mtv-post__b { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 2px; padding: 40px 12px 12px; background: linear-gradient(transparent, rgb(0 0 0 / .85)); }
+.mtv-post__b em { align-self: flex-start; padding: 0 5px; border-radius: 3px; background: #d4a514; color: #111; font: 700 10px/16px var(--font-sans); font-style: normal; text-transform: uppercase; }
+.mtv-post__b b { font: 700 16px/20px var(--font-sans); color: #fff; }
+.mtv-post__b small { font: var(--type-caption-2); color: rgb(255 255 255 / .7); }
+.mtv-arrow { width: 28px; height: 28px; border: 0; border-radius: var(--radius-8); background: var(--w-muted); color: var(--c-text); font: 600 16px/28px var(--font-sans); cursor: pointer; }
+/* v34 — стопка: верхняя карточка, за ней две, сдвинуты вниз и меньше (как стопка прогнозов) */
+.mtv-stk { position: relative; padding-bottom: 20px; }
+.mtv-stk__c { position: relative; transform-origin: 50% 100%; transition: transform .35s, opacity .35s; transform: translateY(calc(var(--d) * 10px)) scale(calc(1 - var(--d) * .05)); opacity: calc(1 - var(--d) * .35); z-index: calc(3 - var(--d)); cursor: pointer; }
+.mtv-stk__c:not(:first-child) { position: absolute; inset: 0 0 20px; }
+.mtv-stk__c[style*="--d: 0"] { position: relative; inset: auto; }
+/* v35 — карусель: текущая по центру, соседние выглядывают по бокам */
+.mtv-flow { --fw: 220px; overflow: hidden; margin: 0 -12px; padding: 0 calc((100% - var(--fw)) / 2); }
+.mtv-flow__in { display: flex; gap: 8px; transition: transform .4s ease; }
+.mtv-flow__c { flex: none; width: var(--fw); transition: transform .4s, opacity .4s; transform: scale(.88); opacity: .45; cursor: pointer; }
+.mtv-flow__c.is-on { transform: none; opacity: 1; }
+.mtv-bars--flat { position: static; }
+.mtv-bars--flat i { background: color-mix(in srgb, var(--c-text) 18%, transparent); }
+.mtv-bars--flat i.is-done { background: var(--c-text); }
+.mtv-bars--flat i.is-on { background: linear-gradient(90deg, var(--c-text) 50%, color-mix(in srgb, var(--c-text) 18%, transparent) 50%) 100% 0 / 200% 100%; animation: mlab-bar 6s linear forwards; }
+/* v36 — кадр и плёнка: крупный постер, под ним миниатюры, текущая — обводкой */
+.mtv-film__main { position: relative; cursor: pointer; }
+.mtv-film { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.mtv-film__t { padding: 0; border: 0; border-radius: var(--radius-8); background: none; cursor: pointer; opacity: .5; transition: opacity .2s; }
+.mtv-film__t.is-on { opacity: 1; box-shadow: 0 0 0 2px var(--c-text); }
+.mtv-stk__c:not([style*="--d: 0"]) .mtv-post__b, .mtv-stk__c:not([style*="--d: 0"]) .mtv-post__w { visibility: hidden; }   /* под верхней — только края карточек */
+
+/* ——— v37–v38: как v35, без полосок, лента снизу вверх, карточки во всю ширину (3:2) ——— */
+.mtv-post.is-w { aspect-ratio: 3 / 2; }
+.mtv-post.is-w .mtv-post__w { top: 14%; font-size: 40px; }
+.mtv-post.is-w .mtv-post__b { padding-top: 28px; }
+.mtv-up { --uh: 197px; position: relative; height: calc(var(--uh) + 56px); overflow: hidden; -webkit-mask-image: linear-gradient(#000 calc(100% - 40px), transparent); mask-image: linear-gradient(#000 calc(100% - 40px), transparent); }
+.mtv-up__in { display: flex; flex-direction: column; gap: 8px; transition: transform .45s ease; }
+.mtv-up__c { height: var(--uh); transition: opacity .45s, transform .45s; opacity: .45; transform: scale(.96); cursor: pointer; }
+.mtv-up__c.is-on { opacity: 1; transform: none; }
+.mtv-up__c .mtv-post { height: 100%; aspect-ratio: auto; }
+/* v38 — сверху выглядывает предыдущая, снизу следующая */
+.mtv--up2 .mtv-up { height: calc(var(--uh) + 112px); -webkit-mask-image: linear-gradient(transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+.mtv--up2 .mtv-up__in { margin-top: calc(56px - var(--uh) - 8px); }   /* первая в ленте — последняя (предыдущая для первой) */
+
+/* ——— v39: как v37, по кругу; снизу гаснет слабее — короче и не до конца ——— */
+.mtv--loop .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 24px), rgb(0 0 0 / .55)); mask-image: linear-gradient(#000 calc(100% - 24px), rgb(0 0 0 / .55)); }
+.mtv--loop .mtv-up__c { opacity: .7; }
+.mtv--loop .mtv-up__c.is-on { opacity: 1; }
+
+/* ——— v40 (дирижёр 26.11 к v39: «перехода резкого не должно быть — плавно из полной темноты в нормальную; счётчик стилизовать; виджет — под прогнозами») ——— */
+/* выглядывающая карточка гаснет плавно на всю свою высоту — снизу до полной темноты */
+.mtv--loop2 .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), transparent); mask-image: linear-gradient(#000 calc(100% - 64px), transparent); }
+.mtv--loop2 .mtv-up__c { opacity: 1; transform: none; }
+/* счётчик — плашкой: текущая белым, «/ всего» серым */
+.mtv-cnt { display: inline-flex; align-items: baseline; gap: 3px; height: 22px; padding: 0 var(--space-8); border-radius: 11px; background: var(--w-muted); font: 500 12px/22px var(--font-mono); color: var(--c-text-3); }
+.mtv-cnt b { font-weight: 600; color: var(--c-text); }
+.mtv-cnt i { font-style: normal; opacity: .6; }
+.mtv--loop2 .mtv-hd { align-items: center; }
+.mlab-slot--end { margin: 0; }   /* зазор до прогнозов — зазор колонки */
+
+/* ——— v41–v44: затемнение выглядывающей карточки и счётчик — по-разному (дирижёр 26.11) ——— */
+.mtv--loop3 .mtv-up__c, .mtv--loop4 .mtv-up__c, .mtv--loop5 .mtv-up__c, .mtv--loop6 .mtv-up__c { opacity: 1; transform: none; }
+/* v41 — маска с мягкой кривой (много точек: начинает гаснуть незаметно, к низу — в ноль); счётчик — точки, текущая длинная */
+.mtv--loop3 .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), rgb(0 0 0 / .85) calc(100% - 48px), rgb(0 0 0 / .55) calc(100% - 32px), rgb(0 0 0 / .2) calc(100% - 14px), transparent); mask-image: linear-gradient(#000 calc(100% - 64px), rgb(0 0 0 / .85) calc(100% - 48px), rgb(0 0 0 / .55) calc(100% - 32px), rgb(0 0 0 / .2) calc(100% - 14px), transparent); }
+.mtv-cd { display: inline-flex; align-items: center; gap: 4px; }
+.mtv-cd i { width: 6px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--c-text) 25%, transparent); transition: width .3s, background .3s; }
+.mtv-cd i.is-on { width: 16px; background: var(--c-text); }
+/* v42 — не маска, а слой цвета виджета поверх: карточка уходит в фон виджета (не в чёрное); счётчик — «02/04» крупно, без плашки */
+/* затемнение — маской: карточка растворяется в фон виджета, какой бы он ни был (слой цвета поверх давал полосу — фон виджета на странице другой) */
+.mtv--loop4 .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 64px), rgb(0 0 0 / .6) calc(100% - 36px), rgb(0 0 0 / .2) calc(100% - 14px), transparent); mask-image: linear-gradient(#000 calc(100% - 64px), rgb(0 0 0 / .6) calc(100% - 36px), rgb(0 0 0 / .2) calc(100% - 14px), transparent); }
+.mtv-cbig { display: inline-flex; align-items: baseline; gap: 1px; font: 600 16px/20px var(--font-mono); color: var(--c-text); }
+.mtv-cbig i { font: 500 12px/16px var(--font-mono); font-style: normal; color: var(--c-text-3); }
+/* v43 — выглядывающая карточка приглушена (темнее и чуть размыта), маска короче; счётчик — «2 из 4» словами */
+.mtv--loop5 .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 40px), transparent); mask-image: linear-gradient(#000 calc(100% - 40px), transparent); }
+.mtv--loop5 .mtv-up__c:not(.is-on) { filter: brightness(.45) blur(1px); }
+.mtv--loop5 .mtv-up__c { transition: filter .45s, opacity .45s; }
+.mtv-ctxt { font: var(--type-caption-1); color: var(--c-text-3); }
+/* v44 — тень-виньетка снизу по всей ширине + лёгкая маска; счётчик — кольцо из четырёх дуг, номер в центре */
+.mtv--loop6 .mtv-up { -webkit-mask-image: linear-gradient(#000 calc(100% - 56px), rgb(0 0 0 / .4) calc(100% - 16px), transparent); mask-image: linear-gradient(#000 calc(100% - 56px), rgb(0 0 0 / .4) calc(100% - 16px), transparent); }
+.mtv--loop6 .mtv-up__c:not(.is-on) { filter: brightness(.7); }
+.mtv-cring { position: relative; display: inline-grid; place-items: center; width: 26px; height: 26px; }
+.mtv-cring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.mtv-cring circle { fill: none; stroke-width: 2.5; stroke-linecap: round; }
+.mtv-cring .bg { stroke: transparent; }
+.mtv-cring .off { stroke: color-mix(in srgb, var(--c-text) 20%, transparent); }
+.mtv-cring .on { stroke: var(--c-text); }
+.mtv-cring b { font: 600 11px/1 var(--font-mono); color: var(--c-text); }
+
+/* ——— v45 (дирижёр 26.11: «заголовки чуть вправо — вровень с содержимым; превью серии — таким же размером, как Игроки и Команды») ——— */
+.mlab-fix .sst__h3 > h3 { padding-left: var(--space-12); }   /* вровень с лого команд и аватарками (12 от края карточек) */
+.mlab-fix .mlab-pc--black11 .mlab-pv__hd h3 { font: 600 22px/28px var(--font-sans); }   /* как «Игроки» и «Команды» (SeriesStats .sst__h3 h3) */
+.mlab-fix .mlab-pc--black11 .mlab-pv__ic { width: 28px; height: 28px; font-size: 24px; }
+
+/* ——— v46–v48 (дирижёр 26.11: «стандартизированный отступ между блоками — покажи несколько»): один отступ между блоками (--blk) и один от заголовка до содержимого (--blh) ——— */
+.mlab-g16 { --blk: 16px; --blh: 12px; }
+.mlab-g24 { --blk: 24px; --blh: 16px; }
+.mlab-g32 { --blk: 32px; --blh: 16px; }
+.mlab-gap.mlab3 .mlab-pv.mlab-pc--black11 { margin-top: var(--blk); }                     /* вкладки → превью */
+.mlab-gap .sst { padding-top: var(--blk); }                                                /* превью → «Игроки» */
+.mlab-gap .sst > .sst__h3, .mlab-gap .sst > .sst__top + .sst__h3 { margin: var(--blk) 0 var(--blh); }   /* блок → заголовок, заголовок → содержимое */
+.mlab-gap .sst > .sst__top + .sst__h3 { margin-top: 0; }

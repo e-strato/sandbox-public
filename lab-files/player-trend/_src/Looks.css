@@ -1,0 +1,115 @@
+/* «Динамика» v4–v7 — виды. Цвет исхода: --res (зелёный — победа, красный — поражение) */
+.plv { position: relative; margin: var(--space-8) var(--space-8) var(--space-12); }
+.plv-c { position: absolute; bottom: auto; top: 0; display: block; color: inherit; text-decoration: none; transition: opacity .15s; }
+.plv-c.is-w { --res: var(--c-success); }
+.plv-c.is-l { --res: var(--c-danger); }
+.plv-c.is-dim { opacity: .35; }
+.plv-c.is-on { z-index: 2; }
+.plv-c > * { position: absolute; left: 50%; transform: translateX(-50%); }
+.plv-gap { position: absolute; border-radius: 8px; background: color-mix(in srgb, var(--c-text) 3%, transparent); display: grid; place-items: center; }
+.plv-gap span { font: var(--type-caption-2); color: var(--c-text-3); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+.plv-avg { position: absolute; border-top: 1px dashed color-mix(in srgb, var(--c-gold) 55%, transparent); pointer-events: none; z-index: 1; }
+.plv-avg span { position: absolute; right: 0; bottom: 3px; font: 500 10px/1 var(--font-mono); color: var(--c-gold); opacity: .85; }
+.plv-base { position: absolute; border-top: 1px solid color-mix(in srgb, var(--c-text) 18%, transparent); }
+.plv-grid { position: absolute; border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.plv-grid span { position: absolute; left: -34px; top: -6px; width: 28px; text-align: right; font: 500 10px/1 var(--font-mono); color: var(--c-text-3); }
+.plv-days { position: absolute; left: 0; right: 0; height: 16px; }
+.plv-days span { position: absolute; text-align: center; font: 500 11px/1 var(--font-mono); color: var(--c-text-2); padding-top: 6px; border-top: 1px solid color-mix(in srgb, var(--c-text) 14%, transparent); }
+.plv-val { bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font: 600 12px/1 var(--font-mono); color: var(--c-text); white-space: nowrap; pointer-events: none; }
+.plv-val em { font: var(--type-tag); font-style: normal; color: var(--c-gold); }
+
+/* v4 · колонки с героем на вершине */
+.plv--cols .plv-track { bottom: 0; width: min(34px, calc(var(--k) * .78)); border-radius: 10px; background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.plv--cols .plv-fill { bottom: 0; width: min(34px, calc(var(--k) * .78)); border-radius: 10px; background: linear-gradient(to bottom, color-mix(in srgb, var(--res) 85%, transparent), color-mix(in srgb, var(--res) 18%, transparent)); }
+.plv--cols .plv-hero { line-height: 0; border-radius: 7px; box-shadow: 0 0 0 2px #0f0f0f; }
+.plv--cols .is-on .plv-fill { background: linear-gradient(to bottom, var(--res), color-mix(in srgb, var(--res) 35%, transparent)); }
+.plv--cols .plv-c:not(:hover) .plv-val { }
+
+/* v5 · «леденцы»: ножка и портрет в кольце исхода */
+.plv--pop .plv-stem { bottom: 0; width: 3px; border-radius: 2px; background: linear-gradient(to top, transparent, var(--res)); }
+.plv--pop .plv-hero { line-height: 0; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2.5px var(--res), 0 0 0 5px #0f0f0f; transition: transform .15s; }
+.plv--pop .plv-hero img { border-radius: 50%; }
+.plv--pop .is-on .plv-hero { transform: translateX(-50%) scale(1.25); box-shadow: 0 0 0 2.5px var(--res), 0 0 0 5px #0f0f0f, 0 0 24px color-mix(in srgb, var(--res) 60%, transparent); }
+
+/* v6 · плотно: узкие столбики, герои строкой под осью */
+.plv--dense .plv-bar { bottom: 0; width: min(12px, calc(var(--k) * .4)); border-radius: 6px; background: var(--res); }
+.plv--dense .is-on .plv-bar { box-shadow: 0 0 18px color-mix(in srgb, var(--res) 70%, transparent); }
+.plv-strip { position: absolute; left: 0; right: 0; height: 24px; pointer-events: none; }
+.plv-strip span { position: absolute; transform: translateX(-50%); line-height: 0; border-radius: 5px; transition: opacity .15s, transform .15s; }
+.plv-strip span.is-dim { opacity: .35; }
+.plv-strip span.is-on { transform: translateX(-50%) scale(1.25); }
+.plv-strip span::after { content: ''; position: absolute; left: 50%; bottom: -5px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; }
+.plv-strip span.is-w::after { background: var(--c-success); }
+.plv-strip span.is-l::after { background: var(--c-danger); }
+
+/* v7 · столбик из портрета героя, исход — крышкой и свечением снизу */
+.plv--art .plv-art { bottom: 0; line-height: 0; border-radius: 8px; overflow: hidden; }
+.plv--art .plv-art > * { width: 100%; height: 100%; }
+.plv--art .plv-art img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.75) brightness(.8); transition: filter .15s; }
+.plv--art .plv-art::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 8px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--res) 55%, transparent), transparent 45%); pointer-events: none; }
+.plv--art .is-on .plv-art img { filter: none; }
+
+/* Подсказки v8–v10 (на основе v4) */
+.pti { position: absolute; top: 0; z-index: 3; transform: translateX(24px); padding: var(--space-12); border-radius: 14px; pointer-events: none;
+  background: color-mix(in srgb, #1c1c20 96%, transparent); backdrop-filter: blur(10px);
+  box-shadow: 0 12px 32px rgb(0 0 0 / .6), inset 0 0 0 1px color-mix(in srgb, var(--c-text) 9%, transparent); }
+.pti.is-left { transform: translateX(calc(-100% - 24px)); }
+.pti.is-w, .pti-row.is-w { --res: var(--c-success); }
+.pti.is-l, .pti-row.is-l { --res: var(--c-danger); }
+.pti-vs { display: inline-flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap; }
+.pti-vs b { font: var(--type-body-2-strong, 600 13px/1.3 var(--font-body)); }
+.pti-vs i { font-style: normal; color: var(--c-text-3); }
+.pti-res { font: var(--type-tag); padding: 2px var(--space-6); border-radius: var(--radius-4); color: var(--res); background: color-mix(in srgb, var(--res) 16%, transparent); white-space: nowrap; }
+.pti-sub { font: var(--type-caption-2); color: var(--c-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pti-hero { display: flex; align-items: center; gap: var(--space-10); }
+.pti-hero > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pti-hero b { font: var(--type-body-1-strong); white-space: nowrap; }
+.pti-hero span { font: var(--type-caption-2); color: var(--c-text-2); white-space: nowrap; }
+.pti-hero em { font: 600 12px/1 var(--font-mono); font-style: normal; color: var(--c-text); }
+.pti-num { display: flex; flex-direction: column; align-items: flex-end; }
+.pti-num b { font: 700 22px/1 var(--font-mono); color: var(--res); }
+.pti-num small { font: var(--type-caption-2); color: var(--c-text-3); margin-top: 3px; }
+.pti-d { font: 500 11px/1 var(--font-mono); white-space: nowrap; }
+.pti-d.is-up { color: var(--c-success); }
+.pti-d.is-down { color: var(--c-text-3); }
+.pti-go { font: var(--type-caption-1); color: var(--c-text-2); white-space: nowrap; }
+/* v8 · карточка матча */
+.pti--card { width: 300px; display: flex; flex-direction: column; gap: var(--space-6); }
+.pti--card .pti-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); }
+.pti--card .pti-hero { margin-top: var(--space-6); padding: var(--space-10); border-radius: 10px; background: color-mix(in srgb, var(--c-text) 4%, transparent); }
+.pti--card .pti-foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-2); }
+/* v9 · узкая */
+.pti--mini { width: 200px; display: flex; flex-direction: column; gap: var(--space-8); }
+.pti--mini .pti-hero span { color: var(--res); }
+.pti--mini .pti-num { flex-direction: row; align-items: baseline; gap: var(--space-6); }
+.pti--mini .pti-num b { font-size: 26px; }
+.pti--mini .pti-num .pti-d { margin-left: auto; }
+.pti-meter { position: relative; display: block; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--c-text) 8%, transparent); }
+.pti-meter > i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--res); }
+.pti-meter > i.pti-meter__avg { width: 2px; top: -3px; bottom: -3px; background: var(--c-gold); border-radius: 1px; }
+/* v10 · строка над графиком */
+.pti-row { display: flex; align-items: center; gap: var(--space-16); margin: var(--space-4) var(--space-16) 0; padding: var(--space-10) var(--space-12); border-radius: 12px;
+  background: color-mix(in srgb, var(--c-text) 4%, transparent); min-height: 40px; }
+.pti-row__c { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pti-row__c b { font: var(--type-body-1-strong); white-space: nowrap; }
+.pti-row__c > span:not(.pti-vs):not(.pti-res) { font: var(--type-caption-2); color: var(--c-text-2); white-space: nowrap; }
+.pti-row__c .pti-res { align-self: flex-start; }
+.pti-row__n { display: flex; flex-direction: column; gap: 2px; margin-left: auto; }
+.pti-row__n + .pti-row__n { margin-left: 0; }
+.pti-row__n small { font: var(--type-caption-2); color: var(--c-text-3); }
+.pti-row__n b { font: 700 16px/1 var(--font-mono); }
+.pti-row__n:first-of-type b { color: var(--res); }
+
+/* v11 · карточка v8 живая: прилегает к столбику, на неё можно навести, кнопка «Открыть матч» */
+.pti.is-live { pointer-events: auto; transform: none; }
+.pti.is-live.is-left { transform: translateX(-100%); }
+.pti-btn { width: 100%; justify-content: center; margin-top: var(--space-4); }
+.pti-best, .pti-star { font: var(--type-tag); font-style: normal; color: var(--c-gold); }
+.pti-star { margin-left: var(--space-8); }
+/* v12 · строка v10: лучшая — звездой, переход — квадратная кнопка на всю высоту строки */
+.pti-row.is-v2 { padding-right: var(--space-8); align-items: stretch; }
+.pti-row.is-v2 > * { align-self: center; }
+.pti-row.is-v2 .pti-row__go { align-self: stretch; aspect-ratio: 1; flex: none; display: grid; place-items: center; border-radius: 8px; color: var(--c-text);
+  background: color-mix(in srgb, var(--c-text) 8%, transparent); transition: background .15s; }
+.pti-row.is-v2 .pti-row__go:hover { background: color-mix(in srgb, var(--c-text) 14%, transparent); }

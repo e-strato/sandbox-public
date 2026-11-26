@@ -1,0 +1,19 @@
+/* Трансферы: строки без подсветки перехода (только полосы через одну), переход — стрелкой */
+.tra .trf__tb tbody tr[data-tra] { --tbl-bg: transparent; }
+.tra .trf__tb tbody tr[data-tra]:nth-child(even) { --tbl-bg: color-mix(in srgb, var(--w-fg, #fff) 2.5%, var(--c-surface)); }
+@media (hover: hover) { .tra .trf__tb tbody tr[data-tra]:hover { --tbl-bg: color-mix(in srgb, var(--w-fg, #fff) 8%, var(--c-surface)); } }
+.tra .trf__tb td.tra-ar, .tra .trf__tb th:nth-child(4) { padding: 0; }
+.tra-ar { color: var(--c-text-3); line-height: 0; }
+.tra-ar .icon { vertical-align: middle; }
+/* tone: стрелка цветом перехода */
+.tra--tone tr[data-tra="in"] .tra-ar { color: var(--c-success); }
+.tra--tone tr[data-tra="out"] .tra-ar { color: var(--c-danger); }
+.tra--tone tr[data-tra="move"] .tra-ar { color: var(--c-text); }
+/* line: лого — линия со стрелкой — лого */
+.tra-mv { display: flex; align-items: flex-start; gap: 4px; }
+.tra-mv > .trf__t { flex: none; width: 36px; }
+.tra-ln { position: relative; flex: 1; height: 2px; margin-top: 10px; border-radius: 1px; background: var(--tra-c, var(--c-text-3)); }
+.tra-ln::after { content: ''; position: absolute; right: -1px; top: 50%; width: 6px; height: 6px; border-top: 2px solid var(--tra-c, var(--c-text-3)); border-right: 2px solid var(--tra-c, var(--c-text-3)); border-radius: 1px; transform: translateY(-50%) rotate(45deg); }
+.tra--line tr[data-tra="in"] { --tra-c: var(--c-success); }
+.tra--line tr[data-tra="out"] { --tra-c: var(--c-danger); }
+.tra--line tr[data-tra="move"] { --tra-c: color-mix(in srgb, var(--c-text) 70%, transparent); }

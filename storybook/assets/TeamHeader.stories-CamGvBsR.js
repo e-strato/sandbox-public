@@ -1,7 +1,0 @@
-import{j as t}from"./iframe-CNsLiz2M.js";import{a as m}from"./data-CboI5stT.js";import{T as a}from"./TeamHeader-CLpzi0dy.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./TourPageHeader-C8y-G9Us.js";import"./TierTag-DD1tiN4c.js";import"./tour-CFjSTYlq.js";import"./format-CX8-8sml.js";import"./state-DBQC2GVf.js";import"./Popover-DcQgiSiM.js";import"./index-Baq7EYbN.js";import"./Breadcrumbs-TdZkH7p7.js";import"./series-C_-vD55g.js";import"./EntityTag-Bost7bbZ.js";import"./Icon-CbAg01k_.js";/* empty css                     */const v={title:"Движок/Команда/Шапка/TeamHeader v1",component:a,tags:["concept"],parameters:{layout:"fullscreen",docs:{description:{component:"Страница команды движка (концепт) — «Шапка». Стоит на странице команды v1. Команды — TI 2026 из базы."}}},decorators:[i=>t.jsx("div",{className:"eng-surface",style:{padding:20,width:1440},children:t.jsx(i,{})})]},e={name:"Team Spirit · идёт матч",render:()=>t.jsx(a,{t:m("team-spirit")})},r={name:"Team Liquid",render:()=>t.jsx(a,{t:m("team-liquid")})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
-  name: 'Team Spirit · идёт матч',
-  render: () => <TeamHeader t={team('team-spirit')} />
-}`,...e.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  name: 'Team Liquid',
-  render: () => <TeamHeader t={team('team-liquid')} />
-}`,...r.parameters?.docs?.source}}};const h=["Spirit","Liquid"];export{r as Liquid,e as Spirit,h as __namedExportsOrder,v as default};

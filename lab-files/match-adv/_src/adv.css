@@ -1,0 +1,41 @@
+/* Лаба match-adv: середина блока команд — 4 колонки «Фраги · Перевес · Перевес · Фраги» вместо шкалы */
+.map-teams.mtm:not(.adv-bar) { --mtm-cols: repeat(5, minmax(0, 1fr)) 40px 84px 84px 40px repeat(5, minmax(0, 1fr)); }
+.mtm__lb--hd4 { grid-column: 10 / 15; text-align: right; }
+.adv4 { text-align: center; font: 600 16px/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--c-text-3); white-space: nowrap; }
+.adv4.is-lead { color: var(--c-gold); }                      /* перевес золота — жёлтым (78-17) */
+.adv-diff .adv4.is-trail { color: var(--c-text-3); font-weight: 500; }
+/* table — по правилам таблиц: подписи колонок как шапка таблицы, черты между колонками, ведущий перевес — плашкой */
+.adv-table .mtm__cols { font: 500 11px/14px var(--font-sans); color: var(--c-text-3); }
+.adv-table .mtm__row > .mtm__n, .adv-table .mtm__row > .adv4 { align-self: stretch; display: grid; place-items: center; border-left: 1px solid var(--c-border); }
+.adv-table .mtm__row > .mtm__n:last-of-type { border-right: 1px solid var(--c-border); }
+.adv-table .adv4.is-lead > * , .adv-table .adv4.is-lead { }
+.adv-table .adv4.is-lead { color: var(--c-gold); }
+.adv-table .adv4.is-lead > span, .adv-table .adv4.is-lead > b { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: var(--radius-4); background: color-mix(in srgb, var(--c-gold) 16%, transparent); }
+@media (max-width: 799px) { .map-teams.mtm:not(.adv-bar) { --mtm-cols: repeat(5, minmax(0, 1fr)) 22px 52px 52px 22px repeat(5, minmax(0, 1fr)); } .adv4 { font-size: 12px; } }
+/* 137-16: без аватарок у игроков — ник влезает */
+.no-ava .mtm__hx .etag--player .etag__pic { display: none; }
+
+/* v4–v8 (дирижёр 26.11: «ещё штук пять разноплановых») */
+.adv4 { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: stretch; }
+/* side — перевес плашкой цветом стороны (Radiant зелёный, Dire красный), без жёлтого */
+.adv-side .adv4.is-lead .adv4__v { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 13px; color: #fff; }
+.adv-side .adv4--radiant.is-lead .adv4__v { background: color-mix(in srgb, #22c55e 30%, transparent); color: #86efac; }
+.adv-side .adv4--dire.is-lead .adv4__v { background: color-mix(in srgb, #ef4444 30%, transparent); color: #fca5a5; }
+/* coin — монета перед числом, как в шапке золота */
+.adv4__coin { width: 18px; height: 18px; object-fit: contain; }
+/* minibar — число, под ним полоска от центра к своей стороне (15k — во всю колонку) */
+.adv-minibar .adv4 { flex-direction: column; gap: 6px; }
+.adv4__bar { display: flex; width: 72px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--c-text) 8%, transparent); overflow: hidden; }
+.adv4--radiant .adv4__bar { justify-content: flex-end; }
+.adv4__bar i { display: block; height: 100%; border-radius: 2px; background: var(--c-gold); transition: width .4s; }
+/* score — фраги по центру крупно, как счёт «29 : 8», перевес — с краёв */
+.map-teams.mtm.adv-score { --mtm-cols: repeat(5, minmax(0, 1fr)) 76px 44px 44px 76px repeat(5, minmax(0, 1fr)); }
+.adv-score .mtm__row > .mtm__n { font-size: 24px; color: var(--c-text-3); }
+.adv-score .mtm__row > .mtm__n.is-more { color: var(--c-text); }
+.adv-score .mtm__row > .mtm__n + .mtm__n { position: relative; }
+.adv-score .mtm__row > .mtm__n + .mtm__n::before { content: ':'; position: absolute; left: -4px; top: 50%; transform: translateY(-55%); font-size: 20px; color: var(--c-text-3); }
+/* tiles — четыре плитки с фоном; ведущая по золоту — жёлтым, ведущая по фрагам — светлее */
+.adv-tiles .mtm__row > .mtm__n, .adv-tiles .mtm__row > .adv4 { align-self: center; display: grid; place-items: center; height: 44px; margin: 0 2px; border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 5%, transparent); }
+.adv-tiles .mtm__row > .mtm__n { color: var(--c-text-2); }
+.adv-tiles .mtm__row > .mtm__n.is-more { color: var(--c-text); background: color-mix(in srgb, var(--c-text) 10%, transparent); }
+.adv-tiles .adv4.is-lead { background: color-mix(in srgb, var(--c-gold) 16%, transparent); }

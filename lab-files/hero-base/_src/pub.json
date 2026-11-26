@@ -1,0 +1,280 @@
+{
+ "src": "OpenDota /api/heroStats, снимок 26.11 (паблики, текущий патч)",
+ "heroes": {
+  "treant": {
+   "attr": "str",
+   "attack": "Melee",
+   "roles": [
+    "Support",
+    "Initiator",
+    "Durable",
+    "Disabler",
+    "Escape"
+   ],
+   "hp": 200,
+   "mana": 75,
+   "armor": 1,
+   "dmg": [
+    60,
+    68
+   ],
+   "str": [
+    25,
+    3.4
+   ],
+   "agi": [
+    15,
+    1.8
+   ],
+   "int": [
+    17,
+    1.8
+   ],
+   "range": 150,
+   "ms": 280,
+   "bat": 1.9,
+   "pub": [
+    71485,
+    33462
+   ],
+   "pubShare": 2.0,
+   "turbo": [
+    42161,
+    18945
+   ],
+   "br": [
+    {
+     "b": 1,
+     "pick": 1680,
+     "win": 801,
+     "share": 2.7
+    },
+    {
+     "b": 2,
+     "pick": 5424,
+     "win": 2540,
+     "share": 2.5
+    },
+    {
+     "b": 3,
+     "pick": 10036,
+     "win": 4652,
+     "share": 2.2
+    },
+    {
+     "b": 4,
+     "pick": 15577,
+     "win": 7210,
+     "share": 2.0
+    },
+    {
+     "b": 5,
+     "pick": 16022,
+     "win": 7487,
+     "share": 1.7
+    },
+    {
+     "b": 6,
+     "pick": 8573,
+     "win": 3965,
+     "share": 1.6
+    },
+    {
+     "b": 7,
+     "pick": 5684,
+     "win": 2671,
+     "share": 1.5
+    },
+    {
+     "b": 8,
+     "pick": 0,
+     "win": 0,
+     "share": 0
+    }
+   ]
+  },
+  "earth_spirit": {
+   "attr": "str",
+   "attack": "Melee",
+   "roles": [
+    "Nuker",
+    "Escape",
+    "Disabler",
+    "Initiator",
+    "Durable"
+   ],
+   "hp": 200,
+   "mana": 75,
+   "armor": 0,
+   "dmg": [
+    25,
+    29
+   ],
+   "str": [
+    23,
+    3.8
+   ],
+   "agi": [
+    17,
+    2.4
+   ],
+   "int": [
+    17,
+    2.1
+   ],
+   "range": 150,
+   "ms": 290,
+   "bat": 1.7,
+   "pub": [
+    97886,
+    45840
+   ],
+   "pubShare": 2.7,
+   "turbo": [
+    46172,
+    19948
+   ],
+   "br": [
+    {
+     "b": 1,
+     "pick": 1073,
+     "win": 472,
+     "share": 1.7
+    },
+    {
+     "b": 2,
+     "pick": 3704,
+     "win": 1662,
+     "share": 1.7
+    },
+    {
+     "b": 3,
+     "pick": 8609,
+     "win": 3806,
+     "share": 1.9
+    },
+    {
+     "b": 4,
+     "pick": 18121,
+     "win": 8394,
+     "share": 2.3
+    },
+    {
+     "b": 5,
+     "pick": 24936,
+     "win": 11859,
+     "share": 2.7
+    },
+    {
+     "b": 6,
+     "pick": 17664,
+     "win": 8407,
+     "share": 3.3
+    },
+    {
+     "b": 7,
+     "pick": 15480,
+     "win": 7450,
+     "share": 4.1
+    },
+    {
+     "b": 8,
+     "pick": 0,
+     "win": 0,
+     "share": 0
+    }
+   ]
+  },
+  "hoodwink": {
+   "attr": "agi",
+   "attack": "Ranged",
+   "roles": [
+    "Support",
+    "Nuker",
+    "Escape",
+    "Disabler"
+   ],
+   "hp": 200,
+   "mana": 75,
+   "armor": 0,
+   "dmg": [
+    25,
+    32
+   ],
+   "str": [
+    16,
+    2
+   ],
+   "agi": [
+    22,
+    3.6
+   ],
+   "int": [
+    21,
+    2.9
+   ],
+   "range": 575,
+   "ms": 315,
+   "bat": 2,
+   "pub": [
+    343151,
+    163773
+   ],
+   "pubShare": 9.4,
+   "turbo": [
+    128108,
+    59145
+   ],
+   "br": [
+    {
+     "b": 1,
+     "pick": 6454,
+     "win": 3046,
+     "share": 10.4
+    },
+    {
+     "b": 2,
+     "pick": 21392,
+     "win": 10144,
+     "share": 9.9
+    },
+    {
+     "b": 3,
+     "pick": 43717,
+     "win": 20984,
+     "share": 9.8
+    },
+    {
+     "b": 4,
+     "pick": 75979,
+     "win": 36310,
+     "share": 9.7
+    },
+    {
+     "b": 5,
+     "pick": 84304,
+     "win": 40341,
+     "share": 9.2
+    },
+    {
+     "b": 6,
+     "pick": 49395,
+     "win": 23574,
+     "share": 9.1
+    },
+    {
+     "b": 7,
+     "pick": 35879,
+     "win": 17133,
+     "share": 9.5
+    },
+    {
+     "b": 8,
+     "pick": 0,
+     "win": 0,
+     "share": 0
+    }
+   ]
+  }
+ }
+}

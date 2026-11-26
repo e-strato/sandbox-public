@@ -1,0 +1,145 @@
+/* --p: 0 — крупно, 1 — как обычная прилипшая шапка */
+.psh { --p: 0; --dh: 0px; position: sticky; top: calc(var(--site-head-h, 92px) - 1px); z-index: calc(var(--z-modal, 1000) + 1); display: flex; flex-direction: column; gap: calc((1 - var(--p)) * 12px);
+  margin-bottom: calc(var(--p) * var(--dh)); }
+.psh-card { position: relative; overflow: hidden; isolation: isolate; border-radius: 14px; background: #0f0f0f;
+  padding: calc(20px - var(--p) * 8px) calc(20px - var(--p) * 4px); margin-inline: calc(var(--p) * -4px);
+  box-shadow: 0 10px 24px -6px rgb(0 0 0 / calc(var(--p) * .6)); }
+.psh.is-stuck .psh-card { background: color-mix(in srgb, color-mix(in srgb, var(--c-text) 10%, var(--w-page)) calc(var(--p) * 100%), #0f0f0f); }
+.psh-blur { position: absolute; inset: 0; z-index: -1; opacity: calc(1 - var(--p)); }
+.psh-blur img { position: absolute; inset: -40%; width: 180%; height: 180%; object-fit: cover; filter: blur(60px) saturate(1.4); opacity: .45; }
+.psh-blur::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #0f0f0f 5%, rgb(15 15 15 / .35)); }
+.psh-row { display: flex; align-items: center; gap: calc(16px - var(--p) * 4px); }
+.psh-logo { flex: none; width: calc(88px - var(--p) * 52px); height: calc(88px - var(--p) * 52px); object-fit: contain; }
+.psh--d8 .psh-logo { width: calc(56px - var(--p) * 20px); height: calc(56px - var(--p) * 20px); }
+.psh--round .psh-logo { border-radius: 50%; object-fit: cover; }
+.psh-id { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.psh-top { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; white-space: nowrap; }
+.psh-top h1 { display: flex; align-items: center; gap: 8px; margin: 0 4px 0 0; font: 700 calc(32px - var(--p) * 12px)/1.1 var(--font-sans); color: var(--c-text); }
+.psh--d8 .psh-top h1 { font-size: calc(28px - var(--p) * 8px); }
+.psh-sub { margin: 0; font: var(--type-body-2); color: var(--c-text-2); overflow: hidden; max-height: calc((1 - var(--p)) * 22px); opacity: calc(1 - var(--p) * 1.6); }
+.psh .plh-flag { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
+.psh .plh-meta { display: inline-flex; align-items: center; gap: 8px; }
+/* цифры — складываются (обёртка сжимается по высоте, плитки гаснут) */
+.psh-tiles-w { overflow: hidden; max-height: calc((1 - var(--p)) * 90px); opacity: calc(1 - var(--p) * 1.8); }
+.psh-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.psh-tile { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: 12px; background: #0f0f0f; }
+.psh-tile small { font: var(--type-caption-2); color: var(--c-text-3); }
+.psh-tile b { font: 600 18px/1.1 var(--font-mono); color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.psh-tile.is-main b { font-size: 22px; }
+/* c7 — плитки внутри обложки, полупрозрачные */
+.psh--c7 .psh-tiles-w { margin-top: calc((1 - var(--p)) * 20px); }
+.psh--c7 .psh-tile { background: rgb(255 255 255 / .06); backdrop-filter: blur(8px); }
+/* m9 — плитки под обложкой уходят под неё */
+.psh--m9 .psh-card { z-index: 1; }
+.psh--m9 .psh-tiles-w { margin-top: calc(var(--p) * -12px); }
+@media (max-width: 800px) { .psh-tiles { grid-template-columns: repeat(3, 1fr); } .psh-tiles-w { max-height: calc((1 - var(--p)) * 190px); } }
+
+/* герой: арт в рамке (по верху), атрибуты с цветной точкой */
+.psh--art .psh-logo { object-fit: cover; object-position: 50% 8%; border-radius: calc(14px - var(--p) * 6px); background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.psh--art .psh-tiles { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); }
+.psh .is-str { --a-c: #e5484d; } .psh .is-agi { --a-c: #46a758; } .psh .is-int { --a-c: #3e8ef7; } .psh .is-all { --a-c: #c8a26b; }
+.psh-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--a-c); vertical-align: middle; }
+.psh-tile em { margin-left: 4px; font: var(--type-caption-2); font-style: normal; color: var(--c-text-3); }
+.psh-attr { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 6px; font: var(--type-caption-1); color: var(--c-text); background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+.psh-tag { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 6px; font: var(--type-caption-1); color: var(--c-text-2); background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+.psh-wr.is-up { color: var(--c-success); } .psh-wr.is-down { color: var(--c-danger); }
+.psh-tile small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* v10 — как v9, обложка выше; у героя арт без рамки во всю высоту слева (гаснет вправо и вниз), иконка перед названием */
+.psh--m10 .psh-card { padding-block: calc(40px - var(--p) * 28px); }
+.psh--m10 .psh-logo { width: calc(104px - var(--p) * 68px); height: calc(104px - var(--p) * 68px); }
+.psh--m10 .psh-tiles-w { margin-top: calc(var(--p) * -12px); }
+.psh--m10 .psh-card { z-index: 1; }
+.psh-art { position: absolute; left: 0; top: 0; bottom: 0; width: 230px; overflow: hidden; opacity: calc(1 - var(--p) * 1.5); pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 98%), linear-gradient(to right, #000 60%, transparent 100%); -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 98%), linear-gradient(to right, #000 60%, transparent 100%); mask-composite: intersect; }
+.psh-art img { position: absolute; left: -26px; top: -8px; width: 290px; height: 290px; object-fit: contain; }
+.psh--m10.psh--art .psh-row { padding-left: calc((1 - var(--p)) * 200px); }
+.psh-ic { flex: none; width: calc(30px - var(--p) * 6px); height: calc(30px - var(--p) * 6px); border-radius: 6px; }
+
+/* v11 — как v10, но высота обложки у всех одна — как у героя в v10 (140 → 60 при сжатии); лого 72 → 36, по центру по высоте */
+.psh.psh--m11 .psh-card { box-sizing: border-box; height: calc(140px - var(--p) * 80px); padding-block: 0; display: flex; flex-direction: column; justify-content: center; }
+.psh.psh--m11 .psh-logo { width: calc(72px - var(--p) * 36px); height: calc(72px - var(--p) * 36px); }
+
+/* v12 — размыто сильнее и крупнее, цвет ярче */
+.psh-blur--blur img { inset: -80%; width: 260%; height: 260%; filter: blur(110px) saturate(2) brightness(1.1); opacity: .6; }
+.psh-blur--blur::after { background: linear-gradient(to top, rgb(15 15 15 / .85), rgb(15 15 15 / .15)); }
+/* v13 — к размытию картинка крупно справа, слегка размыта, уходит за край */
+.psh-blur--big img:first-child { filter: blur(100px) saturate(2) ; opacity: .6; }
+.psh-big { inset: 50% 60px auto auto !important; width: 320px !important; height: 320px !important; transform: translateY(-50%) rotate(-8deg); object-fit: contain !important; filter: blur(4px) saturate(1.3) !important; opacity: .45 !important; }
+.psh-blur--big::after { background: linear-gradient(90deg, rgb(15 15 15 / .7) 20%, rgb(15 15 15 / .2) 70%, rgb(15 15 15 / .5)); }
+/* v14 — пятна цвета из картинки */
+.psh-mesh { background: radial-gradient(60% 120% at 8% 30%, color-mix(in srgb, var(--mc) 55%, transparent), transparent 70%),
+  radial-gradient(50% 140% at 85% 0%, color-mix(in srgb, var(--mc) 30%, transparent), transparent 70%),
+  radial-gradient(40% 90% at 60% 110%, color-mix(in srgb, var(--mc) 25%, transparent), transparent 70%); transition: background .3s; }
+.psh-mesh::after { background: linear-gradient(to top, rgb(15 15 15 / .6), transparent 60%) !important; }
+
+/* v15–v17: больше в обложке, плиток меньше и крупнее */
+.psh-meta { display: flex; flex-wrap: wrap; max-height: calc((1 - var(--p)) * 24px); font: 400 15px/22px var(--font-sans); color: var(--c-text-3); }
+.psh-meta > span:not(:last-child)::after { content: '·'; margin: 0 10px; }
+.psh-meta > span:first-child:not(:has(b)) { color: var(--c-text-2); }
+.psh-meta b { margin-left: 3px; font: 600 15px/22px var(--font-mono); color: var(--c-text); }
+.psh-extra { display: flex; align-items: center; gap: 16px; margin-top: 4px; overflow: hidden; max-height: calc((1 - var(--p)) * 32px); opacity: calc(1 - var(--p) * 1.8); }
+.psh-bigs { display: flex; gap: 28px; margin-right: 12px; overflow: hidden; max-width: calc((1 - var(--p)) * 400px); opacity: calc(1 - var(--p) * 1.8); white-space: nowrap; }
+.psh-bigs > div { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.psh-bigs small { font: 400 13px/1.2 var(--font-sans); color: var(--c-text-2); }
+.psh-bigs b { font: 600 28px/1.1 var(--font-mono); color: var(--c-text); }
+.psh--rich .psh-tiles { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.psh--rich .psh-tile { padding: 14px 16px; gap: 8px; }
+.psh--rich .psh-tile small { font: 400 13px/1.2 var(--font-sans); }
+.psh--rich .psh-tile b { font-size: 24px; }
+.psh--rich .psh-tile.is-main b { font-size: 26px; }
+.psh--rich .psh-tiles-w { max-height: calc((1 - var(--p)) * 100px); }
+.psh-ava { display: inline-flex; }
+.psh-ava img, .psh-ava i { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-left: -6px; border: 2px solid #1a1a1a; background: #2a2a2e; }
+.psh-ava :first-child { margin-left: 0; }
+.psh-x { display: inline-flex; align-items: center; gap: 8px; font: 400 13px/1 var(--font-sans); color: var(--c-text-3); }
+.psh-form { display: inline-flex; gap: 3px; }
+.psh-form i { width: 8px; height: 8px; border-radius: 2px; background: var(--c-text-3); }
+.psh-form i.w { background: var(--c-success); } .psh-form i.l { background: var(--c-danger); }
+.psh-stg { display: inline-flex; gap: 6px; }
+.psh-stg span { padding: 3px 8px; border-radius: 6px; font: 400 12px/1.2 var(--font-sans); color: var(--c-text-3); background: rgb(255 255 255 / .06); }
+.psh-stg span.is-on { color: var(--c-text); background: rgb(255 255 255 / .14); }
+
+/* v18: фон тише; первая строка — только название (и тир / тег / иконка), вторая — всё остальное */
+.psh--v18 .psh-blur--blur img { opacity: .38; filter: blur(120px) saturate(1.6); }
+.psh--v18 .psh-blur--blur::after { background: linear-gradient(to top, rgb(15 15 15 / .9), rgb(15 15 15 / .45)); }
+.psh-lead { display: inline-flex; align-items: center; gap: 8px; }
+.psh-meta { align-items: center; }
+.psh-meta > .psh-lead:not(:last-child)::after { content: '·'; margin: 0 10px 0 2px; color: var(--c-text-3); }
+.psh-lead .plh-meta { display: inline-flex; align-items: center; gap: 8px; }
+.psh-role { display: inline-flex; align-items: center; gap: 4px; color: var(--c-text-2); }
+.psh-role svg { color: var(--c-text-3); fill: currentColor; opacity: .8; filter: grayscale(1); }
+.psh-meta .psh-attr, .psh-meta .psh-tag { height: 22px; }
+.psh-flag2 { display: inline-flex; align-items: center; gap: 6px; color: var(--c-text-2); }
+/* v19–v21: вторая строка по общим правилам — до 3 пунктов; главное (принадлежность / статус) — первым и белым, остальное серым */
+.r2 { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 0; font: 400 15px/22px var(--font-sans); color: var(--c-text-3); }
+.r2 > * { display: inline-flex; align-items: center; gap: 6px; }
+.r2--text .r2-t:not(:last-child)::after, .r2--mix .r2-t:not(:last-child)::after { content: '·'; margin: 0 10px; color: var(--c-text-3); }
+.r2-t.is-main { color: var(--c-text); font-weight: 500; }
+.r2--chips { gap: 8px; }
+.r2-chip { height: 26px; padding: 0 10px; border-radius: 8px; color: var(--c-text-2); background: rgb(255 255 255 / .08); font-size: 14px; }
+.r2--mix .r2-chip.is-main { margin-right: 12px; color: var(--c-text); background: rgb(255 255 255 / .12); }
+.r2 .psh-role { color: inherit; }
+.r2 .is-main .psh-role, .r2-t.is-main .psh-role { color: var(--c-text); }
+.r2-live i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--c-danger); }
+.r2 .psh-dot { margin-right: 6px; }
+.psh-meta:has(.r2) > .psh-lead::after { content: none; }
+/* v22 — вычистка v20: все ярлыки одной высоты 26 и одного вида; тег команды — сам тег (EntityTag) в том же виде, без ярлыка вокруг */
+.r2--v22 { gap: 8px; }
+.r2--v22 .r2-chip, .r2--v22 > .etag { box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 6px;
+  background: rgb(255 255 255 / .08); color: var(--c-text-2); font: 400 14px/1 var(--font-sans); }
+.r2--v22 > .etag { --etag-pic: 16px; --etag-gap: 6px; padding-left: 6px; }
+.r2--v22 > .etag:hover { background: rgb(255 255 255 / .14); }
+.r2--v22 .r2-chip > * { display: inline-flex; align-items: center; gap: 6px; }
+.r2--v22 .plh-flag { display: block; width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
+.r2--v22 .psh-role svg { display: block; }
+.r2--v22 .psh-dot { margin: 0; }
+.r2--v22 .r2-live i { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--c-danger); }
+/* место — главное: кубок золотом, «6 место» белым */
+.r2--v22 .r2-chip:has(.r2-place) { background: color-mix(in srgb, #e8b54a 16%, transparent); }
+.r2-place { color: var(--c-text-2); }
+.r2-place svg { color: #e8b54a; }
+.r2-place b { color: var(--c-text); font-weight: 600; }
+.psh-meta:has(.r2--v22) { max-height: calc((1 - var(--p)) * 30px); line-height: 26px; }
+.r2--v22 .r2-place b { font: 600 14px/1 var(--font-sans); margin: 0; }

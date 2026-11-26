@@ -1,0 +1,53 @@
+/* Лаба page-head-big: шапка страницы крупнее при заходе, прилипла — как в продукте. v1–v4. */
+.lph-meta { display: flex; flex-wrap: wrap; gap: var(--space-6) var(--space-16); margin-top: var(--space-8); }
+.lph-meta span { display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.lph-meta small { font: var(--type-caption-1); color: var(--c-text-3); }
+.lph-meta b { font: 500 13px/18px var(--font-sans); color: var(--c-text); }
+.lph-meta--m { display: none; padding: 0 var(--space-16) var(--space-4); margin-top: 0; overflow-x: auto; flex-wrap: nowrap; }
+.lph-tiles { display: flex; gap: var(--space-8); margin-left: auto; margin-right: var(--space-12); }
+.lph-tiles span { display: flex; flex-direction: column; gap: 2px; min-width: 72px; padding: var(--space-8) var(--space-12); border-radius: var(--radius-8); background: color-mix(in srgb, var(--c-text) 5%, transparent); }
+.lph-tiles b { font: 600 15px/20px var(--font-sans); color: var(--c-text); white-space: nowrap; }
+.lph-tiles small { font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; }
+
+/* прилипла — подробностей нет, шапка как в продукте */
+@container scroll-state(stuck: top) { .lph-meta, .lph-tiles { display: none; } }
+@media (max-width: 799px) { .lph-tiles, .ph-d .lph-meta { display: none; } }
+@container scroll-state(stuck: none) { @media (max-width: 799px) { .lph-meta--m { display: flex; } } }
+
+/* общее для всех: пока не прилипла — крупнее */
+@container scroll-state(stuck: none) {
+  .ph2-wrap > section.ph2 .ph-in { padding-block: var(--space-16); }
+  .ph2-wrap .ph-d .ph-title { font: 600 26px/32px var(--font-sans); }
+  .ph2-wrap .ph-d .ph-logo, .ph2-wrap .ph-d .ph-title > img:first-child { width: 36px; height: 30px; }
+  .ph2-wrap .ph-d .plh-ava, .ph2-wrap .ph-d .plh-ava img { width: 32px; height: 32px; }
+  .ph2-wrap .ph-d .ph-title .etag { --etag-pic: 30px; font: inherit; }
+  .ph2-wrap .ph-m .ph-title { font: var(--type-title-2); }
+}
+
+/* v1 — крупнее, подробности строкой под названием (по левому краю) — общего выше хватает */
+
+/* v2 — крупнее, подробности плитками справа, перед кнопками */
+@container scroll-state(stuck: none) { [data-ph="v2"] .ph2-wrap .ph-d .ph-main { align-items: center; } [data-ph="v2"] .ph2-wrap .ph-d .ph-who { flex: 0 1 auto; min-width: 0; } }
+
+/* v3 — по центру, подсветка цветом бренда с обоих краёв */
+@container scroll-state(stuck: none) {
+  [data-ph="v3"] .ph2-wrap > section.ph2 { background: radial-gradient(40% 160% at 0% 50%, color-mix(in srgb, var(--c-brand) 22%, transparent), transparent 70%), radial-gradient(40% 160% at 100% 50%, color-mix(in srgb, var(--c-brand) 22%, transparent), transparent 70%), var(--w-surface); }
+  [data-ph="v3"] .ph2-wrap > section.ph2 .ph-in { padding-block: var(--space-20); }
+  [data-ph="v3"] .ph2-wrap .ph-d .ph-main { position: relative; justify-content: center; }
+  [data-ph="v3"] .ph2-wrap .ph-d .ph-logo { display: none; }
+  [data-ph="v3"] .ph2-wrap .ph-d .ph-who { flex: 1; align-items: center; }
+  [data-ph="v3"] .ph2-wrap .ph-d .ph-title { justify-content: center; }
+  [data-ph="v3"] .ph2-wrap .ph-d .lph-meta { justify-content: center; }
+  [data-ph="v3"] .ph2-wrap .ph-d .ph2-rt { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+}
+
+/* v4 — обложка: шапка выше, слева большой лого в плитке, справа от него название и подробности, фон — размытый лого */
+@container scroll-state(stuck: none) {
+  [data-ph="v4"] .ph2-wrap > section.ph2 { position: relative; overflow: hidden; }
+  [data-ph="v4"] .ph2-wrap > section.ph2::before { content: ''; position: absolute; inset: -40px; background: var(--lph-logo) 8% 50% / 260px no-repeat; filter: blur(40px) saturate(1.4); opacity: .35; pointer-events: none; }
+  [data-ph="v4"] .ph2-wrap > section.ph2 .ph-in { position: relative; padding-block: var(--space-24); }
+  [data-ph="v4"] .ph2-wrap .ph-d .ph-logo, [data-ph="v4"] .ph2-wrap .ph-d .ph-title > img:first-child { width: 64px; height: 64px; padding: 8px; border-radius: var(--radius-12); background: rgb(255 255 255 / .06); object-fit: contain; box-sizing: border-box; }
+  [data-ph="v4"] .ph2-wrap .ph-d .plh-ava, [data-ph="v4"] .ph2-wrap .ph-d .plh-ava img { width: 64px; height: 64px; border-radius: var(--radius-12); }   /* игрок — аватар крупно */
+  [data-ph="v4"] .ph2-wrap .ph-d .ph-title { font-size: 30px; line-height: 36px; }
+  [data-ph="v4"] .ph2-wrap .ph-d .ph-main { align-items: center; gap: var(--space-16); }
+}

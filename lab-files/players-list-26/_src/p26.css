@@ -1,0 +1,49 @@
+/* Лаба players-list-26 v1 — «Все игроки» по правкам 26.11 */
+/* 151-30: боковые виджеты скрыты — таблица на всю ширину */
+.p26 .etpage__r { display: none; }
+/* 145-24: флаг перед ником, меньше; позиция серым */
+.p26-nick { display: inline-flex; align-items: center; gap: 6px; }
+.p26-flag { flex: none; width: 14px; height: 10px; border-radius: 2px; object-fit: cover; }
+.p26-pos { color: var(--c-text-3); }
+.p26-pos svg { color: inherit; fill: currentColor; opacity: .7; }
+.p26-reg { color: var(--c-text-2); }
+/* 146-25: число и под ним мелко — движение */
+.p26-up { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.p26-up b { font-weight: 600; color: var(--c-text); }
+.p26-up small { font-size: 10px; line-height: 12px; }
+.p26-up .is-up { color: var(--c-up, #3ecf6e); }
+.p26-up .is-down { color: var(--c-down, #ef5350); }
+.p26-up .is-0 { color: var(--c-text-3); }
+/* 149-28: карты и спарклайн формы */
+.p26-maps { display: inline-flex; align-items: center; gap: var(--space-6); }
+.p26-spark { flex: none; color: var(--c-text-3); }
+.p26-spark .is-w { fill: var(--c-up, #3ecf6e); }
+.p26-spark .is-l { fill: var(--c-down, #ef5350); }
+/* 148-27: точка под героем */
+.p26-h { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.p26-dot { width: 5px; height: 5px; border-radius: 50%; }
+.p26-dot.is-g { background: var(--c-up, #3ecf6e); }
+.p26-dot.is-y { background: #e3b22c; }
+.p26-dot.is-r { background: var(--c-down, #ef5350); }
+/* v2: иконки позиций в сегменте — серые, как в колонке; у выбранной — белая */
+.p26 .p26-posseg .lst-seg-pos { color: var(--c-text-3); filter: grayscale(1); opacity: .75; }
+.p26 .p26-posseg .is-on .lst-seg-pos, .p26 .p26-posseg [aria-selected='true'] .lst-seg-pos, .p26 .p26-posseg [aria-checked='true'] .lst-seg-pos { filter: grayscale(1) brightness(2); opacity: 1; }
+.p26-up .p26-reg { font-size: 10px; color: var(--c-text-3); }
+/* v3: рейтинг вместо номера — квадратик как у места, под ним шеврон и число */
+.p26-rk { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1; }
+.p26-rk small { display: inline-flex; align-items: center; gap: 1px; font-size: 10px; line-height: 10px; }
+.p26-rk .is-up { color: var(--c-up, #3ecf6e); } .p26-rk .is-down { color: var(--c-down, #ef5350); } .p26-rk .is-0 { color: var(--c-text-3); }
+.p26-rk__0 { color: var(--c-text-3); }
+.p26-nick .p26-flag { width: 12px; height: 8px; }
+.p26-up small { display: inline-flex; align-items: center; gap: 1px; }
+/* v4: длинное имя во второй строке — троеточием */
+.p26-nick { max-width: 100%; min-width: 0; }
+.p26-nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* v5 (дирижёр 26.11: «у Про и Паб отступы слева и справа разные — должны быть одинаковые до пикселя, внутри таблица тянется»):
+   первая колонка (рейтинг) — к левому краю, последняя (герои) — к правому; поля у обоих краёв — одно и то же, колонки между ними тянутся */
+.p26 table tbody td:last-child .c3__in, .p26 table tbody td:last-child .lst-ics { justify-content: flex-end; }
+.p26 table tbody td:last-child .c3__main { display: flex; justify-content: flex-end; width: 100%; }
+.p26 table thead th:last-child, .p26 table thead th:last-child * { text-align: right; justify-content: flex-end; }
+.p26 .p26-rk { min-width: 20px; }
+.p26 table tbody td:last-child .lst-ics { margin-right: -4px; }   /* у иконок героев свои 4 px поля — край ровно 16, как слева */
+.p26-few { color: var(--c-text-3); font-size: 11px; white-space: nowrap; }

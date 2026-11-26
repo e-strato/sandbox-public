@@ -1,0 +1,32 @@
+/* Лаба sched-filter v1: заголовок «Матчи» отдельно, под ним общий фильтр TourFilter — поля как у крошек страницы */
+.sf-h1 { margin: var(--space-4) var(--space-32) var(--space-12); font: var(--type-title-1, 600 24px/30px var(--font-sans)); color: var(--c-text); }
+.sf-fl { margin: 0 var(--space-32); }
+.sf .tfb__br .segment__btn { flex: none; }
+@media (max-width: 799px) { .sf-h1 { margin-inline: var(--space-16); } .sf-fl { margin-inline: var(--space-16); } .sf .spage__main { margin-inline: var(--space-16); } }
+/* плашка турнира не наезжает на первую карточку — место под ней */
+.sf .tfb:has(.tfb-pin) { margin-bottom: 52px; transition: margin .2s; }
+/* v3–v4: выбор игры слева — значками сегментом или как в шапке сайта */
+.sf .sf-gi { display: inline-grid; place-items: center; width: 18px; height: 18px; }
+.sf .sh3-game.sf-game { height: 34px; margin-left: 0; background: var(--c-control); }
+.sf-mi { display: inline-flex; align-items: center; gap: var(--space-8); }
+.sh3-pop .sh3-menu__i > .sf-mi { flex: 1; justify-content: flex-start; text-align: left; }
+.sh3-pop .sf-mi > * { flex: none; }
+/* v5: сегменты фиксированного размера — кнопки игр по 40, вкладки по 96; числа моноширинные — при смене чисел и игр ничего не прыгает */
+.sf .sf-games { flex: none; }
+.sf .sf-games .segment__btn { flex: none; width: 40px; padding: 0; justify-content: center; }
+.sf .sf-tabs { flex: none; }
+.sf .sf-tabs .segment__btn { flex: none; width: 96px; padding: 0; justify-content: center; }
+.sf .sf-tabs .sbar2__t small { min-width: 3ch; font-variant-numeric: tabular-nums; text-align: left; }
+/* v6 (дирижёр 26.11: «игра — выбирашкой, не переключением; Live · Скоро · Итоги криво; всё отжато влево»):
+   игра — кнопка как в шапке, фиксированной ширины 168, название слева, стрелка справа; вкладки — по 96, подпись и число по центру */
+.sf .sh3-game.sf-game { flex: none; width: 168px; justify-content: flex-start; gap: var(--space-8); padding: 0 var(--space-10) 0 var(--space-12); }
+.sf .sf-game__n { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.sf .sf-tabs .segment__btn { justify-content: center; }
+.sf .sf-tabs .sbar2__t { justify-content: center; }
+.sf .sf-tabs .sbar2__t small { min-width: 0; text-align: center; }
+/* v7: кнопка игры — по самому длинному «Все игры» */
+.sf .sh3-game.sf-game { width: 132px; }
+.popover.sh3-pop:has(.sf-mi) { min-width: 180px; }
+/* v8: турниров меньше, чем места, — кнопки ленты делят ширину поровну, пустого хвоста нет; больше, чем места, — не уже 40, лента листается вбок */
+.sf .tfb__br > .segment__btn { flex: 1 0 40px; }
+.sf .tfb__br > .segment__btn:first-child { flex: 0 0 auto; }

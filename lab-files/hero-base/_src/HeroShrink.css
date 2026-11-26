@@ -1,0 +1,81 @@
+/* Шапка героя крупно → мелко при прокрутке (v6–v8) */
+.hs { position: relative; border-radius: 14px; overflow: hidden; background: #0f0f0f; }
+.hs .is-str, .hs.is-str { --hb-c: #e5484d; }
+.is-str { --hb-c: #e5484d; } .is-agi { --hb-c: #46a758; } .is-int { --hb-c: #3e8ef7; } .is-all { --hb-c: #c8a26b; }
+.hs-big { position: relative; display: grid; grid-template-columns: 170px minmax(0, 1fr) auto; align-items: center; gap: 0 20px; min-height: 156px; padding-right: 20px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hb-c) 18%, transparent), transparent 42%); }
+.hs-pic { align-self: stretch; position: relative; overflow: hidden; min-height: 156px; }
+.hs-pic img { position: absolute; left: -22px; top: -14px; width: 220px; height: 220px; object-fit: contain; }
+.hs-c { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 18px 0; }
+.hs-top { display: flex; align-items: center; gap: 8px; }
+.hs-top h1 { margin: 0 6px 0 0; font: 700 26px/1.1 var(--font-sans); color: var(--c-text); }
+.hs-attr, .hs-tag { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 6px; font: var(--type-caption-1); color: var(--c-text-2); background: color-mix(in srgb, var(--c-text) 7%, transparent); }
+.hs-attr { color: var(--c-text); }
+.hs-attr i { width: 8px; height: 8px; border-radius: 50%; background: var(--hb-c); }
+.hs-roles { margin: 0; font: var(--type-body-2); color: var(--c-text-2); }
+.hs-nums { display: flex; align-items: flex-end; gap: 18px; margin-top: 8px; flex-wrap: wrap; }
+.hs-n { display: flex; flex-direction: column; gap: 3px; }
+.hs-n small { display: flex; align-items: center; gap: 5px; font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; }
+.hs-n small i { width: 6px; height: 6px; border-radius: 50%; background: var(--hb-c); }
+.hs-n b { display: flex; align-items: baseline; gap: 3px; font: 600 15px/1 var(--font-mono); color: var(--c-text); white-space: nowrap; }
+.hs-n--a b { color: var(--c-text-2); } .hs-n--a.is-main b { color: var(--c-text); }
+.hs-n em { font: var(--type-caption-2); font-style: normal; color: var(--c-text-3); }
+.hs-sep { align-self: stretch; width: 1px; background: color-mix(in srgb, var(--c-text) 10%, transparent); }
+.hs-pub { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; align-self: center; }
+.hs-pub > div { display: flex; flex-direction: column; align-items: flex-end; }
+.hs-pub small { font: var(--type-caption-2); color: var(--c-text-3); }
+.hs-pub b { font: 600 22px/1.1 var(--font-mono); color: var(--c-text); }
+.hs-pub b.is-up, .hs-mini b.is-up { color: var(--c-success); } .hs-pub b.is-down, .hs-mini b.is-down { color: var(--c-danger); }
+/* b: цифры полосой снизу во всю ширину */
+.hs-big--b { grid-template-rows: auto auto; }
+.hs-big--b .hs-pic { grid-row: 1 / span 2; }
+.hs-big--b .hs-c { padding-bottom: 6px; }
+.hs-strip { grid-column: 2 / span 2; padding: 12px 0 16px; border-top: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); }
+.hs-strip .hs-nums { margin: 0; justify-content: space-between; }
+
+/* мелкая строка — как шапка страниц движка при прокрутке */
+.hs-bar { height: 60px; }
+.hs-mini { display: flex; align-items: center; gap: 10px; height: 60px; padding: 0 20px 0 12px; }
+.hs-mini__pic { flex: none; width: 40px; height: 40px; border-radius: 10px; overflow: hidden; position: relative; background: color-mix(in srgb, var(--hb-c) 20%, #141417); }
+.hs-mini__pic img { position: absolute; left: -10px; top: -4px; width: 60px; height: 60px; object-fit: contain; }
+.hs-mini > b { font: var(--type-body-1-strong); color: var(--c-text); }
+.hs-mini__roles { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-caption-1); color: var(--c-text-3); }
+.hs-mini__wr { margin-left: auto; font: var(--type-caption-1); color: var(--c-text-3); white-space: nowrap; }
+.hs-mini__wr b { font: 600 14px/1 var(--font-mono); margin-left: 4px; }
+
+/* smooth: липнет, за 96 px прокрутки крупное гаснет, мелкая проявляется на нижнем крае */
+.hs--smooth { position: sticky; top: calc(var(--site-head-h, 92px) - var(--shrink)); z-index: 6; }
+.hs--smooth .hs-fade { opacity: calc(1 - var(--p) * 1.4); transform: translateY(calc(var(--p) * -12px)); }
+.hs--smooth .hs-bar { position: absolute; left: 0; right: 0; bottom: 0; opacity: var(--p); pointer-events: none; background: #0f0f0f; }
+.hs--smooth.is-stuck { box-shadow: 0 10px 24px rgb(0 0 0 / .5); }
+.hs--smooth.is-stuck .hs-bar { pointer-events: auto; }
+
+/* snap: крупная уезжает, мелкая выезжает сверху */
+.hs-snapbar { position: sticky; top: var(--site-head-h, 92px); z-index: 6; height: 0; }
+.hs-snapbar .hs-bar { border-radius: 0 0 14px 14px; background: color-mix(in srgb, #0f0f0f 94%, transparent); backdrop-filter: blur(12px); box-shadow: 0 10px 24px rgb(0 0 0 / .5);
+  transform: translateY(-110%); opacity: 0; transition: transform .22s ease, opacity .22s ease; pointer-events: none; }
+.hs-snapbar.is-on .hs-bar { transform: none; opacity: 1; pointer-events: auto; }
+.hs-big--b .hs-pub { flex-direction: row; gap: 20px; align-self: start; padding-top: 22px; }
+
+/* v9–v11: свёрнутая — общая шапка страницы в прилипшем виде (как PageHeader v6 при прокрутке: шире на 4, фон светлее, тень), крошек нет */
+.hs-snapbar--std .hs-bar { height: auto; border-radius: 0; background: none; backdrop-filter: none; box-shadow: none; }
+.hs-snapbar--std .ph2-wrap { position: static; }
+.hs-snapbar--std .ph2-crumbs { display: none; }
+.hs-snapbar--std section.ph2 { margin-inline: -4px; background: color-mix(in srgb, var(--c-text) 10%, var(--w-page)); box-shadow: 0 10px 24px -6px rgb(0 0 0 / .6); }
+.hs-snapbar--std section.ph2 .ph-in { padding-top: calc(var(--space-12) + 1px); padding-inline: calc(var(--space-12) + 4px); }
+.hs-std__wr { margin-left: 12px; font: var(--type-caption-1); color: var(--c-text-3); font-weight: 400; }
+.hs-std__wr b { margin-left: 4px; font: 600 13px/1 var(--font-mono); }
+.hs-std__wr b.is-up { color: var(--c-success); } .hs-std__wr b.is-down { color: var(--c-danger); }
+.hs-std__at { display: inline-flex; align-items: center; gap: 10px; margin-left: 12px; font: 600 13px/1 var(--font-mono); font-weight: 600; }
+.hs-std__at > span { display: inline-flex; align-items: center; gap: 4px; color: var(--c-text-2); }
+.hs-std__at > span.is-main { color: var(--c-text); }
+.hs-std__at i { width: 6px; height: 6px; border-radius: 50%; background: var(--hb-c); }
+
+/* v12: «О герое» в развёрнутой — над винрейтом справа, как в общей шапке */
+.hs-pub .ph2-btn { margin-bottom: 4px; }
+.hs .hs-big { align-items: center; }
+
+/* v14: иконка героя (мини-карта) у названия; арт уходит в фон мягко — снизу и справа гаснет, не режется краем */
+.hs-ic { width: 28px; height: 28px; border-radius: 6px; flex: none; }
+.hs--snap.hs-v14 .hs-pic { -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 98%), linear-gradient(to right, #000 62%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to bottom, #000 55%, transparent 98%), linear-gradient(to right, #000 62%, transparent 100%); mask-composite: intersect; }
+.hs--snap.hs-v14 .hs-pic img { top: -4px; }

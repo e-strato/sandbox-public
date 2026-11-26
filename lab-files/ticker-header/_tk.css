@@ -1,0 +1,33 @@
+/* Бегущая строка в шапке сайта (лаба ticker-header, 122-1). Основа — Ticker v2 (строка 40, бежит по кругу, навёл — встала). */
+.tk { overflow: hidden; height: 40px; border-bottom: 1px solid var(--c-border); background: var(--w-page, var(--c-bg));
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+@keyframes tk-run { to { transform: translateX(-50%); } }
+.tk__in { display: flex; align-items: center; width: max-content; height: 100%; animation: tk-run var(--d) linear infinite; }
+.tk:hover .tk__in { animation-play-state: paused; }
+.tk__m { display: inline-flex; align-items: center; gap: var(--space-8); height: 100%; padding: 0 var(--space-20); border-right: 1px solid var(--c-border); color: var(--c-text); text-decoration: none; white-space: nowrap; font: var(--type-body-1); }
+.tk__m:hover { background: var(--c-surface); }
+.tk__t { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.tk__t img, .tk__t i { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; }
+.tk__t.is-dim { color: var(--c-text-3); }
+.tk__st { color: var(--c-text-3); font: var(--type-caption-1-strong, 600 12px/16px var(--font-sans)); }
+span.tk__st { font: var(--num-caption-1, 500 12px/16px var(--font-mono)); }
+.tk__st--live { display: inline-flex; align-items: center; gap: 5px; color: var(--c-live); }
+.tk__st--live i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-live); animation: tk-p 1.4s infinite; }
+@keyframes tk-p { 50% { opacity: .35; } }
+.tk__s { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: var(--radius-4); background: var(--w-muted); color: var(--c-text); font: var(--num-tag, 600 12px/16px var(--font-mono)); }
+.tk__m.is-soon .tk__s { background: none; color: var(--c-text-3); }
+.tk__s--fin { background: color-mix(in srgb, var(--w-up) 20%, transparent); color: var(--w-up-fg); }
+.tk__nx { color: var(--c-text-2); font: var(--type-caption-1); }
+.tk__nx::before { content: '→ '; color: var(--c-text-3); }
+@media (prefers-reduced-motion: reduce) { .tk__in { animation: none; } .tk { overflow-x: auto; } .tk__st--live i { animation: none; } }
+@media (max-width: 799px) { .tk { height: 34px; } .tk__m { padding: 0 var(--space-12); font-size: 12px; } }
+
+/* v2, v3: строка над меню — часть шапки сайта, липнет вместе с ней. Всё, что липнет под шапкой сайта, ниже на высоту строки (--tk-h). */
+html[data-tk="v2"], html[data-tk="v3"] { --tk-h: 40px; }
+@media (max-width: 799px) { html[data-tk="v2"], html[data-tk="v3"] { --tk-h: 34px; } }
+html.tk-hide { --tk-h: 0px; }
+:is([data-tk="v2"], [data-tk="v3"]) .tk { position: sticky; top: 0; z-index: calc(var(--z-header, 100) + 1); transition: transform .2s ease; }
+html.tk-hide .tk { transform: translateY(-100%); }
+:is([data-tk="v2"], [data-tk="v3"]) .site-header { top: var(--tk-h); transition: top .2s ease; }
+:is([data-tk="v2"], [data-tk="v3"]) .ph2-wrap { top: calc(51px + var(--tk-h) - var(--ph-crumb, 22px)); transition: top .2s ease; }
+:is([data-tk="v2"], [data-tk="v3"]) .tbl2--flow .tbl2__t thead { top: calc(var(--page-head-bottom, 52px) + var(--tk-h)); }

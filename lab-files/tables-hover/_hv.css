@@ -1,0 +1,21 @@
+/* Лаба tables-hover (123-2, созвон 26.11: «строка важнее — выделять её заметнее, чем столбец; когда смотрю на команду, нужно больше фокуса на неё»).
+   Сейчас (Cell v2, Row v2, HeadCell v2, у «Участников» — свои правила Roster v4): строка 8 %, столбец 6 %, ячейка под мышью 14 % — строка и столбец почти равны.
+   Правим только цвета, !important — перебить свои правила «Участников» (.rost.rd td.cell2.cell2--col). */
+/* v1 · Строка ярче: строка 16 %, столбец 4 %, перекрестье 20 % */
+html[data-hv="1"] .tbl2__t tbody tr.row2:hover { --tbl-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }
+html[data-hv="1"] td.cell2.cell2--col { --cell-bg: color-mix(in srgb, var(--w-fg) 4%, var(--c-surface)) !important; }
+html[data-hv="1"] td.cell2.cell2--hit { --cell-bg: color-mix(in srgb, var(--w-fg) 20%, var(--c-surface)) !important; }
+html[data-hv="1"] th.hcell2.hcell2--col { background: color-mix(in srgb, var(--w-fg) 4%, var(--c-surface)) !important; }
+/* v2 · Столбец едва: строка 16 %, столбец 2 %, перекрестье — как строка */
+html[data-hv="2"] .tbl2__t tbody tr.row2:hover { --tbl-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }
+html[data-hv="2"] td.cell2.cell2--col { --cell-bg: color-mix(in srgb, var(--w-fg) 2%, var(--c-surface)) !important; }
+html[data-hv="2"] td.cell2.cell2--hit { --cell-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }
+html[data-hv="2"] th.hcell2.hcell2--col { background: color-mix(in srgb, var(--w-fg) 2%, var(--c-surface)) !important; }
+/* v3 · Только строка: строка 16 %, у столбца фона нет — подпись в шапке белая, в строке под мышью его цифра белая */
+html[data-hv="3"] .tbl2__t tbody tr.row2:hover { --tbl-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }
+html[data-hv="3"] td.cell2.cell2--col { --cell-bg: var(--tbl-bg, var(--c-surface)) !important; }
+html[data-hv="3"] td.cell2.cell2--hit { --cell-bg: var(--tbl-bg, var(--c-surface)) !important; color: var(--c-text); }
+html[data-hv="3"] th.hcell2.hcell2--col { background: var(--c-surface) !important; }
+/* строка под мышью у «Участников» красится ячейками (Roster v4: .rost.rh … tr.row2:hover > td.cell2) — и тут 16 % */
+html[data-hv] .tbl2__t tbody tr.row2:hover > td.cell2:not(.cell2--hit):not(.cell2--col) { --cell-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }
+html[data-hv="3"] .tbl2__t tbody tr.row2:hover > td.cell2.cell2--hit { --cell-bg: color-mix(in srgb, var(--w-fg) 16%, var(--c-surface)) !important; }

@@ -1,0 +1,29 @@
+/* обложка матча до начала — поверх PageCover v1 */
+.mcv-blur img { position: absolute; top: -60%; width: 70%; height: 220%; object-fit: cover; filter: blur(100px) saturate(1.8); opacity: .55; }
+.mcv-blur .mcv-blur-a { left: -15%; inset-inline-end: auto; }
+.mcv-blur .mcv-blur-b { right: -15%; left: auto; }
+.mcv-logo { flex: none; width: calc(56px - var(--p) * 28px); height: calc(56px - var(--p) * 28px); object-fit: contain; }
+.mcv-name { font: 700 calc(28px - var(--p) * 10px)/1.1 var(--font-sans); color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mcv-kick { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: none; }
+.mcv-kick b { font: 600 calc(36px - var(--p) * 16px)/1 var(--font-mono); color: var(--c-text); }
+.mcv-kick small { font: 400 13px/1.2 var(--font-sans); color: var(--c-text-2); overflow: hidden; max-height: calc((1 - var(--p)) * 18px); opacity: calc(1 - var(--p) * 1.6); }
+/* center */
+.mcv--center .pcv-card { align-items: center; gap: calc(10px - var(--p) * 10px); }
+.mcv-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: calc(28px - var(--p) * 12px); width: 100%; }
+.mcv-side { display: flex; align-items: center; gap: calc(14px - var(--p) * 4px); min-width: 0; }
+.mcv-side--a { justify-content: flex-end; }
+.mcv--center .pcv-chips { justify-content: center; }
+.mcv-about { position: absolute; right: calc(20px - var(--p) * 4px); top: 50%; transform: translateY(-50%); }
+.mcv--center .mcv-row { padding-inline: 120px; box-sizing: border-box; }
+/* left */
+.mcv-pair { display: flex; flex: none; }
+.mcv-pair .mcv-logo + .mcv-logo { margin-left: calc(-12px + var(--p) * 4px); }
+.mcv-dash { margin: 0 4px; color: var(--c-text-3); font-weight: 400; }
+.mcv--left .mcv-kick { align-items: flex-end; margin-right: 12px; }
+/* плитки — сравнение */
+.mcv-tile b { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mcv-tile b i { font: 400 12px/1 var(--font-sans); font-style: normal; color: var(--c-text-3); }
+.mcv-form { display: inline-flex; gap: 3px; }
+.mcv-form i { width: 9px; height: 9px; border-radius: 2px; background: var(--c-text-3); }
+.mcv-form i.w { background: var(--c-success); } .mcv-form i.l { background: var(--c-danger); }
+.pcv-chips > .etag--tour { padding-left: 6px; }

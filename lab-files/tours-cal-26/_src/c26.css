@@ -1,0 +1,202 @@
+/* Лаба tours-cal-26 v1 — список турниров по правкам 26.11 (124-3 … 132-11). Поверх Calendar v9–v11 и Tournaments v9 */
+
+/* 126-5: заголовок отдельно, фильтры строкой под ним */
+.c26-h1 { margin: var(--space-4) 0 var(--space-12); font: var(--type-title-1, 600 24px/30px var(--font-sans)); color: var(--c-text); }
+.c26-fl { display: flex; align-items: center; gap: var(--space-12); min-width: 0; margin-bottom: var(--space-16); }
+.c26-rib { flex: 1; min-width: 0; }
+.c26-page .etours__col { display: flex; flex-direction: column; min-height: 0; }
+
+/* сетка недели: дни на всю высоту, поверх — плашки тир-1 и линии */
+.c26 .c26-wk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: var(--space-4); row-gap: 0; min-height: 96px; }
+.c26 .c26-day { all: unset; box-sizing: border-box; position: relative; min-height: 0; border-radius: var(--radius-10); background: color-mix(in srgb, var(--c-text) 6%, transparent); cursor: pointer; transition: background .15s, box-shadow .15s; }
+.c26 .c26-day:hover { background: color-mix(in srgb, var(--c-text) 10%, transparent); }
+.c26 .c26-day.is-on { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-text) 55%, transparent); background: color-mix(in srgb, var(--c-text) 10%, transparent); }
+.c26 .c26-day.is-past { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.c26 .c26-day:focus-visible { box-shadow: inset 0 0 0 2px var(--c-brand); }
+
+/* 129-8: тир-1 — плашка 28 с лого и коротким именем; клики идут в день под ней */
+.c26-bar, .c26-line { position: relative; z-index: 1; pointer-events: none; margin: 0 calc(-1 * var(--space-2)); background: var(--tc); transition: opacity .25s; }
+.c26-bar { display: flex; align-items: center; gap: var(--space-6); min-width: 0; height: 26px; align-self: center; padding: 0 var(--space-8); color: #fff; font: var(--type-caption-1-medium); }
+.c26-bar b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.c26-bar.is-head { margin-left: var(--space-4); border-top-left-radius: var(--radius-6); border-bottom-left-radius: var(--radius-6); }
+.c26-bar.is-tail { margin-right: var(--space-4); border-top-right-radius: var(--radius-6); border-bottom-right-radius: var(--radius-6); }
+.c26-bar .c26-gi { flex: none; background-color: #fff; opacity: .85; }
+.c26-bar img, .c26-bar .c26-cup { flex: none; border-radius: 4px; }
+/* остальные — линия 8 px без текста (на наведение не растёт) */
+.c26-line { height: 8px; align-self: start; }
+.c26-line.is-head { margin-left: var(--space-6); border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+.c26-line.is-tail { margin-right: var(--space-6); border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+/* 131-10: прошедший турнир — серой выключенной полосой */
+.c26-bar.is-done, .c26-line.is-done { background: color-mix(in srgb, var(--c-text) 16%, var(--w-page)); color: var(--c-text-3); }
+.c26-bar.is-done img, .c26-bar.is-done .c26-cup, .c26-bar.is-done .c26-gi { filter: grayscale(1); opacity: .5; }
+/* 125-4: выбран турнир в ленте — он ярко, остальные тише */
+.c26-bar.is-off, .c26-line.is-off { opacity: .3; }
+.c26-bar.is-sel, .c26-line.is-sel { box-shadow: 0 0 0 1.5px #fff; }
+.c26 .tc-ft { pointer-events: none; }
+
+/* «Год»: значки игр месяца */
+.c26-yg { display: flex; gap: var(--space-6); color: var(--c-text-2); }
+
+/* 130-9: панель дня — вместо правой колонки */
+/* v2: панель выезжает справа поверх колонки (как сайдбар «Разбор» матча, лаба w-sidebar: sd-slide) и уезжает обратно */
+.c26-aside { position: relative; }
+.c26-dp { position: absolute; inset: 0 0 auto 0; z-index: 2; min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); border-radius: var(--radius-12, 12px); background: var(--c-surface); box-shadow: -12px 0 32px -12px rgb(0 0 0 / .7); animation: c26-in .28s cubic-bezier(.2, .8, .2, 1); }
+.c26-dp.is-out { animation: c26-out .26s ease-in forwards; }
+@keyframes c26-in { from { transform: translateX(calc(100% + 48px)); } }
+@keyframes c26-out { to { transform: translateX(calc(100% + 48px)); } }
+.c26-page .etours__main { overflow-x: clip; }
+.c26-dp__hd { position: relative; display: flex; flex-direction: column; gap: 2px; padding-right: 32px; }
+.c26-dp__hd b { font: var(--type-title-3, 600 18px/24px var(--font-sans)); color: var(--c-text); }
+.c26-dp__hd small { color: var(--c-text-2); font: var(--type-caption-1); }
+.c26-dp__x { all: unset; position: absolute; top: 0; right: 0; display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--radius-8); color: var(--c-text-2); cursor: pointer; }
+.c26-dp__x:hover { background: var(--c-control); color: var(--c-text); }
+/* v2 (дирижёр 26.11): без цветной полосы сбоку и подкраски — карточка ровным фоном */
+.c26-dp__t { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-10, 10px) var(--space-12); border-radius: var(--radius-10); background: var(--c-surface-2); }
+.c26-dp__t.is-done { opacity: .6; }
+.c26-dp__th { display: flex; align-items: center; gap: var(--space-8); min-width: 0; }
+.c26-dp__th img, .c26-dp__th .c26-cup { flex: none; border-radius: 4px; }
+.c26-dp__tn { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.c26-dp__tn b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--type-body-2-medium, 600 13px/18px var(--font-sans)); color: var(--c-text); }
+.c26-dp__tn small { display: flex; align-items: center; gap: 4px; color: var(--c-text-2); font: var(--type-caption-1); }
+.c26-dp__t ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.c26-dp__t li { display: grid; grid-template-columns: 40px minmax(0, 1fr) 44px minmax(0, 1fr); align-items: center; gap: var(--space-6); height: 28px; font: var(--type-caption-1); color: var(--c-text-2); }
+.c26-dp__a { text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--c-text); }
+.c26-dp__b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--c-text); }
+.c26-dp__s { text-align: center; color: var(--c-text); }
+.c26-dp__t p, .c26-dp__0 { margin: 0; color: var(--c-text-3); font: var(--type-caption-1); }
+.c26-sheet-bg { display: none; }
+
+/* 132-11: колонка игры, лого / кубок у названия */
+.c26-gcell { display: inline-flex; color: var(--c-text-2); }
+.c26-tn { display: inline-flex; align-items: center; gap: var(--space-6); }
+.c26-tn img, .c26-tn .c26-cup { flex: none; border-radius: 4px; }
+.c26-past { margin-top: 0; }
+
+/* телефон: панель дня — лист снизу поверх страницы; ленты листаются вбок */
+@media (max-width: 799px) {
+  .c26-fl { flex-wrap: wrap; gap: var(--space-8); }
+  .c26-rib { order: 3; flex-basis: 100%; }
+  .c26 .c26-wk { min-height: 64px; column-gap: 2px; }
+  .c26-bar { height: 18px; padding: 0 3px; } .c26-bar b, .c26-bar .c26-gi { display: none; } .c26-bar img, .c26-bar .c26-cup { width: 14px; height: 14px; }
+  .c26-line { height: 5px; }
+  .c26-aside-on .c26-dp { position: fixed; z-index: 1001; inset: auto 0 0 0; min-height: 0; max-height: 75vh; overflow-y: auto; border-radius: 16px 16px 0 0; animation-name: c26-up; }
+  .c26-aside-on .c26-dp.is-out { animation-name: c26-down; }
+  @keyframes c26-up { from { transform: translateY(100%); } } @keyframes c26-down { to { transform: translateY(100%); } }
+  .c26-sheet-bg { display: block; position: fixed; inset: 0; z-index: 1000; background: rgb(0 0 0 / .5); }
+}
+.c26-tn__n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--c-text); }
+.c26-sheet-bg.is-out { opacity: 0; transition: opacity .26s; }
+.c26-rib.tc-br { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+
+/* ——— v5: сайдбар как «Разбор» матча (лаба w-sidebar v37) ——— */
+/* на месте колонки, высота экрана, шапка стоит, прокрутка — внутри; сильная тень влево, выезжает справа */
+.c26-aside { align-self: start; }
+.c26-sd { padding: 0; gap: 0; height: calc(100vh - 176px); max-height: 820px; min-height: 0; overflow: hidden; border: 1px solid color-mix(in srgb, var(--c-text) 8%, transparent); box-shadow: -24px 0 60px -10px rgb(0 0 0 / .95); }
+.c26-sd__pg { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.c26-sd__pg.is-push { animation: c26-push .24s cubic-bezier(.2, .8, .2, 1); }
+.c26-sd__pg.is-pop { animation: c26-pop .24s cubic-bezier(.2, .8, .2, 1); }
+@keyframes c26-push { from { opacity: .2; transform: translateX(40px); } }
+@keyframes c26-pop { from { opacity: .2; transform: translateX(-40px); } }
+.c26-sd .c26-dp__hd { flex: none; padding: var(--space-16) calc(var(--space-16) + 32px) var(--space-12) var(--space-16); }
+.c26-sd .c26-dp__x { top: var(--space-16); right: var(--space-16); width: 30px; height: 30px; border-radius: 50%; background: var(--c-control); color: var(--c-text); }
+.c26-sd__bd { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; display: flex; flex-direction: column; gap: var(--space-12); padding: 0 var(--space-16) var(--space-16); }
+.c26-sd__go { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: var(--space-8); width: 100%; cursor: pointer; }
+.c26-sd__go > svg:last-child { flex: none; color: var(--c-text-3); }
+.c26-sd__go:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.c26-sd__hd2 { flex-direction: row; align-items: center; }
+.c26-sd__back { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 12px 0 8px; border-radius: 15px; background: var(--c-control); color: var(--c-text); font: var(--type-caption-1-medium); }
+.c26-sd__t { display: flex; align-items: center; gap: var(--space-10, 10px); }
+.c26-sd__t img, .c26-sd__t .c26-cup { flex: none; border-radius: 8px; }
+.c26-sd__h { margin: var(--space-4) 0 0; color: var(--c-text-2); font: var(--type-caption-1-medium); }
+.c26-sd__ms { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.c26-sd__ms li { display: grid; grid-template-columns: 40px minmax(0, 1fr) 44px minmax(0, 1fr); align-items: center; gap: var(--space-6); height: 32px; font: var(--type-caption-1); color: var(--c-text-2); }
+.c26-sd__days { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+.c26-sd__d { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 2px; padding: var(--space-6) var(--space-8); border-radius: var(--radius-8); background: var(--c-surface-2); }
+.c26-sd__d b { color: var(--c-text); font: var(--type-caption-1-medium); } .c26-sd__d small { color: var(--c-text-3); font: var(--type-caption-2, 11px/14px var(--font-sans)); }
+.c26-sd__d.is-past b { color: var(--c-text-3); }
+.c26-sd__d.is-on { background: var(--c-control); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c-text) 55%, transparent); }
+.c26-sd__page { flex: none; display: block; padding: 14px; text-align: center; background: var(--c-control); color: var(--c-text); font: var(--type-body-2-medium, 600 13px/18px var(--font-sans)); text-decoration: none; }
+.c26-sd__page.is-off { color: var(--c-text-3); }
+@media (max-width: 799px) { .c26-aside-on .c26-sd { height: 75vh; max-height: 75vh; } }
+/* колонка у страницы листается в своём окне (Tournaments v9) — сайдбар из неё не обрезаем */
+.etours.tmon .etours__aside.c26-aside-on { overflow: visible; }
+
+/* v6: скелетон на 0,5 с при смене дня в открытом сайдбаре */
+.c26-sk { display: flex; flex-direction: column; gap: var(--space-12); }
+.c26-sk .c26-dp__t { gap: var(--space-10, 10px); }
+
+/* v8 (дирижёр 26.11: «поплавнее»): скелетон и содержимое сменяются растворением, скелетон мягко пульсирует */
+.c26-fade { animation: c26-fade .32s ease-out; }
+@keyframes c26-fade { from { opacity: 0; transform: translateY(4px); } }
+.c26-sk { animation: c26-skin .2s ease-out; }
+@keyframes c26-skin { from { opacity: 0; } }
+.c26-list { display: flex; flex-direction: column; gap: var(--space-12); }
+.c26-sd .c26-dp__hd b { font: var(--type-title-3, 600 18px/24px var(--font-sans)); }
+
+/* ——— v9: блок матчей — три вида (?ml=a|b|c), скелетон проще ——— */
+.c26-sk__b { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12); border-radius: var(--radius-10); background: var(--c-surface-2); }
+.c26-sk-d { display: inline-block; vertical-align: -3px; }
+.c26-dp__t > ul.c26-ma, .c26-dp__t > ul.c26-mb, .c26-dp__t > ul.c26-mc { margin: 0 calc(-1 * var(--space-4)); }
+/* a — как «Последние матчи» команды */
+.c26-ma .tm-m-c { cursor: default; }
+.c26-ma .c26-ma__vs { color: var(--c-text-3); font-weight: 500; }
+/* b — две строки: время слева, команды столбиком, счёт у каждой */
+.c26-mb { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.c26-mb li { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: var(--space-8); padding: var(--space-6) var(--space-4); border-radius: var(--radius-8); }
+.c26-mb li:hover { background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.c26-mb li + li { border-top: 1px solid color-mix(in srgb, var(--c-text) 6%, transparent); }
+.c26-mb__t { color: var(--c-text-2); font: var(--type-caption-1); }
+.c26-mb__ts { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.c26-mb__r { display: grid; grid-template-columns: 16px minmax(0, 1fr) 20px; align-items: center; gap: var(--space-6); color: var(--c-text); font: var(--type-caption-1-medium); }
+.c26-mb__r > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c26-mb__r b { text-align: right; font-weight: 600; }
+.c26-mb__r.is-l { color: var(--c-text-3); }
+/* c — одна плотная строка: время · тег и лого · счёт · лого и тег */
+.c26-mc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.c26-mc li { display: grid; grid-template-columns: 40px minmax(0, 1fr) 44px minmax(0, 1fr); align-items: center; gap: var(--space-6); height: 32px; padding: 0 var(--space-4); border-radius: var(--radius-8); font: var(--type-caption-1-medium); color: var(--c-text); }
+.c26-mc li:hover { background: color-mix(in srgb, var(--c-text) 6%, transparent); }
+.c26-mc__t { color: var(--c-text-2); font-weight: 400; }
+.c26-mc__a { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-6); }
+.c26-mc__b { display: flex; align-items: center; gap: var(--space-6); }
+.c26-mc__s { text-align: center; font-weight: 600; }
+/* старая сетка строки матча (v1, .c26-dp__t li) — новым видам не мешает */
+.c26-dp__t ul.c26-ma > li, .c26-sd__bd ul.c26-ma > li { display: block; height: auto; }
+.c26-dp__t ul.c26-mb > li, .c26-sd__bd ul.c26-mb > li { height: auto; }
+.c26-ma .tm-m-c__t { color: var(--c-text); }
+
+/* v12: турнир в сайдбаре — весь блок подсвечивается при наведении, клик — страница турнира; без подчёркивания */
+.c26-dp__t:has(.c26-sd__go.is-go) { transition: background .15s; }
+.c26-dp__t:has(.c26-sd__go.is-go:not(.is-nopage)):hover { background: color-mix(in srgb, var(--c-text) 10%, var(--c-surface-2)); cursor: pointer; }
+.c26-sd__go.is-go:hover b { text-decoration: none; }
+.c26-sd__go.is-go.is-nopage { cursor: default; }
+.c26-sd__go.is-go.is-nopage > svg:last-child { visibility: hidden; }
+
+/* ——— v13–v16: наведение на день — слой поверх полос (::after над плашками и линиями), у выбранного дня — то же, только сильнее ——— */
+.c26 .c26-day::after { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; transition: background .15s, box-shadow .15s, opacity .15s; }
+.c26 .c26-day .tc-ft { z-index: 4; }
+/* v13 · Рамка: белая рамка 2 px вокруг дня */
+.c26-dh-ring .c26 .c26-day:hover::after { box-shadow: inset 0 0 0 2px rgb(255 255 255 / .75); }
+.c26-dh-ring .c26 .c26-day.is-on::after { box-shadow: inset 0 0 0 2px #fff; }
+.c26-dh-ring .c26 .c26-day:hover .cal__n, .c26-dh-ring .c26 .c26-day.is-on .cal__n { color: #fff; font-weight: 700; }
+/* v14 · Засветка: день светлеет целиком, поверх полос, номер — белой плашкой */
+.c26-dh-glow .c26 .c26-day:hover::after { background: rgb(255 255 255 / .1); }
+.c26-dh-glow .c26 .c26-day.is-on::after { background: rgb(255 255 255 / .14); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .35); }
+.c26-dh-glow .c26 .c26-day:hover .cal__n, .c26-dh-glow .c26 .c26-day.is-on .cal__n { background: #fff; color: #000; }
+/* v15 · Остальные тише: навёл — все другие дни притухают, этот остаётся ярким с тонкой рамкой */
+.c26-dh-dim .c26:has(.c26-day:hover) .c26-day:not(:hover)::after { background: rgb(0 0 0 / .45); }
+.c26-dh-dim .c26 .c26-day:hover::after { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .5); }
+.c26-dh-dim .c26 .c26-day.is-on::after { box-shadow: inset 0 0 0 2px #fff; }
+/* v16 · Акцентом: фиолетовая рамка и лёгкая заливка, номер — фиолетовой плашкой */
+.c26-dh-brand .c26 .c26-day:hover::after { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--c-brand-glow, var(--c-brand)) 80%, transparent); background: color-mix(in srgb, var(--c-brand) 12%, transparent); }
+.c26-dh-brand .c26 .c26-day.is-on::after { box-shadow: inset 0 0 0 2px var(--c-brand-glow, var(--c-brand)); background: color-mix(in srgb, var(--c-brand) 18%, transparent); }
+.c26-dh-brand .c26 .c26-day:hover .cal__n, .c26-dh-brand .c26 .c26-day.is-on .cal__n { background: var(--c-brand); color: var(--c-on-brand, #fff); }
+/* у всех вариантов: прежняя рамка выбранного (v5) — убрана, вместо неё слой выше */
+.c26-page:not(.c26-dh-base) .c26 .c26-day.is-on { box-shadow: none; }
+/* v15: затемнение заходит в зазоры между днями — без светлых швов на полосах */
+.c26-dh-dim .c26:has(.c26-day:hover) .c26-day:not(:hover)::after { inset: 0 calc(-1 * var(--space-2)); border-radius: 0; }
+
+/* v17: плашка выбранного турнира бренда — под лентой по центру колонки (как в продукте .cal__hd > .tc-pin) */
+.c26-fl { position: relative; }
+.c26-fl > .tc-pin { position: absolute; z-index: 20; top: calc(100% + 6px); bottom: auto; left: 50%; }
+/* v18: блок фильтров — TourFilter из ui; отступ под ним, как был у .c26-fl */
+.c26-page .tfb { margin-bottom: var(--space-16); }

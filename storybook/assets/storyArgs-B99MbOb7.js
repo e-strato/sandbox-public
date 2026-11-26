@@ -1,1 +1,0 @@
-import{s as o}from"./WidgetStatus-DGd9n7b8.js";const t={tour:{control:"inline-radio",options:["ep7","ti"],description:"Турнир: ep7 — Universe Ep. 7 (прошёл, группы) · ti — TI 2026 (идёт, швейцарка)"},who:{control:"inline-radio",options:["fan","ed"],description:"Кто смотрит: fan — зритель · ed — редактор (посев, замены, заметки)"},...o};export{t};
