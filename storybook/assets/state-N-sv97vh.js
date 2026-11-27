@@ -1,0 +1,1 @@
+import{t as e}from"./index-4Rfbaa0x.js";`${e("tournament:head.past")}`,`${e("tournament:head.live")}`;e("tournament:who.fan"),e("tournament:who.ed");const t={ep7:"universe-ep7",ti:"ti-2026"};export{t as T};

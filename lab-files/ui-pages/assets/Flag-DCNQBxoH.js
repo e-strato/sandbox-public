@@ -1,0 +1,1 @@
+import{j as s}from"./Widget-DXuT8Q42.js";const r="data:image/gif;base64,R0lGODlhAQABAAAAACw=";function i({src:t,className:a}){return s.jsx("img",{className:"flag"+(a?" "+a:""),src:t||r,alt:""})}export{i as F};

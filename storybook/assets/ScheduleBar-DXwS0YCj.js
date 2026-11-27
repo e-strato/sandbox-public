@@ -1,0 +1,1 @@
+import"./iframe-CVgOj2D3.js";import"./Segment-db3O_kLj.js";import{t as o}from"./index-4Rfbaa0x.js";import"./GameIcon-Dw_5TgVF.js";import"./TourCards-C9DEtJyN.js";import"./data-DuHHzxKS.js";const p={live:o("schedule:tabs.live"),soon:o("schedule:tabs.soon"),done:o("schedule:tabs.done")};export{p as T};

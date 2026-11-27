@@ -1,0 +1,7 @@
+/* Лаба site-header v19 (160-1): кнопка языка — как выбор игры, вплотную справа от него */
+.sh19-lang { margin-left: calc(-1 * var(--space-8) + 6px); padding: 0 8px 0 10px; }
+.popover.sh19-pop { min-width: 200px; }
+/* v20: игра перед поиском; поиск, игра, язык, аватар — через одинаковые 8 */
+.sh20 .sh3-game { margin-left: 0; }
+.sh20 .site-header__search { margin-left: calc(-1 * var(--space-8)); }
+.sh20 .sh19-lang, .sh20 .site-header__me { margin-left: calc(-1 * var(--space-8)); }

@@ -1,0 +1,1 @@
+import{j as i}from"./Breadcrumbs-B0sKm_JJ.js";/* empty css                */function o({tier:t,fill:r=!0,size:e="md"}){return i.jsxs("span",{className:["tier-tag",`tier-tag--${t}`,r&&"tier-tag--fill",e==="sm"&&"tier-tag--sm"].filter(Boolean).join(" "),children:["Tier ",t]})}export{o as T};

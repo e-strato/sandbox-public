@@ -27,3 +27,65 @@
 .mcv-form i { width: 9px; height: 9px; border-radius: 2px; background: var(--c-text-3); }
 .mcv-form i.w { background: var(--c-success); } .mcv-form i.l { background: var(--c-danger); }
 .pcv-chips > .etag--tour { padding-left: 6px; }
+/* 27.11 — идёт / после */
+.mcv-live { display: inline-flex; align-items: center; gap: 6px; color: var(--c-text); }
+.mcv-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-danger); }
+.mcv .is-lose { color: var(--c-text-3); }
+/* v25 — команды тегом (лого слева у обеих); прилипла — строка уезжает влево (по --p); маленькая — без плиток */
+.mcv--slide .mcv-row { display: flex; padding-inline: calc((1 - var(--p)) * 120px); }
+.mcv--slide .mcv-side--a { flex: none; justify-content: flex-end; min-width: calc((1 - var(--p)) * (50% - 55px - 28px)); }
+.mcv--slide .mcv-kick { min-width: calc((1 - var(--p)) * 110px); }
+.mcv--slide .mcv-side--b { flex: 1; }
+.mcv--v25 .mcv-row { padding-inline: 200px; }
+.mcv--slide .mcv-row { padding-inline: calc((1 - var(--p)) * 200px); }
+.mcv--v25 .mcv-about { display: flex; gap: 8px; }
+.mcv--v25.is-stuck .mcv-kick small { display: none; }
+/* v27 — мельче */
+.mcv--small .mcv-logo { width: calc(40px - var(--p) * 12px); height: calc(40px - var(--p) * 12px); }
+.mcv--small .mcv-name { font-size: calc(22px - var(--p) * 4px); }
+.mcv--small .mcv-kick b { font-size: calc(28px - var(--p) * 8px); }
+.mcv--v25.mcv--small .mcv-row { padding-inline: calc((1 - var(--p)) * 240px); }
+.mcv--small .mcv-side--a { min-width: calc((1 - var(--p)) * (50% - 45px - 28px)); }
+.mcv--small .mcv-kick { min-width: calc((1 - var(--p)) * 90px); }
+/* v28 — кнопки во второй строке справа, первая строка во всю ширину */
+.mcv--v25.mcv--down .mcv-row { padding-inline: calc((1 - var(--p)) * 24px); }
+.mcv--down .mcv-about { top: calc(50% + (1 - var(--p)) * 33px); }
+.mcv--down .mcv-side--a { min-width: calc((1 - var(--p)) * (50% - 55px - 28px - 12px)); }
+/* v29 — раскрытая: команды одна под другой; прилипла — одной строкой */
+.mcv--stack .pcv-card { align-items: flex-start; }
+.mcv--stack .pcv-chips { justify-content: flex-start; }
+.mcv-stack { display: flex; align-items: center; gap: 28px; max-height: calc((1 - var(--p)) * 84px); opacity: calc(1 - var(--p) * 1.6); overflow: hidden; }
+.mcv-st-l { display: grid; grid-template-columns: 32px auto; column-gap: 12px; row-gap: 6px; align-items: center; }
+.mcv-st-l.has-score { grid-template-columns: 32px auto 28px; }
+.mcv-st-t { display: contents; }
+.mcv-st-logo { width: 32px; height: 32px; object-fit: contain; }
+.mcv-stack .mcv-name { font-size: 22px; }
+.mcv-st-t b { font: 600 22px/1 var(--font-mono); color: var(--c-text); text-align: right; }
+.mcv-st-t b.is-lose { color: var(--c-text-3); }
+.mcv-stack .mcv-kick { align-items: flex-start; }
+.mcv-stack .mcv-kick b { font-size: 32px; }
+.mcv-st-s { font: 400 13px/1.2 var(--font-sans); color: var(--c-text-2); }
+.mcv--stack .mcv-row { max-height: calc(var(--p) * 40px); opacity: var(--p); overflow: hidden; }
+/* v30–v32 (от v28): раскрытая — двоеточие счёта ровно по центру строки, команды занимают остальное (левая — к счёту, правая — от счёта, длинное — многоточием); прилипла — всё к левому краю */
+.mcv--cc .mcv-side { min-width: 0; overflow: hidden; }
+.mcv--cc .mcv-side--a { flex: none; min-width: 0; width: calc((1 - var(--p)) * (50% - 60px - 28px) + var(--p) * var(--aw, auto)); }
+.mcv--cc .mcv-kick { min-width: calc((1 - var(--p)) * 120px); }
+.mcv--cc .mcv-side--b { flex: 1; }
+.mcv--cc .mcv-name { min-width: 0; }
+/* v31: «Идёт · Map N» — первым ярлыком, под счётом пусто */
+.mcv--chipstat .mcv-kick small { display: none; }
+/* v32: мельче, как v27 */
+.mcv--sm2 .mcv-logo { width: calc(40px - var(--p) * 12px); height: calc(40px - var(--p) * 12px); }
+.mcv--sm2 .mcv-name { font-size: calc(22px - var(--p) * 4px); }
+.mcv--sm2 .mcv-kick b { font-size: calc(28px - var(--p) * 8px); }
+.mcv--sm2 .mcv-kick { min-width: calc((1 - var(--p)) * 96px); }
+.mcv--sm2 .mcv-side--a { width: calc((1 - var(--p)) * (50% - 48px - 28px) + var(--p) * var(--aw, auto)); }
+/* v33 (от v32): время до начала — перекидными часами; подписей под временем и счётом нет */
+.mcv-flip { display: inline-flex; align-items: center; gap: calc(3px - var(--p) * 1px); }
+.mcv-flip > span { position: relative; display: inline-flex; align-items: center; justify-content: center; width: calc(24px - var(--p) * 8px); height: calc(34px - var(--p) * 10px); border-radius: calc(6px - var(--p) * 2px);
+  background: linear-gradient(#2c2c31 50%, #232327 50%); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .06), 0 2px 4px rgb(0 0 0 / .4);
+  font: 600 calc(22px - var(--p) * 7px)/1 var(--font-mono); color: var(--c-text); }
+.mcv-flip > span::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgb(0 0 0 / .55); }
+.mcv-flip > i { font: 600 calc(20px - var(--p) * 6px)/1 var(--font-mono); font-style: normal; color: var(--c-text-3); padding: 0 1px; }
+.mcv--v33 .mcv-kick { min-width: calc((1 - var(--p)) * 128px); }
+.mcv--v33 .mcv-side--a { width: calc((1 - var(--p)) * (50% - 64px - 28px) + var(--p) * var(--aw, auto)); }

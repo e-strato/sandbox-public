@@ -1,0 +1,5 @@
+import{j as e}from"./iframe-CVgOj2D3.js";import{T as o}from"./Transfers-3Q79JsVR.js";/* empty css                */import"./preload-helper-PPVm8Dsz.js";import"./index-4Rfbaa0x.js";import"./Widget-Zf13rf1y.js";import"./Icon-BSeGJTM9.js";import"./Button-CXoHiDIv.js";import"./EntityTag-Bxyjmgae.js";import"./db-C0JPCiI4.js";const x={title:"Движок/Общие/Трансферы/Transfers v2",component:o,decorators:[t=>e.jsx("div",{className:"eng-surface",style:{width:320},children:e.jsx(t,{})})],parameters:{docs:{description:{component:"Трансферы движка v2 — правая колонка 320: переход стрелкой цветом, строки без подсветки (лаба transfers-arrow v2, задача 133-12). Страницы: список турниров (все), команда (её переходы)."}}}},r={},s={args:{team:"team-spirit"}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:"{}",...r.parameters?.docs?.source}}};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  args: {
+    team: 'team-spirit'
+  }
+}`,...s.parameters?.docs?.source}}};const g=["Все","Команда"];export{g as __namedExportsOrder,x as default,r as Все,s as Команда};

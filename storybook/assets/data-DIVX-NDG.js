@@ -1,0 +1,1 @@
+import{t as e}from"./index-4Rfbaa0x.js";const t=()=>typeof window<"u"&&window.DB?.team("team-spirit")?.name||e("common:wallet.team1"),a={nick:"goat_fan",balance:1240,reserved:150,avatar:"gs-match/img/heroes/snapfire.png"},m=()=>[{q:e("common:wallet.exFirstBlood"),v:30,ok:!0},{q:e("common:wallet.exMapWin",{team:t()}),v:50,ok:!0}];export{a as M,m};

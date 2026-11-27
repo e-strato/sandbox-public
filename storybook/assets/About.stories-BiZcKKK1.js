@@ -1,0 +1,10 @@
+import{j as s}from"./iframe-CVgOj2D3.js";import{c}from"./storyArgs-DRdiFJgq.js";import{A as m}from"./About-ClxNdQPQ.js";import"./preload-helper-PPVm8Dsz.js";import"./Icon-BSeGJTM9.js";import"./TeamLogo-C_NBTxiP.js";import"./db-C0JPCiI4.js";import"./stats-DnCB--tU.js";import"./format-CX8-8sml.js";import"./gold-t09_eRNS.js";import"./index-4Rfbaa0x.js";import"./refs-jDo2IhOK.js";const b={title:"Сайт/Матч/Статистика/О матче/About v1",component:m,parameters:{layout:"fullscreen",docs:{description:{component:"«О матче» есть только до матча (До матча, Драфт, Пики готовы) — данные одни"}}},argTypes:{case:c,data:{control:!1,description:"Данные «О матче»; нет — STATS_ABOUT"},chances:{control:!1,description:"Данные «Шансов» (при отмене); нет — STATS_CHANCES"}},decorators:[t=>s.jsx("div",{style:{width:1040,background:"var(--w-bg)"},children:s.jsx(t,{})})]},r={name:"До матча"},e={},o={name:"Пики готовы"},a={name:"Отмена — «Шансы»",args:{case:"cancel"}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  name: 'До матча'
+}`,...r.parameters?.docs?.source}}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:"{}",...e.parameters?.docs?.source}}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  name: 'Пики готовы'
+}`,...o.parameters?.docs?.source}}};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  name: 'Отмена — «Шансы»',
+  args: {
+    case: 'cancel'
+  }
+}`,...a.parameters?.docs?.source}}};const j=["ДоМатча","Драфт","ПикиГотовы","Отмена"];export{j as __namedExportsOrder,b as default,r as ДоМатча,e as Драфт,a as Отмена,o as ПикиГотовы};

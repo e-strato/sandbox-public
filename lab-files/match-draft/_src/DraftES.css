@@ -1,0 +1,50 @@
+/* v2 «Как в eS» — драфт по центру поля графика (как MapDraft v2: absolute на всё поле) */
+.dre { --rad: var(--w-green-2); --dire: var(--w-red); position: absolute; inset: 0; z-index: 4; display: flex; align-items: center; justify-content: center; padding: var(--space-16) var(--space-12);
+  color: var(--c-text); font: var(--type-body-1); }
+.dre-in { container-type: inline-size; width: min(1000px, 100%); display: flex; flex-direction: column; gap: var(--space-16); }
+
+/* шанс по драфту — полоса с процентами внутри, как в eS */
+.dre-bar { display: flex; height: 24px; border-radius: 6px; overflow: hidden; background: var(--dire); }
+.dre-bar > i { position: relative; display: flex; align-items: center; background: var(--rad); transition: width .8s var(--ease-emph); clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+.dre-bar > span { flex: 1; display: flex; align-items: center; justify-content: flex-end; }
+.dre-bar b { padding: 0 var(--space-8); font: 600 13px/1 var(--font-mono); color: #fff; white-space: nowrap; }
+
+/* ряд: Radiant · середина · Dire */
+.dre-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: var(--space-12); }
+.dre-t { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.dre-pk { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-4); }
+.dre-bn { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.dre-t--b :is(.dre-pk, .dre-bn) { direction: rtl; }
+.dre-s { position: relative; display: block; border-radius: 5px; background: rgb(255 255 255 / .04) center / cover no-repeat; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); font-style: normal; direction: ltr; }
+.dre-pk .dre-s { aspect-ratio: 16 / 10; }
+.dre-bn .dre-s { aspect-ratio: 16 / 10; border-radius: 3px; }
+.dre-bn .dre-s.is-in { filter: grayscale(1) brightness(.55); }
+.dre-s.is-in { box-shadow: none; animation: dre-in var(--dur-350) ease-out; }
+.dre-s.is-now { box-shadow: inset 0 0 0 2px var(--c-text); animation: dre-pulse 1.2s ease-in-out infinite; }
+.dre-n { position: absolute; top: 3px; right: 4px; font: 500 10px/1 var(--font-mono); color: var(--c-text-3); }
+.dre-s.is-in .dre-n { color: #fff; text-shadow: 0 1px 2px rgb(0 0 0 / .8); }
+.dre-s.is-now .dre-n { color: var(--c-text); }
+.dre-d { position: absolute; left: 3px; bottom: 3px; padding: 2px 4px; border-radius: 3px; font: 600 10px/1 var(--font-mono); font-style: normal; background: rgb(0 0 0 / .7); }
+.dre-d.is-up { color: var(--w-green); } .dre-d.is-down { color: var(--w-red); }
+@keyframes dre-in { from { opacity: 0; transform: scale(.9); } }
+@keyframes dre-pulse { 50% { background-color: rgb(255 255 255 / .12); } }
+
+/* середина: стороны, стрелка к той, кто ходит, таймер */
+.dre-mid { display: flex; flex-direction: column; align-items: center; gap: var(--space-8); }
+.dre-sides { display: flex; align-items: center; gap: var(--space-4); }
+.dre-who { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 84px; padding: var(--space-8) 4px; border-radius: 8px; background: rgb(255 255 255 / .04); opacity: .6; transition: opacity .3s, background .3s; }
+.dre-who.is-on { opacity: 1; background: rgb(255 255 255 / .09); }
+.dre-who small { font: var(--type-caption-2); color: var(--c-text-3); white-space: nowrap; }
+.dre-who > small:first-child { text-transform: none; color: var(--c-text-2); }
+.dre-who b { max-width: 100%; font: var(--type-caption-1-medium, 500 12px/16px var(--font-sans)); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.dre-arr { display: flex; color: var(--c-text); transform: rotate(180deg); transition: transform .3s; }
+.dre-arr.is-b { transform: none; }
+.dre-arr.is-fin { opacity: 0; }
+.dre-time { font: var(--metric-l, 600 22px/1 var(--font-mono)); line-height: 1; }
+
+/* узко (телефон): середина сверху, команды одна под другой */
+@container (max-width: 600px) {
+  .dre-row { grid-template-columns: minmax(0, 1fr); }
+  .dre-mid { order: -1; }
+  .dre-t--b :is(.dre-pk, .dre-bn) { direction: ltr; }
+}

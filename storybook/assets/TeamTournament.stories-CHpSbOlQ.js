@@ -1,0 +1,7 @@
+import{j as t}from"./iframe-CVgOj2D3.js";import{b as m}from"./data-kh2BN1V1.js";import{T as a}from"./TeamTournament-Bc6mnbU7.js";import"./preload-helper-PPVm8Dsz.js";import"./db-C0JPCiI4.js";import"./index-4Rfbaa0x.js";import"./Icon-BSeGJTM9.js";import"./TeamLogo-C_NBTxiP.js";import"./EntityTag-Bxyjmgae.js";import"./data-B03mCm6-.js";import"./tour-C0IDqA2f.js";import"./format-CX8-8sml.js";import"./state-N-sv97vh.js";import"./data-C1vSAAxq.js";const g={title:"Движок/Команда/Турнир/TeamTournament v1",component:a,tags:["concept"],parameters:{layout:"fullscreen",docs:{description:{component:"Страница команды движка (концепт) — «Турнир». Стоит на странице команды v1. Команды — TI 2026 из базы."}}},decorators:[o=>t.jsx("div",{className:"eng-surface",style:{padding:20,width:320},children:t.jsx(o,{})})]},e={name:"Team Spirit · идёт матч",render:()=>t.jsx(a,{t:m("team-spirit")})},r={name:"Team Liquid",render:()=>t.jsx(a,{t:m("team-liquid")})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  name: 'Team Spirit · идёт матч',
+  render: () => <TeamTournament t={team('team-spirit')} />
+}`,...e.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  name: 'Team Liquid',
+  render: () => <TeamTournament t={team('team-liquid')} />
+}`,...r.parameters?.docs?.source}}};const L=["Spirit","Liquid"];export{r as Liquid,e as Spirit,L as __namedExportsOrder,g as default};

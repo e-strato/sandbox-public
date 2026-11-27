@@ -37,7 +37,9 @@ export function SchedFilterPage() {
   const [game, setGame] = useState<GameId | 'all'>('dota2')
   // v5 (дирижёр 26.11: «Valorant и League of Legends не будет; сегменты игр и Live · Скоро · Итоги — фиксированного размера»): игры — Dota 2, CS2, Mobile Legends
   // v7 (дирижёр 26.11: «покороче: Mobile Legends — просто ML; самая длинная — „Все игры“»)
-  const G = GAMES.filter((g) => g.id !== 'val' && g.id !== 'lol').map((g) => (g.id === 'mlbb' ? { ...g, name: 'ML' } : g))
+  // v9 (161-2, начальник в Figma 26.11: «этих 2 игр (Valorant, ML) на старте не будет»): игры — Dota 2 и CS2
+  // v10 (дирижёр 27.11: «без Mobile Legends, но LoL добавить»): Dota 2, CS2, LoL — коротко, кнопка по-прежнему по «Все игры»
+  const G = GAMES.filter((g) => g.id === 'dota2' || g.id === 'cs2' || g.id === 'lol').map((g) => (g.id === 'lol' ? { ...g, name: 'LoL' } : g))
   const [star, setStar] = useState<Set<string>>(new Set())
   const ALL = useMemo(() => allMatches(), [])
   const T = useMemo(() => allTours(), [])

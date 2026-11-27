@@ -65,7 +65,7 @@ import { HeroTeams } from '@/engine/hero/HeroTeams'
 import HBASE from '@/engine/hero/HeroBanner/v1/base.json'
 import '@/engine/pages/Hero/v1/HeroPage.css'
 
-const q = new URLSearchParams(location.search), v = q.get('v') || '1', pg = q.get('pg') || 'team'
+const q = new URLSearchParams(location.search), v = q.get('v') || '1', pg = q.get('pg') || 'team', st = (q.get('st') || 'pre0') as 'pre0' | 'live' | 'post'
 const kind = ({ '7': 'c7', '8': 'd8', '9': 'm9', '10': 'm10', '11': 'm11', '12': 'm11', '13': 'm11', '14': 'm11', '15': 'm11', '16': 'm11', '17': 'm11', '18': 'm11', '19': 'm11', '20': 'm11', '21': 'm11', '22': 'm11' } as const)[v as '7' | '8' | '9' | '10' | '11' | '12' | '13' | '14' | '15' | '16' | '17' | '18' | '19' | '20' | '21' | '22']
 const V18 = ['18', '19', '20', '21', '22'].includes(v)
 /** v19–v21 — правила второй строки: text — до 3 пунктов текстом, первый белый · chips — только ярлыки, до 3 · mix — один ярлык (принадлежность / статус) + до 2 пунктов серым */
@@ -196,7 +196,7 @@ function Hero() {
     </div>)
 }
 
-/** Матч до начала: страница матча из ui (pre0), её шапка спрятана, сверху — обложка (v23 центр, v24 слева); v0 — как сейчас */
+/** Матч (?st=pre0|live|post — 27.11): страница матча из ui (pre0), её шапка спрятана, сверху — обложка (v23 центр, v24 слева); v0 — как сейчас */
 function Match() {
   const [slot, setSlot] = useState<HTMLElement | null>(null)
   useEffect(() => {
@@ -205,11 +205,15 @@ function Match() {
     const d = document.createElement('div'); d.className = 'mcv-slot'; col.prepend(d); setSlot(d)
     const st = document.createElement('style'); st.textContent = '.mpage29__col > .mcv-slot ~ .mph7, .mpage29__col > .mcv-slot ~ .ph2-wrap { display: none !important } .mcv-slot { display: contents }'; document.head.append(st)
   }, [])
-  return <><MatchPage state="pre0" />{slot && createPortal(<MatchCover look={v === '24' ? 'left' : 'center'} />, slot)}</>
+  // v25: крупная шапка — только на вкладке «О серии» (.sst), на картах — сразу маленькая
+  const [series, setSeries] = useState(true)
+  useEffect(() => { if (!['25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(v)) return; const f = () => setSeries(!!document.querySelector('.sst')); f(); const o = new MutationObserver(f); o.observe(document.body, { childList: true, subtree: true }); return () => o.disconnect() }, [])
+  return <><MatchPage state={st} />{slot && createPortal(<MatchCover look={v === '24' ? 'left' : 'center'} st={st} v25={['25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(v)} slide={v !== '26'} small={['25', '26', '27', '28', '29', '30', '31', '32', '33'].includes(v) && !series} mod={({ '27': 'small', '28': 'down', '29': 'stack', '30': 'down', '31': 'down', '32': 'down', '33': 'down' } as const)[v as '27' | '28' | '29' | '30' | '31' | '32' | '33']} x={({ '30': 'mcv--cc', '31': 'mcv--cc mcv--chipstat', '32': 'mcv--cc mcv--sm2', '33': 'mcv--cc mcv--sm2 mcv--v33' } as Record<string, string>)[v]} />, slot)}</>
 }
 
 const page = pg === 'match' ? <Match /> : pg === 'hero' ? (['9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22'].includes(v) ? <Hero /> : <HeroPage id="earth_spirit" />)
-  : v === '0' ? (pg === 'team' ? <TeamPage id={teamId} /> : pg === 'tour' ? <TournamentPage tour="ti" who="fan" /> : <PlayerPage who={pg === 'pub' ? 'pub' : 'pro'} />)
+  // v23+ — лаба только про матч: остальные страницы — как в продукте (как v0), без лабораторных шапок v1–v22 (дирижёр 27.11)
+  : v === '0' || Number(v) >= 23 ? (pg === 'team' ? <TeamPage id={teamId} /> : pg === 'tour' ? <TournamentPage tour="ti" who="fan" /> : <PlayerPage who={pg === 'pub' ? 'pub' : 'pro'} />)
   : pg === 'team' ? <Team /> : pg === 'tour' ? <Tour /> : <Player who={pg === 'pub' ? 'pub' : 'pro'} />
 type Kv = { k: string; v: ReactNode }
 /** Вторая строка по правилу R2: items[0] — главное (принадлежность / статус), дальше — факты. Каждый пункт — уже готовый узел */
